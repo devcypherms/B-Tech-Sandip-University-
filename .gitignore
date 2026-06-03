@@ -1,0 +1,59 @@
+# OS Files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Logs
+*.log
+
+# Environment Files
+.env
+.env.local
+
+# Node Modules (if added later)
+node_modules/
+
+# Package Lock Files
+package-lock.json
+yarn.lock
+
+# Build Folders
+dist/
+build/
+
+# Temporary Files
+*.tmp
+*.temp
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Python (if Flask backend is added later)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.venv/
+
+# Flask
+instance/
+*.sqlite3
+*.db
+
+# Uploads (optional)
+uploads/
+
+# Generated Images
+*.psd
+*.ai
+
+# Windows
+desktop.ini
