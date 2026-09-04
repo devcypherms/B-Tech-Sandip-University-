@@ -132,11 +132,20 @@ const CONTENT = {
     documents: '[[CONFIRM: BSCC document checklist]]',
   },
 
+  /* BRIEF §5.10. The admission calendar is not published anywhere on the
+     site. The Central Academic Calendar PDF is a 7.4MB scan and could not be
+     read, and an academic calendar carries semester and examination dates in
+     any case, not admission deadlines. These will come from the client.
+
+     lastDate is the highest-priority marker on the page: §5.13 asks it
+     outright, and an admission page with no deadline has no urgency. */
   dates: {
-    open: '[[CONFIRM: application open date]]',
-    lastDate: '[[CONFIRM: last date to apply]]',
-    counselling: '[[CONFIRM: counselling start date]]',
-    sessionStart: '[[CONFIRM: session start date]]',
+    lastDate: '[[CONFIRM: LAST DATE TO APPLY — highest priority]]',
+    open: '[[CONFIRM: applications open]]',
+    verification: '[[CONFIRM: document verification window]]',
+    counselling: '[[CONFIRM: counselling and branch allotment]]',
+    feePayment: '[[CONFIRM: fee payment deadline]]',
+    sessionStart: '[[CONFIRM: session begins]]',
   },
 
   distance: {

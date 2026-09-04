@@ -975,3 +975,68 @@ mark.confirm {
     padding-right: .75rem;
   }
 }
+
+/* ---------- 17. ELIGIBILITY AND DATES (5.10) ----------
+   5.5 answers "what is this branch" as a spec. This answers "do I qualify"
+   as a check the reader runs against themselves, so it is set as condition
+   and consequence rather than as a second table of the same numbers. */
+.elig__grid { display: grid; gap: var(--space-block); }
+.elig__lede { margin-top: 1.25rem; margin-bottom: 2rem; color: var(--muted); max-width: 46ch; }
+
+.check { border-top: 1px solid var(--hairline); }
+.check__item {
+  padding-block: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-bottom: 1px solid var(--hairline);
+}
+/* The condition leads in paper, the consequence follows in muted, so the eye
+   can run down the conditions alone and stop at the one that fits. */
+.check__if {
+  font-size: var(--fs-body);
+  color: var(--paper);
+}
+.check__if strong { font-weight: 500; color: var(--brass); }
+.check__then {
+  margin-top: .625rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  max-width: 52ch;
+}
+.check__foot {
+  margin-top: 1.5rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.dates { border-top: 1px solid var(--hairline); }
+.dates__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--fs-small);
+}
+.dates__label { color: var(--muted); }
+.dates__val { text-align: right; }
+
+/* The deadline is the one date that changes behaviour, so it is not just
+   another row. */
+.dates__row--key {
+  border-bottom-color: var(--hairline-strong);
+  padding-block: 1.25rem;
+}
+.dates__row--key .dates__label {
+  color: var(--paper);
+  font-size: var(--fs-body);
+}
+
+@media (min-width: 900px) {
+  .elig__grid {
+    grid-template-columns: 1.15fr .85fr;
+    gap: clamp(3rem, 7vw, 6rem);
+    align-items: start;
+  }
+}
