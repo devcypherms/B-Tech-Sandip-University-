@@ -819,3 +819,84 @@ mark.confirm {
   .scc__grid { grid-template-columns: 1.35fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
   .sch__grid { grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); }
 }
+
+/* ---------- 15. CAMPUS GALLERY (5.8) ----------
+   Horizontal strip that breaks the 1320px container: the frames run to the
+   viewport edge so the row reads as continuing past it, which is the whole
+   point of a scroller. No lightbox. */
+.gal__head { max-width: 62ch; }
+.gal__lede { margin-top: 1.25rem; color: var(--muted); }
+
+.gal__strip {
+  /* The strip runs full-bleed, so its leading padding has to reproduce what
+     .wrap does: the centring margin plus the gutter. Below --wrap the
+     centring margin is negative, and max() falls back to the gutter alone. */
+  --bleed-pad: max(var(--gutter), calc((100vw - var(--wrap)) / 2 + var(--gutter)));
+  margin-top: var(--space-block);
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Proximity snap gives a tidy resting position after a touch flick, which
+     matters when most traffic is a phone. scroll-padding must match the
+     track's leading padding, or the strip settles 72px in on load and clips
+     the first frame. */
+  scroll-snap-type: x proximity;
+  scroll-padding-inline-start: var(--bleed-pad);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+  cursor: grab;
+}
+.gal__strip.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+.gal__strip:focus-visible { outline: 2px solid var(--brass); outline-offset: 4px; }
+
+.gal__strip::-webkit-scrollbar { height: 2px; }
+.gal__strip::-webkit-scrollbar-track { background: var(--hairline); }
+.gal__strip::-webkit-scrollbar-thumb { background: var(--hairline-strong); }
+
+.gal__track {
+  display: flex;
+  gap: clamp(.75rem, 2vw, 1.25rem);
+  padding-inline: var(--bleed-pad);
+  padding-bottom: 1.5rem;
+  width: max-content;
+}
+
+.gal__frame {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: clamp(260px, 62vw, 480px);
+}
+.gal__frame img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  /* Drag would otherwise start a native image drag instead of panning. */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.gal__cap {
+  margin-top: .875rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+/* A missing frame keeps the rhythm of the row rather than being omitted,
+   so the gap is visible instead of merely absent. */
+.gal__frame--gap .gal__missing {
+  aspect-ratio: 3 / 2;
+  border: 1px solid var(--hairline-strong);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+.gal__missing-note {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gal__strip { scroll-behavior: auto; }
+}

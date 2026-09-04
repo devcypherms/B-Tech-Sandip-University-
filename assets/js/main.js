@@ -150,7 +150,64 @@
     });
   });
 
-  /* ---------- 4. THE ONE LOAD REVEAL ----------
+  /* ---------- 4. CAMPUS GALLERY ----------
+     Pointer drag to pan, arrow keys once the strip has focus. Both are
+     user-triggered, so neither spends the page's one load-motion budget. */
+  (function () {
+    var strip = document.getElementById('galStrip');
+    if (!strip) return;
+
+    var down = false, startX = 0, startLeft = 0, moved = 0;
+
+    strip.addEventListener('pointerdown', function (e) {
+      /* Let the browser handle text selection and real clicks on links. */
+      if (e.button !== 0) return;
+      down = true;
+      moved = 0;
+      startX = e.clientX;
+      startLeft = strip.scrollLeft;
+      strip.classList.add('is-dragging');
+      strip.setPointerCapture(e.pointerId);
+    });
+
+    strip.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      moved = Math.abs(dx);
+      strip.scrollLeft = startLeft - dx;
+    });
+
+    function release(e) {
+      if (!down) return;
+      down = false;
+      strip.classList.remove('is-dragging');
+      if (e && e.pointerId != null && strip.hasPointerCapture(e.pointerId)) {
+        strip.releasePointerCapture(e.pointerId);
+      }
+    }
+    strip.addEventListener('pointerup', release);
+    strip.addEventListener('pointercancel', release);
+
+    /* Suppress the click that follows a real drag, so panning off a frame
+       never counts as activating it. */
+    strip.addEventListener('click', function (e) {
+      if (moved > 6) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+
+    strip.addEventListener('keydown', function (e) {
+      var frame = strip.querySelector('.gal__frame');
+      if (!frame) return;
+      var step = frame.getBoundingClientRect().width + 16;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (e.key === 'ArrowRight') { e.preventDefault(); strip.scrollBy({ left: step, behavior: reduced ? 'auto' : 'smooth' }); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); strip.scrollBy({ left: -step, behavior: reduced ? 'auto' : 'smooth' }); }
+      else if (e.key === 'Home') { e.preventDefault(); strip.scrollTo({ left: 0, behavior: reduced ? 'auto' : 'smooth' }); }
+      else if (e.key === 'End') { e.preventDefault(); strip.scrollTo({ left: strip.scrollWidth, behavior: reduced ? 'auto' : 'smooth' }); }
+    });
+  })();
+
+  /* ---------- 5. THE ONE LOAD REVEAL ----------
      Held until the fonts settle so the masked lines do not animate in the
      fallback face and then reflow. The timeout is a floor, so a slow font
      never leaves the hero invisible. */
