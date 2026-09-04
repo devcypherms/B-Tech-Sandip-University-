@@ -146,6 +146,7 @@
    and cannot carry wayfinding on this ground. */
 :root,
 .on-ink {
+  color-scheme: dark;
   --bg: var(--ink-800);
   --fg: var(--paper);
   --muted: #8B98A6;
@@ -175,6 +176,7 @@
    surface would have to be lighter than an already-light ground, which is
    why that scope uses hairlines to separate instead. */
 .on-paper {
+  color-scheme: light;
   --bg: var(--paper);
   --fg: var(--ink-text);
   --muted: #525C67;
@@ -1483,4 +1485,238 @@ mark.confirm {
   .rec__figures > div { display: grid; grid-row: span 2; grid-template-rows: subgrid; }
   .rec__figures dt { margin-top: 0; align-self: start; }
   .rec__split { grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+}
+
+/* ---------- 20. FINAL CTA AND ENQUIRY FORM (5.14) ----------
+   The closing bookend. --ink-900 rather than the ink sections' --ink-800, so
+   it pairs with the hero: the page opens and closes on the deepest ground it
+   has, and everything in between sits a step lighter. */
+.cta { --bg: var(--ink-900); }
+
+.cta__grid { display: grid; gap: var(--space-block); }
+.cta__lede { margin-top: 1.25rem; color: var(--muted); max-width: 46ch; }
+
+.cta__what { margin-top: var(--space-block); border-top: 1px solid var(--hairline); }
+.cta__what li { padding-block: 1.25rem; border-bottom: 1px solid var(--hairline); }
+.cta__what h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-weight: 400;
+  font-size: 1.0625rem;
+  letter-spacing: -.01em;
+  margin-bottom: .375rem;
+}
+.cta__what p { color: var(--muted); font-size: var(--fs-small); max-width: 44ch; }
+
+/* ---- the form ---- */
+.f__title {
+  margin-bottom: .375rem;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  letter-spacing: -.01em;
+}
+
+.f { display: grid; gap: 1.125rem; align-content: start; }
+.f__title { grid-column: 1 / -1; }
+
+.f__field { display: grid; gap: .4375rem; align-content: start; }
+.f__row { display: grid; gap: 1.125rem; align-items: start; }
+
+.f__label { font-size: var(--fs-small); color: var(--muted); }
+.f__opt { color: var(--muted); opacity: .8; font-size: .8125rem; }
+
+/* 52px is the touch target, not the visual weight. Most of this form will be
+   filled one-handed on a mid-range Android, where a 40px control is a miss
+   as often as a hit. font-size is pinned at 16px for the same audience: any
+   smaller and mobile Safari zooms the page on focus, which throws the layout
+   and the visitor's place in the form. */
+.f__input,
+.f__select {
+  width: 100%;
+  min-height: 52px;
+  padding: .8125rem 1rem;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fg);
+  background: var(--panel);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  transition: border-color .25s var(--ease);
+}
+.f__input::placeholder { color: var(--muted); }
+.f__input:hover,
+.f__select:hover { border-color: var(--accent); }
+
+/* The native arrow cannot be recoloured, and on a dark control it renders
+   near-invisible on several Android builds. */
+.f__selectwrap { position: relative; }
+.f__select { appearance: none; -webkit-appearance: none; padding-right: 2.75rem; }
+.f__selectwrap::after {
+  content: "";
+  position: absolute;
+  right: 1.125rem;
+  top: 50%;
+  width: 9px; height: 9px;
+  margin-top: -6px;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+/* Until a real choice is made the control shows its placeholder option, which
+   should read as a prompt rather than as an answer. */
+.f__select:invalid { color: var(--muted); }
+
+/* #EE8080 measures 7.51:1 on --ink-900 and 6.29:1 on the --ink-700 field
+   fill, so the message and the border it refers to both clear AA. */
+.f__err {
+  font-size: .8125rem;
+  color: #EE8080;
+}
+.f__input[aria-invalid="true"],
+.f__select[aria-invalid="true"] { border-color: #EE8080; }
+
+/* Consent. The hit area is the whole line, not the 22px box: a checkbox alone
+   is the smallest target on the page and this one is required. */
+.f__consent { margin-top: .375rem; }
+.f__check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .75rem;
+  align-items: start;
+  padding: .5rem 0;
+  cursor: pointer;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.f__check input {
+  width: 22px; height: 22px;
+  margin: 0;
+  flex: none;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.f__check span { padding-top: .0625rem; }
+
+.f__submit {
+  margin-top: .375rem;
+  width: 100%;
+  min-height: 56px;
+  /* A step up from the shared .btn scale. Every other button on the page is
+     a way to keep reading; this one is the only thing the page is asking
+     for, and at 14px on a 56px bar it read undersized. */
+  font-size: 1rem;
+}
+.f__submit[disabled] { opacity: .6; cursor: progress; }
+
+.f__status { margin-top: 1rem; font-size: var(--fs-small); }
+.f__status--ok { color: var(--fg); }
+.f__status--bad { color: #EE8080; }
+
+@media (min-width: 640px) {
+  .f__row { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 980px) {
+  .cta__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 7vw, 6rem);
+    align-items: start;
+  }
+  .f__submit { width: auto; min-width: 16rem; }
+}
+
+/* ---------- 21. FOOTER (5.15) ----------
+   Address, contact, three social links, copyright. Nothing else: the page
+   has already made every argument it has, and a footer full of links is an
+   invitation to leave before filling the form directly above it. */
+.foot {
+  --bg: var(--ink-900);
+  padding-block: clamp(3rem, 7vw, 5rem) clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--hairline);
+}
+.foot__grid { display: grid; gap: var(--space-block); }
+
+.foot__h {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: .875rem;
+}
+.foot__addr { font-style: normal; font-size: var(--fs-small); line-height: 1.8; }
+.foot__line { font-size: var(--fs-small); line-height: 1.8; }
+.foot__line + .foot__line { margin-top: .375rem; }
+
+.foot__line a,
+.foot__social a {
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 1px;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.foot__line a:hover,
+.foot__social a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.foot__social { display: grid; gap: .5rem; font-size: var(--fs-small); }
+.foot__social a { display: inline-block; }
+
+.foot__copy {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hairline);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+@media (min-width: 720px) {
+  .foot__grid { grid-template-columns: 2fr 1.2fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+}
+
+/* ---------- 22. MOBILE STICKY BAR (5.16) ----------
+   Under 768px only. The header drops the phone at this width because this
+   carries it instead, so the number is never absent, only relocated. */
+.bar { display: none; }
+
+@media (max-width: 767px) {
+  .bar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 90;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 56px;
+    background: var(--ink-700);
+    border-top: 1px solid var(--hairline-strong);
+    /* Home-indicator gestures on modern phones sit in this strip. */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .bar__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--paper);
+    text-align: center;
+  }
+  .bar__item + .bar__item { border-left: 1px solid var(--hairline); }
+  .bar__item--go { background: var(--paper); color: var(--ink-900); }
+
+  /* An unresolved Call button is not allowed to look finished. main.js
+     clears this the moment org.phoneHref holds a real tel: value; until
+     then it wears the same colours as every other [[CONFIRM]] on the page,
+     so it cannot ship quietly pointing at the wrong number. */
+  .bar__item--blocked {
+    background: #7A1D1D;
+    color: #FFD9D9;
+    /* An inset shadow rather than an outline. The marker chips elsewhere use
+       outline because nothing focuses them; this one is a link, and a
+       permanent outline shadows the :focus-visible ring, leaving the button
+       with no distinguishable focus state at all. */
+    box-shadow: inset 0 0 0 1px #E05C5C;
+  }
+
+  /* The bar covers the last 56px of the page, so the page gives it back. */
+  body { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
 }

@@ -136,6 +136,9 @@ if (orphanHooks.length) {
    does it read as an error? That can only be judged with the markers gone. */
 console.log('\n' + bold('  Standing check'));
 console.log('     re-verify §5.7 red hierarchy once markers clear');
+console.log('     re-read §5.7 as a whole once markers clear — it is the most');
+console.log('     important block on the page and it sits on ink, so the chips');
+console.log('     are louder there than anywhere else');
 
 const blocking = inData.length + inMarkup.length + drifted.length + orphanHooks.length;
 console.log('\n' + line);
