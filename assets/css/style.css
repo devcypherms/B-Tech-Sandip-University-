@@ -623,3 +623,82 @@ mark.confirm {
   .acc__panel:not([hidden]) { animation: none; }
   .acc__mark::before, .acc__mark::after { transition: none; }
 }
+
+/* ---------- 13. PLACEMENTS (5.6) ---------- */
+.pl__head { max-width: 62ch; }
+.pl__lede { margin-top: 1.25rem; color: var(--muted); }
+
+/* Three records on hairlines. Not cards in the rounded-box sense the brief
+   warns about: no fill, no radius, no shadow, just a rule and space. */
+.pl__cards {
+  display: grid;
+  gap: 0;
+  margin-top: var(--space-block);
+  border-top: 1px solid var(--hairline);
+}
+.pl__card {
+  padding-block: clamp(1.5rem, 3vw, 2rem);
+  border-bottom: 1px solid var(--hairline);
+}
+.pl__pkg {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 72, "SOFT" 0, "WONK" 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.pl__name { margin-top: .875rem; font-size: var(--fs-body); }
+.pl__branch { margin-top: .125rem; font-size: var(--fs-small); color: var(--brass); }
+.pl__co { margin-top: .5rem; font-size: var(--fs-small); color: var(--muted); }
+
+.pl__source {
+  margin-top: 1.5rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.pl__source a {
+  color: var(--paper);
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 1px;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.pl__source a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+
+.pl__note { margin-top: 1rem; font-size: var(--fs-small); }
+
+/* Recruiter wall, set in type. */
+.wall { margin-top: var(--space-block); }
+.wall__label {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--muted);
+  padding-bottom: .875rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.wall__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem clamp(1.5rem, 4vw, 3rem);
+  padding-top: 1.25rem;
+}
+.wall__list li {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
+  letter-spacing: -.01em;
+  transition: color .3s var(--ease);
+}
+.wall__list li:hover { color: var(--brass); }
+
+/* The university-wide list is deliberately quieter: it is not an engineering
+   claim and must never read as one. */
+.wall--secondary .wall__list li {
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+@media (min-width: 720px) {
+  .pl__cards { grid-template-columns: repeat(3, 1fr); gap: 0 clamp(1.5rem, 4vw, 3rem); }
+  .pl__card { border-bottom: 0; }
+}

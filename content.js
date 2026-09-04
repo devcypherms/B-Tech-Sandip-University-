@@ -141,27 +141,44 @@ const CONTENT = {
     patna: '[[CONFIRM: km from Patna]]',
   },
 
-  /* Real, named B.Tech placements from the university's own placement list,
+  /* Real, named B.Tech placements from the university's own published list,
      which /placement.php links to but never surfaces.
 
-     Branches are quoted exactly as the source prints them. The list gives a
-     branch for Jitendra but only "B.Tech" for Mayashankar and Abhay, so no
-     branch is asserted for those two. There is no Mechanical placement
-     anywhere in the list of 40. */
+     Card set chosen for branch representation, not for the three biggest
+     numbers. Civil and Electrical are the two largest cohorts in that list
+     (five each) and share the Rs 90,000 fee tier, so they are the students
+     most likely to be arriving through the Student Credit Card route; they
+     should see their own branch here.
+
+     Branches are quoted exactly as the source prints them. It gives no branch
+     for Mayashankar, only "B.Tech", so none is asserted.
+
+     Prashant Kumar and Ritesh Kumar are deliberately not used: both names
+     also appear in the testimonial list and are too common in Bihar to match
+     with any confidence. */
   placement: {
     assistance: '100% placement assistance',
+
     student1name: 'Mayashankar Kumar',
     student1branch: 'B.Tech',
     student1company: 'Bharat Dynamics Limited',
     student1package: '12 LPA',
-    student2name: 'Jitendra Kumar Mandal',
-    student2branch: 'Computer Science',
+
+    student2name: 'Vidyanand Prakash',
+    student2branch: 'B.Tech Civil',
     student2company: 'MGH Infra',
     student2package: '7 LPA',
-    student3name: 'Abhay Kumar Tibrewal',
-    student3branch: 'B.Tech',
-    student3company: 'Infosys',
-    student3package: '5 LPA',
+
+    student3name: 'Vikas Kumar',
+    student3branch: 'B.Tech Electrical',
+    student3company: 'TEXMACO Rail & Engineering',
+    student3package: '3 LPA',
+
+    /* The published list of 40 contains Civil 5, Electrical 5, CSE 2 and
+       Mechanical 0, while the page sells a Mechanical branch. Raised with
+       the client; until it is answered the section stays branch-neutral in
+       its framing and this marker stays visible on the page. */
+    mechanicalNote: '[[CONFIRM: Mechanical placement records]]',
   },
 
   /* The five firms that have actually hired B.Tech students from this campus.
