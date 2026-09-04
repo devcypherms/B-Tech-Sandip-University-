@@ -804,6 +804,98 @@
 
     </div>
   </section>
+  <!-- ========== 5.11 LOCATION ========== -->
+  <section class="section" id="location" aria-labelledby="loc-title">
+    <div class="wrap loc__grid">
+
+      <div class="loc__col">
+        <h2 class="section__title" id="loc-title">Getting here</h2>
+
+        <p class="loc__anchor">
+          The campus is at Sijoul, in Madhubani district, on the road between Jhanjharpur
+          and Madhubani town. If you know Darbhanga, it is
+          <span data-c="distance.darbhangaTime">under an hour</span> north of it.
+        </p>
+
+        <ul class="loc__list">
+          <li class="loc__row">
+            <span class="loc__place">Jhanjharpur</span>
+            <span class="loc__km"><span data-c="distance.jhanjharpur">12 km</span></span>
+          </li>
+          <li class="loc__row">
+            <span class="loc__place">Madhubani town</span>
+            <span class="loc__km"><span data-c="distance.madhubani">21 km</span></span>
+          </li>
+          <li class="loc__row">
+            <span class="loc__place">Darbhanga</span>
+            <span class="loc__km"><span data-c="distance.darbhanga">54 km</span></span>
+          </li>
+          <li class="loc__row">
+            <span class="loc__place">Muzaffarpur</span>
+            <span class="loc__km"><span data-c="distance.muzaffarpur">114 km</span></span>
+          </li>
+          <li class="loc__row">
+            <span class="loc__place">Patna</span>
+            <span class="loc__km"><span data-c="distance.patna">181 km</span></span>
+          </li>
+        </ul>
+        <p class="loc__note">By road, approximate.</p>
+
+        <div class="loc__modes">
+          <div>
+            <h3>By train</h3>
+            <p>
+              Jhanjharpur is the nearest railhead, <span data-c="distance.jhanjharpur">12 km</span> away.
+              Sakri Junction, <span data-c="distance.sakri">31 km</span> out, carries more
+              long-distance services.
+            </p>
+          </div>
+          <div>
+            <h3>By air</h3>
+            <p>
+              Darbhanga Airport is <span data-c="distance.airport">53 km</span> away, with
+              direct flights to Delhi, Mumbai, Bengaluru and Kolkata.
+            </p>
+          </div>
+          <div>
+            <h3>From Patna</h3>
+            <p>
+              Patna is <span data-c="distance.patnaTime">about 3 hours</span> away by road.
+              It is the furthest of the towns listed, not the nearest, and most students
+              here travel in from the Mithilanchal districts rather than from the state
+              capital.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="loc__col">
+        <!-- The map iframe is not in the markup. It is built on click, so a
+             visitor who never opens it pays nothing for it. -->
+        <div class="map" id="map">
+          <img class="map__still" src="assets/img/gallery/g-campus.webp" width="960" height="640"
+               loading="lazy" decoding="async"
+               alt="The Sandip University campus at Sijoul, seen from the approach road">
+          <div class="map__panel">
+            <p class="map__addr">
+              Neelam Vidya Vihar, Village Sijoul<br>
+              P.O. Mailam, Madhubani<br>
+              Bihar 847235
+            </p>
+            <button type="button" class="btn btn-ghost map__btn" id="mapBtn"
+                    data-lat="26.3506102" data-lng="86.2405787">
+              Open the map
+            </button>
+          </div>
+        </div>
+        <p class="loc__note">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=26.3506102,86.2405787"
+             target="_blank" rel="noopener">Open in Google Maps instead</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
 </main>
 
 <script src="content.js"></script>

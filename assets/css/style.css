@@ -1040,3 +1040,80 @@ mark.confirm {
     align-items: start;
   }
 }
+
+/* ---------- 18. LOCATION (5.11) ---------- */
+.loc__grid { display: grid; gap: var(--space-block); }
+.loc__anchor {
+  margin-top: 1.25rem;
+  margin-bottom: 2rem;
+  font-size: var(--fs-body);
+  max-width: 46ch;
+}
+
+.loc__list { border-top: 1px solid var(--hairline); }
+.loc__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding-block: .875rem;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--fs-small);
+}
+.loc__place { color: var(--muted); }
+.loc__km {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
+  font-size: 1.125rem;
+  letter-spacing: -.01em;
+}
+.loc__note {
+  margin-top: .875rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.loc__note a {
+  color: var(--paper);
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 2px;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.loc__note a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+
+.loc__modes { display: grid; gap: 2rem; margin-top: 2.5rem; }
+.loc__modes h3 {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--brass);
+  margin-bottom: .5rem;
+}
+.loc__modes p { color: var(--muted); font-size: var(--fs-small); max-width: 44ch; }
+
+/* Map: a treated frame over the campus photograph, never a screenshot of
+   Google Maps. The iframe is created on click and replaces this entirely. */
+.map { position: relative; isolation: isolate; }
+.map__still {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  filter: grayscale(1) brightness(.42);
+}
+.map__panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid var(--hairline-strong);
+}
+.map__addr { font-size: var(--fs-small); line-height: 1.7; }
+.map iframe { display: block; width: 100%; aspect-ratio: 3 / 2; border: 0; }
+
+@media (min-width: 900px) {
+  .loc__grid { grid-template-columns: 1fr 1fr; gap: clamp(3rem, 7vw, 6rem); align-items: start; }
+  .loc__modes { grid-template-columns: 1fr; }
+}

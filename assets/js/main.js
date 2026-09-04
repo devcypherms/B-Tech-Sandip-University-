@@ -207,7 +207,29 @@
     });
   })();
 
-  /* ---------- 5. THE ONE LOAD REVEAL ----------
+  /* ---------- 5. MAP, BUILT ON CLICK ----------
+     No iframe ships in the markup. A visitor who never opens the map pays
+     nothing for it: no Google request, no third-party cookie, no cost to
+     first paint. */
+  (function () {
+    var btn = document.getElementById('mapBtn');
+    var wrap = document.getElementById('map');
+    if (!btn || !wrap) return;
+
+    btn.addEventListener('click', function () {
+      var lat = btn.getAttribute('data-lat');
+      var lng = btn.getAttribute('data-lng');
+      var frame = document.createElement('iframe');
+      frame.src = 'https://www.google.com/maps?q=' + lat + ',' + lng + '&z=15&output=embed';
+      frame.title = 'Map of Sandip University, Sijoul, Madhubani';
+      frame.loading = 'lazy';
+      frame.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.setAttribute('allowfullscreen', '');
+      wrap.replaceChildren(frame);
+    });
+  })();
+
+  /* ---------- 6. THE ONE LOAD REVEAL ----------
      Held until the fonts settle so the masked lines do not animate in the
      fallback face and then reflow. The timeout is a floor, so a slow font
      never leaves the hero invisible. */

@@ -148,11 +148,22 @@ const CONTENT = {
     sessionStart: '[[CONFIRM: session begins]]',
   },
 
+  /* Road distances from the campus coordinates (26.3506102, 86.2405787),
+     routed with OSRM rather than measured straight-line. Approximate, as any
+     road distance is, and rounded. Drive times are OSRM's own estimates.
+
+     Worth noting: Jhanjharpur is the nearest railhead at 12 km, not Sakri
+     Junction at 31 km. */
   distance: {
-    madhubani: '[[CONFIRM: km from Madhubani]]',
-    darbhanga: '[[CONFIRM: km from Darbhanga]]',
-    muzaffarpur: '[[CONFIRM: km from Muzaffarpur]]',
-    patna: '[[CONFIRM: km from Patna]]',
+    jhanjharpur: '12 km',
+    madhubani: '21 km',
+    sakri: '31 km',
+    airport: '53 km',
+    darbhanga: '54 km',
+    muzaffarpur: '114 km',
+    patna: '181 km',
+    patnaTime: 'about 3 hours',
+    darbhangaTime: 'under an hour',
   },
 
   /* Real, named B.Tech placements from the university's own published list,
