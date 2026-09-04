@@ -845,32 +845,6 @@
         </ul>
         <p class="loc__note">By road, approximate.</p>
 
-        <div class="loc__modes">
-          <div>
-            <h3>By train</h3>
-            <p>
-              Jhanjharpur is the nearest railhead, <span data-c="distance.jhanjharpur">12 km</span> away.
-              Sakri Junction, <span data-c="distance.sakri">31 km</span> out, carries more
-              long-distance services.
-            </p>
-          </div>
-          <div>
-            <h3>By air</h3>
-            <p>
-              Darbhanga Airport is <span data-c="distance.airport">53 km</span> away, with
-              direct flights to Delhi, Mumbai, Bengaluru and Kolkata.
-            </p>
-          </div>
-          <div>
-            <h3>From Patna</h3>
-            <p>
-              Patna is <span data-c="distance.patnaTime">about 3 hours</span> away by road.
-              It is the furthest of the towns listed, not the nearest, and most students
-              here travel in from the Mithilanchal districts rather than from the state
-              capital.
-            </p>
-          </div>
-        </div>
       </div>
 
       <div class="loc__col">
@@ -897,6 +871,39 @@
              target="_blank" rel="noopener">Open in Google Maps instead</a>
         </p>
       </div>
+
+      <!-- Spans both columns rather than sitting in either one. The distance
+           list and the map are close in height; these three paragraphs are
+           not, so parking them in a column only moves the empty space to the
+           other side. As a band underneath they close the section, and the
+           single-column order on a phone stays map, then map link, then how
+           you actually get there. -->
+        <div class="loc__modes">
+          <div>
+            <h3>By train</h3>
+            <p>
+              Jhanjharpur is the nearest railhead, <span data-c="distance.jhanjharpur">12 km</span> away.
+              Sakri Junction, <span data-c="distance.sakri">31 km</span> out, carries more
+              long-distance services.
+            </p>
+          </div>
+          <div>
+            <h3>By air</h3>
+            <p>
+              Darbhanga Airport is <span data-c="distance.airport">53 km</span> away, with
+              direct flights to Delhi, Mumbai, Bengaluru and Kolkata.
+            </p>
+          </div>
+          <div>
+            <h3>From Patna</h3>
+            <p>
+              Patna is <span data-c="distance.patnaTime">about 3 hours</span> away by road.
+              It is the furthest of the towns listed, not the nearest, and most students
+              here travel in from the Mithilanchal districts rather than from the state
+              capital.
+            </p>
+          </div>
+        </div>
 
     </div>
   </section>

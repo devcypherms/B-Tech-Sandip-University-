@@ -128,6 +128,15 @@ if (orphanHooks.length) {
   orphanHooks.forEach(d => console.log('     ' + d.file + '  ' + red(d.path)));
 }
 
+/* Standing reminder, not a blocker. 5.7 currently shows --madder totals
+   next to dark-red [[CONFIRM]] blocks; they read as different things while
+   both are present, because one is large display type and the other is an
+   outlined monospace chip. Once the chips clear, madder is the only red on
+   the page and the question changes: does it still read as emphasis, or
+   does it read as an error? That can only be judged with the markers gone. */
+console.log('\n' + bold('  Standing check'));
+console.log('     re-verify §5.7 red hierarchy once markers clear');
+
 const blocking = inData.length + inMarkup.length + drifted.length + orphanHooks.length;
 console.log('\n' + line);
 if (blocking) {
