@@ -1,21 +1,39 @@
 /* =============================================================================
    Sandip University — B.Tech Admission 2026
-   Dark bookends, light body. Fraunces (display) / Instrument Sans (body).
+   Alternating grounds, ink-dominant. Fraunces / Instrument Sans.
 
    Discipline notes, so later edits do not undo the design:
-   - TWO grounds, not more. The hero (5.2) and the final CTA (5.14) sit on
-     ink; everything between them sits on paper. Sections inside the light
-     run are still told apart by whitespace and 1px hairlines only, never by
-     alternating tints, so the light run reads as one continuous page.
-   - Colour marks hierarchy, it does not decorate. Three roles, and a
-     section gets at most one of them:
-       --accent  interaction   brass on ink, brass-deep on paper
-       --mark    wayfinding    indigo on paper (it is unusable on ink)
-       --madder  emphasis      spent once, on the 5.7 indicative total
+   - TWO grounds, not more, alternating down the page. Ink is the base and
+     stays dominant, 8 blocks to 5; the paper blocks are breathing room in
+     an ink page, not a second theme competing with it. The page opens on
+     two ink blocks and closes on two, so it has weight at both ends.
+
+       2 hero      ink      8 gallery      paper
+       3 trust     ink      9 process      ink
+       4 why       paper   10 eligibility  paper
+       5 programmes ink    11 location     ink
+       6 placements paper  12 record       paper
+       7 fees      ink     13 faq          ink
+                           14 cta          ink
+
+   - ONE seam device, used in both directions. Ten ground changes with ten
+     ideas would read as noise; see 6b.
+   - Colour marks hierarchy, it does not decorate. Four roles, and a section
+     gets at most one of the middle two:
+       --accent    interaction  brass on ink, brass-deep on paper
+       --mark      wayfinding   brass on ink, indigo on paper
+       --emphasis  emphasis     spent once, on the 5.7 indicative total
+       --panel     the one raised surface, on ink only
    - Never write a raw palette token where a role token exists. --paper is
      a surface and --fg is text; on ink they are the same colour and on
      paper they are not, which is exactly the bug this split prevents.
    - --accent never fills a large area. Hover, focus, small marks only.
+   - Cards are NOT a universal container. Exactly three places earn them,
+     where the items are genuinely parallel: 5.6 placements, 5.8 gallery
+     frames, and the 5.7 credit-card panel. One radius, one elevation, and
+     elevation only on ink — paper uses the hairline system. 5.4 in
+     particular stays editorial: a four-card "why us" grid is what every
+     other college site in India already looks like.
    - No drop shadows. No rounded cards repeated down the page.
    - One load animation (the hero). Everything else is user-triggered.
    ========================================================================== */
@@ -89,6 +107,19 @@
   --brass-deep: #8C6520;
   --indigo: #1E3A5F;
   --madder: #A03521;
+  /* #A03521 measures 2.64:1 on --ink-800 and 2.37:1 on the raised panel, so
+     5.7 moving to ink needs its own madder. #E86A45 is 5.74:1 on --ink-800
+     and 5.15:1 on --ink-700, against 6.20:1 for the paper madder, so the
+     emphasis carries the same weight on either ground. It also holds the
+     chroma: 78% saturation against the reference's 66%, five degrees of
+     hue drift. Simply lightening #A03521 to reach contrast turns it salmon,
+     which would stop reading as madder at all. */
+  --madder-ink: #E86A45;
+
+  /* One radius and one elevation, for the three places that earn a card.
+     Elevation is ink-only; see the note in the file header. */
+  --radius: 6px;
+  --elevation: 0 1px 2px rgba(0, 0, 0, .45), 0 10px 28px rgba(0, 0, 0, .34);
 
   --font-display: Fraunces, "Fraunces Fallback", Georgia, serif;
   --font-body: "Instrument Sans", "Instrument Fallback", system-ui, sans-serif;
@@ -108,47 +139,54 @@
   --header-h: 76px;
 }
 
-/* PAPER — the default, because everything between the two bookends is light.
-   The stuck header joins this scope: once it has left the hero it is sitting
-   on the light page and has to be painted for it.
+/* INK — the base scope, and the one the page falls back to. Eight of the
+   thirteen blocks, plus the header in both its states.
 
-   --muted is NOT the dark-scope grey. #8B98A6 measures 6.23:1 on --ink-800
-   but only 2.63:1 on --paper, which fails outright.
-
-   The replacement holds the RATIO rather than the hex, because that is what
-   carries the hierarchy. #5A6470 passes at 5.37:1, but next to the dark
-   scope's 6.23:1 the secondary prose read visibly weaker on paper — light
-   polarity exaggerates a thin grey. #525C67 measures 6.08:1, which puts the
-   two grounds within 0.15 of one another, and keeps the same cool-grey
-   family so nothing shifts hue between scopes. */
+   --mark is brass rather than indigo here: --indigo measures 1.71:1 on ink
+   and cannot carry wayfinding on this ground. */
 :root,
-.site-header.is-stuck {
-  --bg: var(--paper);
-  --fg: var(--ink-text);
-  --muted: #525C67;
-  --accent: var(--brass-deep);
-  --mark: var(--indigo);
-  --hairline: rgba(16, 24, 33, .14);
-  --hairline-strong: rgba(16, 24, 33, .28);
-  --btn-fill: var(--ink-900);
-  --btn-fill-fg: var(--paper);
-  --btn-hover-fg: var(--paper);
-}
-
-/* INK — 5.2 and 5.14 only.
-   --mark falls back to brass here: --indigo measures 1.71:1 on --ink-900,
-   so wayfinding cannot be indigo on this ground. */
 .on-ink {
-  --bg: var(--ink-900);
+  --bg: var(--ink-800);
   --fg: var(--paper);
   --muted: #8B98A6;
   --accent: var(--brass);
   --mark: var(--brass);
+  --emphasis: var(--madder-ink);
+  --panel: var(--ink-700);
   --hairline: rgba(242, 239, 233, .10);
   --hairline-strong: rgba(242, 239, 233, .22);
   --btn-fill: var(--paper);
   --btn-fill-fg: var(--ink-900);
   --btn-hover-fg: var(--ink-900);
+}
+.on-ink { background: var(--bg); color: var(--fg); }
+
+/* PAPER — the five light beats.
+
+   --muted is NOT the ink grey. #8B98A6 measures 6.23:1 on --ink-800 but
+   only 2.63:1 on --paper, which fails outright. The replacement holds the
+   RATIO rather than the hex, because the ratio is what carries hierarchy.
+   #5A6470 passes at 5.37:1, but next to the ink scope's 6.23:1 the
+   secondary prose read visibly weaker — light polarity exaggerates a thin
+   grey. #525C67 is 6.08:1, within 0.15 of the ink scope, in the same
+   cool-grey family so nothing shifts hue between grounds.
+
+   --panel is transparent: elevation is an ink device. On paper a raised
+   surface would have to be lighter than an already-light ground, which is
+   why that scope uses hairlines to separate instead. */
+.on-paper {
+  --bg: var(--paper);
+  --fg: var(--ink-text);
+  --muted: #525C67;
+  --accent: var(--brass-deep);
+  --mark: var(--indigo);
+  --emphasis: var(--madder);
+  --panel: transparent;
+  --hairline: rgba(16, 24, 33, .14);
+  --hairline-strong: rgba(16, 24, 33, .28);
+  --btn-fill: var(--ink-900);
+  --btn-fill-fg: var(--paper);
+  --btn-hover-fg: var(--paper);
   background: var(--bg);
   color: var(--fg);
 }
@@ -264,14 +302,14 @@ table { border-collapse: collapse; width: 100%; }
   border-bottom: 1px solid transparent;
   transition: background-color .4s var(--ease), border-color .4s var(--ease);
 }
-/* Unstuck, the header floats over the hero photograph, so it carries
-   .on-ink in the markup. Stuck, it is sitting on the light page and joins
-   the paper scope (see 1. TOKENS) — the two-class selector outranks the
-   single .on-ink class, so the tokens flip without touching the markup. */
+/* The header stays on ink in both states. It used to flip to paper when it
+   stuck, which worked while the whole body below the hero was light; now it
+   can stick over either ground, and a bar that repainted itself five times
+   on the way down would be the noisiest element on the page. Ink is also
+   the base scope, so the logo needs no polarity trick to survive. */
 .site-header.is-stuck {
-  background: var(--bg);
+  background: var(--ink-800);
   border-bottom-color: var(--hairline);
-  color: var(--fg);
 }
 .site-header .wrap {
   display: flex;
@@ -281,12 +319,6 @@ table { border-collapse: collapse; width: 100%; }
 }
 .site-header__logo img { height: 34px; width: auto; }
 
-/* The logo file is a white wordmark on transparency, and there is no dark
-   variant. Measured, it is greyscale (max saturation 3/255 across both the
-   .webp and the .png), so a polarity flip reproduces the mark exactly
-   rather than approximating it. Without this it draws paper-on-paper and
-   the university's name disappears from the stuck header entirely. */
-.site-header.is-stuck .site-header__logo img { filter: invert(1); }
 
 .site-header__actions {
   margin-left: auto;
@@ -310,6 +342,8 @@ table { border-collapse: collapse; width: 100%; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  /* A step darker than the ink sections (--ink-800), so the photograph has
+     the deepest ground on the page under it. */
   background: var(--ink-900);
   isolation: isolate;
   overflow: hidden;
@@ -468,31 +502,51 @@ table { border-collapse: collapse; width: 100%; }
 }
 
 /* ---------- 6b. THE SEAM ----------
-   The hero is the last ink surface until 5.14, so it has to hand over to the
-   paper page. Butted flat, #070C12 against #F4F2EC reads as a rendering
-   fault rather than a decision.
+   One device, ten transitions, both directions. Butted flat, --ink-800
+   against --paper reads as a rendering fault rather than a decision; ten
+   different treatments would read as noise. So there is exactly one seam,
+   and the only thing that changes between instances is which way it runs.
 
    The stops are interpolated in Oklab, not sRGB. A straight sRGB ramp
-   between these two colours runs through dead mid-greys and bands visibly
-   across ~120px; Oklab keeps the ramp perceptually even and holds the warmth
-   of the paper into the upper half. Positions are eased with a smoothstep so
-   the ink holds and then releases, instead of parking mid-grey at the middle
-   of the band, which is the part that reads as a smear.
+   between these two colours runs through dead mid-greys and bands visibly;
+   Oklab keeps the ramp perceptually even and holds the warmth of the paper
+   into the upper half. Positions are eased with a smoothstep so the ink
+   holds and then releases, instead of parking mid-grey at the middle of the
+   band, which is the part that reads as a smear.
 
-   Explicit stops rather than linear-gradient(in oklab, ...) so the result is
-   identical everywhere and does not depend on colour-space support. */
+   Direction is one custom property against the same stop list: 0deg reads
+   the identical gradient bottom-up. Explicit stops rather than
+   linear-gradient(in oklab, ...) so the result does not depend on
+   colour-space support.
+
+   The positions are evenly spaced, unlike the hero seam, which eased them
+   with a smoothstep so the ink would hold under a photograph. Between two
+   flat grounds that easing concentrates the whole change into the middle
+   third: measured at 63px the visible ramp was about 35px and read as a
+   blurred edge rather than a transition. Even spacing in Oklab spreads the
+   change across the full band, and the band itself is taller. */
 .seam {
-  height: clamp(88px, 11vh, 152px);
-  background: linear-gradient(180deg,
-    #070C12 0%,
-    #161B21 18%,
-    #3C4044 34%,
-    #717475 50%,
-    #A4A5A4 64%,
-    #D2D1CD 78%,
-    #ECEBE5 90%,
+  /* The hero seam read cleanly at ~150px. At 81px this one still landed as
+     a soft edge rather than a fade, so it is given closer to that height. */
+  height: clamp(88px, 11vh, 148px);
+  background: linear-gradient(var(--seam-dir, 180deg),
+    #0D1520 0%,
+    #242C36 12.5%,
+    #3E444D 25%,
+    #595F65 37.5%,
+    #767A7F 50%,
+    #949799 62.5%,
+    #B3B4B4 75%,
+    #D3D3D0 87.5%,
     #F4F2EC 100%);
 }
+/* Paper above, ink below. */
+.seam--to-ink { --seam-dir: 0deg; }
+
+/* A section that follows a seam must not also draw its top hairline: the
+   ground change has already separated it, and the rule would land across
+   the gradient's landing. */
+.seam + .section { border-top: 0; }
 
 /* ---------- 7. TRUST STRIP (3.3) ---------- */
 .trust {
@@ -754,15 +808,18 @@ mark.confirm {
 
 /* Three records on hairlines. Not cards in the rounded-box sense the brief
    warns about: no fill, no radius, no shadow, just a rule and space. */
+/* One of the three places that earn a card: three records with identical
+   fields, read by comparison. On paper, so the container is the hairline
+   system and the shared radius — no elevation. */
 .pl__cards {
   display: grid;
-  gap: 0;
+  gap: clamp(.75rem, 2vw, 1.25rem);
   margin-top: var(--space-block);
-  border-top: 1px solid var(--hairline);
 }
 .pl__card {
-  padding-block: clamp(1.5rem, 3vw, 2rem);
-  border-bottom: 1px solid var(--hairline);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
 }
 .pl__pkg {
   font-family: var(--font-display);
@@ -823,8 +880,7 @@ mark.confirm {
 }
 
 @media (min-width: 720px) {
-  .pl__cards { grid-template-columns: repeat(3, 1fr); gap: 0 clamp(1.5rem, 4vw, 3rem); }
-  .pl__card { border-bottom: 0; }
+  .pl__cards { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ---------- 14. FEES, SCHOLARSHIP, CREDIT CARD (5.7) ----------
@@ -881,19 +937,41 @@ mark.confirm {
 /* The indicative total is the answer to the question parents actually ask,
    so its figures are set in the display face at statistic scale. */
 .fees__total-lede { color: var(--muted); max-width: 62ch; margin-bottom: 1.5rem; }
-/* --madder, used exactly once on the page. 5.7 is the block the brief makes
-   most important, and inside 5.7 this is the figure a parent came for, so
-   the boldness is spent here and nowhere else. 6.20:1 on --paper. */
+/* The page's one emphasis colour, spent here and nowhere else. 5.7 is the
+   block the brief makes most important, and inside it this is the figure a
+   parent came for. --emphasis resolves per ground: #A03521 on paper at
+   6.20:1, #E86A45 on ink at 5.74:1. */
 .tbl--total td {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
   font-size: clamp(1.125rem, 2.2vw, 1.5rem);
-  color: var(--madder);
+  color: var(--emphasis);
   letter-spacing: -.01em;
 }
 .tbl--total tbody th { color: var(--muted); }
 
-/* Student Credit Card: prose plus a slot list the figures drop into. */
+/* Student Credit Card: prose plus a slot list the figures drop into.
+
+   The one raised surface on the page. It earns it by being the sub-block
+   the brief makes most important — the route most families here actually
+   use — and it is on ink, which is the only scope where elevation works:
+   a raised plane has to be lighter than its ground, and on paper there is
+   nowhere lighter to go. --panel is transparent in the paper scope, so if
+   this block is ever moved to a light ground it degrades to a hairline box
+   rather than to an invisible one. */
+.scc__panel {
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  /* A cast shadow does almost nothing against a dark ground. What actually
+     reads as raised on ink is a lit top edge, so the elevation is carried
+     by the fill plus this catch, with the shadow only seating the panel. */
+  border-top-color: rgba(242, 239, 233, .16);
+  border-radius: var(--radius);
+  box-shadow: var(--elevation);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+.on-paper .scc__panel { box-shadow: none; }
+
 .scc__grid { display: grid; gap: var(--space-block); }
 .scc__body p { color: var(--muted); max-width: 62ch; }
 .scc__body p + p { margin-top: 1rem; }
@@ -995,6 +1073,18 @@ mark.confirm {
   scroll-snap-align: start;
   width: clamp(260px, 62vw, 480px);
 }
+/* The third place that earns a card. Same radius as the other two; no
+   elevation, because the gallery is on paper. */
+.gal__fig {
+  position: relative;
+  margin: 0;
+  isolation: isolate;
+}
+/* The treatment that makes it a frame. On paper, so hairline and radius
+   carry it; a shadow here would be the only one in the light scope. */
+.gal__fig img {
+  border: 1px solid var(--hairline);
+}
 .gal__frame img {
   width: 100%;
   height: auto;
@@ -1004,10 +1094,45 @@ mark.confirm {
   -webkit-user-drag: none;
   user-select: none;
 }
+
+/* Caption under the image, not on it. Both were built and measured at 390px
+   before choosing.
+
+   The overlay is legible: sampled against the real photograph pixels rather
+   than assumed, the worst caption measured 5.47:1 at 390px and 5.31:1 at
+   1440px, all seven passing AA. It also saves 36px of height per frame.
+
+   It still lost. The scrim has to darken the bottom third of every frame to
+   earn that legibility, and on the lead photograph that third is the
+   entrance arch — the best part of the only image most visitors will look
+   at. The caption is equally legible below at 6.08:1, costs one line, and
+   keeps the photographs whole. By the brief's own test the gradient would
+   be decoration here, because it buys nothing the page needs: the hero's
+   scrim exists to make a headline readable over an uncontrolled image,
+   which is a different problem from labelling a thumbnail.
+
+   The overlay is kept as a modifier rather than deleted, so the decision
+   can be reversed with one class if the vertical space is ever worth more
+   than the photographs. */
 .gal__cap {
   margin-top: .875rem;
   font-size: var(--fs-small);
   color: var(--muted);
+}
+.gal__fig img { border-radius: var(--radius); }
+
+.gal--caption-overlay .gal__fig { overflow: hidden; }
+.gal--caption-overlay .gal__fig img { border-radius: 0; }
+.gal--caption-overlay .gal__cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  margin: 0;
+  padding: 2.5rem .875rem .75rem;
+  color: var(--paper);
+  background: linear-gradient(180deg,
+              rgba(7, 12, 18, 0) 0%,
+              rgba(7, 12, 18, .55) 45%,
+              rgba(7, 12, 18, .88) 100%);
 }
 
 /* A missing frame keeps the rhythm of the row rather than being omitted,
@@ -1015,6 +1140,7 @@ mark.confirm {
 .gal__frame--gap .gal__missing {
   aspect-ratio: 3 / 2;
   border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
   display: flex;
   flex-direction: column;
   justify-content: center;
