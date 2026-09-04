@@ -1,39 +1,54 @@
 /* =============================================================================
-   content.js — VOLATILE VALUES ONLY.
+   content.js — VOLATILE VALUES ONLY.  See BRIEF.md §4.
 
-   Static HTML in index.html is the source of truth for everything indexable:
-   headings, body copy, programme descriptions, FAQ questions and answers.
-   This file holds only the values that change between intakes — fees, dates,
-   seat counts, contact details, the form endpoint.
+   Static HTML in index.html is the source of truth for everything indexable.
+   This file holds only what changes between intakes: fees, dates, seat counts,
+   contact details, the form endpoint.
 
    Each value is injected into a <span data-c="dotted.path"> that ALREADY
-   contains the same value as static text. So:
-     - with JS off the page is complete and correct,
-     - with JS on the span is refreshed from here,
-     - and editing a fee never means touching layout.
+   contains the same value as static text, so the page is complete with JS off.
 
    `node confirm.js` reports outstanding [[CONFIRM]] markers and any hook whose
-   static text has drifted from the value below.
+   static text has drifted from the value here.
    ========================================================================== */
 
 const CONTENT = {
 
-  /* Where the enquiry form POSTs. Until this is a real URL the form
-     validates and shows its success state but sends nothing anywhere. */
+  /* Where the enquiry form POSTs. Until this is a real URL the form validates
+     and shows its success state but sends nothing anywhere. */
   FORM_ENDPOINT: '[[CONFIRM: form endpoint URL]]',
 
   org: {
-    phone: '1800 313 2714',
-    phoneHref: 'tel:+9118003132714',
+    /* BRIEF §3.10 — the university's own site contradicts itself sitewide:
+       every page DISPLAYS 1800-313-2714 but every tel: link behind it points
+       to 1800-212-2714. This number appears in the header, the mobile sticky
+       bar and the final CTA; if the wrong one ships, every mobile tap fails
+       silently. Held until the client answers. */
+    phone: '[[CONFIRM: phone — site shows 1800-313-2714, tel: links use 1800-212-2714]]',
+    phoneHref: '[[CONFIRM: tel href]]',
+
     email: 'info.sijoul@sandipuniversity.edu.in',
-    /* Digits only, country code first, no '+'. e.g. 919876543210.
-       Left empty, the WhatsApp button stays hidden. */
-    whatsapp: '',
+    whatsapp: '918956530828',
+    whatsappDisplay: '+91 89565 30828',
+
+    addressLine1: 'Neelam Vidya Vihar, Village Sijoul',
+    addressLine2: 'P.O. Mailam, Madhubani, Bihar 847235',
+    lat: '26.3506102',
+    lng: '86.2405787',
   },
 
-  /* Hero stat rail. Acres sits here rather than in static copy because the
-     figure is disputed: marketing material says 125+ acres, several public
-     listings say 75+. */
+  links: {
+    apply: 'https://sijouladmission.sandipuniversity.edu.in/',
+    enquiry: 'https://sijoul.sandipuniversity.edu.in/admission.php',
+    brochure: 'https://sijoul.sandipuniversity.edu.in/pdf/All-courses-details.pdf',
+    bsccPdf: 'https://sijoul.sandipuniversity.edu.in/pdf/BSCC-Loan-Scheme.pdf',
+    bsccPortal: 'https://www.7nishchay-yuvaupmission.bihar.gov.in',
+    feeStructure: 'https://sijoul.sandipuniversity.edu.in/fees-structure.php',
+    facebook: 'https://www.facebook.com/SandipUnivsijoul',
+    instagram: 'https://www.instagram.com/sandipunivsijoul',
+    youtube: 'https://www.youtube.com/@SandipUnivsijoul',
+  },
+
   hero: {
     duration: '4 Years',
     eligibility: '10+2 with PCM',
@@ -41,44 +56,81 @@ const CONTENT = {
     campusSize: '125+ acres',
   },
 
+  /* BRIEF §3.1. Annual tuition per branch, per year, from the official fee
+     structure. The two schools are NOT priced alike. */
+  fees: {
+    civil: '₹90,000',
+    electrical: '₹90,000',
+    mechanical: '₹90,000',
+    cse: '₹1,05,000',
+    aiml: '₹1,25,000',
+    polytechnic: '₹78,000',
+  },
+
+  /* BRIEF §3.1. Eligibility differs by school. Do not flatten these. */
+  eligibility: {
+    setPercent: '45% in 10+2 and 45% in PCM',
+    csePercent: '50% in 10+2 and 45% in PCM',
+    lateral: '3-year Diploma with at least 50%',
+  },
+
   seats: {
+    civil: '[[CONFIRM: Civil seats]]',
+    electrical: '[[CONFIRM: Electrical seats]]',
+    mechanical: '[[CONFIRM: Mechanical seats]]',
     cse: '[[CONFIRM: CSE seats]]',
     aiml: '[[CONFIRM: CSE AI-ML seats]]',
-    civil: '[[CONFIRM: Civil seats]]',
-    mechanical: '[[CONFIRM: Mechanical seats]]',
-    electrical: '[[CONFIRM: Electrical seats]]',
   },
 
-  fees: {
-    cse: '[[CONFIRM: annual fee CSE]]',
-    aiml: '[[CONFIRM: annual fee CSE AI-ML]]',
-    civil: '[[CONFIRM: annual fee Civil]]',
-    mechanical: '[[CONFIRM: annual fee Mechanical]]',
-    electrical: '[[CONFIRM: annual fee Electrical]]',
+  /* BRIEF §3.2. Everything beyond tuition. Parents search "total fees". */
+  costs: {
+    forms: '₹500',
+    registration: '₹2,500',
+    uniform: '₹5,500',
+    hostel: '₹75,000',
+    hostelDeposit: '₹5,000',
+    hostelB1: '₹10,000',
+    caution: '₹3,000',
+    convocation: '₹3,000',
   },
 
+  /* BRIEF §3.3. University-wide, from the official stat block. */
+  stats: {
+    rank: '1st',
+    campus: '125+',
+    faculty: '250+',
+    students: '4,000+',
+    programmes: '20+',
+    partners: '100+',
+  },
+
+  /* BRIEF §3.6 — the scholarship page is the Nashik campus's, headed
+     "for Maharashtra State", with a broken table and a 2024-25 footnote.
+     Every figure is held back until the Sijoul numbers are confirmed. */
   scholarship: {
-    band1marks: '[[CONFIRM: slab 1 marks]]',
-    band1waiver: '[[CONFIRM: slab 1 waiver]]',
-    band2marks: '[[CONFIRM: slab 2 marks]]',
-    band2waiver: '[[CONFIRM: slab 2 waiver]]',
-    band3marks: '[[CONFIRM: slab 3 marks]]',
-    band3waiver: '[[CONFIRM: slab 3 waiver]]',
+    band1marks: '[[CONFIRM: scholarship slab 1 marks]]',
+    band1waiver: '[[CONFIRM: scholarship slab 1 waiver]]',
+    band2marks: '[[CONFIRM: scholarship slab 2 marks]]',
+    band2waiver: '[[CONFIRM: scholarship slab 2 waiver]]',
+    band3marks: '[[CONFIRM: scholarship slab 3 marks]]',
+    band3waiver: '[[CONFIRM: scholarship slab 3 waiver]]',
   },
 
-  /* Bihar Student Credit Card. Terms set by the Government of Bihar. */
+  /* BRIEF §3.7 — the university's BSCC PDF is a scan and cannot be read.
+     These are money claims on an admission page, so nothing is published
+     until it is checked against the current state notification. */
   scc: {
-    amount: '₹4,00,000',
-    interest: '4% simple',
-    concession: '1%',
-    ageLimit: '25 years',
+    amount: '[[CONFIRM: BSCC maximum loan amount]]',
+    interest: '[[CONFIRM: BSCC interest rate]]',
+    concession: '[[CONFIRM: BSCC concessional rate]]',
+    collateral: '[[CONFIRM: BSCC collateral requirement]]',
+    ageLimit: '[[CONFIRM: BSCC age limit]]',
   },
 
   dates: {
     open: '[[CONFIRM: application open date]]',
     lastDate: '[[CONFIRM: last date to apply]]',
     counselling: '[[CONFIRM: counselling start date]]',
-    verification: '[[CONFIRM: document verification date]]',
     sessionStart: '[[CONFIRM: session start date]]',
   },
 
@@ -89,36 +141,36 @@ const CONTENT = {
     patna: '[[CONFIRM: km from Patna]]',
   },
 
+  /* Real, named B.Tech placements from the university's own placement list.
+     Chosen for range rather than for the three biggest numbers: a defence
+     PSU, a national IT employer, and a core-branch infrastructure recruiter. */
   placement: {
-    highest: '12 LPA',
-    recruiters: '250+',
-    placed: '3,121+',
-    student1name: '[[CONFIRM: placed student 1 name]]',
-    student1branch: '[[CONFIRM: branch]]',
-    student1package: '[[CONFIRM: package]]',
-    student1company: '[[CONFIRM: company]]',
-    student2name: '[[CONFIRM: placed student 2 name]]',
-    student2branch: '[[CONFIRM: branch]]',
-    student2package: '[[CONFIRM: package]]',
-    student2company: '[[CONFIRM: company]]',
-    student3name: '[[CONFIRM: placed student 3 name]]',
-    student3branch: '[[CONFIRM: branch]]',
-    student3package: '[[CONFIRM: package]]',
-    student3company: '[[CONFIRM: company]]',
+    assistance: '100% placement assistance',
+    student1name: 'Mayashankar Kumar',
+    student1branch: 'B.Tech',
+    student1company: 'Bharat Dynamics Limited',
+    student1package: '12 LPA',
+    student2name: 'Abhay Kumar Tibrewal',
+    student2branch: 'B.Tech',
+    student2company: 'Infosys',
+    student2package: '5 LPA',
+    student3name: 'Jitendra Kumar Mandal',
+    student3branch: 'Computer Science',
+    student3company: 'MGH Infra',
+    student3package: '7 LPA',
   },
 
-  /* Quotes are static copy in index.html; only attributions live here. */
+  /* BRIEF §3.9 — the five existing video testimonials are four MBA students
+     and one B.Tech Agriculture student. None are engineering. Left empty. */
   voices: {
-    name1: '[[CONFIRM: student name]]',
-    year1: '[[CONFIRM: year]]',
-    name2: '[[CONFIRM: student name]]',
-    year2: '[[CONFIRM: year]]',
+    name1: '[[CONFIRM: engineering student testimonial]]',
+    name2: '[[CONFIRM: engineering student testimonial]]',
   },
 
-  social: {
-    facebook: '[[CONFIRM: Facebook URL]]',
-    instagram: '[[CONFIRM: Instagram URL]]',
-    youtube: '[[CONFIRM: YouTube URL]]',
+  /* BRIEF §3.11 — main site uses GTM-PJSFVGTZ. No tag is added until the
+     client says which container this page reports into. */
+  analytics: {
+    container: '[[CONFIRM: GTM container for this landing page]]',
   },
 };
 
