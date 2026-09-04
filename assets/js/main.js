@@ -27,6 +27,60 @@
   /* Each hook already holds the correct value as static text. We overwrite it
      only when content.js actually differs, so a JS failure degrades to the
      static copy rather than to an empty element. */
+  /* Derived first-year totals. These are the one place a number on the page
+     is not copied from content.js but computed from it, so they are rebuilt
+     here rather than trusted: change a fee and the total follows.
+
+     Day scholar  = tuition + forms + registration + uniform + caution
+     With hostel  = the above + hostel + hostel security deposit
+
+     Convocation is excluded: it falls in the final year, not the first. The
+     B1 supplement is excluded: it is conditional on availability. */
+  function rupeesToNumber(s) {
+    var n = parseInt(String(s).replace(/[^0-9]/g, ''), 10);
+    return isNaN(n) ? null : n;
+  }
+  function numberToRupees(n) {
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+  function firstYearTotals() {
+    var f = C.fees || {}, k = C.costs || {};
+    var oneTime = ['forms', 'registration', 'uniform', 'caution']
+      .map(function (key) { return rupeesToNumber(k[key]); });
+    var hostel = [rupeesToNumber(k.hostel), rupeesToNumber(k.hostelDeposit)];
+
+    /* If any input is missing or is still a [[CONFIRM]] marker, do not print
+       a total that silently omits it. */
+    if (oneTime.indexOf(null) > -1) return null;
+    var base = oneTime.reduce(function (a, b) { return a + b; }, 0);
+    var hostelAdd = hostel.indexOf(null) > -1 ? null
+      : hostel.reduce(function (a, b) { return a + b; }, 0);
+
+    var out = {};
+    [['set', f.civil], ['cse', f.cse], ['aiml', f.aiml]].forEach(function (pair) {
+      var tuition = rupeesToNumber(pair[1]);
+      if (tuition === null) return;
+      out[pair[0]] = numberToRupees(tuition + base);
+      if (hostelAdd !== null) out[pair[0] + '+hostel'] = numberToRupees(tuition + base + hostelAdd);
+    });
+    return out;
+  }
+
+  function hydrateSums() {
+    var totals = firstYearTotals();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-sum]'), function (el) {
+      var key = el.getAttribute('data-sum');
+      var v = totals && totals[key];
+      if (!v) { el.classList.add('confirm'); el.textContent = '[[CONFIRM: first-year total]]'; return; }
+      if (el.textContent.trim() !== v) {
+        console.warn('[data-sum] static HTML drifted: ' + key +
+                     ' html="' + el.textContent.trim() + '" computed="' + v + '"');
+        el.textContent = v;
+      }
+    });
+  }
+
   function hydrate() {
     var missing = [];
     var drifted = [];
@@ -58,6 +112,7 @@
   }
 
   hydrate();
+  hydrateSums();
 
   /* ---------- 2. STICKY HEADER ---------- */
   var hdr = document.getElementById('siteHeader');

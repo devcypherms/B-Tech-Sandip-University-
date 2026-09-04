@@ -702,3 +702,120 @@ mark.confirm {
   .pl__cards { grid-template-columns: repeat(3, 1fr); gap: 0 clamp(1.5rem, 4vw, 3rem); }
   .pl__card { border-bottom: 0; }
 }
+
+/* ---------- 14. FEES, SCHOLARSHIP, CREDIT CARD (5.7) ----------
+   The longest section on the page by design. Hairline rules only: no zebra
+   striping, no filled cells, no card boxes. */
+.fees__head { max-width: 62ch; }
+.fees__lede { margin-top: 1.25rem; color: var(--muted); }
+
+.fees__block,
+.fees__total { margin-top: clamp(3rem, 7vw, 5.5rem); }
+
+.fees__h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  letter-spacing: -.01em;
+  margin-bottom: 1.5rem;
+}
+
+.tbl { font-size: var(--fs-small); }
+.tbl caption { text-align: left; }
+.tbl th,
+.tbl td {
+  text-align: left;
+  padding: 1rem 1rem 1rem 0;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+.tbl thead th {
+  padding-top: 0;
+  font-weight: 400;
+  color: var(--muted);
+  border-bottom-color: var(--hairline-strong);
+}
+.tbl tbody th { font-weight: 400; color: var(--paper); }
+.tbl td {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.tbl tbody tr:last-child th,
+.tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl th:last-child,
+.tbl td:last-child { padding-right: 0; text-align: right; }
+
+.tbl__note {
+  margin-top: 1rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  max-width: 68ch;
+}
+
+/* The indicative total is the answer to the question parents actually ask,
+   so its figures are set in the display face at statistic scale. */
+.fees__total-lede { color: var(--muted); max-width: 62ch; margin-bottom: 1.5rem; }
+.tbl--total td {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  color: var(--paper);
+  letter-spacing: -.01em;
+}
+.tbl--total tbody th { color: var(--muted); }
+
+/* Student Credit Card: prose plus a slot list the figures drop into. */
+.scc__grid { display: grid; gap: var(--space-block); }
+.scc__body p { color: var(--muted); max-width: 62ch; }
+.scc__body p + p { margin-top: 1rem; }
+.scc__caveat { border-left: 1px solid var(--brass); padding-left: 1rem; }
+.scc__body abbr { text-decoration: none; border-bottom: 1px dotted var(--hairline-strong); cursor: help; }
+
+.scc__links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+.scc__links a {
+  font-size: var(--fs-small);
+  color: var(--paper);
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 2px;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.scc__links a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+
+.scc__terms { border-top: 1px solid var(--hairline-strong); }
+.scc__terms > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .875rem 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--fs-small);
+}
+.scc__terms dt { color: var(--muted); flex: none; }
+.scc__terms dd { margin: 0; text-align: right; }
+
+/* Scholarships: the mechanism is stated even while the numbers are held. */
+.sch__grid { display: grid; gap: var(--space-block); }
+.sch__grid h4 { font-size: var(--fs-body); font-weight: 500; margin-bottom: .625rem; }
+.sch__h4-second { margin-top: 2rem; }
+.sch__grid p { color: var(--muted); max-width: 60ch; }
+
+.sch__slabs { margin-top: 1.5rem; border-top: 1px solid var(--hairline); }
+.sch__slabs > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--fs-small);
+}
+.sch__slabs dt { color: var(--muted); }
+.sch__slabs dd { margin: 0; text-align: right; }
+
+.fees__cta { margin-top: clamp(3rem, 7vw, 5.5rem); }
+
+@media (min-width: 820px) {
+  .scc__grid { grid-template-columns: 1.35fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+  .sch__grid { grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); }
+}

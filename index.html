@@ -48,8 +48,8 @@
       <img src="assets/img/logo.webp" alt="Sandip University, Madhubani" width="120" height="34">
     </a>
     <div class="site-header__actions">
-      <a class="site-header__phone" href="tel:+9118003132714" data-c-href="org.phoneHref" data-track="call">
-        <span data-c="org.phone">1800 313 2714</span>
+      <a class="site-header__phone" href="#enquiry" data-c-href="org.phoneHref" data-track="call">
+        <span data-c="org.phone" class="confirm">[[CONFIRM: phone — site shows 1800-313-2714, tel: links use 1800-212-2714]]</span>
       </a>
       <a class="btn btn-primary" href="#enquiry" data-track="cta">
         <span class="lbl-long">Apply for B.Tech</span>
@@ -379,6 +379,186 @@
           <li>Asian Paints</li><li>Cognizant</li><li>TCS</li><li>Godrej</li><li>GeBBS</li>
           <li>Atos</li><li>Mahindra</li><li>Infosys</li><li>Amazon</li>
         </ul>
+      </div>
+
+    </div>
+  </section>
+  <!-- ========== 5.7 FEES, SCHOLARSHIP AND STUDENT CREDIT CARD ========== -->
+  <section class="section fees" id="fees" aria-labelledby="fees-title">
+    <div class="wrap">
+
+      <div class="fees__head">
+        <h2 class="section__title" id="fees-title">Fees, scholarship and the Student Credit Card</h2>
+        <p class="fees__lede">
+          Tuition is only part of what a family pays in the first year. Everything the
+          university charges is set out below, then the two routes that reduce it.
+        </p>
+      </div>
+
+      <!-- Table 1: tuition -->
+      <div class="fees__block">
+        <h3 class="fees__h3">Annual tuition, by branch</h3>
+        <table class="tbl">
+          <caption class="sr-only">Annual B.Tech tuition fee by branch</caption>
+          <thead>
+            <tr><th scope="col">Branch</th><th scope="col">Per year</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">B.Tech (Civil Engineering)</th><td><span data-c="fees.civil">₹90,000</span></td></tr>
+            <tr><th scope="row">B.Tech (Electrical Engineering)</th><td><span data-c="fees.electrical">₹90,000</span></td></tr>
+            <tr><th scope="row">B.Tech (Mechanical Engineering)</th><td><span data-c="fees.mechanical">₹90,000</span></td></tr>
+            <tr><th scope="row">B.Tech (Computer Science and Engineering)</th><td><span data-c="fees.cse">₹1,05,000</span></td></tr>
+            <tr><th scope="row">B.Tech (Computer Science and Engineering with AI &amp; ML)</th><td><span data-c="fees.aiml">₹1,25,000</span></td></tr>
+          </tbody>
+        </table>
+        <p class="tbl__note">
+          Lateral entry into the second year is charged at the same rate as the first.
+          The university&rsquo;s own Polytechnic runs at <span data-c="fees.polytechnic">₹78,000</span> a year.
+        </p>
+      </div>
+
+      <!-- The quiet line between the tables: what a parent actually asks -->
+      <div class="fees__total">
+        <h3 class="fees__h3">What the first year actually costs</h3>
+        <p class="fees__total-lede">
+          Tuition plus every one-time charge below. Indicative, and before any
+          scholarship or Student Credit Card is applied.
+        </p>
+
+        <table class="tbl tbl--total">
+          <caption class="sr-only">Indicative first-year total by fee tier, with and without hostel</caption>
+          <thead>
+            <tr>
+              <th scope="col">Branch tier</th>
+              <th scope="col">Day scholar</th>
+              <th scope="col">With hostel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Civil, Electrical, Mechanical</th>
+              <td><span data-sum="set">₹1,01,500</span></td>
+              <td><span data-sum="set+hostel">₹1,81,500</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Computer Science and Engineering</th>
+              <td><span data-sum="cse">₹1,16,500</span></td>
+              <td><span data-sum="cse+hostel">₹1,96,500</span></td>
+            </tr>
+            <tr>
+              <th scope="row">CSE with AI &amp; ML</th>
+              <td><span data-sum="aiml">₹1,36,500</span></td>
+              <td><span data-sum="aiml+hostel">₹2,16,500</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="tbl__note">
+          Day scholar adds forms, registration, uniform and caution money to tuition.
+          With hostel adds a year&rsquo;s hostel charge and the hostel security deposit.
+          Caution money is refundable. Convocation is charged in the final year, not
+          the first, so it is not counted here.
+        </p>
+      </div>
+
+      <!-- Table 2: everything else -->
+      <div class="fees__block">
+        <h3 class="fees__h3">What else you pay</h3>
+        <table class="tbl">
+          <caption class="sr-only">Charges other than tuition</caption>
+          <thead>
+            <tr><th scope="col">Item</th><th scope="col">Amount</th><th scope="col">When</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Forms and prospectus</th><td><span data-c="costs.forms">₹500</span></td><td>One time</td></tr>
+            <tr><th scope="row">Registration fee</th><td><span data-c="costs.registration">₹2,500</span></td><td>One time</td></tr>
+            <tr><th scope="row">Uniform</th><td><span data-c="costs.uniform">₹5,500</span></td><td>At admission</td></tr>
+            <tr><th scope="row">Hostel</th><td><span data-c="costs.hostel">₹75,000</span></td><td>Per year</td></tr>
+            <tr><th scope="row">Hostel security deposit</th><td><span data-c="costs.hostelDeposit">₹5,000</span></td><td>One time</td></tr>
+            <tr><th scope="row">B1 hostel supplement</th><td><span data-c="costs.hostelB1">₹10,000</span></td><td>Per year, subject to availability</td></tr>
+            <tr><th scope="row">University caution money</th><td><span data-c="costs.caution">₹3,000</span></td><td>Refundable</td></tr>
+            <tr><th scope="row">Convocation and certificate</th><td><span data-c="costs.convocation">₹3,000</span></td><td>Final year</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Student Credit Card: prose, because the figures are not yet confirmed -->
+      <div class="fees__block fees__scc">
+        <h3 class="fees__h3">The Bihar Student Credit Card</h3>
+
+        <div class="scc__grid">
+          <div class="scc__body">
+            <p>
+              Sandip University accepts the Bihar Student Credit Card, the state
+              government&rsquo;s education loan for students who have passed 10+2 and hold
+              Bihar domicile. It is the route most families here use, and it is the
+              reason the engineering college with student credit card search exists at all.
+            </p>
+            <p>
+              The loan is applied for through the state, not through the university.
+              You register online on the Bihar government portal, and then attend your
+              <abbr title="District Registration and Counseling Centre">DRCC</abbr>
+              in person within 60 days to complete verification. Our admission cell
+              prepares the file with your family so nobody works it out alone.
+            </p>
+            <p class="scc__caveat">
+              Approval, the sanctioned amount and disbursement are decided by the
+              Government of Bihar. The university cannot promise any of the three.
+            </p>
+            <p class="scc__links">
+              <a href="https://www.7nishchay-yuvaupmission.bihar.gov.in" target="_blank" rel="noopener">Bihar government portal</a>
+              <a href="https://sijoul.sandipuniversity.edu.in/pdf/BSCC-Loan-Scheme.pdf" target="_blank" rel="noopener">Scheme document (PDF)</a>
+            </p>
+          </div>
+
+          <dl class="scc__terms">
+            <div><dt>Maximum loan</dt><dd><span data-c="scc.amount">[[CONFIRM: BSCC maximum loan amount]]</span></dd></div>
+            <div><dt>Interest</dt><dd><span data-c="scc.interest">[[CONFIRM: BSCC interest rate]]</span></dd></div>
+            <div><dt>Concessional rate</dt><dd><span data-c="scc.concession">[[CONFIRM: BSCC concessional rate]]</span></dd></div>
+            <div><dt>Collateral</dt><dd><span data-c="scc.collateral">[[CONFIRM: BSCC collateral requirement]]</span></dd></div>
+            <div><dt>Age limit</dt><dd><span data-c="scc.ageLimit">[[CONFIRM: BSCC age limit]]</span></dd></div>
+            <div><dt>Documents</dt><dd><span data-c="scc.documents">[[CONFIRM: BSCC document checklist]]</span></dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Scholarship: the mechanism is stated; only the slab figures are held -->
+      <div class="fees__block">
+        <h3 class="fees__h3">Scholarships</h3>
+        <div class="sch__grid">
+          <div>
+            <h4>Merit, on your 10+2 marks</h4>
+            <p>
+              A tuition waiver is awarded on a sliding scale against your qualifying
+              marks. The band you fall into is confirmed in writing after your documents
+              are verified, before any payment is made.
+            </p>
+            <dl class="sch__slabs">
+              <div><dt><span data-c="scholarship.band1marks">[[CONFIRM: scholarship slab 1 marks]]</span></dt><dd><span data-c="scholarship.band1waiver">[[CONFIRM: scholarship slab 1 waiver]]</span></dd></div>
+              <div><dt><span data-c="scholarship.band2marks">[[CONFIRM: scholarship slab 2 marks]]</span></dt><dd><span data-c="scholarship.band2waiver">[[CONFIRM: scholarship slab 2 waiver]]</span></dd></div>
+              <div><dt><span data-c="scholarship.band3marks">[[CONFIRM: scholarship slab 3 marks]]</span></dt><dd><span data-c="scholarship.band3waiver">[[CONFIRM: scholarship slab 3 waiver]]</span></dd></div>
+            </dl>
+          </div>
+          <div>
+            <h4>SU-JEE, the entrance and scholarship test</h4>
+            <p>
+              The university runs its own entrance examination, SU-JEE, which doubles as
+              the scholarship test. A share of each intake is reserved for students
+              admitted on merit through it, and awards are finalised after the result is
+              declared. Sitting SU-JEE is not required for admission, but it is the only
+              route to the merit-reserved seats.
+            </p>
+            <h4 class="sch__h4-second">Sports</h4>
+            <p>
+              A separate sports quota scholarship runs alongside the merit scheme, at a
+              fixed share of intake.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fees__cta">
+        <a class="btn btn-primary" href="#enquiry" data-track="cta">Talk to an admission counsellor</a>
       </div>
 
     </div>

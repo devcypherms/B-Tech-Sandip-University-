@@ -125,6 +125,11 @@ const CONTENT = {
     concession: '[[CONFIRM: BSCC concessional rate]]',
     collateral: '[[CONFIRM: BSCC collateral requirement]]',
     ageLimit: '[[CONFIRM: BSCC age limit]]',
+    /* Neither the university's scanned PDF nor the state portal landing page
+       publishes a document list. Note also that the portal calls it an
+       "interest free loan" while the figure reported everywhere else is 4%
+       simple, which is a further reason to hold all of these. */
+    documents: '[[CONFIRM: BSCC document checklist]]',
   },
 
   dates: {
