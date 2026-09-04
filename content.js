@@ -225,15 +225,32 @@ const CONTENT = {
     'Atos', 'Mahindra', 'Infosys', 'Amazon',
   ],
 
-  /* BRIEF §3.9 — /testimonials-stud.php carries 12 videos and labels none of
-     them with a programme. Two names (Prashant Kumar, Ritesh Kumar) also
-     appear in the placement list, but these are common names in Bihar and the
-     match cannot be verified. So there is no usable engineering testimonial,
-     and §5.12 runs the named placement list instead of an empty block. */
+  /* BRIEF §3.9 and §5.12 — /testimonials-stud.php carries 12 videos and
+     labels none with a programme. Two names there (Prashant Kumar, Ritesh
+     Kumar) also appear in the placement list, but both are common enough in
+     Bihar that the match cannot be made safely. So there is no usable
+     engineering testimonial, and §5.12 runs the placement record instead.
+
+     Figures below are counted from the university's published list, not
+     asserted. The list prints 18 B.Tech rows but 17 distinct names: Ritesh
+     Kumar appears twice. Branch counts are of distinct people.
+
+     Mechanical is absent from the list entirely. It is not given a zero row,
+     which would spotlight it, but nothing here implies coverage is even, and
+     placement.mechanicalNote keeps the question open on the page. */
   placementList: {
     url: 'https://sijoul.sandipuniversity.edu.in/studen-placement-list.php',
-    btechCount: '18',
-    totalCount: '40',
+    named: '17',
+    rows: '18',
+    employers: '8',
+    /* LPA is set in the label rather than in these values, so the figure
+       line stays a numeral and does not wrap onto two lines. */
+    rangeLow: '3',
+    rangeHigh: '12',
+    civil: '5',
+    electrical: '5',
+    computerScience: '2',
+    branchNotPrinted: '5',
   },
 
   /* BRIEF §5.9 — SU-JEE's role is unresolved and a process section is read

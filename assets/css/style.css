@@ -1117,3 +1117,88 @@ mark.confirm {
   .loc__grid { grid-template-columns: 1fr 1fr; gap: clamp(3rem, 7vw, 6rem); align-items: start; }
   .loc__modes { grid-template-columns: 1fr; }
 }
+
+/* ---------- 19. THE PLACEMENT RECORD (5.12) ----------
+   Replaces the testimonial block. Typographic throughout: no cards, and no
+   photographs, because there are no student photographs and stock faces on
+   a placement section would undo the point of it. */
+.rec__head { max-width: 62ch; }
+.rec__lede { margin-top: 1.25rem; color: var(--muted); }
+
+.rec__figures {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+  margin-top: var(--space-block);
+  padding-block: clamp(2rem, 4vw, 3rem);
+  border-block: 1px solid var(--hairline);
+}
+.rec__figures dd { margin: 0; }
+.rec__fig {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 96, "SOFT" 0, "WONK" 0;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+.rec__figures dt {
+  margin-top: .875rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  max-width: 28ch;
+}
+
+.rec__split { display: grid; gap: var(--space-block); margin-top: var(--space-block); }
+.rec__h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  letter-spacing: -.01em;
+  margin-bottom: 1.5rem;
+}
+
+.rec__branches { border-top: 1px solid var(--hairline); }
+.rec__branches li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding-block: .875rem;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.rec__branches li span:last-child {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
+  font-size: 1.25rem;
+  color: var(--paper);
+}
+.rec__note { margin-top: 1.25rem; font-size: var(--fs-small); }
+
+.rec__body { color: var(--muted); max-width: 52ch; }
+.rec__body + .rec__body { margin-top: 1rem; }
+.rec__link { margin-top: 1.5rem; }
+.rec__link a {
+  font-size: var(--fs-small);
+  color: var(--paper);
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 2px;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.rec__link a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+
+@media (min-width: 760px) {
+  /* Two shared rows, so the three labels sit on one baseline even when the
+     figures above them differ in width. */
+  .rec__figures {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    /* Gutters in a subgridded axis come from this grid, not the children, so
+       the figure-to-label distance is set here. */
+    row-gap: .875rem;
+  }
+  .rec__figures > div { display: grid; grid-row: span 2; grid-template-rows: subgrid; }
+  .rec__figures dt { margin-top: 0; align-self: start; }
+  .rec__split { grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+}
