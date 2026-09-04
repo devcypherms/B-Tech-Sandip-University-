@@ -216,6 +216,22 @@ const CONTENT = {
     totalCount: '40',
   },
 
+  /* BRIEF §5.9 — SU-JEE's role is unresolved and a process section is read
+     as instructions, so it is not guessed at.
+
+     Two sources point the same way for admission itself: /admission-faq.php
+     says "Direct admission for Diploma, UG. PG might have an interview and
+     entrance test", and the live admission portal has no entrance-exam step
+     at all, only document upload and fee payment.
+
+     But SU-JEE appears on the scholarship page as the route to merit-reserved
+     seats, and that page is the Nashik campus's, headed "for Maharashtra
+     State" (BRIEF §3.6). So whether SU-JEE touches admission at Sijoul, or
+     only scholarship, cannot be settled from the site. */
+  admission: {
+    sujee: '[[CONFIRM: is SU-JEE required for B.Tech admission, or scholarship only]]',
+  },
+
   /* BRIEF §5.8 — two gaps the gallery shows as frames rather than hiding.
      The hostel interiors on file are 340px thumbnails and the one labelled
      as a room is a shared washroom; Civil has no facility image at all. */

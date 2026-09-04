@@ -900,3 +900,78 @@ mark.confirm {
 @media (prefers-reduced-motion: reduce) {
   .gal__strip { scroll-behavior: auto; }
 }
+
+/* ---------- 16. ADMISSION PROCESS (5.9) ----------
+   Numbering earns its place here: this is a sequence, not a list of features.
+   The connector is one hairline the numbers punch through, so the line reads
+   as continuous rather than as four separate rules. */
+.proc__head { max-width: 62ch; }
+.proc__lede { margin-top: 1.25rem; color: var(--muted); }
+
+.proc {
+  margin-top: var(--space-block);
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
+  counter-reset: none;
+}
+
+.proc__step {
+  position: relative;
+  /* Mobile: the hairline runs down the left of the column. */
+  border-left: 1px solid var(--hairline);
+  padding-left: clamp(1.25rem, 5vw, 2rem);
+}
+
+.proc__n {
+  display: block;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
+  font-size: 1.125rem;
+  line-height: 1;
+  color: var(--brass);
+  /* Sits on the rule and masks it, so the line appears to pass behind. */
+  background: var(--ink-800);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(-50%);
+  padding-block: .25rem;
+}
+
+.proc__step h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  margin-bottom: .75rem;
+}
+.proc__step p { color: var(--muted); max-width: 46ch; }
+
+.proc__aside {
+  margin-top: .875rem;
+  padding-top: .875rem;
+  border-top: 1px solid var(--hairline);
+}
+
+@media (min-width: 880px) {
+  .proc {
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  /* Desktop: the hairline runs across the top of the row instead. */
+  .proc__step {
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
+    padding-left: 0;
+    padding-top: 2.5rem;
+  }
+  .proc__n {
+    top: 0;
+    left: 0;
+    transform: translateY(-50%);
+    padding-block: 0;
+    padding-right: .75rem;
+  }
+}
