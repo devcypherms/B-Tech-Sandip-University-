@@ -1,11 +1,21 @@
 /* =============================================================================
    Sandip University — B.Tech Admission 2026
-   Dark ink + brass. Fraunces (display) / Instrument Sans (body).
+   Dark bookends, light body. Fraunces (display) / Instrument Sans (body).
 
    Discipline notes, so later edits do not undo the design:
-   - ONE background colour for the whole page. Sections are separated by
-     whitespace and 1px hairlines, never by alternating tints.
-   - --brass never fills a large area. Hover, focus, small marks only.
+   - TWO grounds, not more. The hero (5.2) and the final CTA (5.14) sit on
+     ink; everything between them sits on paper. Sections inside the light
+     run are still told apart by whitespace and 1px hairlines only, never by
+     alternating tints, so the light run reads as one continuous page.
+   - Colour marks hierarchy, it does not decorate. Three roles, and a
+     section gets at most one of them:
+       --accent  interaction   brass on ink, brass-deep on paper
+       --mark    wayfinding    indigo on paper (it is unusable on ink)
+       --madder  emphasis      spent once, on the 5.7 indicative total
+   - Never write a raw palette token where a role token exists. --paper is
+     a surface and --fg is text; on ink they are the same colour and on
+     paper they are not, which is exactly the bug this split prevents.
+   - --accent never fills a large area. Hover, focus, small marks only.
    - No drop shadows. No rounded cards repeated down the page.
    - One load animation (the hero). Everything else is user-triggered.
    ========================================================================== */
@@ -63,16 +73,22 @@
   line-gap-override: 0%;
 }
 
-/* ---------- 1. TOKENS ---------- */
+/* ---------- 1. TOKENS ----------
+   Two layers. The palette is fixed; the roles flip by scope. Every rule
+   below this block references roles only, so a section changes ground by
+   changing one class and nothing else. */
 :root {
+  /* Palette. Not to be used directly for text or background outside the
+     two scope blocks that follow. */
   --ink-900: #070C12;
   --ink-800: #0D1520;
   --ink-700: #16202C;
-  --paper: #F2EFE9;
-  --muted: #8B98A6;
+  --paper: #F4F2EC;
+  --ink-text: #101821;
   --brass: #C79A4B;
-  --hairline: rgba(242, 239, 233, .10);
-  --hairline-strong: rgba(242, 239, 233, .22);
+  --brass-deep: #8C6520;
+  --indigo: #1E3A5F;
+  --madder: #A03521;
 
   --font-display: Fraunces, "Fraunces Fallback", Georgia, serif;
   --font-body: "Instrument Sans", "Instrument Fallback", system-ui, sans-serif;
@@ -92,6 +108,51 @@
   --header-h: 76px;
 }
 
+/* PAPER — the default, because everything between the two bookends is light.
+   The stuck header joins this scope: once it has left the hero it is sitting
+   on the light page and has to be painted for it.
+
+   --muted is NOT the dark-scope grey. #8B98A6 measures 6.23:1 on --ink-800
+   but only 2.63:1 on --paper, which fails outright.
+
+   The replacement holds the RATIO rather than the hex, because that is what
+   carries the hierarchy. #5A6470 passes at 5.37:1, but next to the dark
+   scope's 6.23:1 the secondary prose read visibly weaker on paper — light
+   polarity exaggerates a thin grey. #525C67 measures 6.08:1, which puts the
+   two grounds within 0.15 of one another, and keeps the same cool-grey
+   family so nothing shifts hue between scopes. */
+:root,
+.site-header.is-stuck {
+  --bg: var(--paper);
+  --fg: var(--ink-text);
+  --muted: #525C67;
+  --accent: var(--brass-deep);
+  --mark: var(--indigo);
+  --hairline: rgba(16, 24, 33, .14);
+  --hairline-strong: rgba(16, 24, 33, .28);
+  --btn-fill: var(--ink-900);
+  --btn-fill-fg: var(--paper);
+  --btn-hover-fg: var(--paper);
+}
+
+/* INK — 5.2 and 5.14 only.
+   --mark falls back to brass here: --indigo measures 1.71:1 on --ink-900,
+   so wayfinding cannot be indigo on this ground. */
+.on-ink {
+  --bg: var(--ink-900);
+  --fg: var(--paper);
+  --muted: #8B98A6;
+  --accent: var(--brass);
+  --mark: var(--brass);
+  --hairline: rgba(242, 239, 233, .10);
+  --hairline-strong: rgba(242, 239, 233, .22);
+  --btn-fill: var(--paper);
+  --btn-fill-fg: var(--ink-900);
+  --btn-hover-fg: var(--ink-900);
+  background: var(--bg);
+  color: var(--fg);
+}
+
 /* ---------- 2. RESET ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -107,8 +168,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--ink-800);
-  color: var(--paper);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: 1.6;
@@ -126,8 +187,10 @@ p { margin: 0; }
 h1, h2, h3, h4 { margin: 0; font-weight: 400; }
 table { border-collapse: collapse; width: 100%; }
 
+/* The ring follows the ground it lands on: brass on ink, brass-deep on
+   paper. Brass measures 2.30:1 on --paper and would be an invisible ring. */
 :focus-visible {
-  outline: 2px solid var(--brass);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -175,20 +238,22 @@ table { border-collapse: collapse; width: 100%; }
               border-color .35s var(--ease);
 }
 
-/* Primary is paper-on-ink and goes brass on hover. Brass is never the
-   resting state of a large filled area. */
+/* The fill inverts its ground — paper on ink, ink on paper — and goes to
+   --accent on hover. --accent is never the resting state of a filled area.
+   The hover label has to flip too: --ink-900 on brass measures 7.62:1, but
+   on brass-deep it would be 3.73:1, where --paper gives 4.69:1. */
 .btn-primary {
-  background: var(--paper);
-  color: var(--ink-900);
+  background: var(--btn-fill);
+  color: var(--btn-fill-fg);
 }
-.btn-primary:hover { background: var(--brass); color: var(--ink-900); }
+.btn-primary:hover { background: var(--accent); color: var(--btn-hover-fg); }
 
 .btn-ghost {
   background: transparent;
-  color: var(--paper);
+  color: var(--fg);
   border-color: var(--hairline-strong);
 }
-.btn-ghost:hover { border-color: var(--brass); color: var(--brass); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ---------- 4. HEADER (3.1) ---------- */
 .site-header {
@@ -199,9 +264,14 @@ table { border-collapse: collapse; width: 100%; }
   border-bottom: 1px solid transparent;
   transition: background-color .4s var(--ease), border-color .4s var(--ease);
 }
+/* Unstuck, the header floats over the hero photograph, so it carries
+   .on-ink in the markup. Stuck, it is sitting on the light page and joins
+   the paper scope (see 1. TOKENS) — the two-class selector outranks the
+   single .on-ink class, so the tokens flip without touching the markup. */
 .site-header.is-stuck {
-  background: var(--ink-800);
+  background: var(--bg);
   border-bottom-color: var(--hairline);
+  color: var(--fg);
 }
 .site-header .wrap {
   display: flex;
@@ -210,6 +280,13 @@ table { border-collapse: collapse; width: 100%; }
   min-height: var(--header-h);
 }
 .site-header__logo img { height: 34px; width: auto; }
+
+/* The logo file is a white wordmark on transparency, and there is no dark
+   variant. Measured, it is greyscale (max saturation 3/255 across both the
+   .webp and the .png), so a polarity flip reproduces the mark exactly
+   rather than approximating it. Without this it draws paper-on-paper and
+   the university's name disappears from the stuck header entirely. */
+.site-header.is-stuck .site-header__logo img { filter: invert(1); }
 
 .site-header__actions {
   margin-left: auto;
@@ -220,10 +297,10 @@ table { border-collapse: collapse; width: 100%; }
 .site-header__phone {
   font-size: var(--fs-small);
   font-variant-numeric: tabular-nums;
-  color: var(--paper);
+  color: var(--fg);
   transition: color .3s var(--ease);
 }
-.site-header__phone:hover { color: var(--brass); }
+.site-header__phone:hover { color: var(--accent); }
 .site-header .btn { min-height: 44px; padding-inline: 1.25rem; }
 
 /* ---------- 5. HERO (3.2) ---------- */
@@ -251,7 +328,13 @@ table { border-collapse: collapse; width: 100%; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(7, 12, 18, .45) 0%, rgba(7, 12, 18, .92) 100%);
+  /* Lands on solid --ink-900 at the last stop rather than at .92, so the
+     seam below the hero begins from a colour we control instead of from a
+     near-black that still has photograph in it. */
+  background: linear-gradient(180deg,
+              rgba(7, 12, 18, .38) 0%,
+              rgba(7, 12, 18, .86) 72%,
+              #070C12 100%);
 }
 
 .hero__inner {
@@ -384,9 +467,39 @@ table { border-collapse: collapse; width: 100%; }
   }
 }
 
+/* ---------- 6b. THE SEAM ----------
+   The hero is the last ink surface until 5.14, so it has to hand over to the
+   paper page. Butted flat, #070C12 against #F4F2EC reads as a rendering
+   fault rather than a decision.
+
+   The stops are interpolated in Oklab, not sRGB. A straight sRGB ramp
+   between these two colours runs through dead mid-greys and bands visibly
+   across ~120px; Oklab keeps the ramp perceptually even and holds the warmth
+   of the paper into the upper half. Positions are eased with a smoothstep so
+   the ink holds and then releases, instead of parking mid-grey at the middle
+   of the band, which is the part that reads as a smear.
+
+   Explicit stops rather than linear-gradient(in oklab, ...) so the result is
+   identical everywhere and does not depend on colour-space support. */
+.seam {
+  height: clamp(88px, 11vh, 152px);
+  background: linear-gradient(180deg,
+    #070C12 0%,
+    #161B21 18%,
+    #3C4044 34%,
+    #717475 50%,
+    #A4A5A4 64%,
+    #D2D1CD 78%,
+    #ECEBE5 90%,
+    #F4F2EC 100%);
+}
+
 /* ---------- 7. TRUST STRIP (3.3) ---------- */
 .trust {
   border-bottom: 1px solid var(--hairline);
+  /* The seam has already done the separating above this strip, so it gets
+     a little air rather than a second boundary. */
+  padding-top: clamp(.5rem, 2vh, 1.5rem);
 }
 .trust ul {
   display: flex;
@@ -395,21 +508,30 @@ table { border-collapse: collapse; width: 100%; }
   gap: clamp(1.5rem, 5vw, 4rem);
   padding-block: 1.75rem;
 }
+/* These were held back with opacity: .55, which was fine on ink and is not
+   survivable on paper: even --ink-text at 55% composites to #777A7C, or
+   3.86:1, and --muted at 55% collapses to 1.63:1. The quiet resting state
+   is now carried by colour alone. --muted is 5.37:1 on paper, still plainly
+   secondary to --fg at 15.97:1. */
 .trust li {
   font-size: var(--fs-small);
   color: var(--muted);
-  opacity: .55;
-  transition: opacity .3s var(--ease), color .3s var(--ease);
+  transition: color .3s var(--ease);
 }
-.trust li:hover { opacity: 1; color: var(--paper); }
+.trust li:hover { color: var(--fg); }
 
 /* ---------- 8. UNFILLED CONTENT MARKER ----------
    Deliberately ugly. A [[CONFIRM]] value must never be mistaken for real
    content during review, and must never quietly reach production. */
+/* The fill carries it on paper (9.28:1 against the page) and the outline is
+   what carries it on ink, where a dark red block otherwise sits only 1.9:1
+   above --ink-900. The outline also separates it at a glance from --madder,
+   which is a red the page now uses for real content in 5.7. */
 .confirm,
 mark.confirm {
   background: #7A1D1D;
   color: #FFD9D9;
+  outline: 1px solid #E05C5C;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: .8em;
   font-weight: 500;
@@ -541,12 +663,12 @@ mark.confirm {
   border: 0;
   text-align: left;
   cursor: pointer;
-  color: var(--paper);
+  color: var(--fg);
   transition: color .3s var(--ease);
 }
-.acc__trigger:hover { color: var(--brass); }
+.acc__trigger:hover { color: var(--accent); }
 .acc__trigger:hover .acc__mark::before,
-.acc__trigger:hover .acc__mark::after { background: var(--brass); }
+.acc__trigger:hover .acc__mark::after { background: var(--accent); }
 
 .acc__name {
   grid-area: name;
@@ -562,7 +684,9 @@ mark.confirm {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
-.acc__per { opacity: .75; }
+/* Was opacity: .75, which composited --muted to 3.23:1 on paper. The unit
+   is already subordinate to the figure by position and needs no dimming. */
+.acc__per { color: var(--muted); }
 
 /* Two hairlines that cross; the vertical one rotates away on open. */
 .acc__mark {
@@ -577,7 +701,7 @@ mark.confirm {
   position: absolute;
   left: 0; top: 50%;
   width: 18px; height: 1px;
-  background: var(--paper);
+  background: var(--fg);
   transition: transform .4s var(--ease), background-color .3s var(--ease);
 }
 .acc__mark::after { transform: rotate(90deg); }
@@ -600,7 +724,7 @@ mark.confirm {
 .acc__body h4 {
   font-size: var(--fs-small);
   font-weight: 500;
-  color: var(--brass);
+  color: var(--mark);
   margin-bottom: .5rem;
 }
 .acc__body p { color: var(--muted); max-width: 60ch; }
@@ -648,7 +772,7 @@ mark.confirm {
   letter-spacing: -.02em;
 }
 .pl__name { margin-top: .875rem; font-size: var(--fs-body); }
-.pl__branch { margin-top: .125rem; font-size: var(--fs-small); color: var(--brass); }
+.pl__branch { margin-top: .125rem; font-size: var(--fs-small); color: var(--mark); }
 .pl__co { margin-top: .5rem; font-size: var(--fs-small); color: var(--muted); }
 
 .pl__source {
@@ -657,12 +781,12 @@ mark.confirm {
   color: var(--muted);
 }
 .pl__source a {
-  color: var(--paper);
+  color: var(--fg);
   border-bottom: 1px solid var(--hairline);
   padding-bottom: 1px;
   transition: color .3s var(--ease), border-color .3s var(--ease);
 }
-.pl__source a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+.pl__source a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 .pl__note { margin-top: 1rem; font-size: var(--fs-small); }
 
@@ -688,7 +812,7 @@ mark.confirm {
   letter-spacing: -.01em;
   transition: color .3s var(--ease);
 }
-.wall__list li:hover { color: var(--brass); }
+.wall__list li:hover { color: var(--accent); }
 
 /* The university-wide list is deliberately quieter: it is not an engineering
    claim and must never read as one. */
@@ -736,7 +860,7 @@ mark.confirm {
   color: var(--muted);
   border-bottom-color: var(--hairline-strong);
 }
-.tbl tbody th { font-weight: 400; color: var(--paper); }
+.tbl tbody th { font-weight: 400; color: var(--fg); }
 .tbl td {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -757,11 +881,14 @@ mark.confirm {
 /* The indicative total is the answer to the question parents actually ask,
    so its figures are set in the display face at statistic scale. */
 .fees__total-lede { color: var(--muted); max-width: 62ch; margin-bottom: 1.5rem; }
+/* --madder, used exactly once on the page. 5.7 is the block the brief makes
+   most important, and inside 5.7 this is the figure a parent came for, so
+   the boldness is spent here and nowhere else. 6.20:1 on --paper. */
 .tbl--total td {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
   font-size: clamp(1.125rem, 2.2vw, 1.5rem);
-  color: var(--paper);
+  color: var(--madder);
   letter-spacing: -.01em;
 }
 .tbl--total tbody th { color: var(--muted); }
@@ -770,18 +897,20 @@ mark.confirm {
 .scc__grid { display: grid; gap: var(--space-block); }
 .scc__body p { color: var(--muted); max-width: 62ch; }
 .scc__body p + p { margin-top: 1rem; }
-.scc__caveat { border-left: 1px solid var(--brass); padding-left: 1rem; }
+/* Was a brass rule. It stays a rule and does not become a second red: the
+   section has already spent its one accent on the total above. */
+.scc__caveat { border-left: 1px solid var(--hairline-strong); padding-left: 1rem; }
 .scc__body abbr { text-decoration: none; border-bottom: 1px dotted var(--hairline-strong); cursor: help; }
 
 .scc__links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
 .scc__links a {
   font-size: var(--fs-small);
-  color: var(--paper);
+  color: var(--fg);
   border-bottom: 1px solid var(--hairline);
   padding-bottom: 2px;
   transition: color .3s var(--ease), border-color .3s var(--ease);
 }
-.scc__links a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+.scc__links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 .scc__terms { border-top: 1px solid var(--hairline-strong); }
 .scc__terms > div {
@@ -847,7 +976,7 @@ mark.confirm {
   cursor: grab;
 }
 .gal__strip.is-dragging { cursor: grabbing; scroll-snap-type: none; }
-.gal__strip:focus-visible { outline: 2px solid var(--brass); outline-offset: 4px; }
+.gal__strip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 .gal__strip::-webkit-scrollbar { height: 2px; }
 .gal__strip::-webkit-scrollbar-track { background: var(--hairline); }
@@ -928,9 +1057,10 @@ mark.confirm {
   font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
   font-size: 1.125rem;
   line-height: 1;
-  color: var(--brass);
-  /* Sits on the rule and masks it, so the line appears to pass behind. */
-  background: var(--ink-800);
+  color: var(--mark);
+  /* Sits on the rule and masks it, so the line appears to pass behind. The
+     mask has to be whatever ground it is sitting on, not a fixed ink. */
+  background: var(--bg);
   position: absolute;
   left: 0;
   top: 0;
@@ -992,9 +1122,9 @@ mark.confirm {
    can run down the conditions alone and stop at the one that fits. */
 .check__if {
   font-size: var(--fs-body);
-  color: var(--paper);
+  color: var(--fg);
 }
-.check__if strong { font-weight: 500; color: var(--brass); }
+.check__if strong { font-weight: 500; color: var(--mark); }
 .check__then {
   margin-top: .625rem;
   font-size: var(--fs-small);
@@ -1029,7 +1159,7 @@ mark.confirm {
   padding-block: 1.25rem;
 }
 .dates__row--key .dates__label {
-  color: var(--paper);
+  color: var(--fg);
   font-size: var(--fs-body);
 }
 
@@ -1073,42 +1203,58 @@ mark.confirm {
   color: var(--muted);
 }
 .loc__note a {
-  color: var(--paper);
+  color: var(--fg);
   border-bottom: 1px solid var(--hairline);
   padding-bottom: 2px;
   transition: color .3s var(--ease), border-color .3s var(--ease);
 }
-.loc__note a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+.loc__note a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 .loc__modes { display: grid; gap: 2rem; margin-top: 2.5rem; }
 .loc__modes h3 {
   font-size: var(--fs-small);
   font-weight: 400;
-  color: var(--brass);
+  color: var(--mark);
   margin-bottom: .5rem;
 }
 .loc__modes p { color: var(--muted); font-size: var(--fs-small); max-width: 44ch; }
 
 /* Map: a treated frame over the campus photograph, never a screenshot of
-   Google Maps. The iframe is created on click and replaces this entirely. */
-.map { position: relative; isolation: isolate; }
+   Google Maps. The iframe is created on click and replaces this entirely
+   (main.js calls replaceChildren on .map), so the panel can be a sibling of
+   the image rather than an overlay on it. */
+.map {
+  /* Photograph, then plate. It was an absolutely positioned overlay, which
+     worked while the panel could sit on a photograph crushed to
+     brightness(.42). Lifted for the light page, the same overlay covered
+     roughly two thirds of the frame and left a strip of blown-out sky. */
+  display: grid;
+  border: 1px solid var(--hairline);
+}
+/* The treatment was grayscale(1) brightness(.42), which made this the only
+   dark plate left in the light run and undid the bookend rule. It is lifted
+   rather than crushed now, so the frame belongs to the paper page. No
+   brightness push: this photograph is mostly sky, and lifting it further
+   blew the top third out to nearly the page colour. */
 .map__still {
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
-  filter: grayscale(1) brightness(.42);
+  object-position: 50% 62%;
+  filter: grayscale(1) contrast(1.04);
 }
+/* Legibility comes from a paper plate under the photograph rather than from
+   darkening the photograph beneath the text. The address is read against a
+   known colour, and the image keeps its whole frame. */
 .map__panel {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: flex-start;
-  gap: 1.25rem;
-  padding: clamp(1.25rem, 4vw, 2rem);
-  border: 1px solid var(--hairline-strong);
+  gap: 1rem;
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+  background: var(--bg);
+  border-top: 1px solid var(--hairline);
 }
 .map__addr { font-size: var(--fs-small); line-height: 1.7; }
 .map iframe { display: block; width: 100%; aspect-ratio: 3 / 2; border: 0; }
@@ -1172,7 +1318,7 @@ mark.confirm {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 48, "SOFT" 0, "WONK" 0;
   font-size: 1.25rem;
-  color: var(--paper);
+  color: var(--fg);
 }
 .rec__note { margin-top: 1.25rem; font-size: var(--fs-small); }
 
@@ -1181,12 +1327,12 @@ mark.confirm {
 .rec__link { margin-top: 1.5rem; }
 .rec__link a {
   font-size: var(--fs-small);
-  color: var(--paper);
+  color: var(--fg);
   border-bottom: 1px solid var(--hairline);
   padding-bottom: 2px;
   transition: color .3s var(--ease), border-color .3s var(--ease);
 }
-.rec__link a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+.rec__link a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 @media (min-width: 760px) {
   /* Two shared rows, so the three labels sit on one baseline even when the

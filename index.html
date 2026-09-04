@@ -42,7 +42,7 @@
 <a class="skip-link" href="#enquiry">Skip to the enquiry form</a>
 
 <!-- ========== 3.1 HEADER ========== -->
-<header class="site-header" id="siteHeader">
+<header class="site-header on-ink" id="siteHeader">
   <div class="wrap">
     <a class="site-header__logo" href="#main" aria-label="Sandip University, Madhubani home">
       <img src="assets/img/logo.webp" alt="Sandip University, Madhubani" width="120" height="34">
@@ -62,7 +62,7 @@
 <main id="main">
 
   <!-- ========== 3.2 HERO ========== -->
-  <section class="hero" aria-label="B.Tech admission 2026">
+  <section class="hero on-ink" aria-label="B.Tech admission 2026">
     <div class="hero__media">
       <picture>
         <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/campus-main-portrait.webp" width="900" height="1200">
@@ -95,6 +95,10 @@
       </div>
     </div>
   </section>
+
+  <!-- The hero resolves into the light page here rather than butting it.
+       Presentational only, and empty, so it is hidden from assistive tech. -->
+  <div class="seam" aria-hidden="true"></div>
 
   <!-- ========== 3.3 TRUST STRIP ========== -->
   <section class="trust" aria-label="Accreditation">
