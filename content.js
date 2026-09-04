@@ -216,6 +216,14 @@ const CONTENT = {
     totalCount: '40',
   },
 
+  /* BRIEF §5.8 — two gaps the gallery shows as frames rather than hiding.
+     The hostel interiors on file are 340px thumbnails and the one labelled
+     as a room is a shared washroom; Civil has no facility image at all. */
+  gallery: {
+    hostelInteriors: '[[CONFIRM: hostel room, mess and common room photos]]',
+    civilFacility: '[[CONFIRM: Civil lab or workshop photo]]',
+  },
+
   /* BRIEF §3.11 — main site uses GTM-PJSFVGTZ. No tag is added until the
      client says which container this page reports into. */
   analytics: {
