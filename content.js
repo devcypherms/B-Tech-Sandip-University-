@@ -141,30 +141,57 @@ const CONTENT = {
     patna: '[[CONFIRM: km from Patna]]',
   },
 
-  /* Real, named B.Tech placements from the university's own placement list.
-     Chosen for range rather than for the three biggest numbers: a defence
-     PSU, a national IT employer, and a core-branch infrastructure recruiter. */
+  /* Real, named B.Tech placements from the university's own placement list,
+     which /placement.php links to but never surfaces.
+
+     Branches are quoted exactly as the source prints them. The list gives a
+     branch for Jitendra but only "B.Tech" for Mayashankar and Abhay, so no
+     branch is asserted for those two. There is no Mechanical placement
+     anywhere in the list of 40. */
   placement: {
     assistance: '100% placement assistance',
     student1name: 'Mayashankar Kumar',
     student1branch: 'B.Tech',
     student1company: 'Bharat Dynamics Limited',
     student1package: '12 LPA',
-    student2name: 'Abhay Kumar Tibrewal',
-    student2branch: 'B.Tech',
-    student2company: 'Infosys',
-    student2package: '5 LPA',
-    student3name: 'Jitendra Kumar Mandal',
-    student3branch: 'Computer Science',
-    student3company: 'MGH Infra',
-    student3package: '7 LPA',
+    student2name: 'Jitendra Kumar Mandal',
+    student2branch: 'Computer Science',
+    student2company: 'MGH Infra',
+    student2package: '7 LPA',
+    student3name: 'Abhay Kumar Tibrewal',
+    student3branch: 'B.Tech',
+    student3company: 'Infosys',
+    student3package: '5 LPA',
   },
 
-  /* BRIEF §3.9 — the five existing video testimonials are four MBA students
-     and one B.Tech Agriculture student. None are engineering. Left empty. */
-  voices: {
-    name1: '[[CONFIRM: engineering student testimonial]]',
-    name2: '[[CONFIRM: engineering student testimonial]]',
+  /* The five firms that have actually hired B.Tech students from this campus.
+     No logo files exist for any of them, so this wall is set in type rather
+     than shipping the wrong images or scraping trademarks. */
+  recruitersEngineering: [
+    'TEXMACO Rail & Engineering',
+    'MGH Infra',
+    'Bharat Dynamics Limited',
+    'HCL',
+    'Codebucket Solutions',
+  ],
+
+  /* Kept strictly separate. These nine are university-wide and only Infosys
+     also appears in the engineering placement list, so they must never sit
+     inside the engineering placement section. */
+  recruitersUniversityWide: [
+    'Asian Paints', 'Cognizant', 'TCS', 'Godrej', 'GeBBS',
+    'Atos', 'Mahindra', 'Infosys', 'Amazon',
+  ],
+
+  /* BRIEF §3.9 — /testimonials-stud.php carries 12 videos and labels none of
+     them with a programme. Two names (Prashant Kumar, Ritesh Kumar) also
+     appear in the placement list, but these are common names in Bihar and the
+     match cannot be verified. So there is no usable engineering testimonial,
+     and §5.12 runs the named placement list instead of an empty block. */
+  placementList: {
+    url: 'https://sijoul.sandipuniversity.edu.in/studen-placement-list.php',
+    btechCount: '18',
+    totalCount: '40',
   },
 
   /* BRIEF §3.11 — main site uses GTM-PJSFVGTZ. No tag is added until the

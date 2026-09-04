@@ -518,3 +518,108 @@ mark.confirm {
   /* The intro holds its place while the list scrolls past it. */
   .why__intro { position: sticky; top: calc(var(--header-h) + 3rem); }
 }
+
+/* ---------- 12. PROGRAMMES ACCORDION (5.5) ----------
+   Rows on hairlines, not a card grid. The open/close mark is drawn in CSS
+   rather than pulled from an icon pack. */
+.prog__head { max-width: 62ch; margin-bottom: var(--space-block); }
+.prog__lede { margin-top: 1.25rem; color: var(--muted); }
+
+.acc { border-top: 1px solid var(--hairline); }
+.acc__item { border-bottom: 1px solid var(--hairline); }
+.acc__h { margin: 0; font-weight: 400; }
+
+.acc__trigger {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "name mark" "fee mark";
+  align-items: center;
+  gap: .35rem 1.5rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--paper);
+  transition: color .3s var(--ease);
+}
+.acc__trigger:hover { color: var(--brass); }
+.acc__trigger:hover .acc__mark::before,
+.acc__trigger:hover .acc__mark::after { background: var(--brass); }
+
+.acc__name {
+  grid-area: name;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+.acc__fee {
+  grid-area: fee;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.acc__per { opacity: .75; }
+
+/* Two hairlines that cross; the vertical one rotates away on open. */
+.acc__mark {
+  grid-area: mark;
+  position: relative;
+  width: 18px; height: 18px;
+  flex: none;
+}
+.acc__mark::before,
+.acc__mark::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 18px; height: 1px;
+  background: var(--paper);
+  transition: transform .4s var(--ease), background-color .3s var(--ease);
+}
+.acc__mark::after { transform: rotate(90deg); }
+.acc__trigger[aria-expanded="true"] .acc__mark::after { transform: rotate(0deg); }
+
+/* Height is animated from JS, which sets --h before removing [hidden]. */
+.acc__panel { overflow: hidden; }
+.acc__panel:not([hidden]) { animation: acc-open .45s var(--ease); }
+@keyframes acc-open {
+  from { height: 0; opacity: 0; }
+  to   { height: var(--h); opacity: 1; }
+}
+
+.acc__body {
+  display: grid;
+  gap: var(--space-block);
+  padding-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+  max-width: 62rem;
+}
+.acc__body h4 {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--brass);
+  margin-bottom: .5rem;
+}
+.acc__body p { color: var(--muted); max-width: 60ch; }
+.acc__body p + p { margin-top: .75rem; }
+.acc__lateral { padding-top: .75rem; border-top: 1px solid var(--hairline); }
+
+@media (min-width: 800px) {
+  .acc__trigger {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: "name fee mark";
+    gap: 2rem;
+  }
+  .acc__fee { text-align: right; }
+  .acc__body { grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.5rem); }
+  .acc__col--wide { grid-column: 1 / -1; padding-top: 1.5rem; border-top: 1px solid var(--hairline); }
+  .acc__col--wide p { max-width: 78ch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acc__panel:not([hidden]) { animation: none; }
+  .acc__mark::before, .acc__mark::after { transition: none; }
+}

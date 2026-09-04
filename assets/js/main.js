@@ -71,7 +71,31 @@
     onScroll();
   }
 
-  /* ---------- 3. THE ONE LOAD REVEAL ----------
+  /* ---------- 3. ACCORDIONS ----------
+     User-triggered, so motion is welcome here. The panel is measured while
+     briefly visible, its height handed to CSS as --h, and the keyframe runs
+     from 0 to that value. Height is never left inline, so a resize or a font
+     swap cannot strand the panel at a stale pixel value. */
+  Array.prototype.forEach.call(document.querySelectorAll('.acc__trigger'), function (btn) {
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!panel) return;
+
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+
+      if (open) {
+        btn.setAttribute('aria-expanded', 'false');
+        panel.hidden = true;
+        return;
+      }
+
+      btn.setAttribute('aria-expanded', 'true');
+      panel.hidden = false;
+      panel.style.setProperty('--h', panel.scrollHeight + 'px');
+    });
+  });
+
+  /* ---------- 4. THE ONE LOAD REVEAL ----------
      Held until the fonts settle so the masked lines do not animate in the
      fallback face and then reflow. The timeout is a floor, so a slow font
      never leaves the hero invisible. */
