@@ -604,7 +604,7 @@ table { border-collapse: collapse; width: 100%; }
 
 @media (min-width: 768px) {
   .hero__rail ul { grid-template-columns: repeat(4, 1fr); }
-  .hero__rail li { border-top: 0; padding-block: 1.5rem 1.75rem; }
+  .hero__rail li { border-top: 0; padding-block: 1.375rem 1.375rem; }
   .hero__rail li + li { border-left: 1px solid var(--hairline); padding-left: clamp(1rem, 2.5vw, 2rem); }
   .hero__rail li:nth-child(odd) { border-left: 1px solid var(--hairline); padding-left: clamp(1rem, 2.5vw, 2rem); }
   .hero__rail li:first-child { border-left: 0; padding-left: 0; }
@@ -708,16 +708,13 @@ table { border-collapse: collapse; width: 100%; }
 /* ---------- 7. TRUST STRIP (3.3) ---------- */
 .trust {
   border-bottom: 1px solid var(--hairline);
-  /* The seam has already done the separating above this strip, so it gets
-     a little air rather than a second boundary. */
-  padding-top: clamp(.5rem, 2vh, 1.5rem);
 }
 .trust ul {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: clamp(1.5rem, 5vw, 4rem);
-  padding-block: 1.75rem;
+  padding-block: 1rem;
 }
 /* These were held back with opacity: .55, which was fine on ink and is not
    survivable on paper: even --ink-text at 55% composites to #777A7C, or
