@@ -314,13 +314,17 @@ table { border-collapse: collapse; width: 100%; }
 }
 .site-header__mark { height: 30px; width: auto; }
 
-/* Set apart by a rule, the way the original combined file did it, and a
-   step smaller: it is the secondary mark. */
+/* Set apart by a rule, the way the original combined file did it, but in
+   type rather than artwork — it is the secondary mark and should not
+   outweigh the one beside it. */
 .site-header__naac {
-  height: 26px;
-  width: auto;
   padding-left: .75rem;
   border-left: 1px solid var(--hairline-strong);
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--muted);
+  white-space: nowrap;
 }
 @media (max-width: 359px) {
   /* Below this the logo, the badge and the CTA stop fitting on one line.
