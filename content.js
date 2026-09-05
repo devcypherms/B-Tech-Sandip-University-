@@ -19,13 +19,29 @@ const CONTENT = {
   FORM_ENDPOINT: '[[CONFIRM: form endpoint URL]]',
 
   org: {
-    /* BRIEF §3.10 — the university's own site contradicts itself sitewide:
-       every page DISPLAYS 1800-313-2714 but every tel: link behind it points
-       to 1800-212-2714. This number appears in the header, the mobile sticky
-       bar and the final CTA; if the wrong one ships, every mobile tap fails
-       silently. Held until the client answers. */
-    phone: '[[CONFIRM: phone — site shows 1800-313-2714, tel: links use 1800-212-2714]]',
-    phoneHref: '[[CONFIRM: tel href]]',
+    /* Resolved by reading the university's own markup across three pages —
+       the homepage, /admission-faq.php and /fees-structure.php.
+
+       The site does contradict itself: every page DISPLAYS 1800-313-2714
+       while every tel: link behind it dials 1800-212-2714. But the
+       contradiction is one-sided, and that settles it:
+
+         1800-212-2714  appears in every tel: href on every page checked,
+                        and on /admission-faq.php it also appears as the
+                        visible text of the footer "Call Now" button, where
+                        it matches its own href
+         1800-313-2714  appears only as display text, and never once inside
+                        a link anywhere on the site
+
+       So 212 is the number their site actually dials today, and the only
+       number that ever agrees with itself. 313 is a stale display string
+       that was not updated when the links were.
+
+       This page shows and dials the same number, which is the bug fixed
+       rather than reproduced. Still worth one call to verify before launch:
+       it is an inference from their markup, not a statement from them. */
+    phone: '1800-212-2714',
+    phoneHref: 'tel:18002122714',
 
     email: 'info.sijoul@sandipuniversity.edu.in',
     whatsapp: '918956530828',
