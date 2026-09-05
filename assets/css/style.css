@@ -432,11 +432,19 @@ table { border-collapse: collapse; width: 100%; }
      Giving only the headline the full width fixes the wrap, and pairing the
      subline with the form recovers the height. display: contents lifts the
      copy wrapper out of the way so its children can be placed directly. */
+  /* Height comes from the content, not from the viewport. min-height:100svh
+     was forcing the left column to stretch to the full screen while its text
+     block is only ~277px, so the surplus turned into a 373px tail of nothing
+     under the buttons — and it grew every time the text above it got
+     tighter. The photograph still runs full bleed behind whatever height the
+     content asks for, so nothing is lost by not padding it out. */
+  .hero { min-height: 0; }
+  .hero__inner { flex: 0 0 auto; }
+
   /* Two columns, one row. Everything on the left is a single grid item, so
      no track can absorb a share of the form's height — that bug opened an
      87px hole once already. One row also lets the form start level with the
-     headline instead of below it, which is what brings the whole section
-     inside a single screen. */
+     headline instead of below it. */
   .hero__inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(20rem, 30vw, 24rem);
@@ -474,8 +482,14 @@ table { border-collapse: collapse; width: 100%; }
     justify-content: flex-start;
     gap: .75rem;
   }
-  .hero__sub { margin-top: .25rem; }
-  .hero__actions { margin-top: .5rem; }
+  /* Scoped to .hero__side for specificity, not written as bare class
+     selectors: the base .hero__sub (margin-top 1.5rem) and .hero__actions
+     (margin-top var(--space-block), 64px at this width) are both declared
+     after this block, and a media query adds no specificity of its own.
+     Written bare, these two lines lost silently and left 36px above the
+     subline and 76px above the buttons. Fifth occurrence in this section. */
+  .hero__side .hero__sub { margin-top: .25rem; }
+  .hero__side .hero__actions { margin-top: 1.25rem; }
 
   /* The stats fill the left column rather than running full width under the
      hero. Below the buttons there was 453px of nothing but photograph, and
