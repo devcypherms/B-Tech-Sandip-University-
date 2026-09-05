@@ -65,9 +65,6 @@
     </nav>
 
     <div class="site-header__actions">
-      <a class="site-header__phone" href="#enquiry" data-c-href="org.phoneHref" data-track="call">
-        <span data-c="org.phone">1800-212-2714</span>
-      </a>
       <a class="btn btn-primary" href="#enquiry" data-track="cta">
         <span class="lbl-long">Apply for B.Tech</span>
         <span class="lbl-short">Apply</span>
@@ -1432,10 +1429,11 @@
       <div class="foot__block">
         <h2 class="foot__h">Contact</h2>
         <p class="foot__line">
-          <!-- Same rule as the header and the sticky bar: the number is not
-               written here until the client resolves which of the two the
-               site actually answers on. -->
-          <span data-c="org.phone">1800-212-2714</span>
+          <!-- Now the only place the number appears outside the mobile
+               sticky bar, so it is a link rather than plain text: on a
+               tablet or a desktop with a calling app this is the one
+               chance to dial without hunting. -->
+          <a href="tel:18002122714" data-c-href="org.phoneHref" data-track="call"><span data-c="org.phone">1800-212-2714</span></a>
         </p>
         <p class="foot__line">
           <a href="mailto:info.sijoul@sandipuniversity.edu.in"><span data-c="org.email">info.sijoul@sandipuniversity.edu.in</span></a>

@@ -344,13 +344,6 @@ table { border-collapse: collapse; width: 100%; }
      nav item rather than as a way to contact the university. */
   margin-left: clamp(1.5rem, 3.5vw, 3.5rem);
 }
-.site-header__phone {
-  font-size: var(--fs-small);
-  font-variant-numeric: tabular-nums;
-  color: var(--fg);
-  transition: color .3s var(--ease);
-}
-.site-header__phone:hover { color: var(--accent); }
 .site-header .btn { min-height: 44px; padding-inline: 1.25rem; }
 
 /* ---------- 5. HERO (3.2) ---------- */
@@ -836,15 +829,15 @@ mark.confirm {
 }
 
 /* ---------- 9. HERO / HEADER — SMALL SCREENS ----------
-   Three fixes found by screenshotting at 390px:
-   1. Logo + phone + button did not fit; both the phone and the button label
-      wrapped onto two lines. The phone is dropped here because the sticky
-      bottom bar (3.16) carries a permanent Call button on this breakpoint.
+   Fixes found by screenshotting at 390px:
+   1. The button label wrapped onto two lines, so it shortens here. The
+      phone number is no longer in the header at any width — the footer
+      carries it and the sticky bottom bar (3.16) has a permanent Call
+      button on this breakpoint.
    2. The photograph's crop showed mostly empty sky, leaving ~600px of flat
       grey above the headline. Biasing object-position brings the building up.
    3. The 2x2 stat rail was eating a third of the viewport. */
 @media (max-width: 767px) {
-  .site-header__phone { display: none; }
   .site-header .btn { min-height: 40px; padding-inline: 1rem; white-space: nowrap; }
   .site-header__logo img { height: 28px; }
 
