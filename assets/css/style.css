@@ -1678,16 +1678,23 @@ mark.confirm {
    subordinate and the dimming was buying nothing. */
 .f__opt { color: var(--muted); font-size: .8125rem; }
 
-/* 52px is the touch target, not the visual weight. Most of this form will be
-   filled one-handed on a mid-range Android, where a 40px control is a miss
-   as often as a hit. font-size is pinned at 16px for the same audience: any
-   smaller and mobile Safari zooms the page on focus, which throws the layout
-   and the visitor's place in the form. */
+/* Height is a touch-target requirement, not a look. On a mid-range Android
+   a 40px control is a miss as often as a hit, so a coarse pointer gets 52px;
+   a mouse needs no such allowance and 52px there just reads bloated.
+
+   The test is the POINTER, not the viewport width. any-pointer: coarse
+   catches a touchscreen laptop, which a min-width query would wrongly give
+   the small target to, and leaves a 1280px mouse-driven window with the
+   tighter control it should have.
+
+   font-size stays pinned at 16px on both: any smaller and mobile Safari
+   zooms the page on focus, which throws the layout and the visitor's place
+   in the form. */
 .f__input,
 .f__select {
   width: 100%;
-  min-height: 52px;
-  padding: .8125rem 1rem;
+  min-height: 44px;
+  padding: .625rem 1rem;
   font-family: inherit;
   font-size: 16px;
   line-height: 1.4;
@@ -1697,6 +1704,14 @@ mark.confirm {
   border-radius: var(--radius);
   transition: border-color .25s var(--ease);
 }
+@media (any-pointer: coarse) {
+  .f__input,
+  .f__select {
+    min-height: 52px;
+    padding: .8125rem 1rem;
+  }
+}
+
 .f__input::placeholder { color: var(--muted); }
 .f__input:hover,
 .f__select:hover { border-color: var(--accent); }
