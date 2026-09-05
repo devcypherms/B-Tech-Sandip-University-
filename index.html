@@ -42,7 +42,7 @@
 <a class="skip-link" href="#enquiry">Skip to the enquiry form</a>
 
 <!-- ========== 3.1 HEADER ========== -->
-<header class="site-header on-ink" id="siteHeader">
+<header class="site-header" id="siteHeader">
   <div class="wrap">
     <a class="site-header__logo" href="#main" aria-label="Sandip University, Madhubani home">
       <img src="assets/img/logo.webp" alt="Sandip University, Madhubani" width="120" height="34">
@@ -62,10 +62,16 @@
 <main id="main">
 
   <!-- ========== 3.2 HERO ========== -->
-  <section class="hero on-ink" aria-label="B.Tech admission 2026">
+  <section class="hero" aria-label="B.Tech admission 2026">
     <div class="hero__media">
       <picture>
-        <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/campus-main-portrait.webp" width="900" height="1200">
+        <!-- The art direction inverted when the hero stopped being a
+             full-bleed background. Desktop now shows the image as a tall
+             46% column (about 662x900, or 0.74) so it wants the 3:4
+             portrait crop; the phone shows it as a 3:2 frame under the
+             headline and wants the landscape original. This used to be
+             keyed on max-aspect-ratio for exactly the opposite reason. -->
+        <source media="(min-width: 900px)" srcset="assets/img/campus-main-portrait.webp" width="900" height="1200">
         <img src="assets/img/campus-main.webp"
              alt="The main academic building at Sandip University’s Sijoul campus, seen across the front lawn"
              width="1400" height="816" fetchpriority="high" decoding="async">
@@ -97,7 +103,7 @@
   </section>
 
   <!-- ========== 3.3 TRUST STRIP ========== -->
-  <section class="trust on-ink" aria-label="Accreditation">
+  <section class="trust" aria-label="Accreditation">
     <div class="wrap">
       <ul>
         <li>UGC recognised</li>
@@ -106,10 +112,8 @@
     </div>
   </section>
 
-  <div class="seam" aria-hidden="true"></div>
-
   <!-- ========== 3.4 WHY SANDIP ========== -->
-  <section class="on-paper section" id="why" aria-labelledby="why-title">
+  <section class="section" id="why" aria-labelledby="why-title">
     <div class="wrap why__grid">
 
       <div class="why__intro">
@@ -162,7 +166,7 @@
   </section>
 
   <!-- ========== 5.5 PROGRAMMES ========== -->
-  <section class="on-paper section" id="programmes" aria-labelledby="prog-title">
+  <section class="section" id="programmes" aria-labelledby="prog-title">
     <div class="wrap">
       <div class="prog__head">
         <h2 class="section__title" id="prog-title">Programmes</h2>
@@ -318,10 +322,8 @@
       </div>
     </div>
   </section>
-  <div class="seam seam--to-ink" aria-hidden="true"></div>
-
   <!-- ========== 5.6 PLACEMENTS ========== -->
-  <section class="on-ink section" id="placements" aria-labelledby="pl-title">
+  <section class="section" id="placements" aria-labelledby="pl-title">
     <div class="wrap">
 
       <div class="pl__head">
@@ -388,7 +390,7 @@
     </div>
   </section>
   <!-- ========== 5.7 FEES, SCHOLARSHIP AND STUDENT CREDIT CARD ========== -->
-  <section class="on-ink section fees" id="fees" aria-labelledby="fees-title">
+  <section class="section fees" id="fees" aria-labelledby="fees-title">
     <div class="wrap">
 
       <div class="fees__head">
@@ -567,10 +569,8 @@
 
     </div>
   </section>
-  <div class="seam" aria-hidden="true"></div>
-
   <!-- ========== 5.8 CAMPUS AND LABS ========== -->
-  <section class="on-paper section gal" id="campus" aria-labelledby="gal-title">
+  <section class="section gal" id="campus" aria-labelledby="gal-title">
     <div class="wrap">
       <div class="gal__head">
       <h2 class="section__title" id="gal-title">The campus</h2>
@@ -667,10 +667,8 @@
       </ul>
     </div>
   </section>
-  <div class="seam seam--to-ink" aria-hidden="true"></div>
-
   <!-- ========== 5.9 ADMISSION PROCESS ========== -->
-  <section class="on-ink section" id="process" aria-labelledby="proc-title">
+  <section class="section" id="process" aria-labelledby="proc-title">
     <div class="wrap">
       <div class="proc__head">
         <h2 class="section__title" id="proc-title">How admission works</h2>
@@ -731,7 +729,7 @@
     </div>
   </section>
   <!-- ========== 5.10 ELIGIBILITY AND DATES ========== -->
-  <section class="on-ink section" id="eligibility" aria-labelledby="elig-title">
+  <section class="section" id="eligibility" aria-labelledby="elig-title">
     <div class="wrap elig__grid">
 
       <div class="elig__col">
@@ -827,7 +825,7 @@
     </div>
   </section>
   <!-- ========== 5.11 LOCATION ========== -->
-  <section class="on-ink section" id="location" aria-labelledby="loc-title">
+  <section class="section" id="location" aria-labelledby="loc-title">
     <div class="wrap loc__grid">
 
       <div class="loc__col">
@@ -925,10 +923,8 @@
 
     </div>
   </section>
-  <div class="seam" aria-hidden="true"></div>
-
   <!-- ========== 5.12 THE PLACEMENT RECORD ========== -->
-  <section class="on-paper section rec" id="record" aria-labelledby="rec-title">
+  <section class="section rec" id="record" aria-labelledby="rec-title">
     <div class="wrap">
 
       <div class="rec__head">
@@ -990,10 +986,8 @@
 
     </div>
   </section>
-  <div class="seam seam--to-ink" aria-hidden="true"></div>
-
   <!-- ========== 5.13 FAQ ========== -->
-  <section class="section faq on-ink" id="faq" aria-labelledby="faq-title">
+  <section class="section faq" id="faq" aria-labelledby="faq-title">
     <div class="wrap">
       <div class="faq__head">
         <h2 class="section__title" id="faq-title">Aapke sawaal</h2>
@@ -1178,7 +1172,7 @@
   </section>
 
   <!-- ========== 5.14 FINAL CTA AND ENQUIRY FORM ========== -->
-  <section class="section cta on-ink" id="apply" aria-labelledby="cta-title">
+  <section class="section cta" id="apply" aria-labelledby="cta-title">
     <div class="wrap cta__grid">
 
       <div class="cta__pitch">
@@ -1324,7 +1318,7 @@
   </section>
 </main>
 <!-- ========== 5.15 FOOTER ========== -->
-<footer class="foot on-ink">
+<footer class="foot">
   <div class="wrap">
     <div class="foot__grid">
 

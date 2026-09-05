@@ -1,23 +1,14 @@
 /* =============================================================================
    Sandip University — B.Tech Admission 2026
-   Alternating grounds, ink-dominant. Fraunces / Instrument Sans.
+   One ground: paper. Fraunces / Instrument Sans.
 
    Discipline notes, so later edits do not undo the design:
-   - TWO grounds, not more, alternating down the page. Ink is the base and
-     stays dominant, 8 blocks to 5; the paper blocks are breathing room in
-     an ink page, not a second theme competing with it. The page opens on
-     two ink blocks and closes on two, so it has weight at both ends.
-
-       2 hero      ink      8 gallery      paper
-       3 trust     ink      9 process      ink
-       4 why       paper   10 eligibility  paper
-       5 programmes ink    11 location     ink
-       6 placements paper  12 record       paper
-       7 fees      ink     13 faq          ink
-                           14 cta          ink
-
-   - ONE seam device, used in both directions. Ten ground changes with ten
-     ideas would read as noise; see 6b.
+   - ONE ground for the whole page, hero included. Sections are told apart
+     by whitespace and a single hairline, never by an alternating tint. The
+     seam device is gone with the ground changes it existed to resolve.
+   - The role tokens survive the change and are still the only thing rules
+     reference. If a dark surface is ever wanted again it is one scope
+     block, not a repaint — which is exactly why they are kept.
    - Colour marks hierarchy, it does not decorate. Four roles, and a section
      gets at most one of the middle two:
        --accent    interaction  brass on ink, brass-deep on paper
@@ -139,43 +130,25 @@
   --header-h: 76px;
 }
 
-/* INK — the base scope, and the one the page falls back to. Eight of the
-   thirteen blocks, plus the header in both its states.
+/* PAPER — the only ground.
 
-   --mark is brass rather than indigo here: --indigo measures 1.71:1 on ink
-   and cannot carry wayfinding on this ground. */
+   --muted is #525C67, not the #8B98A6 this file used while there was a dark
+   scope: that measures 6.23:1 on ink but 2.63:1 on paper, which fails
+   outright. The replacement was chosen to hold the RATIO rather than the
+   hex, because the ratio is what carries hierarchy — 6.08:1 here.
+
+   --accent is brass-deep, not brass. #C79A4B measures 2.30:1 on paper and
+   would be an invisible focus ring; #8C6520 is 4.69:1.
+
+   --panel is transparent and elevation is retired with the dark scope. A
+   raised plane has to be lighter than its ground and paper has nowhere
+   lighter to go, so the one panel that had it now separates by hairline.
+
+   .on-ink and .on-paper are kept as aliases so nothing breaks if a class
+   survives somewhere; both resolve to this single ground. */
 :root,
+.on-paper,
 .on-ink {
-  color-scheme: dark;
-  --bg: var(--ink-800);
-  --fg: var(--paper);
-  --muted: #8B98A6;
-  --accent: var(--brass);
-  --mark: var(--brass);
-  --emphasis: var(--madder-ink);
-  --panel: var(--ink-700);
-  --hairline: rgba(242, 239, 233, .10);
-  --hairline-strong: rgba(242, 239, 233, .22);
-  --btn-fill: var(--paper);
-  --btn-fill-fg: var(--ink-900);
-  --btn-hover-fg: var(--ink-900);
-}
-.on-ink { background: var(--bg); color: var(--fg); }
-
-/* PAPER — the five light beats.
-
-   --muted is NOT the ink grey. #8B98A6 measures 6.23:1 on --ink-800 but
-   only 2.63:1 on --paper, which fails outright. The replacement holds the
-   RATIO rather than the hex, because the ratio is what carries hierarchy.
-   #5A6470 passes at 5.37:1, but next to the ink scope's 6.23:1 the
-   secondary prose read visibly weaker — light polarity exaggerates a thin
-   grey. #525C67 is 6.08:1, within 0.15 of the ink scope, in the same
-   cool-grey family so nothing shifts hue between grounds.
-
-   --panel is transparent: elevation is an ink device. On paper a raised
-   surface would have to be lighter than an already-light ground, which is
-   why that scope uses hairlines to separate instead. */
-.on-paper {
   color-scheme: light;
   --bg: var(--paper);
   --fg: var(--ink-text);
@@ -189,9 +162,8 @@
   --btn-fill: var(--ink-900);
   --btn-fill-fg: var(--paper);
   --btn-hover-fg: var(--paper);
-  background: var(--bg);
-  color: var(--fg);
 }
+.on-paper, .on-ink { background: var(--bg); color: var(--fg); }
 
 /* ---------- 2. RESET ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -310,7 +282,7 @@ table { border-collapse: collapse; width: 100%; }
    on the way down would be the noisiest element on the page. Ink is also
    the base scope, so the logo needs no polarity trick to survive. */
 .site-header.is-stuck {
-  background: var(--ink-800);
+  background: var(--bg);
   border-bottom-color: var(--hairline);
 }
 .site-header .wrap {
@@ -319,7 +291,15 @@ table { border-collapse: collapse; width: 100%; }
   gap: 1.5rem;
   min-height: var(--header-h);
 }
-.site-header__logo img { height: 34px; width: auto; }
+.site-header__logo img {
+  height: 34px;
+  width: auto;
+  /* The supplied logo is a white wordmark and no dark version exists. It is
+     measured greyscale — maximum saturation 3 of 255 across both the .webp
+     and the .png — so inverting reproduces the mark exactly rather than
+     approximating it. Without this it draws paper on paper. */
+  filter: invert(1);
+}
 
 
 .site-header__actions {
@@ -344,33 +324,65 @@ table { border-collapse: collapse; width: 100%; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  /* A step darker than the ink sections (--ink-800), so the photograph has
-     the deepest ground on the page under it. */
-  background: var(--ink-900);
+  background: var(--bg);
   isolation: isolate;
   overflow: hidden;
 }
+/* The photograph no longer sits behind the words.
+
+   On one light ground it cannot: paper text over a photograph needs a dark
+   scrim to be legible, and a dark scrim is the thing this page no longer
+   has anywhere. The alternative — ink text over a paper scrim — washes the
+   photograph out to almost nothing and still leaves the contrast hostage to
+   whatever is behind any given line.
+
+   So the two are set side by side instead. The headline gets clean paper
+   and a guaranteed 15.97:1, and the photograph keeps its full tonal range
+   rather than being crushed or bleached to serve as a background. */
 .hero__media {
   position: absolute;
-  inset: 0;
+  inset: 0 0 0 auto;
+  width: 46%;
   z-index: -2;
 }
 .hero__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 50%;
 }
+/* The photograph meets the text column through a short fade rather than a
+   cut, so the join reads as one composition and not as two panels. */
 .hero__media::after {
   content: "";
   position: absolute;
   inset: 0;
-  /* Lands on solid --ink-900 at the last stop rather than at .92, so the
-     seam below the hero begins from a colour we control instead of from a
-     near-black that still has photograph in it. */
-  background: linear-gradient(180deg,
-              rgba(7, 12, 18, .38) 0%,
-              rgba(7, 12, 18, .86) 72%,
-              #070C12 100%);
+  background: linear-gradient(90deg,
+              #F4F2EC 0%,
+              rgba(244, 242, 236, .62) 14%,
+              rgba(244, 242, 236, 0) 38%);
+}
+
+/* Below the split, the photograph moves under the words instead of beside
+   them: a 46% column at 700px is a strip, and the headline needs the width
+   more than the image does. order is used rather than moving the markup,
+   so the image stays first in the DOM and keeps its fetchpriority. */
+@media (max-width: 899px) {
+  .hero { min-height: 0; }
+  .hero__media {
+    position: static;
+    width: 100%;
+    order: 2;
+    margin-top: var(--space-block);
+  }
+  .hero__media img {
+    height: auto;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--radius);
+  }
+  .hero__media::after { content: none; }
+  .hero__inner { order: 1; flex: 0 0 auto; }
+  .hero__rail { order: 3; margin-top: var(--space-block); }
 }
 
 .hero__inner {
@@ -380,6 +392,12 @@ table { border-collapse: collapse; width: 100%; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+}
+
+@media (min-width: 900px) {
+  /* Clear of the photograph, with the fade doing the last of the work. */
+  .hero__inner { padding-right: 48%; }
+  .hero__rail { padding-right: 0; }
 }
 
 .hero__title {
@@ -420,6 +438,11 @@ table { border-collapse: collapse; width: 100%; }
 /* Stat rail pinned along the bottom of the viewport. */
 .hero__rail {
   border-top: 1px solid var(--hairline);
+  /* The photograph runs the full height of the hero behind this, so the
+     rail has to carry its own ground or the labels sit on the building.
+     The hairline above then reads as the edge the image stops at. */
+  position: relative;
+  background: var(--bg);
 }
 .hero__rail ul {
   display: grid;
@@ -527,7 +550,8 @@ table { border-collapse: collapse; width: 100%; }
    third: measured at 63px the visible ramp was about 35px and read as a
    blurred edge rather than a transition. Even spacing in Oklab spreads the
    change across the full band, and the band itself is taller. */
-.seam {
+.seam { display: none; }
+.seam--retired {
   /* The hero seam read cleanly at ~150px. At 81px this one still landed as
      a soft edge rather than a fade, so it is given closer to that height. */
   height: clamp(88px, 11vh, 148px);
@@ -609,7 +633,7 @@ mark.confirm {
   .site-header .btn { min-height: 40px; padding-inline: 1rem; white-space: nowrap; }
   .site-header__logo img { height: 28px; }
 
-  .hero__media img { object-position: 50% 68%; }
+  .hero__media img { object-position: 50% 58%; }
 
   .hero__inner { padding-top: calc(var(--header-h) + 1.5rem); }
   .hero__title { max-width: 14ch; }
@@ -961,18 +985,16 @@ mark.confirm {
    nowhere lighter to go. --panel is transparent in the paper scope, so if
    this block is ever moved to a light ground it degrades to a hairline box
    rather than to an invisible one. */
+/* Still the block the brief makes most important, but on one light ground
+   it cannot be raised: a raised plane has to be lighter than what is behind
+   it. So it is bounded instead — the only boxed block on the page, with the
+   hairline drawn at full strength. */
 .scc__panel {
   background: var(--panel);
-  border: 1px solid var(--hairline);
-  /* A cast shadow does almost nothing against a dark ground. What actually
-     reads as raised on ink is a lit top edge, so the elevation is carried
-     by the fill plus this catch, with the shadow only seating the panel. */
-  border-top-color: rgba(242, 239, 233, .16);
+  border: 1px solid var(--hairline-strong);
   border-radius: var(--radius);
-  box-shadow: var(--elevation);
   padding: clamp(1.5rem, 4vw, 2.75rem);
 }
-.on-paper .scc__panel { box-shadow: none; }
 
 .scc__grid { display: grid; gap: var(--space-block); }
 .scc__body p { color: var(--muted); max-width: 62ch; }
@@ -1491,7 +1513,12 @@ mark.confirm {
    The closing bookend. --ink-900 rather than the ink sections' --ink-800, so
    it pairs with the hero: the page opens and closes on the deepest ground it
    has, and everything in between sits a step lighter. */
-.cta { --bg: var(--ink-900); }
+/* The closing block. It used to be the page's second ink surface; on one
+   ground its weight has to come from the rule above it and from the space
+   it is given, not from a colour change. */
+.cta {
+  border-top: 1px solid var(--hairline-strong);
+}
 
 .cta__grid { display: grid; gap: var(--space-block); }
 .cta__lede { margin-top: 1.25rem; color: var(--muted); max-width: 46ch; }
@@ -1525,7 +1552,10 @@ mark.confirm {
 .f__row { display: grid; gap: 1.125rem; align-items: start; }
 
 .f__label { font-size: var(--fs-small); color: var(--muted); }
-.f__opt { color: var(--muted); opacity: .8; font-size: .8125rem; }
+/* Was opacity: .8, which composited --muted down to 3.89:1. Third time a
+   resting opacity has failed on this page; the size step already makes it
+   subordinate and the dimming was buying nothing. */
+.f__opt { color: var(--muted); font-size: .8125rem; }
 
 /* 52px is the touch target, not the visual weight. Most of this form will be
    filled one-handed on a mid-range Android, where a 40px control is a miss
@@ -1633,7 +1663,6 @@ mark.confirm {
    has already made every argument it has, and a footer full of links is an
    invitation to leave before filling the form directly above it. */
 .foot {
-  --bg: var(--ink-900);
   padding-block: clamp(3rem, 7vw, 5rem) clamp(2rem, 4vw, 3rem);
   border-top: 1px solid var(--hairline);
 }
@@ -1686,7 +1715,7 @@ mark.confirm {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     height: 56px;
-    background: var(--ink-700);
+    background: var(--bg);
     border-top: 1px solid var(--hairline-strong);
     /* Home-indicator gestures on modern phones sit in this strip. */
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -1697,11 +1726,13 @@ mark.confirm {
     justify-content: center;
     font-size: var(--fs-small);
     font-weight: 500;
-    color: var(--paper);
+    color: var(--fg);
     text-align: center;
   }
   .bar__item + .bar__item { border-left: 1px solid var(--hairline); }
-  .bar__item--go { background: var(--paper); color: var(--ink-900); }
+  /* A filled button, not a dark surface: it is the one action on the bar
+     that should look like a button rather than a link. */
+  .bar__item--go { background: var(--btn-fill); color: var(--btn-fill-fg); }
 
   /* An unresolved Call button is not allowed to look finished. main.js
      clears this the moment org.phoneHref holds a real tel: value; until
