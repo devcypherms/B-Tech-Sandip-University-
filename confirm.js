@@ -4,7 +4,7 @@
 
      node confirm.js
 
-   Reports four things and exits non-zero if any of them would ship:
+   Reports five things and exits non-zero if any of them would ship:
 
      1. [[CONFIRM]] values still sitting in content.js
      2. [[CONFIRM]] text still sitting in the static markup
@@ -17,8 +17,10 @@
    sees, and what a search engine indexes first. If content.js says one fee
    and the markup says another, one of them is wrong on a live page.
 
-   Wire this into the deploy step. A dev marker reaching production is the
-   failure this whole content model exists to prevent.
+   This IS the deploy step: vercel.json runs it as buildCommand, so a
+   non-zero exit fails the deployment. A dev marker reaching production is
+   the failure this whole content model exists to prevent, and until now
+   the gate only failed if somebody chose to run it.
    ========================================================================== */
 
 const fs = require('fs');
@@ -99,11 +101,44 @@ for (const file of htmlFiles) {
   }
 }
 
+/* ---------- deploy blockers ----------
+   Not every marker costs the same. These four make the page actively wrong
+   rather than merely incomplete if it ships, so they are named above the
+   full list instead of being left to scroll past with the other 28.
+
+   site.canonical is the worst of them and the least obvious. An unresolved
+   canonical is not a blank: whatever sits there is published to Google as
+   this page's own address. The value this repo shipped with pointed at the
+   Nashik domain, so it would have told crawlers to rank a different page,
+   and quietly wasted every other SEO decision on the build.
+
+   vercel.json runs this file as its buildCommand, so a non-zero exit now
+   fails the deployment itself. Before that, the gate only failed if
+   somebody chose to run it. */
+const DEPLOY_BLOCKERS = [
+  ['site.canonical', 'canonical, og:url, sitemap and robots all derive from it — a wrong value hands the ranking to another page'],
+  ['dates.lastDate', 'an admission page with no deadline has no urgency'],
+  ['org.phone', 'the site displays one number and dials another; the mobile Call button is wired to this'],
+  ['FORM_ENDPOINT', 'the form refuses to submit until this is real'],
+];
+
 /* ---------- report ---------- */
 const line = '='.repeat(72);
 console.log('\n' + line);
 console.log(bold('  Pre-deploy check'));
 console.log(line);
+
+const unresolvedBlockers = DEPLOY_BLOCKERS.filter(([k]) => {
+  const v = lookup(k);
+  return typeof v === 'string' && /\[\[CONFIRM:/.test(v);
+});
+if (unresolvedBlockers.length) {
+  console.log('\n' + red(bold('  BLOCKS DEPLOY  (' + unresolvedBlockers.length + ' of ' + DEPLOY_BLOCKERS.length + ')')));
+  const bw = Math.max(...unresolvedBlockers.map(b => b[0].length));
+  unresolvedBlockers.forEach(([k, why]) => console.log('     ' + red(k.padEnd(bw + 2)) + dim(why)));
+} else {
+  console.log('\n' + green(bold('  BLOCKS DEPLOY  (none)')));
+}
 
 console.log('\n' + bold(`  1. Unconfirmed values in content.js  (${inData.length})`));
 if (!inData.length) {
