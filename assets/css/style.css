@@ -121,7 +121,7 @@
   --fs-body: clamp(1rem, 1.1vw, 1.125rem);
   --fs-small: .875rem;
 
-  --space-section: clamp(5rem, 12vh, 9rem);
+  --space-section: clamp(3rem, 7vh, 5.5rem);
   --space-block: clamp(2rem, 5vw, 4rem);
   --gutter: clamp(1.25rem, 5vw, 5rem);
 
@@ -1237,7 +1237,7 @@ mark.confirm {
 .gal__frame {
   flex: 0 0 auto;
   scroll-snap-align: start;
-  width: clamp(260px, 62vw, 480px);
+  width: clamp(300px, 74vw, 660px);
 }
 /* The third place that earns a card. Same radius as the other two; no
    elevation, because the gallery is on paper. */
@@ -1559,8 +1559,10 @@ mark.confirm {
     grid-column: 1 / -1;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(1.5rem, 4vw, 3rem);
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-    padding-top: clamp(2rem, 4vw, 3rem);
+    /* The columns above already end unevenly; this band does not need to
+       add its own margin and padding on top of that difference. */
+    margin-top: clamp(1.25rem, 2.5vw, 2rem);
+    padding-top: clamp(1.25rem, 2.5vw, 2rem);
     border-top: 1px solid var(--hairline);
   }
   .loc__modes p { max-width: 38ch; }
