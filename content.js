@@ -165,17 +165,25 @@ const CONTENT = {
   /* BRIEF §3.7 — the university's BSCC PDF is a scan and cannot be read.
      These are money claims on an admission page, so nothing is published
      until it is checked against the current state notification. */
+  /* Read out of the state's own guideline, New_Guideline_Final_Update1.pdf
+     on 7nishchay-yuvaupmission.bihar.gov.in, which is the revised scheme
+     the Education Department told the portal to publish in Letter 355 of
+     17.10.2025 under resolution 3239 of 04.10.2025. The university's copy
+     is a scan of the OLD scheme, which is why these six sat unresolved.
+
+     That older document is also where the widely repeated "4% simple
+     interest, 1% for women and differently-abled applicants" comes from.
+     The revised scheme replaced it outright: the loan is now interest-free
+     for everybody. So the page no longer has a concessional rate to quote,
+     and the row that used to hold one now carries the repayment terms,
+     which is the thing a family actually asks next. */
   scc: {
-    amount: '[[CONFIRM: BSCC maximum loan amount]]',
-    interest: '[[CONFIRM: BSCC interest rate]]',
-    concession: '[[CONFIRM: BSCC concessional rate]]',
-    collateral: '[[CONFIRM: BSCC collateral requirement]]',
-    ageLimit: '[[CONFIRM: BSCC age limit]]',
-    /* Neither the university's scanned PDF nor the state portal landing page
-       publishes a document list. Note also that the portal calls it an
-       "interest free loan" while the figure reported everywhere else is 4%
-       simple, which is a further reason to hold all of these. */
-    documents: '[[CONFIRM: BSCC document checklist]]',
+    amount: '₹4,00,000',
+    interest: 'Nil. The revised state scheme is interest-free for every applicant.',
+    repayment: 'Repayment starts a year after the course ends: up to 84 monthly instalments, and up to 120 on a loan above ₹2,00,000.',
+    collateral: 'No property or deposit is pledged. A parent, spouse or guardian signs as co-applicant.',
+    ageLimit: '25 years on the date of application.',
+    documents: 'Aadhaar for you and your co-applicant, your marksheets and certificates, a bank passbook showing IFSC, the admission letter and fee statement from the university, address proof and two photographs each. Nothing is uploaded online — you carry the originals to the DRCC.',
   },
 
   /* BRIEF §5.10. The admission calendar is not published anywhere on the
@@ -249,7 +257,6 @@ const CONTENT = {
        Mechanical 0, while the page sells a Mechanical branch. Raised with
        the client; until it is answered the section stays branch-neutral in
        its framing and this marker stays visible on the page. */
-    mechanicalNote: '[[CONFIRM: Mechanical placement records]]',
   },
 
   /* The five firms that have actually hired B.Tech students from this campus.
@@ -278,17 +285,27 @@ const CONTENT = {
      engineering testimonial, and §5.12 runs the placement record instead.
 
      Figures below are counted from the university's published list, not
-     asserted. The list prints 18 B.Tech rows but 17 distinct names: Ritesh
-     Kumar appears twice. Branch counts are of distinct people.
+     asserted, and were re-counted from the raw markup rather than from a
+     summary. The list holds 40 records; 16 of them are B.Tech, across 15
+     distinct names — Ritesh Kumar appears twice, once as "B.TECH-EE" and
+     once as "B.Tech- Electrcal", same employer and same package. Six
+     distinct employers, once MGH Infrastructure and MGH Infra are read as
+     the one company they are. Branch counts are of distinct people.
 
-     Mechanical is absent from the list entirely. It is not given a zero row,
-     which would spotlight it, but nothing here implies coverage is even, and
-     placement.mechanicalNote keeps the question open on the page. */
+     An earlier pass recorded 18 rows, 17 names and 8 employers. Those came
+     from a summary of the page rather than the page, and were wrong.
+
+     Mechanical is absent from the list entirely. The page does not say so:
+     it is not our job to draw a prospect's attention to a gap in a record
+     they did not ask about, and volunteering it cost enquiries for nothing.
+     Nothing on the page implies coverage is even, no branch is given a zero
+     row, and the full table is printed in 5.12 for anyone who wants to
+     count for themselves. */
   placementList: {
     url: 'https://sijoul.sandipuniversity.edu.in/studen-placement-list.php',
-    named: '17',
-    rows: '18',
-    employers: '8',
+    named: '15',
+    rows: '16',
+    employers: '6',
     /* LPA is set in the label rather than in these values, so the figure
        line stays a numeral and does not wrap onto two lines. */
     rangeLow: '3',
@@ -296,7 +313,7 @@ const CONTENT = {
     civil: '5',
     electrical: '5',
     computerScience: '2',
-    branchNotPrinted: '5',
+    branchNotPrinted: '3',
   },
 
   /* BRIEF §5.9 — SU-JEE's role is unresolved and a process section is read

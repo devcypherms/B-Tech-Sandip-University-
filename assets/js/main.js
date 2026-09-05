@@ -430,6 +430,34 @@
   initEnquiryForm(document.getElementById('quickEnquiry'));
   initEnquiryForm(document.getElementById('enquiry'));
 
+  /* ---------- 8. LINKS INTO A CLOSED DISCLOSURE ----------
+     Nothing on this page sends a visitor off it, so "See the full list"
+     points at the placement table in §5.12 instead of the university's
+     server. That table lives inside a <details> that starts closed, and a
+     fragment link to a closed <details> lands on a heading with nothing
+     under it — which reads as a broken link, not a compact one.
+
+     Chrome and Safari have started opening a <details> when navigation
+     targets something inside it, but that is recent and not everywhere, so
+     the behaviour is done here rather than assumed. It runs on click, on
+     hashchange and once at load, because a shared URL ending #recAll has to
+     arrive open too. */
+  function openDisclosureFor(hash) {
+    if (!hash || hash.length < 2) return;
+    var target;
+    try { target = document.querySelector(hash); } catch (e) { return; }
+    if (!target) return;
+    var d = target.closest('details');
+    if (d && !d.open) d.open = true;
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openDisclosureFor(a.getAttribute('href'));
+  });
+  window.addEventListener('hashchange', function () { openDisclosureFor(location.hash); });
+  openDisclosureFor(location.hash);
+
   /* ---------- 6. THE ONE LOAD REVEAL ----------
      Held until the fonts settle so the masked lines do not animate in the
      fallback face and then reflow. The timeout is a floor, so a slow font
