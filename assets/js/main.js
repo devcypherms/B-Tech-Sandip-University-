@@ -162,60 +162,129 @@
   });
 
   /* ---------- 4. CAMPUS GALLERY ----------
-     Pointer drag to pan, arrow keys once the strip has focus. Both are
-     user-triggered, so neither spends the page's one load-motion budget. */
+     A stage with a thumbnail rail. Four ways to move: the rail, the two
+     arrows, a swipe, and the arrow keys once the stage has focus. All four
+     are user-triggered, so none of them spends the page's load-motion
+     budget.
+
+     The slides are stacked and crossfaded rather than scrolled, so there is
+     no scroll position to keep in step with anything — one index is the
+     whole state, and every control just sets it. */
   (function () {
-    var strip = document.getElementById('galStrip');
-    if (!strip) return;
+    var box = document.getElementById('gal');
+    if (!box) return;
 
-    var down = false, startX = 0, startLeft = 0, moved = 0;
+    var stage  = document.getElementById('galStage');
+    var slides = Array.prototype.slice.call(box.querySelectorAll('.gal__slide'));
+    var thumbs = Array.prototype.slice.call(box.querySelectorAll('.gal__thumb'));
+    var rail   = document.getElementById('galRail');
+    var capEl  = document.getElementById('galCap');
+    var nowEl  = document.getElementById('galNow');
+    var live   = document.getElementById('galLive');
+    if (!stage || slides.length < 2) return;
 
-    strip.addEventListener('pointerdown', function (e) {
-      /* Let the browser handle text selection and real clicks on links. */
-      if (e.button !== 0) return;
-      down = true;
-      moved = 0;
-      startX = e.clientX;
-      startLeft = strip.scrollLeft;
-      strip.classList.add('is-dragging');
-      strip.setPointerCapture(e.pointerId);
-    });
+    var n = slides.length;
+    var at = 0;
 
-    strip.addEventListener('pointermove', function (e) {
-      if (!down) return;
-      var dx = e.clientX - startX;
-      moved = Math.abs(dx);
-      strip.scrollLeft = startLeft - dx;
-    });
+    /* The caption text lives on each slide's aria-label as "3 of 7: Hostel
+       block", which is also what the label has to say. Read it back from
+       there so the two can never disagree. */
+    function captionOf(i) {
+      var label = slides[i].getAttribute('aria-label') || '';
+      var colon = label.indexOf(': ');
+      return colon < 0 ? label : label.slice(colon + 2);
+    }
 
-    function release(e) {
-      if (!down) return;
-      down = false;
-      strip.classList.remove('is-dragging');
-      if (e && e.pointerId != null && strip.hasPointerCapture(e.pointerId)) {
-        strip.releasePointerCapture(e.pointerId);
+    function show(i, announce) {
+      i = (i % n + n) % n;          /* wraps both ways */
+      if (i === at) return;
+      at = i;
+
+      slides.forEach(function (el, k) {
+        var on = k === i;
+        el.classList.toggle('is-on', on);
+        if (on) el.removeAttribute('aria-hidden');
+        else el.setAttribute('aria-hidden', 'true');
+      });
+      thumbs.forEach(function (el, k) {
+        var on = k === i;
+        el.classList.toggle('is-on', on);
+        if (on) el.setAttribute('aria-current', 'true');
+        else el.removeAttribute('aria-current');
+      });
+
+      var cap = captionOf(i);
+      if (capEl) capEl.textContent = cap;
+      if (nowEl) nowEl.textContent = String(i + 1);
+      /* Only on a deliberate move. Announcing during a drag would fire on
+         every frame. */
+      if (announce !== false && live) live.textContent = cap + ', ' + (i + 1) + ' of ' + n;
+
+      keepThumbInView(i);
+    }
+
+    /* On a narrow screen the rail scrolls, so arrowing past the visible
+       thumbnails must bring the current one back into view. */
+    function keepThumbInView(i) {
+      if (!rail || rail.scrollWidth <= rail.clientWidth + 4) return;
+      var t = thumbs[i];
+      if (!t) return;
+      var r = t.getBoundingClientRect(), rr = rail.getBoundingClientRect();
+      if (r.left < rr.left || r.right > rr.right) {
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        rail.scrollTo({
+          left: rail.scrollLeft + (r.left - rr.left) - (rr.width - r.width) / 2,
+          behavior: reduced ? 'auto' : 'smooth'
+        });
       }
     }
-    strip.addEventListener('pointerup', release);
-    strip.addEventListener('pointercancel', release);
 
-    /* Suppress the click that follows a real drag, so panning off a frame
-       never counts as activating it. */
-    strip.addEventListener('click', function (e) {
-      if (moved > 6) { e.preventDefault(); e.stopPropagation(); }
-    }, true);
-
-    strip.addEventListener('keydown', function (e) {
-      var frame = strip.querySelector('.gal__frame');
-      if (!frame) return;
-      var step = frame.getBoundingClientRect().width + 16;
-      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (e.key === 'ArrowRight') { e.preventDefault(); strip.scrollBy({ left: step, behavior: reduced ? 'auto' : 'smooth' }); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); strip.scrollBy({ left: -step, behavior: reduced ? 'auto' : 'smooth' }); }
-      else if (e.key === 'Home') { e.preventDefault(); strip.scrollTo({ left: 0, behavior: reduced ? 'auto' : 'smooth' }); }
-      else if (e.key === 'End') { e.preventDefault(); strip.scrollTo({ left: strip.scrollWidth, behavior: reduced ? 'auto' : 'smooth' }); }
+    thumbs.forEach(function (t) {
+      t.addEventListener('click', function () { show(+t.getAttribute('data-go')); });
     });
+
+    var prev = document.getElementById('galPrev');
+    var next = document.getElementById('galNext');
+    if (prev) prev.addEventListener('click', function () { show(at - 1); });
+    if (next) next.addEventListener('click', function () { show(at + 1); });
+
+    stage.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight')     { e.preventDefault(); show(at + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); }
+      else if (e.key === 'Home')      { e.preventDefault(); show(0); }
+      else if (e.key === 'End')       { e.preventDefault(); show(n - 1); }
+    });
+
+    /* Swipe. touch-action: pan-y in the stylesheet leaves vertical scrolling
+       to the page, so this only ever sees a horizontal gesture. The 40px
+       threshold is above the wobble in a tap but below a deliberate flick,
+       and the vertical check drops a diagonal that was meant as a scroll. */
+    var x0 = 0, y0 = 0, tracking = false;
+
+    /* A photograph is draggable by default, so dragging across one starts
+       the browser's own image drag: that fires pointercancel and the swipe
+       died before pointerup arrived. Both halves are needed — refusing
+       dragstart stops the native drag, capturing the pointer keeps the rest
+       of the sequence on the stage even when the cursor leaves it. */
+    stage.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+    stage.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      /* The arrows live inside the stage, so without this the capture below
+         redirects their pointer events to the stage and the button never
+         sees a click at all. Press on an arrow, nothing happens. */
+      if (e.target.closest && e.target.closest('.gal__arrow')) return;
+      tracking = true; x0 = e.clientX; y0 = e.clientY;
+      try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    stage.addEventListener('pointerup', function (e) {
+      if (!tracking) return;
+      tracking = false;
+      try { if (stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId); } catch (err) {}
+      var dx = e.clientX - x0, dy = e.clientY - y0;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(at + (dx < 0 ? 1 : -1));
+    });
+    stage.addEventListener('pointercancel', function () { tracking = false; });
   })();
 
   /* ---------- 5. MAP, BUILT ON CLICK ----------

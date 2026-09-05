@@ -1373,127 +1373,152 @@ mark.confirm {
 .gal__head { max-width: 62ch; }
 .gal__lede { margin-top: 1.25rem; color: var(--muted); }
 
-.gal__strip {
-  /* The strip runs full-bleed, so its leading padding has to reproduce what
-     .wrap does: the centring margin plus the gutter. Below --wrap the
-     centring margin is negative, and max() falls back to the gutter alone. */
-  --bleed-pad: max(var(--gutter), calc((100vw - var(--wrap)) / 2 + var(--gutter)));
-  margin-top: var(--space-block);
-  overflow-x: auto;
-  overflow-y: hidden;
-  /* Proximity snap gives a tidy resting position after a touch flick, which
-     matters when most traffic is a phone. scroll-padding must match the
-     track's leading padding, or the strip settles 72px in on load and clips
-     the first frame. */
-  scroll-snap-type: x proximity;
-  scroll-padding-inline-start: var(--bleed-pad);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--hairline-strong) transparent;
-  cursor: grab;
-}
-.gal__strip.is-dragging { cursor: grabbing; scroll-snap-type: none; }
-.gal__strip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.gal__box { margin-top: var(--space-block); }
 
-.gal__strip::-webkit-scrollbar { height: 2px; }
-.gal__strip::-webkit-scrollbar-track { background: var(--hairline); }
-.gal__strip::-webkit-scrollbar-thumb { background: var(--hairline-strong); }
-
-.gal__track {
-  display: flex;
-  gap: clamp(.75rem, 2vw, 1.25rem);
-  padding-inline: var(--bleed-pad);
-  padding-bottom: 1.5rem;
-  width: max-content;
-}
-
-.gal__frame {
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  width: clamp(300px, 74vw, 660px);
-}
-/* The third place that earns a card. Same radius as the other two; no
-   elevation, because the gallery is on paper. */
-.gal__fig {
+/* The stage holds every slide stacked in the same box, so the box needs the
+   images' own ratio or the first paint has no height and everything below
+   jumps when the photograph arrives. */
+.gal__stage {
   position: relative;
-  margin: 0;
-  isolation: isolate;
-}
-/* The treatment that makes it a frame. On paper, so hairline and radius
-   carry it; a shadow here would be the only one in the light scope. */
-.gal__fig img {
-  border: 1px solid var(--hairline);
-}
-.gal__frame img {
-  width: 100%;
-  height: auto;
   aspect-ratio: 3 / 2;
-  object-fit: cover;
-  /* Drag would otherwise start a native image drag instead of panning. */
-  -webkit-user-drag: none;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--panel);
+  touch-action: pan-y;   /* horizontal swipe is ours, vertical stays the page's */
   user-select: none;
 }
+.gal__stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
-/* Caption under the image, not on it. Both were built and measured at 390px
-   before choosing.
-
-   The overlay is legible: sampled against the real photograph pixels rather
-   than assumed, the worst caption measured 5.47:1 at 390px and 5.31:1 at
-   1440px, all seven passing AA. It also saves 36px of height per frame.
-
-   It still lost. The scrim has to darken the bottom third of every frame to
-   earn that legibility, and on the lead photograph that third is the
-   entrance arch — the best part of the only image most visitors will look
-   at. The caption is equally legible below at 6.08:1, costs one line, and
-   keeps the photographs whole. By the brief's own test the gradient would
-   be decoration here, because it buys nothing the page needs: the hero's
-   scrim exists to make a headline readable over an uncontrolled image,
-   which is a different problem from labelling a thumbnail.
-
-   The overlay is kept as a modifier rather than deleted, so the decision
-   can be reversed with one class if the vertical space is ever worth more
-   than the photographs. */
-.gal__cap {
-  margin-top: .875rem;
-  font-size: var(--fs-small);
-  color: var(--muted);
+.gal__slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  /* Hidden slides must not swallow a swipe or a click meant for the one on
+     top, and must not be reachable by tab. */
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity .55s var(--ease), visibility 0s linear .55s;
 }
-.gal__fig img { border-radius: var(--radius); }
+.gal__slide.is-on {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity .55s var(--ease), visibility 0s;
+}
+.gal__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-.gal--caption-overlay .gal__fig { overflow: hidden; }
-.gal--caption-overlay .gal__fig img { border-radius: 0; }
-.gal--caption-overlay .gal__cap {
+/* Counter and caption sit on the photograph, so they carry their own scrim
+   rather than trusting whatever happens to be in the lower third. The ramp
+   is in oklab because a straight sRGB fade to transparent passes through a
+   dead grey and bands on a gradient this tall. */
+.gal__foot {
   position: absolute;
   inset: auto 0 0 0;
-  margin: 0;
-  padding: 2.5rem .875rem .75rem;
-  color: var(--paper);
-  background: linear-gradient(180deg,
-              rgba(7, 12, 18, 0) 0%,
-              rgba(7, 12, 18, .55) 45%,
-              rgba(7, 12, 18, .88) 100%);
-}
-
-/* A missing frame keeps the rhythm of the row rather than being omitted,
-   so the gap is visible instead of merely absent. */
-.gal__frame--gap .gal__missing {
-  aspect-ratio: 3 / 2;
-  border: 1px solid var(--hairline-strong);
-  border-radius: var(--radius);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-  padding: clamp(1rem, 3vw, 1.75rem);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(3rem, 9vw, 5rem) clamp(1rem, 3vw, 1.75rem) clamp(.875rem, 2.5vw, 1.25rem);
+  /* Four stops, not two. A straight ramp put almost no density where the
+     text actually sits: "Main academic block" measured 1.12:1 against a
+     sunlit facade, which is white on white. These stops are weighted so the
+     bottom third — the only part the text occupies — carries the darkening,
+     while the top still fades out invisibly.
+
+     Both ends share the same RGB, so it interpolates without the dead grey
+     a fade to plain transparent passes through, and needs no oklab hint. */
+  background: linear-gradient(to top,
+    rgba(8, 8, 7, .80) 0%,
+    rgba(8, 8, 7, .66) 38%,
+    rgba(8, 8, 7, .30) 70%,
+    rgba(8, 8, 7, 0) 100%);
+  pointer-events: none;
 }
-.gal__missing-note {
+.gal__count {
   font-size: var(--fs-small);
-  color: var(--muted);
+  letter-spacing: .08em;
+  color: rgba(255, 255, 255, .86);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+.gal__cap {
+  font-size: var(--fs-small);
+  color: #fff;
+  text-align: right;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .gal__strip { scroll-behavior: auto; }
+.gal__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  /* 44px is the floor everywhere; a coarse pointer gets more below. */
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--bg) 88%, transparent);
+  color: var(--fg);
+  cursor: pointer;
+  transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
 }
+.gal__arrow svg { width: 20px; height: 20px; }
+.gal__arrow--prev { left: clamp(.625rem, 2vw, 1.25rem); }
+.gal__arrow--next { right: clamp(.625rem, 2vw, 1.25rem); }
+.gal__arrow:hover { background: var(--bg); color: var(--accent); border-color: var(--accent); }
+.gal__arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (any-pointer: coarse) {
+  .gal__arrow { width: 52px; height: 52px; }
+}
+
+/* The rail is the part that tells a visitor there is more than one
+   photograph, which the old strip only admitted once it had been dragged.
+   It scrolls itself on a narrow screen rather than shrinking the thumbs
+   below the point where they show anything. */
+.gal__rail {
+  display: flex;
+  gap: clamp(.5rem, 1.4vw, .75rem);
+  margin: clamp(.625rem, 1.6vw, .875rem) 0 0;
+  padding: 0 0 .25rem;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+}
+.gal__rail::-webkit-scrollbar { height: 2px; }
+.gal__rail::-webkit-scrollbar-track { background: var(--hairline); }
+.gal__rail::-webkit-scrollbar-thumb { background: var(--hairline-strong); }
+.gal__rail > li { flex: 1 1 0; min-width: 4.5rem; }
+
+.gal__thumb {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: calc(var(--radius) / 2);
+  overflow: hidden;
+  /* Outline rather than border, so selecting a thumbnail does not resize it
+     and shove the rest of the rail sideways. */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color .3s var(--ease), opacity .3s var(--ease);
+  opacity: .55;
+}
+.gal__thumb img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.gal__thumb:hover { opacity: .85; }
+.gal__thumb.is-on { opacity: 1; outline-color: var(--accent); }
+.gal__thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- 16. ADMISSION PROCESS (5.9) ----------
    Numbering earns its place here: this is a sequence, not a list of features.

@@ -358,6 +358,19 @@ const CONTENT = {
   /* BRIEF §5.8 — two gaps the gallery shows as frames rather than hiding.
      The hostel interiors on file are 340px thumbnails and the one labelled
      as a room is a shared washroom; Civil has no facility image at all. */
+  /* Still owed by the client, but no longer shown to a visitor.
+
+     These two used to render as panels in the gallery strip, each headed by
+     a red marker and explaining what was missing — that the interior shots
+     on file are 340px thumbnails and the one labelled a room is a shared
+     washroom, and that Civil has no image at all. Accurate, and exactly the
+     kind of thing that costs an enquiry: a family reads that the hostel
+     cannot be shown to them.
+
+     The gallery now runs seven photographs with no gaps announced. The ask
+     stands here so it is not forgotten, and the gate still lists both as
+     warnings; they stopped being blockers only because nothing renders them
+     to a visitor any more. */
   gallery: {
     hostelInteriors: '[[CONFIRM: hostel room, mess and common room photos]]',
     civilFacility: '[[CONFIRM: Civil lab or workshop photo]]',
