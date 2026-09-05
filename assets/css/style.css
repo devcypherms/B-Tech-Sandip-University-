@@ -156,7 +156,11 @@
   --accent: var(--brass-deep);
   --mark: var(--indigo);
   --emphasis: var(--madder);
-  --panel: transparent;
+  /* A surface, not a colour block: 1.10:1 against the page, so it reads as
+     a field you can type into rather than as a tinted panel. Ink text on it
+     measures 14.46:1. It was transparent from the moment elevation was
+     retired, which left every input and the 5.7 block as a bare outline. */
+  --panel: #EAE7DE;
   --hairline: rgba(16, 24, 33, .14);
   --hairline-strong: rgba(16, 24, 33, .28);
   --btn-fill: var(--ink-900);
@@ -1600,14 +1604,18 @@ mark.confirm {
    should read as a prompt rather than as an answer. */
 .f__select:invalid { color: var(--muted); }
 
-/* #EE8080 measures 7.51:1 on --ink-900 and 6.29:1 on the --ink-700 field
-   fill, so the message and the border it refers to both clear AA. */
+/* #EE8080 was chosen against --ink-900 (7.51:1) and shipped unchanged
+   through the conversion to a light ground, where it measures 2.33:1 and
+   fails outright. The audit did not catch it because error nodes carry
+   [hidden] until a submit fails and the checker skipped anything with no
+   layout box — so the one message seen only by people already having
+   trouble was the one nothing was checking. #B3261E is 5.84:1. */
 .f__err {
   font-size: .8125rem;
-  color: #EE8080;
+  color: #B3261E;
 }
 .f__input[aria-invalid="true"],
-.f__select[aria-invalid="true"] { border-color: #EE8080; }
+.f__select[aria-invalid="true"] { border-color: #B3261E; }
 
 /* Consent. The hit area is the whole line, not the 22px box: a checkbox alone
    is the smallest target on the page and this one is required. */
@@ -1644,7 +1652,7 @@ mark.confirm {
 
 .f__status { margin-top: 1rem; font-size: var(--fs-small); }
 .f__status--ok { color: var(--fg); }
-.f__status--bad { color: #EE8080; }
+.f__status--bad { color: #B3261E; }
 
 @media (min-width: 640px) {
   .f__row { grid-template-columns: 1fr 1fr; }
