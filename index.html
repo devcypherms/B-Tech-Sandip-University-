@@ -45,12 +45,23 @@
 <header class="site-header" id="siteHeader">
   <div class="wrap">
     <a class="site-header__logo" href="#main" aria-label="Sandip University, Madhubani home">
-      <!-- The university's own coloured mark, taken from their header. The
-           file previously used here was the white knockout meant for a dark
-           ground, which had to be inverted to black to be visible at all —
-           so the page was showing a monochrome version of a logo that is
-           actually a black crest with SANDIP in red. -->
-      <img src="assets/img/logo-colour.webp" alt="Sandip University, Madhubani" width="201" height="59">
+      <!-- Two marks, because only one of them exists in colour.
+
+           The Sandip mark is the university's own coloured file, taken from
+           their header: a black crest with SANDIP set in red. The page was
+           previously showing a white knockout inverted to black, which is
+           why it looked monochrome.
+
+           The NAAC badge is lifted from the old combined logo, which is a
+           white knockout and the only version that exists — their site
+           carries no coloured NAAC asset anywhere, and their own header
+           shows no NAAC badge at all. It is repainted to ink rather than
+           given invented colours: NAAC is a national accreditation body and
+           its mark is not ours to recolour. -->
+      <img class="site-header__mark" src="assets/img/logo-colour.webp"
+           alt="Sandip University, Madhubani" width="201" height="59">
+      <img class="site-header__naac" src="assets/img/naac-badge.webp"
+           alt="NAAC B++ accredited" width="93" height="48">
     </a>
 
     <!-- The page is long and single-scroll, so the header carries jump

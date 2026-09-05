@@ -307,9 +307,26 @@ table { border-collapse: collapse; width: 100%; }
    be inverted to show up on paper, which turned a red-and-black crest into
    a black one. 30px rather than 34 so the 59px-tall source is not upscaled
    on a 2x screen. */
-.site-header__logo img {
-  height: 30px;
+.site-header__logo {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.site-header__mark { height: 30px; width: auto; }
+
+/* Set apart by a rule, the way the original combined file did it, and a
+   step smaller: it is the secondary mark. */
+.site-header__naac {
+  height: 26px;
   width: auto;
+  padding-left: .75rem;
+  border-left: 1px solid var(--hairline-strong);
+}
+@media (max-width: 359px) {
+  /* Below this the logo, the badge and the CTA stop fitting on one line.
+     Measured rather than assumed: at 360px the header still has 90px of
+     slack with the badge shown. */
+  .site-header__naac { display: none; }
 }
 
 
@@ -1140,7 +1157,18 @@ mark.confirm {
   margin-bottom: 1.5rem;
 }
 
-.tbl { font-size: var(--fs-small); }
+/* The fee tables set their figures nowrap, which is right — "₹1,05,000"
+   must not break across lines — but it gives the table a hard minimum of
+   358px. Below about 378px that minimum was pushing the whole document
+   wide: a 375px iPhone overflowed by 3px and a 320px screen by 58px, and
+   the header stretched with it because the page had grown, not because
+   anything in the header was too big.
+
+   The table scrolls inside its own block instead, which is the rule this
+   page already applies to the gallery. */
+.fees__block,
+.fees__total { overflow-x: auto; }
+.tbl { font-size: var(--fs-small); min-width: 20rem; }
 .tbl caption { text-align: left; }
 .tbl th,
 .tbl td {
