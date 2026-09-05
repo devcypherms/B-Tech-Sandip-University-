@@ -65,29 +65,87 @@
   <section class="hero" aria-label="B.Tech admission 2026">
     <div class="hero__media">
       <picture>
-        <!-- The art direction inverted when the hero stopped being a
-             full-bleed background. Desktop now shows the image as a tall
-             46% column (about 662x900, or 0.74) so it wants the 3:4
-             portrait crop; the phone shows it as a 3:2 frame under the
-             headline and wants the landscape original. This used to be
-             keyed on max-aspect-ratio for exactly the opposite reason. -->
-        <source media="(min-width: 900px)" srcset="assets/img/campus-main-portrait.webp" width="900" height="1200">
+        <!-- Full-bleed again, so the art direction reverts to being about
+             the viewport shape rather than a column: a phone gets the 3:4
+             crop because a 1.72 landscape file in a 0.46 viewport shows its
+             whole height and crops only the sides. -->
+        <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/campus-main-portrait.webp" width="900" height="1200">
         <img src="assets/img/campus-main.webp"
-             alt="The main academic building at Sandip University’s Sijoul campus, seen across the front lawn"
+             alt="The main academic building at Sandip University&rsquo;s Sijoul campus, seen across the front lawn"
              width="1400" height="816" fetchpriority="high" decoding="async">
       </picture>
     </div>
 
     <div class="wrap hero__inner">
-      <h1 class="hero__title">
-        <span class="hero__line"><span>Engineering ki padhai,</span></span>
-        <span class="hero__line"><span>Bihar mein hi.</span></span>
-      </h1>
-      <p class="hero__sub">B.Tech Admission 2026 at Sandip University, Madhubani.</p>
-      <div class="hero__actions">
-        <a class="btn btn-primary" href="#enquiry" data-track="cta">Apply now</a>
-        <a class="btn btn-ghost" href="#enquiry" data-track="brochure">Download brochure</a>
+      <div class="hero__copy">
+        <h1 class="hero__title">
+          <span class="hero__line"><span>Engineering ki padhai,</span></span>
+          <span class="hero__line"><span>Bihar mein hi.</span></span>
+        </h1>
+        <p class="hero__sub">B.Tech Admission 2026 at Sandip University, Madhubani.</p>
+        <div class="hero__actions">
+          <a class="btn btn-ghost" href="#campus" data-track="campus">See the campus</a>
+          <a class="btn btn-ghost" href="#fees" data-track="fees">Fees and scholarships</a>
+        </div>
       </div>
+
+      <!-- The short form. The full six-field version stays at 5.14 for
+           anyone who scrolls; this one exists because the first form on the
+           page used to sit at 93% depth, which on a phone is 22 screens
+           down. Three fields is what a stranger will fill one-handed. -->
+      <form class="hero__form f" id="quickEnquiry" data-form-source="hero" data-id-prefix="q-" novalidate>
+        <h2 class="hero__form-title">Get a call back</h2>
+        <p class="hero__form-lede">
+          Tell us three things and the admission cell will call you. No obligation.
+        </p>
+
+        <div class="f__field">
+          <label class="f__label" for="q-name">Your name</label>
+          <input class="f__input" id="q-name" name="name" type="text"
+                 autocomplete="name" autocapitalize="words" spellcheck="false"
+                 aria-describedby="q-e-name" required>
+          <p class="f__err" id="q-e-name" hidden></p>
+        </div>
+
+        <div class="f__field">
+          <label class="f__label" for="q-mobile">Mobile number</label>
+          <input class="f__input" id="q-mobile" name="mobile" type="tel"
+                 inputmode="numeric" autocomplete="tel-national"
+                 aria-describedby="q-e-mobile" required>
+          <p class="f__err" id="q-e-mobile" hidden></p>
+        </div>
+
+        <div class="f__field">
+          <label class="f__label" for="q-branch">Branch</label>
+          <div class="f__selectwrap">
+            <select class="f__select" id="q-branch" name="branch"
+                    aria-describedby="q-e-branch" required>
+              <option value="" selected disabled>Choose a branch</option>
+              <option>B.Tech (Civil Engineering)</option>
+              <option>B.Tech (Electrical Engineering)</option>
+              <option>B.Tech (Mechanical Engineering)</option>
+              <option>B.Tech (Computer Science and Engineering)</option>
+              <option>B.Tech (Computer Science and Engineering with AI &amp; ML)</option>
+              <option>Not decided yet</option>
+            </select>
+          </div>
+          <p class="f__err" id="q-e-branch" hidden></p>
+        </div>
+
+        <div class="f__field f__consent">
+          <label class="f__check" for="q-consent">
+            <input type="checkbox" id="q-consent" name="consent"
+                   aria-describedby="q-e-consent" required>
+            <span>You may call, message or WhatsApp me about B.Tech admission.</span>
+          </label>
+          <p class="f__err" id="q-e-consent" hidden></p>
+        </div>
+
+        <button class="btn btn-primary f__submit" type="submit" id="q-submit">
+          Request a call back
+        </button>
+        <p class="f__status" id="q-status" role="alert" hidden></p>
+      </form>
     </div>
 
     <div class="hero__rail">
@@ -1207,7 +1265,7 @@
       <!-- novalidate hands validation to our own code, so every field gets the
            same inline message in the same place. Native bubbles appear one at a
            time, sit outside the layout, and are not readable by our styling. -->
-      <form class="f" id="enquiry" novalidate>
+      <form class="f" id="enquiry" data-form-source="footer" novalidate>
         <h3 class="f__title">B.Tech Admission 2026 enquiry</h3>
 
         <div class="f__field">

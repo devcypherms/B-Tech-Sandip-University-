@@ -269,6 +269,13 @@ table { border-collapse: collapse; width: 100%; }
   color: var(--fg);
   border-color: var(--hairline-strong);
 }
+/* In the hero these sit on a photograph, where a 28% hairline vanishes.
+   They get the page ground behind them rather than a heavier border, so
+   they stay the same button everywhere else on the page. */
+.hero__actions .btn-ghost {
+  background: var(--bg);
+  border-color: var(--hairline-strong);
+}
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ---------- 4. HEADER (3.1) ---------- */
@@ -332,61 +339,64 @@ table { border-collapse: collapse; width: 100%; }
   isolation: isolate;
   overflow: hidden;
 }
-/* The photograph no longer sits behind the words.
+/* The photograph is the page's main source of colour, so it runs full
+   bleed behind the hero rather than sitting in a column beside it. It was
+   measured at 50.1 mean saturation and 165 mean brightness — the most
+   colourful and the brightest asset on the project — and the previous
+   layout put a paper gradient over it that subtracted most of that.
 
-   On one light ground it cannot: paper text over a photograph needs a dark
-   scrim to be legible, and a dark scrim is the thing this page no longer
-   has anywhere. The alternative — ink text over a paper scrim — washes the
-   photograph out to almost nothing and still leaves the contrast hostage to
-   whatever is behind any given line.
-
-   So the two are set side by side instead. The headline gets clean paper
-   and a guaranteed 15.97:1, and the photograph keeps its full tonal range
-   rather than being crushed or bleached to serve as a background. */
+   Legibility is solved by composition rather than by bleaching the image:
+   the form sits on an opaque card, and the headline sits low where a
+   bottom-weighted scrim reaches paper. The top half of the frame is left
+   alone, which is where the building actually is. */
 .hero__media {
   position: absolute;
-  inset: 0 0 0 auto;
-  width: 46%;
+  inset: 0;
   z-index: -2;
 }
 .hero__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 50%;
+  object-position: 50% 62%;
 }
-/* The photograph meets the text column through a short fade rather than a
-   cut, so the join reads as one composition and not as two panels. */
+/* Bottom-weighted, so the photograph is untouched across the top and only
+   resolves to paper where type and the stat rail land. Stops are tuned
+   against sampled pixels, not by eye — see the hero contrast check. */
 .hero__media::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg,
-              #F4F2EC 0%,
-              rgba(244, 242, 236, .62) 14%,
-              rgba(244, 242, 236, 0) 38%);
+  background:
+    linear-gradient(90deg,
+              rgba(244, 242, 236, .88) 0%,
+              rgba(244, 242, 236, .74) 24%,
+              rgba(244, 242, 236, .44) 42%,
+              rgba(244, 242, 236, 0) 58%),
+    linear-gradient(180deg,
+              rgba(244, 242, 236, .22) 0%,
+              rgba(244, 242, 236, .10) 30%,
+              rgba(244, 242, 236, .10) 62%,
+              rgba(244, 242, 236, .58) 86%,
+              #F4F2EC 100%);
 }
 
-/* Below the split, the photograph moves under the words instead of beside
-   them: a 46% column at 700px is a strip, and the headline needs the width
-   more than the image does. order is used rather than moving the markup,
-   so the image stays first in the DOM and keeps its fetchpriority. */
+/* Below 900px the photograph goes behind the whole block and the scrim
+   does more work, because there is no room for a side-by-side. The form
+   stays above the rail: it is the reason the section exists. */
 @media (max-width: 899px) {
   .hero { min-height: 0; }
-  .hero__media {
-    position: static;
-    width: 100%;
-    order: 2;
-    margin-top: var(--space-block);
+  .hero__media::after {
+    /* Vertical only below the split: the copy is full width here, so a
+       horizontal pass would bleach the entire frame rather than one side. */
+    background: linear-gradient(180deg,
+                rgba(244, 242, 236, .06) 0%,
+                rgba(244, 242, 236, .16) 20%,
+                rgba(244, 242, 236, .58) 34%,
+                rgba(244, 242, 236, .94) 46%,
+                #F4F2EC 58%);
   }
-  .hero__media img {
-    height: auto;
-    aspect-ratio: 3 / 2;
-    border-radius: var(--radius);
-  }
-  .hero__media::after { content: none; }
-  .hero__inner { order: 1; flex: 0 0 auto; }
-  .hero__rail { order: 3; margin-top: var(--space-block); }
+  .hero__inner { padding-top: calc(var(--header-h) + clamp(6rem, 26vw, 11rem)); }
 }
 
 .hero__inner {
@@ -398,10 +408,41 @@ table { border-collapse: collapse; width: 100%; }
   justify-content: flex-end;
 }
 
+/* Desktop: copy left, form card right, photograph behind both. This has to
+   sit AFTER the base .hero__inner rule — a media query adds no specificity,
+   so placed above it the base display:flex simply won. */
 @media (min-width: 900px) {
-  /* Clear of the photograph, with the fade doing the last of the work. */
-  .hero__inner { padding-right: 48%; }
-  .hero__rail { padding-right: 0; }
+  /* Headline across the full measure, then the subline and the form side by
+     side beneath it.
+
+     Two constraints had to be satisfied at once. Side by side throughout,
+     the copy column is 734px while "Engineering ki padhai," sets at 943px,
+     so the first masked line wrapped and the load reveal — written for two
+     phrases — animated three ragged lines. Stacked throughout, the form was
+     pushed to 1153px and the whole hero to 1349px, one and a half
+     viewports, with a 185px hole between the subline and the card.
+
+     Giving only the headline the full width fixes the wrap, and pairing the
+     subline with the form recovers the height. display: contents lifts the
+     copy wrapper out of the way so its children can be placed directly. */
+  .hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(20rem, 30vw, 24rem);
+    grid-template-rows: auto auto 1fr;
+    column-gap: clamp(2rem, 4vw, 4rem);
+    row-gap: clamp(1rem, 1.6vw, 1.5rem);
+    align-content: start;
+    padding-top: calc(var(--header-h) + clamp(1rem, 2.5vw, 2.25rem));
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .hero__copy { display: contents; }
+
+  /* The measure is the container, not a ch cap: 16ch reads as ~740px at
+     this size and clipped the 943px line. */
+  .hero__title { grid-column: 1 / -1; grid-row: 1; max-width: none; }
+  .hero__sub { grid-column: 1; grid-row: 2; margin-top: .5rem; }
+  .hero__actions { grid-column: 1; grid-row: 3; align-self: start; margin-top: 1rem; }
+  .hero__form { grid-column: 2; grid-row: 2 / span 2; align-self: start; }
 }
 
 .hero__title {
@@ -427,7 +468,9 @@ table { border-collapse: collapse; width: 100%; }
 
 .hero__sub {
   margin-top: 1.5rem;
-  color: var(--muted);
+  /* --muted over a photograph is not survivable even with a scrim, and this
+     line carries the actual offer. Full text colour, 15.97:1 on paper. */
+  color: var(--fg);
   font-size: var(--fs-body);
   max-width: 48ch;
 }
@@ -438,6 +481,41 @@ table { border-collapse: collapse; width: 100%; }
   flex-wrap: wrap;
   gap: .75rem;
 }
+@media (max-width: 899px) {
+  /* These are wayfinding, not conversion, and on a phone they sat between
+     the headline and the form. The sticky bar already carries the actions. */
+  .hero__actions { display: none; }
+}
+
+/* The form card. Opaque on purpose: a translucent panel over a photograph
+   makes every field's contrast depend on what is behind it, and this is
+   the one element on the page that must never be hard to read. The border
+   and radius are the shared card treatment already used by 5.6 and 5.8. */
+.hero__form {
+  background: var(--bg);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  padding: clamp(1.125rem, 2.4vw, 1.5rem);
+  gap: .75rem;
+}
+.hero__form-title {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-weight: 400;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  letter-spacing: -.01em;
+  line-height: 1.15;
+}
+.hero__form-lede {
+  color: var(--muted);
+  font-size: var(--fs-small);
+  margin-top: .25rem;
+}
+/* The card is the tightest column on the page and every gap here is paid
+   for twice, once above the fold and once in how long the form looks. */
+.hero__form .f__field { gap: .3125rem; }
+.hero__form .f__consent { margin-top: .125rem; }
+.hero__form .f__submit { margin-top: .5rem; min-height: 52px; }
 
 /* Stat rail pinned along the bottom of the viewport. */
 .hero__rail {
@@ -637,7 +715,7 @@ mark.confirm {
   .site-header .btn { min-height: 40px; padding-inline: 1rem; white-space: nowrap; }
   .site-header__logo img { height: 28px; }
 
-  .hero__media img { object-position: 50% 58%; }
+  .hero__media img { object-position: 50% 76%; }
 
   .hero__inner { padding-top: calc(var(--header-h) + 1.5rem); }
   .hero__title { max-width: 14ch; }

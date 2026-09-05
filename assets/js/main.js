@@ -240,7 +240,7 @@
     });
   })();
 
-  /* ---------- 7. ENQUIRY FORM (5.14) ----------
+  /* ---------- 7. ENQUIRY FORMS (5.2 hero, 5.14 footer) ----------
      The form validates here rather than through the browser, because native
      validation shows one bubble at a time, positions it outside the layout,
      and cannot be styled to match anything else on the page.
@@ -250,15 +250,32 @@
      submit, and only after that first submit does a field re-check as it is
      edited, so an error clears the moment it is fixed. Validating on every
      keystroke from the start marks a half-typed mobile number as invalid,
-     which reads as the form arguing with you. */
-  (function () {
-    var form = document.getElementById('enquiry');
+     which reads as the form arguing with you.
+
+     There are two forms on the page now: a three-field one in the hero and
+     the full six-field one at 5.14. They share this implementation rather
+     than duplicating it, because the interesting parts — the mobile
+     normaliser, the re-check timing, and the refusal to submit while
+     FORM_ENDPOINT is still a marker — are exactly the parts that would rot
+     if there were two copies. A form supplies its own id prefix through
+     the ids it already uses, and its own source through data-form-source.
+
+     Fields are discovered from the markup: whichever of the six named
+     controls a form actually contains gets validated, and the rest are
+     simply absent. The hero form is a subset, not a special case. */
+  function initEnquiryForm(form) {
     if (!form) return;
 
-    var submit = document.getElementById('f-submit');
-    var status = document.getElementById('f-status');
+    /* Error node ids are the field name prefixed per form: e-name in 5.14,
+       q-e-name in the hero. The prefix is read off the form rather than
+       passed in, so the markup stays the single source of truth. */
+    var prefix = form.getAttribute('data-id-prefix') || '';
+    var submit = form.querySelector('[type="submit"]');
+    var status = form.querySelector('.f__status');
+    var source = form.getAttribute('data-form-source') || 'unknown';
     var submitted = false;
     var sending = false;
+    if (!submit || !status) return;
 
     /* Each rule returns an error string, or '' when the value is acceptable. */
     var RULES = {
@@ -294,7 +311,7 @@
       return {
         name: name,
         el: form.elements[name],
-        err: document.getElementById('e-' + name),
+        err: document.getElementById(prefix + 'e-' + name),
       };
     }).filter(function (f) { return f.el && f.err; });
 
@@ -342,10 +359,14 @@
       });
     });
 
+    /* Read the label off the markup rather than hardcoding it, so the two
+       forms can say different things on their buttons. */
+    var submitLabel = submit.textContent.trim();
+
     function setSending(on) {
       sending = on;
       submit.disabled = on;
-      submit.textContent = on ? 'Sending…' : 'Request a call back';
+      submit.textContent = on ? 'Sending…' : submitLabel;
     }
 
     function say(message, kind) {
@@ -385,6 +406,10 @@
 
       var payload = new FormData(form);
       payload.append('page', 'btech-admission-2026');
+      /* Which form converted. The hero form exists because the only form on
+         the page used to sit at 93% depth; without this there is no way to
+         find out whether moving it up actually worked. */
+      payload.append('source', source);
 
       fetch(endpoint, { method: 'POST', body: payload, headers: { Accept: 'application/json' } })
         .then(function (res) {
@@ -400,7 +425,10 @@
         })
         .then(function () { setSending(false); });
     });
-  })();
+  }
+
+  initEnquiryForm(document.getElementById('quickEnquiry'));
+  initEnquiryForm(document.getElementById('enquiry'));
 
   /* ---------- 6. THE ONE LOAD REVEAL ----------
      Held until the fonts settle so the masked lines do not animate in the
