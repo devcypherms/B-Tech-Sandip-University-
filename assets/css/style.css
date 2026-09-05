@@ -2123,8 +2123,14 @@ mark.confirm {
 .cta__grid { display: grid; gap: var(--space-block); }
 .cta__lede { margin-top: 1.25rem; color: var(--muted); max-width: 46ch; }
 
-.cta__what { margin-top: var(--space-block); border-top: 1px solid var(--hairline); }
+.cta__what { margin-top: clamp(1.75rem, 4vw, 2.75rem); border-top: 1px solid var(--hairline); }
 .cta__what li { padding-block: 1.25rem; border-bottom: 1px solid var(--hairline); }
+/* The last item closed with a rule, which left a hairline hanging with the
+   section's bottom padding under it and the footer's own rule below that:
+   two lines with a dead band between them, which reads as a hole rather
+   than as spacing. The separators between items are the point; the one
+   after the last item never was. Same pattern the fee tables already use. */
+.cta__what li:last-child { border-bottom: 0; padding-bottom: 0; }
 .cta__what h3 {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
