@@ -59,3 +59,5 @@ uploads/
 desktop.ini
 # Working image originals (63MB) — kept on disk, not in the repo
 _source-images/
+# scratch patch scripts
+_*.js
