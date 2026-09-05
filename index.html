@@ -45,8 +45,25 @@
 <header class="site-header" id="siteHeader">
   <div class="wrap">
     <a class="site-header__logo" href="#main" aria-label="Sandip University, Madhubani home">
-      <img src="assets/img/logo.webp" alt="Sandip University, Madhubani" width="120" height="34">
+      <!-- The university's own coloured mark, taken from their header. The
+           file previously used here was the white knockout meant for a dark
+           ground, which had to be inverted to black to be visible at all —
+           so the page was showing a monochrome version of a logo that is
+           actually a black crest with SANDIP in red. -->
+      <img src="assets/img/logo-colour.webp" alt="Sandip University, Madhubani" width="201" height="59">
     </a>
+
+    <!-- The page is long and single-scroll, so the header carries jump
+         links rather than a site menu. Five, not ten: these are the
+         questions people arrive with. -->
+    <nav class="site-nav" aria-label="Sections of this page">
+      <a href="#programmes">Programmes</a>
+      <a href="#fees">Fees</a>
+      <a href="#placements">Placements</a>
+      <a href="#campus">Campus</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
     <div class="site-header__actions">
       <a class="site-header__phone" href="#enquiry" data-c-href="org.phoneHref" data-track="call">
         <span data-c="org.phone">1800-212-2714</span>

@@ -302,22 +302,47 @@ table { border-collapse: collapse; width: 100%; }
   gap: 1.5rem;
   min-height: var(--header-h);
 }
+/* The coloured mark needs no filter. The previous file was the white
+   knockout — measured greyscale, maximum saturation 3 of 255 — and had to
+   be inverted to show up on paper, which turned a red-and-black crest into
+   a black one. 30px rather than 34 so the 59px-tall source is not upscaled
+   on a 2x screen. */
 .site-header__logo img {
-  height: 34px;
+  height: 30px;
   width: auto;
-  /* The supplied logo is a white wordmark and no dark version exists. It is
-     measured greyscale — maximum saturation 3 of 255 across both the .webp
-     and the .png — so inverting reproduces the mark exactly rather than
-     approximating it. Without this it draws paper on paper. */
-  filter: invert(1);
 }
 
 
-.site-header__actions {
+/* Jump links, set as quiet text. They are wayfinding on one long page, not
+   a site menu, so they carry no borders and no fill — the CTA beside them
+   is the only thing in the header that should look pressable. */
+.site-nav {
   margin-left: auto;
+  display: flex;
+  gap: clamp(1rem, 2.2vw, 2rem);
+  font-size: var(--fs-small);
+}
+.site-nav a {
+  color: var(--muted);
+  padding-block: .25rem;
+  border-bottom: 1px solid transparent;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.site-nav a:hover { color: var(--fg); border-bottom-color: var(--accent); }
+
+/* Below the split there is no room beside the logo and the CTA, and the
+   sticky bar already carries the actions. */
+@media (max-width: 979px) {
+  .site-nav { display: none; }
+}
+
+.site-header__actions {
   display: flex;
   align-items: center;
   gap: clamp(.75rem, 2vw, 1.75rem);
+  /* Separated from the jump links, or the phone number reads as a sixth
+     nav item rather than as a way to contact the university. */
+  margin-left: clamp(1.5rem, 3.5vw, 3.5rem);
 }
 .site-header__phone {
   font-size: var(--fs-small);
