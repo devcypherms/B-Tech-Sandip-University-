@@ -530,31 +530,41 @@ table { border-collapse: collapse; width: 100%; }
    makes every field's contrast depend on what is behind it, and this is
    the one element on the page that must never be hard to read. The border
    and radius are the shared card treatment already used by 5.6 and 5.8. */
-.hero__form {
+/* .hero__form.f, not .hero__form: the shared .f rule is declared further
+   down the file and its 1.125rem gap was quietly winning on source order,
+   so the card was running an 18px rhythm while this said 12px. */
+.hero__form.f {
   background: var(--bg);
   border: 1px solid var(--hairline-strong);
   border-radius: var(--radius);
-  padding: clamp(1.125rem, 2.4vw, 1.5rem);
-  gap: .75rem;
+  padding: clamp(1rem, 2vw, 1.25rem);
+  gap: .625rem;
 }
 .hero__form-title {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
   font-weight: 400;
-  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-size: clamp(1.25rem, 1.7vw, 1.5rem);
   letter-spacing: -.01em;
   line-height: 1.15;
 }
 .hero__form-lede {
   color: var(--muted);
   font-size: var(--fs-small);
-  margin-top: .25rem;
+  margin-top: .125rem;
 }
 /* The card is the tightest column on the page and every gap here is paid
-   for twice, once above the fold and once in how long the form looks. */
-.hero__form .f__field { gap: .3125rem; }
-.hero__form .f__consent { margin-top: .125rem; }
-.hero__form .f__submit { margin-top: .5rem; min-height: 52px; }
+   for twice, once above the fold and once in how long the form looks. The
+   label sits close enough to its field to read as attached to it. */
+.hero__form .f__field { gap: .25rem; }
+.hero__form .f__label { font-size: .8125rem; }
+.hero__form .f__consent { margin-top: 0; }
+.hero__form .f__check { padding: .25rem 0; line-height: 1.45; }
+.hero__form .f__submit { margin-top: .25rem; min-height: 48px; }
+@media (any-pointer: coarse) {
+  /* The submit is the one control a thumb must not miss. */
+  .hero__form .f__submit { min-height: 52px; }
+}
 
 /* Stat rail pinned along the bottom of the viewport. */
 .hero__rail {
