@@ -1111,32 +1111,104 @@ mark.confirm {
   padding-bottom: .5rem;
   border-bottom: 1px solid var(--hairline);
 }
-.wall__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .75rem clamp(1.5rem, 4vw, 3rem);
-  padding-top: .875rem;
+/* ---------- 5.6 RECRUITER STRIP ----------
+
+   The logo files are 240x120 with a baked-in white background and no alpha,
+   so dropped straight onto the paper ground they are fourteen white cards —
+   exactly the look the brief rules out. mix-blend-mode:multiply removes the
+   white without touching the marks, which works because this ground is
+   light; it would need real alpha channels on a dark one.
+
+   The mask below establishes a stacking context, and blending is confined
+   to that context, so .mq has to paint the paper itself or multiply has
+   nothing to blend against. That is why the background is set explicitly
+   rather than inherited. */
+.mq {
+  position: relative;
+  overflow: hidden;
+  margin-top: 1.25rem;
+  background: var(--bg);
+  /* Items enter and leave rather than being chopped off at the edge. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
-.wall__list li {
+.mq__track {
+  display: flex;
+  width: max-content;
+  gap: var(--mq-gap);
+  animation: mq-scroll 64s linear infinite;
+  /* The paper has to be painted HERE, not on .mq. An animated transform
+     makes this element an isolated group, so the logos above blend against
+     whatever this element paints — and with the background one level up
+     they were multiplying against transparency, which leaves white white.
+     Measured at 78% of each logo box brighter than the ground before the
+     background moved down here. */
+  background: var(--bg);
+}
+/* Half the track is the duplicate set, so -50% lands the copy exactly where
+   the original started and the seam is invisible. */
+@keyframes mq-scroll { to { transform: translateX(-50%); } }
+
+/* Hover was the ask. focus-within is the same promise kept for a keyboard:
+   tabbing to a logo that then slides away is worse than no pause at all. */
+.mq:hover .mq__track,
+.mq:focus-within .mq__track { animation-play-state: paused; }
+
+.mq__set {
+  --mq-gap: clamp(2.25rem, 5vw, 4.5rem);
+  display: flex;
+  align-items: center;
+  gap: var(--mq-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mq { --mq-gap: clamp(2.25rem, 5vw, 4.5rem); }
+
+.mq__item {
+  display: flex;
+  align-items: center;
+  height: clamp(2.75rem, 6vw, 3.25rem);
+  flex: 0 0 auto;
+}
+/* Capped on BOTH axes rather than set to one height.
+
+   The trimmed marks range from 2:1 (Godrej) to 5.3:1 (Cognizant). Give
+   them all the same height and the long wordmarks tower over the short
+   ones; cap the width too and a 5.3:1 mark takes the width limit and lands
+   at about 60% of the height, which is what the eye wants. The ratio
+   between the two caps is roughly 3.3:1, near the middle of the set. */
+.mq__logo {
+  max-height: clamp(1.375rem, 2.6vw, 1.75rem);
+  max-width: clamp(4.5rem, 9vw, 5.75rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  /* Held slightly back so a saturated logo does not outshout the names set
+     in type beside it. Full strength on hover, with the strip stopped. */
+  opacity: .78;
+  transition: opacity .3s var(--ease);
+}
+.mq:hover .mq__logo { opacity: 1; }
+
+.mq__word {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
   font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
   letter-spacing: -.01em;
-  transition: color .3s var(--ease);
+  white-space: nowrap;
+  color: var(--fg);
 }
-.wall__list li:hover { color: var(--accent); }
 
-/* The two walls are one idea in two registers, so they sit closer together
-   than a full block gap. --space-block put 64px between them, which read as
-   a section break. */
-.wall--secondary { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
-
-/* The university-wide list is deliberately quieter: it is not an engineering
-   claim and must never read as one. */
-.wall--secondary .wall__list li {
-  font-family: var(--font-body);
-  font-size: var(--fs-small);
-  color: var(--muted);
+/* The brief allows one load moment and this strip spends a second one, at
+   the client's instruction. Anyone who has asked their system for less
+   motion gets none: the strip becomes a row they scroll themselves, and the
+   duplicate set goes with the animation that needed it. */
+@media (prefers-reduced-motion: reduce) {
+  .mq { overflow-x: auto; }
+  .mq__track { animation: none; }
+  .mq__set[aria-hidden="true"] { display: none; }
 }
 
 @media (min-width: 720px) {

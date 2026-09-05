@@ -481,27 +481,50 @@
         <a class="pl__more" href="#recAll">See the full list</a>
       </p>
 
-      <!-- Set in type, not logos. Five names that have actually hired B.Tech
-           students from this campus is worth more than nine logos where eight
-           never did. Static rather than a marquee: continuous motion would
-           break the page's one-load-moment rule. -->
+      <!-- One strip, not two: see the note in _wall's commit. The duplicate
+           set is what makes the loop seamless — the track travels exactly
+           half its own width, so the copy lands where the original began.
+           It is aria-hidden, or a screen reader announces all fourteen
+           twice. Paused on hover and on focus, and not animated at all for
+           anyone who has asked for reduced motion. -->
       <div class="wall">
-        <h3 class="wall__label">Firms that have hired B.Tech students from this campus</h3>
-        <ul class="wall__list">
-          <li>TEXMACO Rail &amp; Engineering</li>
-          <li>MGH Infra</li>
-          <li>Bharat Dynamics Limited</li>
-          <li>HCL</li>
-          <li>Codebucket Solutions</li>
+        <h3 class="wall__label">Companies that recruit at Sandip University</h3>
+        <div class="mq">
+          <div class="mq__track">
+        <ul class="mq__set">
+          <li class="mq__item"><span class="mq__word">TEXMACO Rail &amp; Engineering</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/amazon.webp" alt="Amazon" width="244" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">Bharat Dynamics Limited</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/tcs.webp" alt="TCS" width="330" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">HCL</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/infosys.webp" alt="Infosys" width="233" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">MGH Infra</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/cognizant.webp" alt="Cognizant" width="511" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">GeBBS</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/mahindra.webp" alt="Mahindra" width="354" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">Codebucket Solutions</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/asianpaints.webp" alt="Asian Paints" width="476" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">Atos</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/godrej.webp" alt="Godrej" width="195" height="96" loading="lazy" decoding="async"></li>
         </ul>
-      </div>
-
-      <div class="wall wall--secondary">
-        <h3 class="wall__label">University-wide recruiters, across all programmes</h3>
-        <ul class="wall__list">
-          <li>Asian Paints</li><li>Cognizant</li><li>TCS</li><li>Godrej</li><li>GeBBS</li>
-          <li>Atos</li><li>Mahindra</li><li>Infosys</li><li>Amazon</li>
+        <ul class="mq__set" aria-hidden="true">
+          <li class="mq__item"><span class="mq__word">TEXMACO Rail &amp; Engineering</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/amazon.webp" alt="" width="244" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">Bharat Dynamics Limited</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/tcs.webp" alt="" width="330" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">HCL</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/infosys.webp" alt="" width="233" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">MGH Infra</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/cognizant.webp" alt="" width="511" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">GeBBS</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/mahindra.webp" alt="" width="354" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">Codebucket Solutions</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/asianpaints.webp" alt="" width="476" height="96" loading="lazy" decoding="async"></li>
+          <li class="mq__item"><span class="mq__word">Atos</span></li>
+          <li class="mq__item"><img class="mq__logo" src="assets/img/recruiters/trim/godrej.webp" alt="" width="195" height="96" loading="lazy" decoding="async"></li>
         </ul>
+          </div>
+        </div>
       </div>
 
     </div>

@@ -255,13 +255,29 @@ const CONTENT = {
 
     /* The published list of 40 contains Civil 5, Electrical 5, CSE 2 and
        Mechanical 0, while the page sells a Mechanical branch. Raised with
-       the client; until it is answered the section stays branch-neutral in
-       its framing and this marker stays visible on the page. */
+       the client. The section stays branch-neutral in its framing and says
+       nothing about the gap either way. */
   },
 
-  /* The five firms that have actually hired B.Tech students from this campus.
-     No logo files exist for any of them, so this wall is set in type rather
-     than shipping the wrong images or scraping trademarks. */
+  /* These two lists now render as ONE strip in 5.6, under a heading that is
+     true of both: "Companies that recruit at Sandip University".
+
+     They are kept apart here because the distinction is real and someone
+     will need it again — the first five are firms that have actually hired
+     B.Tech students from this campus, the rest recruit across the whole
+     university. What changed is that showing the first five alone, under
+     their own heading, put the smallest employers in a row by themselves
+     where the size of the names was the only thing to look at. The B.Tech
+     claim did not disappear with the heading: 5.6 names three students with
+     their employers and 5.12 prints the entire published record.
+
+     Logo files exist for seven of the fourteen. Those seven are trimmed to
+     their ink boxes under assets/img/recruiters/trim/ — the originals are
+     240x120 canvases with a different amount of white padding in each, so
+     at a common CSS height they came out at wildly different sizes. The
+     other seven are set in the display serif. Do not fill the gap with the
+     accenture, flipkart or wipro files sitting in that folder: none of the
+     three is on either list. */
   recruitersEngineering: [
     'TEXMACO Rail & Engineering',
     'MGH Infra',
