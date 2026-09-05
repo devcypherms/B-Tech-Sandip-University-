@@ -37,6 +37,23 @@ const CONTENT = {
     lng: '86.2405787',
   },
 
+  /* The one URL the whole deployment agrees on. build-seo.js derives the
+     canonical, og:url, og:image, sitemap.xml and the robots.txt Sitemap
+     line from this single value, so they cannot disagree.
+
+     Held. The page in the repo carried
+     https://www.sandipuniversity.edu.in/btech-admission-bihar/, which is a
+     guess: that is the Nashik domain, the Madhubani campus lives at
+     sijoul.sandipuniversity.edu.in, and this page deploys to Vercel where
+     the client chooses the hostname. Publishing a canonical that points at
+     a URL this page is not served from would tell Google to rank a
+     different page instead of this one.
+
+     Must end in a trailing slash. /x and /x/ are different URLs. */
+  site: {
+    canonical: '[[CONFIRM: production URL — canonical, og:url and sitemap all derive from this; include the trailing slash]]',
+  },
+
   links: {
     apply: 'https://sijouladmission.sandipuniversity.edu.in/',
     enquiry: 'https://sijoul.sandipuniversity.edu.in/admission.php',

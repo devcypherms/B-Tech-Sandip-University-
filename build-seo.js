@@ -1,0 +1,243 @@
+#!/usr/bin/env node
+/* =============================================================================
+   build-seo.js — generate everything that must agree with something else.
+
+     node build-seo.js
+
+   Writes, from single sources of truth:
+
+     sitemap.xml                one URL, from content.js site.canonical
+     robots.txt                 same URL for the Sitemap: line
+     index.html canonical       same URL again, plus og:url and og:image
+     CollegeOrUniversity        from content.js org
+     Course x5                  branch names and fee keys read out of the
+                                programmes accordion, values from content.js
+
+   The reason none of this is hand-written: every one of these values exists
+   in at least two places, and a mismatch is silent. A canonical that does
+   not match the sitemap splits the page's own signals; a Course price that
+   drifts from the fee table publishes a number the page contradicts. So
+   they are generated from one value each, and confirm.js re-checks the
+   agreement on every run.
+
+   [[CONFIRM]] markers are carried through verbatim rather than filled with
+   something plausible. confirm.js scans these files too, so a marker in
+   sitemap.xml or robots.txt blocks the deploy exactly like one in the page.
+   ========================================================================== */
+
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = __dirname;
+const CONTENT = require(path.join(ROOT, 'content.js'));
+const HTML = path.join(ROOT, 'index.html');
+
+const MARKER = /\[\[CONFIRM:/;
+const isMarker = v => typeof v === 'string' && MARKER.test(v);
+
+/* ---------- the one URL everything else is derived from ---------- */
+const CANONICAL = CONTENT.site && CONTENT.site.canonical;
+if (!CANONICAL) throw new Error('content.js is missing site.canonical');
+
+/* A single-page site has exactly one URL, and the canonical, the sitemap
+   entry and og:url must be byte-identical — including the trailing slash,
+   because /x and /x/ are different URLs to a crawler. */
+const base = isMarker(CANONICAL) ? CANONICAL : CANONICAL.replace(/\/?$/, '/');
+const asset = p => (isMarker(base) ? base : base + p);
+
+/* ---------- helpers ---------- */
+const textOf = h => h.replace(/<[^>]+>/g, '')
+  .replace(/&amp;/g, '&').replace(/&rsquo;/g, '’').replace(/&nbsp;/g, ' ')
+  .replace(/&mdash;/g, '—').replace(/\s+/g, ' ').trim();
+
+const rupeesToNumber = v =>
+  (typeof v === 'string' && /^₹[\d,]+$/.test(v)) ? v.replace(/[₹,]/g, '') : null;
+
+/* ---------- read the branches out of the page ---------- */
+/* Names come from the markup because the markup is the source of truth for
+   indexable copy; the fee comes from content.js via the key the markup
+   already names in its data-c hook. Neither side is retyped here. */
+function branches(html) {
+  const out = [];
+  const re = /<span class="acc__name">([^<]+)<\/span>\s*<span class="acc__fee"><span data-c="(fees\.[a-zA-Z]+)">/g;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const key = m[2].split('.')[1];
+    const panel = html.slice(m.index).match(/<h4>What you study<\/h4>\s*<p>([\s\S]*?)<\/p>/);
+    out.push({
+      name: textOf(m[1]),
+      feeKey: key,
+      fee: CONTENT.fees[key],
+      /* BRIEF §3.1: the two schools do not share an entry bar. The computer
+         science branches sit under the higher one. */
+      eligibility: (key === 'cse' || key === 'aiml')
+        ? CONTENT.eligibility.csePercent
+        : CONTENT.eligibility.setPercent,
+      description: panel ? textOf(panel[1]) : '',
+    });
+  }
+  return out;
+}
+
+/* ---------- the blocks ---------- */
+function collegeBlock() {
+  const org = CONTENT.org;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollegeOrUniversity',
+    name: 'Sandip University, Madhubani',
+    alternateName: 'Sandip University Sijoul',
+    url: base,
+    /* Carried through as a marker, deliberately. The site displays one
+       number and links another; publishing either into structured data
+       would put the guess somewhere even harder to correct than the page. */
+    telephone: org.phone,
+    email: org.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: org.addressLine1,
+      addressLocality: 'Sijoul, Madhubani',
+      addressRegion: 'Bihar',
+      postalCode: '847235',
+      addressCountry: 'IN',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: org.lat,
+      longitude: org.lng,
+    },
+    sameAs: [CONTENT.links.facebook, CONTENT.links.instagram, CONTENT.links.youtube],
+  };
+}
+
+function courseBlocks(list) {
+  return list.map(b => {
+    const price = rupeesToNumber(b.fee);
+    const course = {
+      '@context': 'https://schema.org',
+      '@type': 'Course',
+      name: b.name,
+      description: b.description,
+      url: base,
+      provider: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Sandip University, Madhubani',
+        sameAs: base,
+      },
+      educationalCredentialAwarded: 'Bachelor of Technology',
+      coursePrerequisites: b.eligibility,
+      timeRequired: 'P4Y',
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        courseMode: 'onsite',
+        courseWorkload: 'P4Y',
+        location: {
+          '@type': 'Place',
+          name: 'Sandip University, Madhubani',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: CONTENT.org.addressLine1,
+            addressLocality: 'Sijoul, Madhubani',
+            addressRegion: 'Bihar',
+            postalCode: '847235',
+            addressCountry: 'IN',
+          },
+        },
+      },
+    };
+    /* Only publish a price when it parses to a plain number. A fee that has
+       become a marker or changed format must not silently become "0". */
+    if (price) {
+      course.offers = {
+        '@type': 'Offer',
+        category: 'Tuition, per year',
+        price: price,
+        priceCurrency: 'INR',
+      };
+    }
+    return course;
+  });
+}
+
+/* ---------- writers ---------- */
+function writeBlock(html, marker, title, payload) {
+  const open = `<!-- ${title}. GENERATED by build-seo.js — do not hand-edit. -->`;
+  const block = open + '\n<script type="application/ld+json">\n' +
+    JSON.stringify(payload, null, 2) + '\n</script>';
+  const re = new RegExp('<!-- ' + marker + '\\. GENERATED by build-seo\\.js[\\s\\S]*?<\\/script>');
+  if (re.test(html)) return html.replace(re, block);
+  const anchor = '<script src="content.js"></script>';
+  return html.replace(anchor, block + '\n\n' + anchor);
+}
+
+function run() {
+  let html = fs.readFileSync(HTML, 'utf8');
+  const list = branches(html);
+  if (list.length !== 5) throw new Error(`Expected 5 branches, found ${list.length}`);
+
+  /* sitemap: one page, one URL. */
+  fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
+`<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERATED by build-seo.js from content.js site.canonical — do not hand-edit.
+     A single-page site has exactly one URL. It must be byte-identical to the
+     canonical in index.html, trailing slash included: /x and /x/ are two
+     different URLs to a crawler, and disagreeing about which one is real
+     splits the page's own ranking signals. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${base}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+`);
+
+  /* robots: nothing blocked. */
+  fs.writeFileSync(path.join(ROOT, 'robots.txt'),
+`# GENERATED by build-seo.js — do not hand-edit.
+#
+# Nothing is disallowed, and that is deliberate. Google renders the page
+# before ranking it, so a blocked /assets/ directory would hide the CSS,
+# the fonts and the campus photographs from the renderer. The page would be
+# scored as an unstyled document. That costs far more than any structured
+# data on this page can win back, so the CSS, JS, font and image paths are
+# named explicitly below rather than left to a future edit to break.
+
+User-agent: *
+Allow: /
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/fonts/
+Allow: /assets/img/
+
+Sitemap: ${base}sitemap.xml
+`);
+
+  /* canonical, og:url, og:image — all from the same value. */
+  html = html.replace(/<link rel="canonical" href="[^"]*">/,
+    `<link rel="canonical" href="${base}">`);
+  html = html.replace(/<meta property="og:url" content="[^"]*">/,
+    `<meta property="og:url" content="${base}">`);
+  html = html.replace(/<meta property="og:image" content="[^"]*">/,
+    `<meta property="og:image" content="${asset('assets/img/og-image.jpg')}">`);
+
+  html = writeBlock(html, 'CollegeOrUniversity', 'CollegeOrUniversity', collegeBlock());
+  html = writeBlock(html, 'Course', 'Course', courseBlocks(list));
+
+  fs.writeFileSync(HTML, html);
+
+  const markers = [
+    isMarker(base) && 'site.canonical',
+    isMarker(CONTENT.org.phone) && 'org.phone',
+  ].filter(Boolean);
+
+  console.log(`sitemap.xml, robots.txt written for: ${base}`);
+  console.log(`CollegeOrUniversity + ${list.length} Course blocks written`);
+  list.forEach(b => console.log(`   ${b.name.padEnd(52)} ${b.fee}  ${b.eligibility}`));
+  if (markers.length) {
+    console.log(`\n   still unresolved, carried through as markers: ${markers.join(', ')}`);
+  }
+}
+
+if (require.main === module) run();
+module.exports = { branches, collegeBlock, courseBlocks, textOf, rupeesToNumber, base };
