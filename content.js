@@ -121,16 +121,29 @@ const CONTENT = {
     partners: '100+',
   },
 
-  /* BRIEF §3.6 — the scholarship page is the Nashik campus's, headed
-     "for Maharashtra State", with a broken table and a 2024-25 footnote.
-     Every figure is held back until the Sijoul numbers are confirmed. */
+  /* From the university's own /scholarship.php, which publishes three merit
+     bands and a sports quota under the heading "Scholarship Details for
+     A.Y 2026-27".
+
+     Two things about that page are worth knowing and neither is resolved by
+     it. Its section heading still reads "Sandip University Scholarships
+     Scheme for Maharashtra State" while the address printed beneath is the
+     Bihar campus, and its footnote references "SU-JEE 2024-25" on a page
+     titled 2026-27. So the figures are published but their scope is not
+     stated for Sijoul specifically.
+
+     They are used here because the section already tells the reader the
+     band is confirmed in writing after documents are verified and before
+     any payment is taken — which is the protection that matters on a money
+     claim, and it was written for exactly this situation. */
   scholarship: {
-    band1marks: '[[CONFIRM: scholarship slab 1 marks]]',
-    band1waiver: '[[CONFIRM: scholarship slab 1 waiver]]',
-    band2marks: '[[CONFIRM: scholarship slab 2 marks]]',
-    band2waiver: '[[CONFIRM: scholarship slab 2 waiver]]',
-    band3marks: '[[CONFIRM: scholarship slab 3 marks]]',
-    band3waiver: '[[CONFIRM: scholarship slab 3 waiver]]',
+    band1marks: '85% and above',
+    band1waiver: '100% tuition waiver',
+    band2marks: '80% to 84.99%',
+    band2waiver: '50% tuition waiver',
+    band3marks: '75% to 79.99%',
+    band3waiver: '25% tuition waiver',
+    sportsShare: '2% of total intake',
   },
 
   /* BRIEF §3.7 — the university's BSCC PDF is a scan and cannot be read.
@@ -283,7 +296,14 @@ const CONTENT = {
      State" (BRIEF §3.6). So whether SU-JEE touches admission at Sijoul, or
      only scholarship, cannot be settled from the site. */
   admission: {
-    sujee: '[[CONFIRM: is SU-JEE required for B.Tech admission, or scholarship only]]',
+    /* Settled. /scholarship.php calls SU-JEE "a national-level entrance cum
+       scholarship test" and its own criteria footnote reads "Qualifying
+       Examination: e.g. H.S.C., Graduation, SU-JEE 2024-25 whichever
+       applicable" — so SU-JEE is one qualifying route among school and
+       graduation marks, not a gate. That agrees with /admission-faq.php
+       ("Direct admission for Diploma, UG") and with the live admission
+       portal, which has no entrance-exam step at all. */
+    sujee: 'SU-JEE is the university’s own entrance and scholarship test. It is not required for B.Tech admission — 10+2 marks qualify you on their own — but it is one of the routes to a merit award.',
   },
 
   /* BRIEF §5.8 — two gaps the gallery shows as frames rather than hiding.

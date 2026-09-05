@@ -92,7 +92,14 @@ for (const file of htmlFiles) {
 
     const staticText = rawInner
       .replace(/<[^>]+>/g, '')
-      .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&rsquo;/g, '’')
+      /* The entity table has to cover everything the markup actually uses,
+         or a correct page reports as drifted. &mdash; was missing and the
+         SU-JEE copy tripped it. */
+      .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+      .replace(/&rsquo;/g, '’').replace(/&lsquo;/g, '‘')
+      .replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')
+      .replace(/&mdash;/g, '—').replace(/&ndash;/g, '–')
+      .replace(/&hellip;/g, '…')
       .replace(/\s+/g, ' ')
       .trim();
     const expected = String(value).replace(/\s+/g, ' ').trim();
