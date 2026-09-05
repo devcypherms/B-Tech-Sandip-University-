@@ -195,6 +195,10 @@
       return colon < 0 ? label : label.slice(colon + 2);
     }
 
+    /* Zero-padded, because "01 / 07" is a pair of matched marks and
+       "1 / 7" is two loose ones. */
+    function pad(k) { return String(k + 1).length < 2 ? '0' + (k + 1) : String(k + 1); }
+
     function show(i, announce) {
       i = (i % n + n) % n;          /* wraps both ways */
       if (i === at) return;
@@ -215,11 +219,12 @@
 
       var cap = captionOf(i);
       if (capEl) capEl.textContent = cap;
-      if (nowEl) nowEl.textContent = String(i + 1);
+      if (nowEl) nowEl.textContent = pad(i);
       /* Only on a deliberate move. Announcing during a drag would fire on
          every frame. */
       if (announce !== false && live) live.textContent = cap + ', ' + (i + 1) + ' of ' + n;
 
+      if (lb && !lb.hidden) paintLightbox();
       keepThumbInView(i);
     }
 
@@ -259,7 +264,7 @@
        to the page, so this only ever sees a horizontal gesture. The 40px
        threshold is above the wobble in a tap but below a deliberate flick,
        and the vertical check drops a diagonal that was meant as a scroll. */
-    var x0 = 0, y0 = 0, tracking = false;
+    var x0 = 0, y0 = 0, tracking = false, dragged = 0;
 
     /* A photograph is draggable by default, so dragging across one starts
        the browser's own image drag: that fires pointercancel and the swipe
@@ -273,18 +278,112 @@
       /* The arrows live inside the stage, so without this the capture below
          redirects their pointer events to the stage and the button never
          sees a click at all. Press on an arrow, nothing happens. */
-      if (e.target.closest && e.target.closest('.gal__arrow')) return;
-      tracking = true; x0 = e.clientX; y0 = e.clientY;
+      /* Any real control inside the stage has to be excluded, not just the
+         arrows: pointer capture retargets the click to the stage, so the
+         button never sees one. The enlarge control was opening the view
+         with the stage recorded as its opener, and focus came back to the
+         wrong element on close. */
+      if (e.target.closest && e.target.closest('.gal__arrow, .gal__zoom')) return;
+      tracking = true; dragged = 0; x0 = e.clientX; y0 = e.clientY;
       try { stage.setPointerCapture(e.pointerId); } catch (err) {}
     });
     stage.addEventListener('pointerup', function (e) {
       if (!tracking) return;
       tracking = false;
       try { if (stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId); } catch (err) {}
+      dragged = Math.abs(e.clientX - x0);
       var dx = e.clientX - x0, dy = e.clientY - y0;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(at + (dx < 0 ? 1 : -1));
     });
     stage.addEventListener('pointercancel', function () { tracking = false; });
+
+    /* ----- enlarged view -----
+       The stage is a 2.4:1 crop of a 3:2 photograph, so a third of each
+       image is not on screen. This is where the whole frame can be seen,
+       which is the honest reason to have it at all rather than decoration.
+
+       It is a modal, so it owes the usual four things: focus moves in on
+       open, Tab stays inside while it is up, Escape closes it, and focus
+       returns to whatever opened it. */
+    var lb = document.getElementById('galLb');
+    if (lb) {
+      var lbImg = document.getElementById('lbImg');
+      var lbText = document.getElementById('lbText');
+      var lbCount = document.getElementById('lbCount');
+      var lbClose = document.getElementById('lbClose');
+      var zoom = document.getElementById('galZoom');
+      var returnTo = null;
+
+      var paintLightbox = function () {
+        var img = slides[at].querySelector('img');
+        lbImg.src = img.currentSrc || img.src;
+        lbImg.alt = img.alt;
+        lbText.textContent = captionOf(at);
+        lbCount.textContent = pad(at) + ' / ' + pad(n - 1);
+      };
+
+      var openLb = function (opener) {
+        returnTo = opener || document.activeElement;
+        paintLightbox();
+        lb.hidden = false;
+        document.documentElement.classList.add('is-lb-open');
+        lbClose.focus();
+      };
+
+      var closeLb = function () {
+        lb.hidden = true;
+        document.documentElement.classList.remove('is-lb-open');
+        if (returnTo && returnTo.focus) returnTo.focus();
+        returnTo = null;
+      };
+
+      /* A click on the stage opens it, but not a drag: the swipe handler
+         records how far the pointer travelled, and anything past the swipe
+         threshold was a gesture, not a click. Nor do the arrows count. */
+      stage.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('.gal__arrow')) return;
+        if (dragged > 6) return;
+        openLb(stage);
+      });
+      zoom.addEventListener('click', function (e) { e.stopPropagation(); openLb(zoom); });
+
+      lbClose.addEventListener('click', closeLb);
+      document.getElementById('lbPrev').addEventListener('click', function () { show(at - 1); });
+      document.getElementById('lbNext').addEventListener('click', function () { show(at + 1); });
+
+      /* Clicking the backdrop closes; clicking the photograph does not. */
+      lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+
+      lb.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { e.preventDefault(); closeLb(); return; }
+        if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); return; }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); return; }
+        if (e.key !== 'Tab') return;
+
+        /* Keep Tab inside. Collected live rather than cached, because a
+           button can be disabled or hidden between openings. */
+        var focusable = Array.prototype.filter.call(
+          lb.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])'),
+          function (el) { return el.offsetWidth || el.offsetHeight || el.getClientRects().length; }
+        );
+        if (!focusable.length) return;
+        var first = focusable[0], last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+
+      /* Swipe inside the enlarged view too, since it is the view a phone
+         will spend the most time in. */
+      var lx = 0, ly = 0, ltrack = false;
+      lb.addEventListener('pointerdown', function (e) { ltrack = true; lx = e.clientX; ly = e.clientY; });
+      lb.addEventListener('pointerup', function (e) {
+        if (!ltrack) return;
+        ltrack = false;
+        var dx = e.clientX - lx, dy = e.clientY - ly;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(at + (dx < 0 ? 1 : -1));
+      });
+      lb.addEventListener('pointercancel', function () { ltrack = false; });
+    }
   })();
 
   /* ---------- 5. MAP, BUILT ON CLICK ----------

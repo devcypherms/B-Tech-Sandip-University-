@@ -1375,17 +1375,19 @@ mark.confirm {
 
 .gal__box { margin-top: var(--space-block); }
 
-/* The stage holds every slide stacked in the same box, so the box needs the
-   images' own ratio or the first paint has no height and everything below
-   jumps when the photograph arrives. */
+/* 2.4:1, which is the ratio the client asked for by example. Our source
+   photographs are 3:2, so this keeps 62% of their height — every one was
+   checked at three vertical positions before the ratio was adopted, and
+   only the classroom needed weighting away from centre (see the markup). */
 .gal__stage {
   position: relative;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 2.4 / 1;
   overflow: hidden;
   border-radius: var(--radius);
   background: var(--panel);
   touch-action: pan-y;   /* horizontal swipe is ours, vertical stays the page's */
   user-select: none;
+  cursor: zoom-in;
 }
 .gal__stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
@@ -1394,7 +1396,7 @@ mark.confirm {
   inset: 0;
   margin: 0;
   opacity: 0;
-  /* Hidden slides must not swallow a swipe or a click meant for the one on
+  /* A hidden slide must not swallow a swipe or a click meant for the one on
      top, and must not be reachable by tab. */
   pointer-events: none;
   visibility: hidden;
@@ -1406,51 +1408,68 @@ mark.confirm {
   visibility: visible;
   transition: opacity .55s var(--ease), visibility 0s;
 }
-.gal__slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+.gal__slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* Counter and caption sit on the photograph, so they carry their own scrim
-   rather than trusting whatever happens to be in the lower third. The ramp
-   is in oklab because a straight sRGB fade to transparent passes through a
-   dead grey and bands on a gradient this tall. */
+/* Only the counter and the enlarge control sit on the photograph now, so
+   the scrim can be lighter than when the caption was up here — but it
+   cannot be dropped the way the reference site drops it. Their renders are
+   dark along the bottom; our campus shots have lawn and sky there.
+   Measured across all seven photographs in galcontrast.js. */
 .gal__foot {
   position: absolute;
   inset: auto 0 0 0;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: clamp(3rem, 9vw, 5rem) clamp(1rem, 3vw, 1.75rem) clamp(.875rem, 2.5vw, 1.25rem);
-  /* Four stops, not two. A straight ramp put almost no density where the
-     text actually sits: "Main academic block" measured 1.12:1 against a
-     sunlit facade, which is white on white. These stops are weighted so the
-     bottom third — the only part the text occupies — carries the darkening,
-     while the top still fades out invisibly.
-
-     Both ends share the same RGB, so it interpolates without the dead grey
-     a fade to plain transparent passes through, and needs no oklab hint. */
+  padding: clamp(2rem, 6vw, 3rem) clamp(.875rem, 2.2vw, 1.375rem) clamp(.625rem, 1.8vw, .875rem);
+  /* Weighted for the SHORT ramp, not the tall one. The foot padding is
+     smaller on a phone, so the counter sits proportionally higher in the
+     gradient and two slides came in at 4.06 and 4.43 against 4.5. */
   background: linear-gradient(to top,
-    rgba(8, 8, 7, .80) 0%,
-    rgba(8, 8, 7, .66) 38%,
-    rgba(8, 8, 7, .30) 70%,
+    rgba(8, 8, 7, .84) 0%,
+    rgba(8, 8, 7, .70) 42%,
+    rgba(8, 8, 7, .32) 74%,
     rgba(8, 8, 7, 0) 100%);
   pointer-events: none;
 }
 .gal__count {
+  font-family: var(--font-display);
   font-size: var(--fs-small);
-  letter-spacing: .08em;
-  color: rgba(255, 255, 255, .86);
+  letter-spacing: .12em;
+  color: #fff;
   font-variant-numeric: tabular-nums;
   flex: 0 0 auto;
 }
-.gal__cap {
-  font-size: var(--fs-small);
+/* Set back so the two numbers read as the pair rather than as three marks. */
+.gal__count i { font-style: normal; opacity: .55; margin: 0 .15em; }
+
+.gal__zoom {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem;
+  border: 0;
+  background: none;
   color: #fff;
-  text-align: right;
+  cursor: zoom-in;
+  font-size: var(--fs-small);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: opacity .3s var(--ease);
+  opacity: .88;
+}
+.gal__zoom svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.gal__zoom:hover { opacity: 1; }
+
+/* The icon carries it below this width; the words will not sit beside the
+   counter without one of the two wrapping. */
+@media (max-width: 480px) {
+  .gal__zoom span {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
 }
 
 .gal__arrow {
@@ -1460,34 +1479,44 @@ mark.confirm {
   z-index: 2;
   display: grid;
   place-items: center;
-  /* 44px is the floor everywhere; a coarse pointer gets more below. */
   width: 44px;
   height: 44px;
-  border: 1px solid var(--hairline-strong);
+  border: 0;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--bg) 88%, transparent);
-  color: var(--fg);
+  background: rgba(255, 255, 255, .86);
+  color: var(--ink-900);
   cursor: pointer;
-  transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+  transition: background .3s var(--ease), color .3s var(--ease);
 }
 .gal__arrow svg { width: 20px; height: 20px; }
 .gal__arrow--prev { left: clamp(.625rem, 2vw, 1.25rem); }
 .gal__arrow--next { right: clamp(.625rem, 2vw, 1.25rem); }
-.gal__arrow:hover { background: var(--bg); color: var(--accent); border-color: var(--accent); }
-.gal__arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-@media (any-pointer: coarse) {
-  .gal__arrow { width: 52px; height: 52px; }
+.gal__arrow:hover { background: #fff; color: var(--accent); }
+/* Ink ring with a white halo, so it works on both things these controls
+   sit on. They had a white ring, which on the arrows meant a white ring on
+   a white button - invisible whatever the photograph behind it was doing -
+   and on the enlarge control meant a ring judged against a backdrop that
+   changes with every slide. The halo carries it over dark photography, the
+   ink ring carries it over the button and over pale sky. */
+.gal__arrow:focus-visible,
+.gal__zoom:focus-visible {
+  outline: 2px solid var(--ink-900);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, .92);
+  border-radius: 2px;
 }
+.gal__arrow:focus-visible { border-radius: 50%; }
+@media (any-pointer: coarse) { .gal__arrow { width: 52px; height: 52px; } }
 
-/* The rail is the part that tells a visitor there is more than one
-   photograph, which the old strip only admitted once it had been dragged.
-   It scrolls itself on a narrow screen rather than shrinking the thumbs
-   below the point where they show anything. */
+/* Equal columns, so the rail reads as one measured row rather than a strip
+   of leftovers. Below the width where seven of them still show something,
+   it scrolls rather than shrinking further. */
 .gal__rail {
-  display: flex;
-  gap: clamp(.5rem, 1.4vw, .75rem);
-  margin: clamp(.625rem, 1.6vw, .875rem) 0 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(4.25rem, 1fr);
+  gap: clamp(.375rem, 1vw, .625rem);
+  margin: clamp(.5rem, 1.4vw, .75rem) 0 0;
   padding: 0 0 .25rem;
   list-style: none;
   overflow-x: auto;
@@ -1497,7 +1526,6 @@ mark.confirm {
 .gal__rail::-webkit-scrollbar { height: 2px; }
 .gal__rail::-webkit-scrollbar-track { background: var(--hairline); }
 .gal__rail::-webkit-scrollbar-thumb { background: var(--hairline-strong); }
-.gal__rail > li { flex: 1 1 0; min-width: 4.5rem; }
 
 .gal__thumb {
   display: block;
@@ -1506,19 +1534,102 @@ mark.confirm {
   border: 0;
   background: none;
   cursor: pointer;
-  border-radius: calc(var(--radius) / 2);
+  border-radius: 4px;
   overflow: hidden;
-  /* Outline rather than border, so selecting a thumbnail does not resize it
-     and shove the rest of the rail sideways. */
+  /* Outline rather than border, so selecting one does not resize it and
+     shove the rest of the rail sideways. */
   outline: 2px solid transparent;
   outline-offset: 2px;
   transition: outline-color .3s var(--ease), opacity .3s var(--ease);
   opacity: .55;
 }
-.gal__thumb img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.gal__thumb img { display: block; width: 100%; aspect-ratio: 2.4 / 1; object-fit: cover; }
 .gal__thumb:hover { opacity: .85; }
-.gal__thumb.is-on { opacity: 1; outline-color: var(--accent); }
+.gal__thumb.is-on { opacity: 1; outline-color: var(--ink-900); }
 .gal__thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Below the frame and in ink, so the one piece of real information here is
+   never at the mercy of the lower third of a photograph. */
+.gal__cap {
+  margin-top: clamp(.75rem, 1.8vw, 1rem);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+/* ---------- 15b. ENLARGED VIEW ----------
+   A 2.4:1 frame is a crop, so this is where the whole photograph can
+   actually be seen: object-fit is contain here, not cover. */
+.lb {
+  position: fixed;
+  inset: 0;
+  /* Above the sticky header (100) and the mobile bar (90). At 90 it tied
+     with the bar and lost to the header, which painted straight over the
+     enlarged photograph and swallowed clicks meant for the backdrop. */
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  /* Nearly opaque rather than merely dark. The page behind is paper, so at
+     .94 the section headings were still legible as ghosts through it, which
+     reads as a translucency bug rather than a choice. */
+  background: rgba(8, 8, 7, .975);
+}
+.lb[hidden] { display: none; }
+.lb__fig { margin: 0; max-width: min(100%, 1400px); }
+.lb__fig img {
+  display: block;
+  max-width: 100%;
+  /* Leaves room for the caption beneath and the close control above. dvh
+     second, so a phone browser's collapsing toolbar does not clip it. */
+  max-height: calc(100vh - 9rem);
+  max-height: calc(100dvh - 9rem);
+  object-fit: contain;
+  border-radius: var(--radius);
+}
+.lb__cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .875rem;
+  margin-top: .875rem;
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, .82);
+}
+.lb__count {
+  font-family: var(--font-display);
+  letter-spacing: .12em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.lb__close,
+.lb__nav {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  cursor: pointer;
+  transition: background .3s var(--ease);
+}
+.lb__close svg, .lb__nav svg { width: 22px; height: 22px; }
+.lb__close { top: clamp(.75rem, 2.5vw, 1.5rem); right: clamp(.75rem, 2.5vw, 1.5rem); }
+.lb__nav--prev { left: clamp(.5rem, 2vw, 1.5rem); top: 50%; transform: translateY(-50%); }
+.lb__nav--next { right: clamp(.5rem, 2vw, 1.5rem); top: 50%; transform: translateY(-50%); }
+.lb__close:hover, .lb__nav:hover { background: rgba(255, 255, 255, .26); }
+.lb__close:focus-visible, .lb__nav:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (any-pointer: coarse) { .lb__close, .lb__nav { width: 52px; height: 52px; } }
+
+/* The page must not scroll behind the enlarged view, and neither piece of
+   fixed chrome should show around its edges: focus is trapped inside, so
+   both are unreachable anyway. Both are position:fixed, so removing them
+   shifts nothing. */
+.is-lb-open { overflow: hidden; }
+.is-lb-open .site-header,
+.is-lb-open .bar { display: none; }
 
 /* ---------- 16. ADMISSION PROCESS (5.9) ----------
    Numbering earns its place here: this is a sequence, not a list of features.
@@ -1689,7 +1800,10 @@ mark.confirm {
 }
 /* A band under both columns, not a sidebar item. See the note in the
    markup for why it is not in either column. */
-.loc__modes { display: grid; gap: 2rem; margin-top: 2.5rem; }
+/* No margin of its own. The grid row gap above already separates this band
+   from the two columns, and adding a margin on top of it stacked two
+   spacings into one hole. */
+.loc__modes { display: grid; gap: 2rem; }
 .loc__modes h3 {
   font-size: var(--fs-small);
   font-weight: 400;
@@ -1739,14 +1853,22 @@ mark.confirm {
 .map iframe { display: block; width: 100%; aspect-ratio: 3 / 2; border: 0; }
 
 @media (min-width: 900px) {
-  .loc__grid { grid-template-columns: 1fr 1fr; gap: clamp(3rem, 7vw, 6rem); align-items: start; }
+  /* Row and column gaps set separately. One value for both meant the
+     generous column gutter the two columns want was also applied between
+     them and the band below, and with the band s own margin and padding on
+     top of that it came to 160px of nothing at 1440. */
+  .loc__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 7vw, 6rem);
+    align-items: start;
+  }
   .loc__modes {
     grid-column: 1 / -1;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(1.5rem, 4vw, 3rem);
-    /* The columns above already end unevenly; this band does not need to
-       add its own margin and padding on top of that difference. */
-    margin-top: clamp(1.25rem, 2.5vw, 2rem);
+    /* The columns above already end unevenly, and the row gap has been
+       separated out, so the hairline and its padding are all this band
+       needs to sit apart from them. */
     padding-top: clamp(1.25rem, 2.5vw, 2rem);
     border-top: 1px solid var(--hairline);
   }

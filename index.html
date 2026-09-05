@@ -728,14 +728,15 @@
       </p>
       </div>
 
-      <!-- One large frame with a thumbnail rail, rather than a strip that
-           had to be dragged before it admitted there was anything past the
-           second photograph. Every way in is here at once: thumbnails,
-           arrows, swipe, and the arrow keys once the frame has focus.
+      <!-- A wide frame with a thumbnail rail beneath, and every way in at
+           once: thumbnails, arrows, swipe, the arrow keys once the frame has
+           focus, and a click to enlarge. Slides are stacked and crossfaded
+           rather than scrolled, so one index is the whole state.
 
-           The frame keeps the images' own 3:2 so nothing is cropped, and
-           the slides are stacked rather than laid in a row so moving
-           between them is a crossfade instead of a scroll. -->
+           The caption sits BELOW the frame in ink rather than on the
+           photograph. It is the one piece of real information here, and on
+           the image it would be at the mercy of whatever the lower third of
+           each photograph happens to be. -->
       <div class="gal__box" id="gal" role="group" aria-roledescription="carousel"
            aria-label="Campus and laboratory photographs">
 
@@ -752,7 +753,7 @@
           </figure>
           <figure class="gal__slide" role="group"
                   aria-roledescription="slide" aria-label="3 of 7: Classroom" aria-hidden="true">
-            <img src="assets/img/gallery/g-classroom.webp" width="960" height="640" alt="Classroom with rows of desks facing a projector screen"
+            <img src="assets/img/gallery/g-classroom.webp" width="960" height="640" alt="Classroom with rows of desks facing a projector screen" style="object-position:center top"
                  loading="lazy" decoding="async">
           </figure>
           <figure class="gal__slide" role="group"
@@ -783,16 +784,17 @@
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
 
-          <!-- Sits on the photograph, so it carries its own scrim. -->
           <div class="gal__foot">
-            <p class="gal__count"><span id="galNow">1</span> / 7</p>
-            <p class="gal__cap" id="galCap">Main academic block</p>
+            <p class="gal__count"><span id="galNow">01</span> <i>/</i> 07</p>
+            <button type="button" class="gal__zoom" id="galZoom">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span>Tap to enlarge</span>
+            </button>
           </div>
         </div>
-
-        <!-- The caption is announced from here rather than from the
-             figcaption, which would be read twice. -->
-        <p class="sr-only" aria-live="polite" id="galLive">Main academic block, 1 of 7</p>
 
         <ul class="gal__rail" id="galRail">
           <li>
@@ -838,7 +840,34 @@
             </button>
           </li>
         </ul>
+
+        <p class="gal__cap" id="galCap">Main academic block</p>
+
+        <!-- Announced from here rather than from the caption, which would
+             otherwise be read twice. -->
+        <p class="sr-only" aria-live="polite" id="galLive">Main academic block, 1 of 7</p>
       </div>
+    </div>
+
+    <!-- Enlarged view. Built into the markup rather than created on demand
+         so it works from the first click and needs no template string. -->
+    <div class="lb" id="galLb" hidden role="dialog" aria-modal="true" aria-label="Enlarged photograph">
+      <button type="button" class="lb__close" id="lbClose" aria-label="Close enlarged view">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="lb__nav lb__nav--prev" id="lbPrev" aria-label="Previous photograph">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="lb__nav lb__nav--next" id="lbNext" aria-label="Next photograph">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <figure class="lb__fig">
+        <img id="lbImg" alt="">
+        <figcaption class="lb__cap">
+          <span class="lb__count" id="lbCount">01 / 07</span>
+          <span id="lbText"></span>
+        </figcaption>
+      </figure>
     </div>
   </section>
   <!-- ========== 5.9 ADMISSION PROCESS ========== -->
