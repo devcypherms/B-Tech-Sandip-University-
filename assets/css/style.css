@@ -433,25 +433,33 @@ table { border-collapse: collapse; width: 100%; }
      Giving only the headline the full width fixes the wrap, and pairing the
      subline with the form recovers the height. display: contents lifts the
      copy wrapper out of the way so its children can be placed directly. */
+  /* Two columns, one row. Everything on the left is a single grid item, so
+     no track can absorb a share of the form's height — that bug opened an
+     87px hole once already. One row also lets the form start level with the
+     headline instead of below it, which is what brings the whole section
+     inside a single screen. */
   .hero__inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(20rem, 30vw, 24rem);
-    /* Explicit rows, and nothing spans them. An auto track absorbs a share
-       of any item that spans it, which is what opened an 87px hole between
-       the subline and the buttons: the form spanned rows 2 and 3, so row 2
-       grew to take part of its 601px. Each element now owns one row. */
-    grid-template-rows: auto 1fr;
     column-gap: clamp(2rem, 4vw, 4rem);
-    row-gap: clamp(.75rem, 1.2vw, 1.125rem);
-    align-content: start;
-    padding-top: calc(var(--header-h) + clamp(1rem, 2.5vw, 2.25rem));
+    align-items: stretch;
+    padding-top: calc(var(--header-h) + clamp(1rem, 2.5vw, 2rem));
     padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
   }
 
 
-  /* The measure is the container, not a ch cap: 16ch reads as ~740px at
-     this size and clipped the 943px line. */
-  .hero__title { grid-column: 1 / -1; grid-row: 1; max-width: none; }
+  /* Sized to set in two lines inside the column, not across the page.
+     "Engineering ki padhai," is the long line; at 101px it needs 943px and
+     the column is 734px, which is what used to wrap it into three ragged
+     lines and break the two-phrase load reveal. 5.2vw lands at 75px here
+     and the 4.5rem cap keeps it inside the narrower column at 1920. */
+  /* Specificity, not source order: the base .hero__title rule is declared
+     after this media query, and a media query adds none of its own. This is
+     the second time that has bitten in this section. */
+  .hero__side .hero__title {
+    max-width: none;
+    font-size: clamp(2.75rem, 5.2vw, 4.5rem);
+  }
 
   /* One cell, laid out top and bottom. The subline and links sit under the
      headline; the stats hold the floor level with the form. What is left
@@ -460,7 +468,6 @@ table { border-collapse: collapse; width: 100%; }
      instead of trailing off. */
   .hero__side {
     grid-column: 1;
-    grid-row: 2;
     display: flex;
     flex-direction: column;
     /* Grouped at the top with the stats holding the floor, rather than
@@ -475,8 +482,31 @@ table { border-collapse: collapse; width: 100%; }
      hero. Below the buttons there was 453px of nothing but photograph, and
      a reader counts that as empty space whatever is behind it. Moved up,
      they sit beside the form where the numbers do useful work. */
+  /* Two across, not four. In a 734px column four cells are 183px each and
+     "10+2 with PCM" wraps, which left the row ragged; at two across each
+     cell has 367px and every value sets on one line. The extra row also
+     lifts the stats, closing most of what was left of the gap under the
+     buttons. */
   .hero__rail { border-top: 1px solid var(--hairline); background: none; margin-top: auto; }
-  .hero__form { grid-column: 2; grid-row: 2; align-self: start; }
+  /* Specificity again: the 768px rail rule that sets four columns is
+     declared after this block, so a plain .hero__rail ul loses to it. */
+  .hero__side .hero__rail ul { grid-template-columns: repeat(2, 1fr); }
+  .hero__side .hero__rail li {
+    border-top: 0;
+    border-left: 0;
+    padding-left: 0;
+    padding-block: 1rem 1.125rem;
+  }
+  /* The 768px block gives odd cells a left border and padding for the
+     four-across layout; at two across the first column has to sit flush
+     with the headline above it. */
+  .hero__side .hero__rail li:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .hero__side .hero__rail li:nth-child(n+3) { border-top: 1px solid var(--hairline); }
+  .hero__side .hero__rail li:nth-child(even) {
+    border-left: 1px solid var(--hairline);
+    padding-left: clamp(1rem, 2.5vw, 2rem);
+  }
+  .hero__form { grid-column: 2; align-self: start; }
 }
 
 .hero__title {
