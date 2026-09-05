@@ -393,7 +393,6 @@ table { border-collapse: collapse; width: 100%; }
   .hero__sub { order: 2; }
   .hero__actions { order: 3; }
   .hero__form { order: 4; }
-  .hero__rail { order: 5; }
   .hero__media::after {
     /* Vertical only below the split: the copy is full width here, so a
        horizontal pass would bleach the entire frame rather than one side. */
@@ -482,30 +481,6 @@ table { border-collapse: collapse; width: 100%; }
      hero. Below the buttons there was 453px of nothing but photograph, and
      a reader counts that as empty space whatever is behind it. Moved up,
      they sit beside the form where the numbers do useful work. */
-  /* Two across, not four. In a 734px column four cells are 183px each and
-     "10+2 with PCM" wraps, which left the row ragged; at two across each
-     cell has 367px and every value sets on one line. The extra row also
-     lifts the stats, closing most of what was left of the gap under the
-     buttons. */
-  .hero__rail { border-top: 1px solid var(--hairline); background: none; margin-top: auto; }
-  /* Specificity again: the 768px rail rule that sets four columns is
-     declared after this block, so a plain .hero__rail ul loses to it. */
-  .hero__side .hero__rail ul { grid-template-columns: repeat(2, 1fr); }
-  .hero__side .hero__rail li {
-    border-top: 0;
-    border-left: 0;
-    padding-left: 0;
-    padding-block: 1rem 1.125rem;
-  }
-  /* The 768px block gives odd cells a left border and padding for the
-     four-across layout; at two across the first column has to sit flush
-     with the headline above it. */
-  .hero__side .hero__rail li:nth-child(odd) { border-left: 0; padding-left: 0; }
-  .hero__side .hero__rail li:nth-child(n+3) { border-top: 1px solid var(--hairline); }
-  .hero__side .hero__rail li:nth-child(even) {
-    border-left: 1px solid var(--hairline);
-    padding-left: clamp(1rem, 2.5vw, 2rem);
-  }
   .hero__form { grid-column: 2; align-self: start; }
 }
 
