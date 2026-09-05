@@ -406,21 +406,26 @@ table { border-collapse: collapse; width: 100%; }
   content: "";
   position: absolute;
   inset: 0;
-  /* The EV Lab photograph is materially darker than the campus shot it
-     replaced — mean luminance 118 against 162, and its darkest 1% is 13 —
-     so ink text needs more cover here than it did. Stops retuned and then
-     sampled against the real pixels rather than eyeballed. */
+  /* Relaxed for the campus photograph, which is brighter than the EV Lab
+     shot these stops were last tuned for — mean luminance 162 against 118.
+     Carrying the darker photograph's cover over to this one veiled the
+     whole frame at 18% and left the headline measuring 15:1 where 3:1 is
+     the requirement: all of that headroom was being spent washing the
+     picture out. The vertical pass is now a sixth of what it was and the
+     horizontal one clears the photograph earlier, so the building is
+     visible rather than implied. Sampled against real pixels afterwards,
+     not eyeballed. */
   background:
     linear-gradient(90deg,
-              rgba(244, 242, 236, .95) 0%,
-              rgba(244, 242, 236, .88) 28%,
-              rgba(244, 242, 236, .58) 46%,
-              rgba(244, 242, 236, 0) 64%),
+              rgba(244, 242, 236, .92) 0%,
+              rgba(244, 242, 236, .80) 26%,
+              rgba(244, 242, 236, .34) 46%,
+              rgba(244, 242, 236, 0) 62%),
     linear-gradient(180deg,
-              rgba(244, 242, 236, .30) 0%,
-              rgba(244, 242, 236, .18) 30%,
-              rgba(244, 242, 236, .18) 62%,
-              rgba(244, 242, 236, .62) 86%,
+              rgba(244, 242, 236, .10) 0%,
+              rgba(244, 242, 236, .03) 30%,
+              rgba(244, 242, 236, .03) 62%,
+              rgba(244, 242, 236, .55) 86%,
               #F4F2EC 100%);
 }
 
