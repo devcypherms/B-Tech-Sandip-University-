@@ -386,6 +386,14 @@ table { border-collapse: collapse; width: 100%; }
    stays above the rail: it is the reason the section exists. */
 @media (max-width: 899px) {
   .hero { min-height: 0; }
+  /* The wrapper exists only to make a desktop column. Dissolving it here
+     lets the form sit above the stats without moving any markup. */
+  .hero__side { display: contents; }
+  .hero__title { order: 1; }
+  .hero__sub { order: 2; }
+  .hero__actions { order: 3; }
+  .hero__form { order: 4; }
+  .hero__rail { order: 5; }
   .hero__media::after {
     /* Vertical only below the split: the copy is full width here, so a
        horizontal pass would bleach the entire frame rather than one side. */
@@ -428,21 +436,47 @@ table { border-collapse: collapse; width: 100%; }
   .hero__inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(20rem, 30vw, 24rem);
-    grid-template-rows: auto auto 1fr;
+    /* Explicit rows, and nothing spans them. An auto track absorbs a share
+       of any item that spans it, which is what opened an 87px hole between
+       the subline and the buttons: the form spanned rows 2 and 3, so row 2
+       grew to take part of its 601px. Each element now owns one row. */
+    grid-template-rows: auto 1fr;
     column-gap: clamp(2rem, 4vw, 4rem);
-    row-gap: clamp(1rem, 1.6vw, 1.5rem);
+    row-gap: clamp(.75rem, 1.2vw, 1.125rem);
     align-content: start;
     padding-top: calc(var(--header-h) + clamp(1rem, 2.5vw, 2.25rem));
     padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
   }
-  .hero__copy { display: contents; }
+
 
   /* The measure is the container, not a ch cap: 16ch reads as ~740px at
      this size and clipped the 943px line. */
   .hero__title { grid-column: 1 / -1; grid-row: 1; max-width: none; }
-  .hero__sub { grid-column: 1; grid-row: 2; margin-top: .5rem; }
-  .hero__actions { grid-column: 1; grid-row: 3; align-self: start; margin-top: 1rem; }
-  .hero__form { grid-column: 2; grid-row: 2 / span 2; align-self: start; }
+
+  /* One cell, laid out top and bottom. The subline and links sit under the
+     headline; the stats hold the floor level with the form. What is left
+     between them is the photograph, which is the reason the section is
+     built this way — but it is now bounded by content on both sides
+     instead of trailing off. */
+  .hero__side {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    /* Grouped at the top with the stats holding the floor, rather than
+       space-between, which split the difference into two separate holes. */
+    justify-content: flex-start;
+    gap: .75rem;
+  }
+  .hero__sub { margin-top: .25rem; }
+  .hero__actions { margin-top: .5rem; }
+
+  /* The stats fill the left column rather than running full width under the
+     hero. Below the buttons there was 453px of nothing but photograph, and
+     a reader counts that as empty space whatever is behind it. Moved up,
+     they sit beside the form where the numbers do useful work. */
+  .hero__rail { border-top: 1px solid var(--hairline); background: none; margin-top: auto; }
+  .hero__form { grid-column: 2; grid-row: 2; align-self: start; }
 }
 
 .hero__title {
