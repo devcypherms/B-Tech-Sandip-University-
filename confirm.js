@@ -4,11 +4,12 @@
 
      node confirm.js
 
-   Reports three things and exits non-zero if any of them would ship:
+   Reports four things and exits non-zero if any of them would ship:
 
      1. [[CONFIRM]] values still sitting in content.js
      2. [[CONFIRM]] text still sitting in the static markup
      3. data-c hooks whose static text has drifted from content.js
+     4. FAQPage structured data that no longer matches the visible answers
 
    (3) matters because the static text is what a visitor with JS disabled
    sees, and what a search engine indexes first. If content.js says one fee
@@ -128,6 +129,52 @@ if (orphanHooks.length) {
   orphanHooks.forEach(d => console.log('     ' + d.file + '  ' + red(d.path)));
 }
 
+/* ---------- 4. FAQPage structured data vs the visible answers ----------
+   Google requires the answer in the structured data to be the answer on the
+   page. Two hand-kept copies of twelve answers will drift, and the drift is
+   invisible: the page looks correct while the rich result quietly says
+   something else. faq-jsonld.js generates the block from the markup; this
+   confirms nobody has since edited one side without regenerating. */
+const faqDrift = [];
+let faqCount = 0;
+try {
+  const { extract, textOf } = require(path.join(ROOT, 'faq-jsonld.js'));
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const visible = extract(html);
+  faqCount = visible.length;
+
+  const blockMatch = html.match(/<!-- FAQPage\. GENERATED[\s\S]*?<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  if (!blockMatch) {
+    faqDrift.push({ q: '(whole block)', why: 'no generated FAQPage block in index.html — run: node faq-jsonld.js' });
+  } else {
+    const data = JSON.parse(blockMatch[1]);
+    const structured = (data.mainEntity || []).map(e => ({
+      q: e.name, a: (e.acceptedAnswer || {}).text || '',
+    }));
+    if (structured.length !== visible.length) {
+      faqDrift.push({
+        q: '(count)',
+        why: structured.length + ' in the JSON-LD, ' + visible.length + ' on the page',
+      });
+    }
+    visible.forEach((v, i) => {
+      const st = structured[i];
+      if (!st) { faqDrift.push({ q: v.q, why: 'missing from the JSON-LD' }); return; }
+      if (st.q !== v.q) faqDrift.push({ q: v.q, why: 'question differs: ' + st.q });
+      else if (st.a !== v.a) faqDrift.push({ q: v.q, why: 'answer differs from the visible text' });
+    });
+  }
+} catch (err) {
+  faqDrift.push({ q: '(check failed)', why: err.message });
+}
+
+console.log('\n' + bold('  4. FAQPage structured data matches the page  (' + faqCount + ' questions)'));
+if (!faqDrift.length) {
+  console.log('     ' + green('in step'));
+} else {
+  faqDrift.forEach(d => console.log('     ' + red(d.q) + '  ' + d.why));
+}
+
 /* Standing reminder, not a blocker. 5.7 currently shows --madder totals
    next to dark-red [[CONFIRM]] blocks; they read as different things while
    both are present, because one is large display type and the other is an
@@ -140,7 +187,7 @@ console.log('     re-read §5.7 as a whole once markers clear — it is the most
 console.log('     important block on the page and it sits on ink, so the chips');
 console.log('     are louder there than anywhere else');
 
-const blocking = inData.length + inMarkup.length + drifted.length + orphanHooks.length;
+const blocking = inData.length + inMarkup.length + drifted.length + orphanHooks.length + faqDrift.length;
 console.log('\n' + line);
 if (blocking) {
   console.log('  ' + red(bold(`NOT READY TO SHIP — ${blocking} item(s) outstanding`)));

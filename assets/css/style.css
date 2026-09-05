@@ -1720,3 +1720,22 @@ mark.confirm {
   /* The bar covers the last 56px of the page, so the page gives it back. */
   body { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
 }
+
+/* ---------- 23. FAQ (5.13) ----------
+   Reuses the 5.5 accordion rather than introducing a second disclosure
+   pattern: two ways of opening a panel on one page is one too many. The
+   only differences are structural — no fee column, and a single prose
+   measure instead of the three-column spec body. */
+.faq__head { max-width: 62ch; margin-bottom: var(--space-block); }
+.faq__lede { margin-top: 1.25rem; color: var(--muted); }
+
+.acc--faq .acc__name { max-width: 52ch; }
+
+@media (min-width: 800px) {
+  .acc--faq .acc__trigger {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name mark";
+  }
+  .acc--faq .acc__body { grid-template-columns: 1fr; }
+}
+.acc--faq .acc__body p { max-width: 76ch; }
