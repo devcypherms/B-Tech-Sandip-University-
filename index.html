@@ -65,14 +65,17 @@
   <section class="hero" aria-label="B.Tech admission 2026">
     <div class="hero__media">
       <picture>
-        <!-- Full-bleed again, so the art direction reverts to being about
-             the viewport shape rather than a column: a phone gets the 3:4
-             crop because a 1.72 landscape file in a 0.46 viewport shows its
-             whole height and crops only the sides. -->
-        <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/campus-main-portrait.webp" width="900" height="1200">
-        <img src="assets/img/campus-main.webp"
-             alt="The main academic building at Sandip University&rsquo;s Sijoul campus, seen across the front lawn"
-             width="1400" height="816" fetchpriority="high" decoding="async">
+        <!-- The EV Lab rather than the building. A campus photograph says
+             "college"; students stripping a hub motor with an instructor
+             says "engineering", which is what this page is selling.
+
+             No portrait variant. Below 900px this stops being a backdrop and
+             becomes a bounded frame under the form, so the viewport shape no
+             longer decides the crop — and the picture is shown whole rather
+             than washed out behind a headline. -->
+        <img src="assets/img/ev-lab-hero.webp"
+             alt="Students and an instructor examining a stripped electric-vehicle hub motor in the EV Lab at Sandip University, Sijoul"
+             width="800" height="449" fetchpriority="high" decoding="async">
       </picture>
     </div>
 
@@ -88,6 +91,20 @@
           <span class="hero__line"><span>Bihar mein hi.</span></span>
         </h1>
         <p class="hero__sub">B.Tech Admission 2026 at Sandip University, Madhubani.</p>
+        <!-- The branches, in the hero. "Which branch" is the first question
+             a student has and it was previously four screens down; putting
+             the list here fills the column and answers it before the form
+             asks them to choose one. Real markup, not text baked into the
+             image: it is indexable, it reflows, and it survives the image
+             failing to load. -->
+        <ul class="hero__branches">
+          <li><a href="#programmes">Civil</a></li>
+          <li><a href="#programmes">Electrical</a></li>
+          <li><a href="#programmes">Mechanical</a></li>
+          <li><a href="#programmes">Computer Science</a></li>
+          <li><a href="#programmes">CSE with AI &amp; ML</a></li>
+        </ul>
+
         <div class="hero__actions">
           <a class="btn btn-ghost" href="#campus" data-track="campus">See the campus</a>
           <a class="btn btn-ghost" href="#fees" data-track="fees">Fees and scholarships</a>

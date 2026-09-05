@@ -367,17 +367,21 @@ table { border-collapse: collapse; width: 100%; }
   content: "";
   position: absolute;
   inset: 0;
+  /* The EV Lab photograph is materially darker than the campus shot it
+     replaced — mean luminance 118 against 162, and its darkest 1% is 13 —
+     so ink text needs more cover here than it did. Stops retuned and then
+     sampled against the real pixels rather than eyeballed. */
   background:
     linear-gradient(90deg,
-              rgba(244, 242, 236, .88) 0%,
-              rgba(244, 242, 236, .74) 24%,
-              rgba(244, 242, 236, .44) 42%,
-              rgba(244, 242, 236, 0) 58%),
+              rgba(244, 242, 236, .95) 0%,
+              rgba(244, 242, 236, .88) 28%,
+              rgba(244, 242, 236, .58) 46%,
+              rgba(244, 242, 236, 0) 64%),
     linear-gradient(180deg,
-              rgba(244, 242, 236, .22) 0%,
-              rgba(244, 242, 236, .10) 30%,
-              rgba(244, 242, 236, .10) 62%,
-              rgba(244, 242, 236, .58) 86%,
+              rgba(244, 242, 236, .30) 0%,
+              rgba(244, 242, 236, .18) 30%,
+              rgba(244, 242, 236, .18) 62%,
+              rgba(244, 242, 236, .62) 86%,
               #F4F2EC 100%);
 }
 
@@ -386,6 +390,25 @@ table { border-collapse: collapse; width: 100%; }
    stays above the rail: it is the reason the section exists. */
 @media (max-width: 899px) {
   .hero { min-height: 0; }
+
+  /* The EV photograph is dark and busy, and on a phone it sits directly
+     behind the headline across the full width. Scrimmed hard enough for ink
+     text it becomes a grey smear; left alone it measured 1.72:1 on the H1.
+     So below the split it is not a backdrop at all — it is a frame under the
+     form, shown whole, with the type on clean paper above it. */
+  .hero__media {
+    position: static;
+    order: 5;
+    margin-top: var(--space-block);
+  }
+  .hero__media::after { content: none; }
+  .hero__media img {
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    border: 1px solid var(--hairline);
+  }
+  .hero__media picture { height: auto; }
   /* The wrapper exists only to make a desktop column. Dissolving it here
      lets the form sit above the stats without moving any markup. */
   .hero__side { display: contents; }
@@ -526,6 +549,31 @@ table { border-collapse: collapse; width: 100%; }
   color: var(--fg);
   font-size: var(--fs-body);
   max-width: 48ch;
+}
+
+/* Set as a list of rules rather than as buttons or pills: they are a
+   summary of what is on offer, and the page already has two buttons and a
+   form competing for the same eye. */
+.hero__branches {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--hairline);
+  max-width: 30rem;
+}
+.hero__branches li { border-bottom: 1px solid var(--hairline); }
+.hero__branches a {
+  display: block;
+  padding-block: .5rem;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-size: clamp(1rem, 1.3vw, 1.1875rem);
+  letter-spacing: -.01em;
+  transition: color .3s var(--ease);
+}
+.hero__branches a:hover { color: var(--accent); }
+
+@media (max-width: 899px) {
+  /* On a phone the form owns the fold; the branches follow it. */
+  .hero__branches { order: 6; margin-top: var(--space-block); }
 }
 
 .hero__actions {
