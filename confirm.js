@@ -101,6 +101,39 @@ for (const file of htmlFiles) {
   }
 }
 
+/* ---------- which markers a visitor can actually read ----------
+   A marker in rendered text is a red monospace chip on a live page. A
+   marker in an attribute, a <script> block or an HTML comment is invisible
+   to a reader even though it is in the file.
+
+   The distinction decides whether a marker blocks. Anything a visitor can
+   see blocks regardless of which list it is on, because shipping it means
+   publishing a developer note to a prospective student.
+
+   "Visible" means reachable, not on-screen at load: a marker inside a
+   closed accordion panel is one tap away and counts. This is a static
+   read, and it was checked against the rendered DOM — opening every
+   disclosure in a real browser and walking the text nodes returns the same
+   set it does. */
+function visibleMarkers(html) {
+  const stripped = html
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    /* Attribute values, including the ones carrying a marker. */
+    .replace(/<[a-zA-Z][^>]*>/g, ' ');
+  const out = new Set();
+  const hits = stripped.match(MARKER) || [];
+  hits.forEach(h => out.add(h));
+  return out;
+}
+
+const visibleSet = new Set();
+for (const file of htmlFiles) {
+  if (!file.endsWith('.html')) continue;
+  visibleMarkers(fs.readFileSync(path.join(ROOT, file), 'utf8')).forEach(m => visibleSet.add(m));
+}
+
 /* ---------- deploy blockers ----------
    Not every marker costs the same. These four make the page actively wrong
    rather than merely incomplete if it ships, so they are named above the
@@ -128,9 +161,21 @@ console.log('\n' + line);
 console.log(bold('  Pre-deploy check'));
 console.log(line);
 
+const blockerKeys = new Set(DEPLOY_BLOCKERS.map(b => b[0]));
 const unresolvedBlockers = DEPLOY_BLOCKERS.filter(([k]) => {
   const v = lookup(k);
   return typeof v === 'string' && /\[\[CONFIRM:/.test(v);
+});
+
+/* Two lists now. A marker blocks if it is one of the four named blockers,
+   or if a visitor can read it. Everything else is a warning: the page still
+   works without it, and during admission season three weeks of waiting for
+   a photograph costs more enquiries than shipping without one. */
+const blocking = [];
+const warning = [];
+inData.forEach(d => {
+  if (blockerKeys.has(d.path) || visibleSet.has(d.text)) blocking.push(d);
+  else warning.push(d);
 });
 if (unresolvedBlockers.length) {
   console.log('\n' + red(bold('  BLOCKS DEPLOY  (' + unresolvedBlockers.length + ' of ' + DEPLOY_BLOCKERS.length + ')')));
@@ -140,15 +185,29 @@ if (unresolvedBlockers.length) {
   console.log('\n' + green(bold('  BLOCKS DEPLOY  (none)')));
 }
 
-console.log('\n' + bold(`  1. Unconfirmed values in content.js  (${inData.length})`));
-if (!inData.length) {
+const w1 = inData.length ? Math.max(...inData.map(d => d.path.length)) : 0;
+
+console.log('\n' + bold(`  1a. BLOCKING — unconfirmed and either named above or visible on the page  (${blocking.length})`));
+if (!blocking.length) {
   console.log('     ' + green('none'));
 } else {
-  const width = Math.max(...inData.map(d => d.path.length));
-  inData.forEach(d => console.log('     ' + d.path.padEnd(width + 2) + red(d.text)));
+  blocking.forEach(d => {
+    const why = blockerKeys.has(d.path)
+      ? (visibleSet.has(d.text) ? 'named blocker, and renders on the page' : 'named blocker')
+      : 'renders on the page as a red chip';
+    console.log('     ' + red(d.path.padEnd(w1 + 2)) + dim(why));
+    console.log('       ' + d.text);
+  });
 }
 
-console.log('\n' + bold(`  2. Unconfirmed text in the markup  (${inMarkup.length})`));
+console.log('\n' + bold(`  1b. WARNING — unconfirmed but never rendered to a visitor  (${warning.length})`));
+if (!warning.length) {
+  console.log('     ' + green('none'));
+} else {
+  warning.forEach(d => console.log('     ' + d.path.padEnd(w1 + 2) + dim(d.text)));
+}
+
+console.log('\n' + bold(`  2. Every marker occurrence in the files  (${inMarkup.length}, informational)`));
 if (!inMarkup.length) {
   console.log('     ' + green('none'));
 } else {
@@ -300,14 +359,22 @@ console.log('     re-read §5.7 as a whole once markers clear — it is the most
 console.log('     important block on the page and it sits on ink, so the chips');
 console.log('     are louder there than anywhere else');
 
-const blocking = inData.length + inMarkup.length + drifted.length + orphanHooks.length
+/* inMarkup is no longer counted: it is the same values as 1a and 1b seen
+   once per occurrence, and counting both made the total read as 78 when
+   there were 32 questions to answer. Drift and structured-data mismatches
+   still block unconditionally — those are not incomplete, they are wrong. */
+const blockingCount = blocking.length + drifted.length + orphanHooks.length
   + faqDrift.length + seoDrift.length;
 console.log('\n' + line);
-if (blocking) {
-  console.log('  ' + red(bold(`NOT READY TO SHIP — ${blocking} item(s) outstanding`)));
+if (blockingCount) {
+  console.log('  ' + red(bold(`NOT READY TO SHIP — ${blockingCount} blocking`)) +
+    (warning.length ? dim(`, ${warning.length} warning(s) not blocking`) : ''));
+} else if (warning.length) {
+  console.log('  ' + green(bold('Clear to ship')) +
+    dim(`  — ${warning.length} unconfirmed value(s) outstanding, none of them visible to a visitor`));
 } else {
   console.log('  ' + green(bold('Clear to ship')));
 }
 console.log(line + '\n');
 
-process.exit(blocking ? 1 : 0);
+process.exit(blockingCount ? 1 : 0);
