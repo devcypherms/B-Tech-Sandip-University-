@@ -1739,3 +1739,32 @@ mark.confirm {
   .acc--faq .acc__body { grid-template-columns: 1fr; }
 }
 .acc--faq .acc__body p { max-width: 76ch; }
+
+/* ---------- 24. §5.7 ARRIVES ON ITS OWN ----------
+   Grouping 5.6 and 5.7 onto one ink run cost 5.7 its ground change, and
+   measured at the junction that was the entire signal: rgb distance across
+   the boundary fell from 225.4 to 0.3 at 1440px, and 219.8 to 13.3 at
+   390px. Its own devices could not cover for it — the first --emphasis
+   figure sits 1095px below the boundary and the raised panel 2187px below,
+   so both arrive a screen or more after the moment they would be needed.
+
+   The replacement is type and space, which the page already uses, rather
+   than a seventh seam. It is deliberately the only heading step on the
+   page: if a second section takes it, this one stops meaning anything. */
+.fees {
+  /* Puts back the air the seam used to provide, and a little more, so the
+     block opens rather than resumes. */
+  padding-top: calc(var(--space-section) + clamp(2rem, 5vw, 4.5rem));
+  /* It no longer follows a seam, so its own top rule is live again. Drawn
+     at full strength here, not the section default. */
+  border-top-color: var(--hairline-strong);
+}
+.fees .section__title {
+  font-size: clamp(2.25rem, 4.6vw, 4.25rem);
+  /* Bigger type needs tighter fitting to stay a headline and not a banner. */
+  letter-spacing: -.03em;
+}
+.fees .fees__lede {
+  font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
+  max-width: 46ch;
+}
