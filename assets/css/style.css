@@ -96,6 +96,22 @@
   --ink-text: #101821;
   --brass: #C79A4B;
   --brass-deep: #8C6520;
+
+  /* The university's own red, sampled from sijoul.sandipuniversity.edu.in
+     where it is used 32 times across header, buttons and footer. The page
+     carried a brick madder instead — 6 degrees off the brand hue and at
+     two thirds its chroma, which is close enough to look like a mistake
+     and far enough not to read as the brand.
+
+     Three values because one red cannot do three jobs. Solved in OKLCH at
+     a fixed hue so they stay one family, and each measured against BOTH
+     grounds this page uses — paper and the panel surface — because a red
+     that passes on paper and fails on the panel has been shipped here
+     before. */
+  --brand: #EA1F28;      /* 3.97:1 on paper. Large figures and marks, never body text. */
+  --red-fill: #DF041D;   /* white on it 5.03:1 — the button ground */
+  --red-ink: #C50117;    /* 5.53:1 paper, 5.01:1 panel — links, labels, rings */
+  --red-wash: #FCECEA;   /* a surface, not a colour block; ink on it 15.60:1 */
   --indigo: #1E3A5F;
   --madder: #A03521;
   /* #A03521 measures 2.64:1 on --ink-800 and 2.37:1 on the raised panel, so
@@ -153,9 +169,18 @@
   --bg: var(--paper);
   --fg: var(--ink-text);
   --muted: #525C67;
-  --accent: var(--brass-deep);
+  /* Red replaces brass here. Brass sits at hue 78 degrees against the
+     brand's 26, so with a red arriving on the page the two read as two
+     unrelated warms rather than one system. The page keeps exactly two
+     chromatics: this red for action, indigo for wayfinding — and indigo at
+     256 degrees is very nearly the red's opposite, which is why they sit
+     together without arguing. */
+  --accent: var(--red-ink);
   --mark: var(--indigo);
-  --emphasis: var(--madder);
+  /* The one figure a section is arguing with. Now the logo red rather than
+     the madder: at 3.97:1 it is below the 4.5 body-text bar and comfortably
+     above the 3:1 large-text one, which is exactly what it is used for. */
+  --emphasis: var(--red-ink);
   /* A surface, not a colour block: 1.10:1 against the page, so it reads as
      a field you can type into rather than as a tinted panel. Ink text on it
      measures 14.46:1. It was transparent from the moment elevation was
@@ -163,9 +188,13 @@
   --panel: #EAE7DE;
   --hairline: rgba(16, 24, 33, .14);
   --hairline-strong: rgba(16, 24, 33, .28);
-  --btn-fill: var(--ink-900);
-  --btn-fill-fg: var(--paper);
-  --btn-hover-fg: var(--paper);
+  /* The primary button was near-black: elegant, and the single biggest
+     missed chance on a page whose job is enquiries. Red ties every call to
+     action back to the mark in the header, and it is the one place the
+     brief's rule against accent filling an area is worth spending. */
+  --btn-fill: var(--red-fill);
+  --btn-fill-fg: #FFFFFF;
+  --btn-hover-fg: #FFFFFF;
 }
 .on-paper, .on-ink { background: var(--bg); color: var(--fg); }
 
@@ -262,7 +291,10 @@ table { border-collapse: collapse; width: 100%; }
   background: var(--btn-fill);
   color: var(--btn-fill-fg);
 }
-.btn-primary:hover { background: var(--accent); color: var(--btn-hover-fg); }
+/* Hover goes DARKER. --accent is the darker red, so the button deepens on
+   hover instead of jumping to a different colour the way brass-on-black
+   did. White holds at 6.19:1 either side. */
+.btn-primary:hover { background: var(--red-ink); color: var(--btn-hover-fg); }
 
 .btn-ghost {
   background: transparent;
@@ -1082,6 +1114,8 @@ mark.confirm {
   border-radius: var(--radius);
 }
 .pl__pkg {
+  /* clamp floor is 2rem, so this is always large text: 3:1 is the bar. */
+  color: var(--brand);
   font-family: var(--font-display);
   font-variation-settings: "opsz" 72, "SOFT" 0, "WONK" 0;
   font-size: clamp(2rem, 4vw, 3rem);
@@ -1441,6 +1475,17 @@ mark.confirm {
 .scc__terms dd { margin: 0; text-align: right; }
 
 /* Scholarships: the mechanism is stated even while the numbers are held. */
+/* The one tinted ground on the page, and it goes to the strongest offer:
+   a full tuition waiver at 85%. At 1.02:1 against paper the wash is a
+   surface rather than a colour block, which is the same bar --panel has to
+   clear. Ink on it measures 15.60:1. */
+.sch__grid {
+  background: var(--red-wash);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+.sch__slabs dd { color: var(--red-ink); }
+
 .sch__grid { display: grid; gap: var(--space-block); }
 .sch__grid h4 { font-size: var(--fs-body); font-weight: 500; margin-bottom: .625rem; }
 .sch__h4-second { margin-top: 2rem; }
@@ -2036,6 +2081,8 @@ mark.confirm {
 }
 .rec__figures dd { margin: 0; }
 .rec__fig {
+  /* clamp floor is 2.5rem — large text at every width. */
+  color: var(--brand);
   font-family: var(--font-display);
   font-variation-settings: "opsz" 96, "SOFT" 0, "WONK" 0;
   font-size: clamp(2.5rem, 6vw, 4rem);
