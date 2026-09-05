@@ -337,6 +337,8 @@ const CONTENT = {
      count for themselves. */
   placementList: {
     url: 'https://sijoul.sandipuniversity.edu.in/studen-placement-list.php',
+    /* The whole published record, every programme. 16 of these are B.Tech. */
+    total: '40',
     named: '16',
     rows: '16',
     employers: '6',

@@ -1453,7 +1453,53 @@ mark.confirm {
 .sch__slabs dt { color: var(--muted); }
 .sch__slabs dd { margin: 0; text-align: right; }
 
-.fees__cta { margin-top: clamp(3rem, 7vw, 5.5rem); }
+/* ---------- 14c. THE ASK ----------
+   Placed where a section has just raised a question, so it can ask that
+   question rather than repeat one generic call to action.
+
+   A hairline band, not a card. The brief rules out repeated card
+   treatments and that rule is worth keeping: three boxes down the page
+   would read as advertising interrupting the argument, where three rules
+   with a line of type read as the page turning to the reader. */
+/* One line of urgency under the hero submit. There is no closing date to
+   use — the university publishes none — so this carries the scarcity that
+   is real instead. Kept to a single line: the hero has been cut twice for
+   height and this must not undo that. */
+.hero__urgency {
+  margin-top: .625rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  text-align: center;
+}
+
+.ask {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  padding-top: clamp(1.5rem, 3.5vw, 2.25rem);
+  border-top: 1px solid var(--hairline-strong);
+}
+.ask__lead {
+  color: var(--muted);
+  max-width: 58ch;
+}
+.ask__btn { justify-self: start; }
+
+@media (min-width: 760px) {
+  /* Type and button on one line, the button held to its own column so a
+     long lead never squeezes it. */
+  .ask {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .ask__btn { justify-self: end; }
+}
+
+/* The fees ask carries three sentences rather than one, because it is the
+   strongest offer on the page and the one worth spelling out. */
+.ask--wide .ask__lead { max-width: 66ch; }
+
 
 @media (min-width: 820px) {
   .scc__grid { grid-template-columns: 1.35fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
