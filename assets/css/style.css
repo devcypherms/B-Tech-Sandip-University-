@@ -108,10 +108,19 @@
      grounds this page uses — paper and the panel surface — because a red
      that passes on paper and fails on the panel has been shipped here
      before. */
-  --brand: #EA1F28;      /* 3.97:1 on paper. Large figures and marks, never body text. */
-  --red-fill: #DF041D;   /* white on it 5.03:1 — the button ground */
-  --red-ink: #C50117;    /* 5.53:1 paper, 5.01:1 panel — links, labels, rings */
-  --red-wash: #FCECEA;   /* a surface, not a colour block; ink on it 15.60:1 */
+  --brand: #EA1F28;      /* the logo value, kept for reference. Not used for type. */
+
+  /* The working reds are the brand hue at 0.170 chroma rather than 0.231.
+     The first attempt used the logo red at close to its sRGB maximum, and
+     on a warm off-white page set in a serif it did not read as a brand
+     colour, it read as a warning. Same hue, a third less chroma: still
+     unmistakably this red, no longer shouting.
+
+     Dropping further — 0.130 was tried — turns it dusty and it stops
+     reading as red at all, so this is the floor rather than a midpoint. */
+  --red-fill: #C5403B;   /* white on it 5.04:1 — the button ground */
+  --red-ink: #B42F2C;    /* 5.54:1 paper, 5.02:1 panel — type, figures, rings */
+  --red-wash: #F9EDEC;   /* a surface, not a colour block */
   --indigo: #1E3A5F;
   --madder: #A03521;
   /* #A03521 measures 2.64:1 on --ink-800 and 2.37:1 on the raised panel, so
@@ -1114,8 +1123,7 @@ mark.confirm {
   border-radius: var(--radius);
 }
 .pl__pkg {
-  /* clamp floor is 2rem, so this is always large text: 3:1 is the bar. */
-  color: var(--brand);
+  color: var(--red-ink);
   font-family: var(--font-display);
   font-variation-settings: "opsz" 72, "SOFT" 0, "WONK" 0;
   font-size: clamp(2rem, 4vw, 3rem);
@@ -2081,8 +2089,7 @@ mark.confirm {
 }
 .rec__figures dd { margin: 0; }
 .rec__fig {
-  /* clamp floor is 2.5rem — large text at every width. */
-  color: var(--brand);
+  color: var(--red-ink);
   font-family: var(--font-display);
   font-variation-settings: "opsz" 96, "SOFT" 0, "WONK" 0;
   font-size: clamp(2.5rem, 6vw, 4rem);
