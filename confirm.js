@@ -155,9 +155,18 @@ for (const file of htmlFiles) {
    vercel.json runs this file as its buildCommand, so a non-zero exit now
    fails the deployment itself. Before that, the gate only failed if
    somebody chose to run it. */
+/* dates.lastDate was a named blocker on the reasoning that an admission
+   page with no deadline has no urgency. That held while 5.10 was six date
+   rows. It is not a deadline the university publishes anywhere - not the
+   admission page, the campus site, its own 2026-27 landing page or the
+   application portal - so the section was rewritten to carry the sequence
+   and the scarcity instead, and nothing on the page now waits on a date.
+
+   It stays in content.js and is still reported as a warning: if the client
+   sends real dates they belong back in 5.10. It is no longer allowed to
+   fail the build, because the page it was protecting no longer exists. */
 const DEPLOY_BLOCKERS = [
   ['site.canonical', 'canonical, og:url, sitemap and robots all derive from it — a wrong value hands the ranking to another page'],
-  ['dates.lastDate', 'an admission page with no deadline has no urgency'],
   ['org.phone', 'the site displays one number and dials another; the mobile Call button is wired to this'],
   ['FORM_ENDPOINT', 'the form refuses to submit until this is real'],
 ];

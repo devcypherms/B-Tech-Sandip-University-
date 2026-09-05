@@ -446,7 +446,7 @@
     <div class="wrap">
 
       <div class="pl__head">
-        <h2 class="section__title" id="pl-title">Placement assistance that starts in year one</h2>
+        <h2 class="section__title" id="pl-title">Placement assistance that starts in first year</h2>
         <p class="pl__lede">
           Aptitude and communication work begins in the first year, not the final one,
           and runs through resume workshops, mock interviews and campus drives. The
@@ -986,42 +986,55 @@
       </div>
 
       <div class="elig__col">
-        <h2 class="section__title">Dates</h2>
+        <h2 class="section__title">Timing</h2>
         <p class="elig__lede">
-          The order is fixed even where the dates are not yet published. The last date is
-          the one to watch.
+          Admission here is rolling: applications are assessed as they arrive rather than
+          held for one closing date. The order below is fixed, and where you land in it
+          depends on when your file is complete.
         </p>
 
+        <!-- This was six dates, and the university publishes none of them —
+             not on the admission page, not on the campus site, not on its own
+             2026-27 landing page, not on the application portal. Six red
+             markers sat here instead.
+
+             Inventing a last date would be the most damaging thing on this
+             page: a student who believes it and applies late loses a year,
+             and the admission cell would be contradicting its own landing
+             page daily. So the rows now carry what is actually known — the
+             sequence, and what each step turns on. Every line here is either
+             structural or already established elsewhere on the page.
+
+             The dates.* keys are still in content.js. If the client sends
+             real dates, this block goes back to dates and this note goes
+             away. -->
         <ol class="dates">
           <li class="dates__row dates__row--key">
-            <span class="dates__label">Last date to apply</span>
-            <span class="dates__val" data-c="dates.lastDate">[[CONFIRM: LAST DATE TO APPLY — highest priority]]</span>
-          </li>
-          <li class="dates__row">
-            <span class="dates__label">Applications open</span>
-            <span class="dates__val" data-c="dates.open">[[CONFIRM: applications open]]</span>
+            <span class="dates__label">Applications</span>
+            <span class="dates__val">Open now, assessed as they arrive</span>
           </li>
           <li class="dates__row">
             <span class="dates__label">Document verification</span>
-            <span class="dates__val" data-c="dates.verification">[[CONFIRM: document verification window]]</span>
+            <span class="dates__val">Once your application is in</span>
           </li>
           <li class="dates__row">
             <span class="dates__label">Counselling and branch allotment</span>
-            <span class="dates__val" data-c="dates.counselling">[[CONFIRM: counselling and branch allotment]]</span>
+            <span class="dates__val">By merit, and by when you applied</span>
+          </li>
+          <li class="dates__row">
+            <span class="dates__label">Scholarship band</span>
+            <span class="dates__val">Confirmed in writing before you pay</span>
           </li>
           <li class="dates__row">
             <span class="dates__label">Fee payment</span>
-            <span class="dates__val" data-c="dates.feePayment">[[CONFIRM: fee payment deadline]]</span>
-          </li>
-          <li class="dates__row">
-            <span class="dates__label">Session begins</span>
-            <span class="dates__val" data-c="dates.sessionStart">[[CONFIRM: session begins]]</span>
+            <span class="dates__val">Confirms the seat you have been allotted</span>
           </li>
         </ol>
 
         <p class="check__foot">
-          Seats in each branch are limited and filled as applications are processed, so
-          the practical deadline is usually earlier than the published one.
+          Seats in each branch are limited, and branch allotment goes by merit and by the
+          order in which files are completed. The earlier yours is in, the more choice you
+          have — which is the real deadline, whatever the calendar says.
         </p>
       </div>
 
@@ -1255,7 +1268,7 @@
           </h3>
           <div class="acc__panel" id="p-q2" role="region" aria-labelledby="b-q2" hidden>
             <div class="acc__body">
-              <p>Official tareekh abhi tak publish nahi hui hai, aur hum apni taraf se koi date nahi likhenge: <span data-c="dates.lastDate" class="confirm">[[CONFIRM: LAST DATE TO APPLY — highest priority]]</span>. Iska intezaar karne ki zarurat nahi hai — abhi enquiry bhej dijiye, aur admission cell aapko batayega ki abhi kya chal raha hai aur aapko kab tak kya karna hai.</p>
+              <p>Yahan admission rolling hai — applications ek closing date ka intezaar nahi karte, jaise aate hain waise assess hote hain. Isliye asli deadline calendar par nahi hai: har branch me seats limited hain, aur branch allotment merit ke saath-saath is baat par bhi jaata hai ki aapki file kab poori hui. Jitni jaldi enquiry bhejenge, branch ka choice utna zyada rahega. Admission cell aapko batayega ki abhi kya chal raha hai aur aapke case me agla kadam kya hai.</p>
             </div>
           </div>
         </div>
@@ -1634,7 +1647,7 @@
       "name": "Admission 2026 ki last date kya hai?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Official tareekh abhi tak publish nahi hui hai, aur hum apni taraf se koi date nahi likhenge: [[CONFIRM: LAST DATE TO APPLY — highest priority]]. Iska intezaar karne ki zarurat nahi hai — abhi enquiry bhej dijiye, aur admission cell aapko batayega ki abhi kya chal raha hai aur aapko kab tak kya karna hai."
+        "text": "Yahan admission rolling hai — applications ek closing date ka intezaar nahi karte, jaise aate hain waise assess hote hain. Isliye asli deadline calendar par nahi hai: har branch me seats limited hain, aur branch allotment merit ke saath-saath is baat par bhi jaata hai ki aapki file kab poori hui. Jitni jaldi enquiry bhejenge, branch ka choice utna zyada rahega. Admission cell aapko batayega ki abhi kya chal raha hai aur aapke case me agla kadam kya hai."
       }
     },
     {

@@ -193,6 +193,19 @@ const CONTENT = {
 
      lastDate is the highest-priority marker on the page: §5.13 asks it
      outright, and an admission page with no deadline has no urgency. */
+  /* Not published anywhere the university controls - checked the admission
+     page, the campus site, its own 2026-27 landing page and the application
+     portal, none of which carries a single date. Six red markers used to sit
+     in 5.10 waiting for these.
+
+     5.10 no longer waits. It carries the sequence and what each step turns
+     on, and the urgency comes from scarcity - seats are limited and branch
+     allotment goes by merit and by order - which is true and needed no
+     calendar. Inventing a last date would have been the most damaging thing
+     on the page: a student who believed it and applied late loses a year.
+
+     These stay because the ask stands. If the client sends real dates, put
+     them back into 5.10 as date rows and delete the note in the markup. */
   dates: {
     lastDate: '[[CONFIRM: LAST DATE TO APPLY — highest priority]]',
     open: '[[CONFIRM: applications open]]',
