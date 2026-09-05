@@ -478,8 +478,159 @@
 
       <p class="pl__source">
         Named students from the university&rsquo;s published placement record.
-        <a class="pl__more" href="#recAll">See the full list</a>
       </p>
+
+      <!-- The whole record, opened in place. It used to be a link to the
+           university's server, then an in-page jump to 5.12 — both of which
+           are still "go somewhere else" to a reader who just wants to see
+           the list. It opens here now, and 5.12 no longer repeats it.
+
+           <details> rather than script: it works before JavaScript arrives,
+           it is a real disclosure to a screen reader, and the open state is
+           the element's own rather than something to keep in sync. -->
+      <details class="plist" id="recAll">
+        <summary class="plist__toggle">
+          <span class="plist__toggle-open">View all 16 placements</span>
+          <span class="plist__toggle-shut">Hide the list</span>
+        </summary>
+
+        <ul class="plist__grid">
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s1.webp" width="224" height="224" alt="Vikas Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">3 LPA</p>
+            <p class="plist__name">Vikas Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s2.webp" width="224" height="224" alt="Suraj Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">3 LPA</p>
+            <p class="plist__name">Suraj Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s3.webp" width="224" height="224" alt="Ritesh Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Ritesh Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">MGH Infrastructure</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s4.webp" width="224" height="224" alt="Nitesh Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">3 LPA</p>
+            <p class="plist__name">Nitesh Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s5.webp" width="224" height="224" alt="Bittu Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">3 LPA</p>
+            <p class="plist__name">Bittu Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s9.webp" width="224" height="224" alt="Vidyanand Prakash"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Vidyanand Prakash</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s10.webp" width="224" height="224" alt="Niraj Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Niraj Kumar</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s11.webp" width="224" height="224" alt="Shivam Krishanam"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Shivam Krishanam</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s12.webp" width="224" height="224" alt="Prashant Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Prashant Kumar</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s13.webp" width="224" height="224" alt="Shankar Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Shankar Kumar</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s14.webp" width="224" height="224" alt="Jitendra Kumar Mandal"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Jitendra Kumar Mandal</p>
+            <p class="plist__branch">B.Tech-Computer Science</p>
+            <p class="plist__co">MGH Infra</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s15.webp" width="224" height="224" alt="Ritesh Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Ritesh Kumar</p>
+            <p class="plist__branch">B.Tech- Electrcal</p>
+            <p class="plist__co">MGH Infra</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s21.webp" width="224" height="224" alt="Mayashankar Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">12 LPA</p>
+            <p class="plist__name">Mayashankar Kumar</p>
+            <p class="plist__branch">B.Tech</p>
+            <p class="plist__co">Bharat Dynamics Limited</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s22.webp" width="224" height="224" alt="Abhay Kumar Tibrewal"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">5 LPA</p>
+            <p class="plist__name">Abhay Kumar Tibrewal</p>
+            <p class="plist__branch">B.Tech</p>
+            <p class="plist__co">Infosys</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s23.webp" width="224" height="224" alt="Krishna Kumar"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">7 LPA</p>
+            <p class="plist__name">Krishna Kumar</p>
+            <p class="plist__branch">B.Tech</p>
+            <p class="plist__co">Icertis, Pune</p>
+          </li>
+          <li class="plist__card">
+            <img class="plist__photo" src="assets/img/students/s24.webp" width="224" height="224" alt="Guru Sharan Kumar Ram"
+                 loading="lazy" decoding="async">
+            <p class="plist__pkg">4.5 LPA</p>
+            <p class="plist__name">Guru Sharan Kumar Ram</p>
+            <p class="plist__branch">B.Tech - CSE</p>
+            <p class="plist__co">Codebucket Solutions</p>
+          </li>
+        </ul>
+
+        <p class="plist__note">
+          Every entry above is on the university&rsquo;s own published placement record,
+          with the photograph it publishes. Branches and employers are reproduced exactly
+          as printed there, so the two can be read side by side.
+        </p>
+      </details>
 
       <!-- One strip, not two: see the note in _wall's commit. The duplicate
            set is what makes the loop seamless — the track travels exactly
@@ -1150,8 +1301,8 @@
 
       <dl class="rec__figures">
         <div>
-          <dd class="rec__fig"><span data-c="placementList.named">15</span></dd>
-          <dt>named B.Tech students on the university&rsquo;s published list</dt>
+          <dd class="rec__fig"><span data-c="placementList.named">16</span></dd>
+          <dt>B.Tech placements on the university&rsquo;s published list</dt>
         </div>
         <div>
           <dd class="rec__fig"><span data-c="placementList.employers">6</span></dd>
@@ -1168,7 +1319,7 @@
           <h3 class="rec__h3">How the branches fall</h3>
           <ul class="rec__branches">
             <li><span>Civil</span><span data-c="placementList.civil">5</span></li>
-            <li><span>Electrical</span><span data-c="placementList.electrical">5</span></li>
+            <li><span>Electrical</span><span data-c="placementList.electrical">6</span></li>
             <li><span>Computer Science</span><span data-c="placementList.computerScience">2</span></li>
             <li><span>Branch not printed against the name</span><span data-c="placementList.branchNotPrinted">3</span></li>
           </ul>
@@ -1177,57 +1328,20 @@
         <div>
           <h3 class="rec__h3">Read it in full</h3>
           <p class="rec__body">
-            The university publishes every one of these names with the company and the
-            package against each. Rather than send you off to find it, the whole B.Tech
-            part of that record is reproduced below, exactly as it is printed there.
+            The university publishes every one of these names with the photograph, the
+            company and the package against each. The whole B.Tech part of that record is
+            on this page, in the placements section above &mdash; open it there and read
+            it without leaving.
           </p>
           <p class="rec__body">
-            The source prints <span data-c="placementList.rows">16</span> B.Tech rows and
-            <span data-c="placementList.named">15</span> distinct names: Ritesh Kumar
-            appears twice, once as B.TECH-EE and once with the branch spelt differently.
-            We have counted people, not rows.
+            The figures beside this are counted off that record rather than asserted,
+            which is the point of printing it at all: nothing here asks you to take our
+            word for it.
           </p>
 
         </div>
       </div>
 
-        <!-- User-triggered, no script: the section stays short for anyone
-             skimming and opens in place for anyone checking. -->
-        <details class="rec__all" id="recAll">
-          <summary>Show all <span data-c="placementList.rows">16</span> B.Tech records</summary>
-          <div class="rec__tablewrap">
-            <table class="tbl rec__table">
-              <caption class="sr-only">B.Tech placements as published by the university</caption>
-              <thead>
-                <tr><th scope="col">Student</th><th scope="col">Package</th><th scope="col">Branch as printed</th><th scope="col">Employer</th></tr>
-              </thead>
-              <tbody>
-          <tr><th scope="row">Vikas Kumar</th><td class="rec__pkg">3 LPA</td><td>B.TECH-EE</td><td>Texmaco Rail &amp; Engineering Ltd.</td></tr>
-          <tr><th scope="row">Suraj Kumar</th><td class="rec__pkg">3 LPA</td><td>B.TECH-EE</td><td>Texmaco Rail &amp; Engineering Ltd.</td></tr>
-          <tr><th scope="row">Ritesh Kumar</th><td class="rec__pkg">7 LPA</td><td>B.TECH-EE</td><td>MGH Infrastructure</td></tr>
-          <tr><th scope="row">Nitesh Kumar</th><td class="rec__pkg">3 LPA</td><td>B.TECH-EE</td><td>Texmaco Rail &amp; Engineering Ltd.</td></tr>
-          <tr><th scope="row">Bittu Kumar</th><td class="rec__pkg">3 LPA</td><td>B.TECH-EE</td><td>Texmaco Rail &amp; Engineering Ltd.</td></tr>
-          <tr><th scope="row">Vidyanand Prakash</th><td class="rec__pkg">7 LPA</td><td>B.Tech Civil</td><td>MGH Infra</td></tr>
-          <tr><th scope="row">Niraj Kumar</th><td class="rec__pkg">7 LPA</td><td>B.Tech Civil</td><td>MGH Infra</td></tr>
-          <tr><th scope="row">Shivam Krishanam</th><td class="rec__pkg">7 LPA</td><td>B.Tech Civil</td><td>MGH Infra</td></tr>
-          <tr><th scope="row">Prashant Kumar</th><td class="rec__pkg">7 LPA</td><td>B.Tech Civil</td><td>MGH Infra</td></tr>
-          <tr><th scope="row">Shankar Kumar</th><td class="rec__pkg">7 LPA</td><td>B.Tech Civil</td><td>MGH Infra</td></tr>
-          <tr><th scope="row">Jitendra Kumar Mandal</th><td class="rec__pkg">7 LPA</td><td>B.Tech-Computer Science</td><td>MGH Infra</td></tr>
-          <tr><th scope="row">Ritesh Kumar</th><td class="rec__pkg">7 LPA</td><td>B.Tech- Electrcal</td><td>MGH Infra</td></tr>
-          <tr><th scope="row">Mayashankar Kumar</th><td class="rec__pkg">12 LPA</td><td>B.Tech</td><td>Bharat Dynamics Limited</td></tr>
-          <tr><th scope="row">Abhay Kumar Tibrewal</th><td class="rec__pkg">5 LPA</td><td>B.Tech</td><td>Infosys Ltd.</td></tr>
-          <tr><th scope="row">Krishna Kumar</th><td class="rec__pkg">7 LPA</td><td>B.Tech</td><td>Icertis, Pune</td></tr>
-          <tr><th scope="row">Guru Sharan Kumar Ram</th><td class="rec__pkg">4.5 LPA</td><td>B.Tech - CSE</td><td>Codebucket Solution Pvt. Ltd.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="rec__note">
-            Branches and employers are reproduced exactly as the university prints them,
-            abbreviations and one misspelling included, so the two can be compared line by
-            line. Only personal names have been corrected where the source mistypes them.
-            MGH Infrastructure and MGH Infra are the same employer.
-          </p>
-        </details>
 
 
     </div>
@@ -1338,7 +1452,7 @@
           </h3>
           <div class="acc__panel" id="p-q7" role="region" aria-labelledby="b-q7" hidden>
             <div class="acc__body">
-              <p>University <span data-c="placement.assistance">100% placement assistance</span> kehti hai, matlab har eligible student ko support milta hai, job ki guarantee nahi. Aptitude aur communication ki training pehle saal se shuru hoti hai. Jo list university ne khud publish ki hai usme <span data-c="placementList.named">15</span> B.Tech students naam se hain, <span data-c="placementList.employers">6</span> employers ke saath, <span data-c="placementList.rangeLow">3</span> se <span data-c="placementList.rangeHigh">12</span> LPA ke beech. Poori list isi page par neeche di hai, naam, company aur package ke saath &mdash; aap khud padh sakte hain.</p>
+              <p>University <span data-c="placement.assistance">100% placement assistance</span> kehti hai, matlab har eligible student ko support milta hai, job ki guarantee nahi. Aptitude aur communication ki training pehle saal se shuru hoti hai. Jo list university ne khud publish ki hai usme <span data-c="placementList.named">16</span> B.Tech students naam se hain, <span data-c="placementList.employers">6</span> employers ke saath, <span data-c="placementList.rangeLow">3</span> se <span data-c="placementList.rangeHigh">12</span> LPA ke beech. Poori list isi page ke placements section me khulti hai &mdash; naam, photo, company aur package ke saath. Kahin jaana nahi padta.</p>
             </div>
           </div>
         </div>
@@ -1687,7 +1801,7 @@
       "name": "Placement kaisa hai?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "University 100% placement assistance kehti hai, matlab har eligible student ko support milta hai, job ki guarantee nahi. Aptitude aur communication ki training pehle saal se shuru hoti hai. Jo list university ne khud publish ki hai usme 15 B.Tech students naam se hain, 6 employers ke saath, 3 se 12 LPA ke beech. Poori list isi page par neeche di hai, naam, company aur package ke saath — aap khud padh sakte hain."
+        "text": "University 100% placement assistance kehti hai, matlab har eligible student ko support milta hai, job ki guarantee nahi. Aptitude aur communication ki training pehle saal se shuru hoti hai. Jo list university ne khud publish ki hai usme 16 B.Tech students naam se hain, 6 employers ke saath, 3 se 12 LPA ke beech. Poori list isi page ke placements section me khulti hai — naam, photo, company aur package ke saath. Kahin jaana nahi padta."
       }
     },
     {

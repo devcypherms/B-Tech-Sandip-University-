@@ -322,7 +322,12 @@ const CONTENT = {
      the one company they are. Branch counts are of distinct people.
 
      An earlier pass recorded 18 rows, 17 names and 8 employers. Those came
-     from a summary of the page rather than the page, and were wrong.
+     from a summary of the page rather than the page, and were wrong. A
+     second pass then read the repeated name — Ritesh Kumar, at rows 3 and
+     15 — as one student listed twice, and published 15. The photographs the
+     university prints against those two rows are of different men, so that
+     reading cannot be asserted either. The page now says 16 records, which
+     is true whichever way it resolves.
 
      Mechanical is absent from the list entirely. The page does not say so:
      it is not our job to draw a prospect's attention to a gap in a record
@@ -332,7 +337,7 @@ const CONTENT = {
      count for themselves. */
   placementList: {
     url: 'https://sijoul.sandipuniversity.edu.in/studen-placement-list.php',
-    named: '15',
+    named: '16',
     rows: '16',
     employers: '6',
     /* LPA is set in the label rather than in these values, so the figure
@@ -340,7 +345,7 @@ const CONTENT = {
     rangeLow: '3',
     rangeHigh: '12',
     civil: '5',
-    electrical: '5',
+    electrical: '6',
     computerScience: '2',
     branchNotPrinted: '3',
   },

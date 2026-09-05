@@ -1087,6 +1087,100 @@ mark.confirm {
 .pl__branch { margin-top: .125rem; font-size: var(--fs-small); color: var(--mark); }
 .pl__co { margin-top: .5rem; font-size: var(--fs-small); color: var(--muted); }
 
+/* ---------- 14b. THE FULL PLACEMENT RECORD, OPENED IN PLACE ----------
+   A disclosure rather than a link. It was a link to the university's
+   server, then an in-page jump to §5.12; both still read as "go somewhere
+   else" to someone who only wants to see the list. */
+.plist { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+
+/* Centred pill, the way the reference site sets its "view all". The native
+   marker is dropped in both dialects — Safari needs the ::-webkit- rule,
+   and without display:flex Chrome keeps its own triangle. */
+.plist__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  width: fit-content;
+  margin: 0 auto;
+  padding: .8125rem 1.75rem;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: var(--fs-small);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg);
+  list-style: none;
+  transition: border-color .3s var(--ease), color .3s var(--ease), background .3s var(--ease);
+}
+.plist__toggle::-webkit-details-marker { display: none; }
+.plist__toggle::after {
+  content: '';
+  width: .4375rem; height: .4375rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform .3s var(--ease);
+}
+.plist[open] .plist__toggle::after { transform: rotate(-135deg) translate(-1px, -1px); }
+.plist__toggle:hover { border-color: var(--accent); color: var(--accent); }
+.plist__toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (any-pointer: coarse) { .plist__toggle { padding: 1rem 1.75rem; } }
+
+/* One label in, the other out, so the control says what it will do rather
+   than what it did. */
+.plist__toggle-shut { display: none; }
+.plist[open] .plist__toggle-open { display: none; }
+.plist[open] .plist__toggle-shut { display: inline; }
+
+.plist__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: clamp(1rem, 2.4vw, 1.75rem) clamp(.875rem, 2vw, 1.5rem);
+  margin: clamp(1.75rem, 4vw, 2.75rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.plist__card { text-align: center; }
+
+/* Round, because a square portrait at this size reads as an ID card and
+   these are sixteen people, not sixteen records. --panel behind it so a
+   photograph that fails to load leaves a surface rather than a hole. */
+.plist__photo {
+  display: block;
+  width: clamp(4.5rem, 11vw, 5.5rem);
+  height: clamp(4.5rem, 11vw, 5.5rem);
+  margin: 0 auto .75rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--panel);
+}
+.plist__pkg {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+  font-size: clamp(1.125rem, 2.2vw, 1.375rem);
+  letter-spacing: -.01em;
+  /* Not --emphasis: that is spent once by design, on the 5.7 total. The
+     display face at size is what marks these, as it does the three cards
+     above. */
+  color: var(--fg);
+}
+.plist__name { margin-top: .25rem; font-size: var(--fs-small); color: var(--fg); }
+.plist__branch,
+.plist__co {
+  margin-top: .125rem;
+  font-size: var(--fs-xsmall, .8125rem);
+  color: var(--muted);
+  line-height: 1.4;
+}
+.plist__note {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: var(--fs-small);
+  color: var(--muted);
+  max-width: 62ch;
+}
+
 .pl__source {
   margin-top: 1.5rem;
   font-size: var(--fs-small);
@@ -1948,47 +2042,6 @@ mark.confirm {
    figure a family is actually looking for — was clipped off the right edge
    with no scrollbar to say so. It also puts something under the branch list,
    which otherwise left a column-deep hole. */
-.rec__all { margin-top: var(--space-block); }
-.rec__all > summary {
-  display: flex;
-  align-items: center;
-  gap: .625rem;
-  cursor: pointer;
-  font-size: var(--fs-small);
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--fg);
-  padding: .75rem 0;
-  border-top: 1px solid var(--hairline-strong);
-  border-bottom: 1px solid var(--hairline-strong);
-  list-style: none;
-  transition: color .3s var(--ease);
-}
-.rec__all > summary::-webkit-details-marker { display: none; }
-.rec__all > summary::before {
-  content: '';
-  width: .5rem; height: .5rem;
-  border-right: 1.5px solid var(--accent);
-  border-bottom: 1.5px solid var(--accent);
-  transform: rotate(45deg) translate(-2px, -2px);
-  transition: transform .3s var(--ease);
-}
-.rec__all[open] > summary::before { transform: rotate(-135deg) translate(-2px, -2px); }
-.rec__all > summary:hover { color: var(--accent); }
-.rec__all > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-
-/* Four columns of names and company names do not fit a 320px phone at a
-   readable size, and shrinking the type to make them fit would defeat the
-   point of printing the record. It scrolls inside its own box instead, the
-   same treatment §5.7's fee tables get. */
-.rec__tablewrap { overflow-x: auto; margin-top: 1.5rem; }
-.rec__table { width: 100%; min-width: 34rem; border-collapse: collapse; }
-.rec__table tbody th { white-space: nowrap; }
-/* Package is column two now, so the generic last-child right-align that
-   .tbl applies to a figure column would land on the employer instead. */
-.rec__table td:last-child,
-.rec__table th:last-child { text-align: left; }
-.rec__pkg { white-space: nowrap; color: var(--fg); }
 
 @media (min-width: 760px) {
   /* Two shared rows, so the three labels sit on one baseline even when the
