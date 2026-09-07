@@ -138,6 +138,8 @@
   --elevation: 0 1px 2px rgba(0, 0, 0, .45), 0 10px 28px rgba(0, 0, 0, .34);
 
   --fvs-display: "opsz" 24, "SOFT" 0, "WONK" 0;
+  /* The sturdy text cut, for figures that want character but not dress. */
+  --fvs-data: "opsz" 14, "SOFT" 0, "WONK" 0;
   --font-display: Fraunces, "Fraunces Fallback", Georgia, serif;
   --font-body: "Instrument Sans", "Instrument Fallback", system-ui, sans-serif;
 
@@ -652,7 +654,7 @@ table { border-collapse: collapse; width: 100%; }
      than elegant, which is the other half of why the headline looked
      wrong. */
   font-variation-settings: var(--fvs-display);
-  font-weight: 400;
+  font-weight: 350;
   font-size: var(--fs-hero);
   line-height: 1.05;
   letter-spacing: -.028em;
@@ -800,12 +802,16 @@ table { border-collapse: collapse; width: 100%; }
   color: var(--muted);
   margin-bottom: .35rem;
 }
+/* Four short facts under four sans labels. The heading register at opsz 24
+   read as too dressed here, and the plain sans read as having no character
+   at all — so this takes --fvs-data, the sturdy text cut, at 500. */
 .hero__rail .value {
   font-family: var(--font-display);
-  font-variation-settings: var(--fvs-display);
-  font-weight: 400;
+  font-variation-settings: var(--fvs-data);
+  font-weight: 450;
   font-size: clamp(1.25rem, 2.4vw, 1.75rem);
   line-height: 1.1;
+  letter-spacing: -.005em;
 }
 
 @media (min-width: 768px) {

@@ -120,18 +120,19 @@
              family deciding whether this is a real university is to show
              them the place.
 
-             Also the largest source in the set at 1400px, the brightest and
-             the most saturated — it was measured as the strongest candidate
-             on every metric long before it was picked, and it holds up when
-             you actually look at it, which the flask photograph did not.
+             Replaced with the client's own photograph, which is a better
+             frame than anything that was in the folder: wider, taken from
+             high enough to show the lawns and the palms rather than just
+             the facade, and 16:9 so the hero crops it barely at all.
+             Processed from a 5.5MB camera JPEG down to 210KB.
 
              No portrait variant. Below 900px this stops being a backdrop and
              becomes a bounded frame under the form, so the viewport shape no
              longer decides the crop — and the picture is shown whole rather
              than washed out behind a headline. -->
-        <img src="assets/img/campus-main.webp"
-             alt="The main academic block at Sandip University, Sijoul, seen down its palm-lined approach road"
-             width="1400" height="816" fetchpriority="high" decoding="async">
+        <img src="assets/img/campus-hero.webp"
+             alt="The main academic block at Sandip University, Sijoul, seen across its lawns and palms"
+             width="1800" height="1013" fetchpriority="high" decoding="async">
       </picture>
     </div>
 
@@ -944,37 +945,47 @@
 
         <div class="gal__stage" id="galStage" tabindex="0">
           <figure class="gal__slide is-on" role="group"
-                  aria-roledescription="slide" aria-label="1 of 7: Main academic block">
+                  aria-roledescription="slide" aria-label="1 of 9: Main academic block">
             <img src="assets/img/gallery/g-campus.webp" width="960" height="640" alt="The main academic block seen down the palm-lined approach road"
                  fetchpriority="high" decoding="async">
           </figure>
           <figure class="gal__slide" role="group"
-                  aria-roledescription="slide" aria-label="2 of 7: Academic building" aria-hidden="true">
+                  aria-roledescription="slide" aria-label="2 of 9: Academic building" aria-hidden="true">
             <img src="assets/img/gallery/g-academic.webp" width="960" height="640" alt="Academic building frontage with clipped hedges and lawn"
                  loading="lazy" decoding="async">
           </figure>
           <figure class="gal__slide" role="group"
-                  aria-roledescription="slide" aria-label="3 of 7: Classroom" aria-hidden="true">
+                  aria-roledescription="slide" aria-label="3 of 9: Classroom" aria-hidden="true">
             <img src="assets/img/gallery/g-classroom.webp" width="960" height="640" alt="Classroom with rows of desks facing a projector screen" style="object-position:center top"
                  loading="lazy" decoding="async">
           </figure>
           <figure class="gal__slide" role="group"
-                  aria-roledescription="slide" aria-label="4 of 7: Hostel block" aria-hidden="true">
+                  aria-roledescription="slide" aria-label="4 of 9: Hostel block" aria-hidden="true">
             <img src="assets/img/gallery/g-hostel.webp" width="960" height="640" alt="Hostel block on the residential side of the campus"
                  loading="lazy" decoding="async">
           </figure>
           <figure class="gal__slide" role="group"
-                  aria-roledescription="slide" aria-label="5 of 7: EV Lab, hub motor stripped down" aria-hidden="true">
+                  aria-roledescription="slide" aria-label="5 of 9: School of Engineering block" aria-hidden="true">
+            <img src="assets/img/gallery/g-school-block.webp" width="960" height="640" alt="The School of Engineering and Technology block at Sandip University, Sijoul, with its signboard at the entrance"
+                 loading="lazy" decoding="async">
+          </figure>
+          <figure class="gal__slide" role="group"
+                  aria-roledescription="slide" aria-label="6 of 9: Campus grounds" aria-hidden="true">
+            <img src="assets/img/gallery/g-campus-field.webp" width="960" height="640" alt="An academic block seen across the open playing field on the Sijoul campus"
+                 loading="lazy" decoding="async">
+          </figure>
+          <figure class="gal__slide" role="group"
+                  aria-roledescription="slide" aria-label="7 of 9: EV Lab, hub motor stripped down" aria-hidden="true">
             <img src="assets/img/gallery/g-ev-motor.webp" width="960" height="640" alt="Four students at a bench with a hub motor opened to expose its stator windings"
                  loading="lazy" decoding="async">
           </figure>
           <figure class="gal__slide" role="group"
-                  aria-roledescription="slide" aria-label="6 of 7: EV Lab, wire harness and controller" aria-hidden="true">
+                  aria-roledescription="slide" aria-label="8 of 9: EV Lab, wire harness and controller" aria-hidden="true">
             <img src="assets/img/gallery/g-ev-harness.webp" width="960" height="640" alt="Close view of hands connecting a vehicle wire harness to a motor controller"
                  loading="lazy" decoding="async">
           </figure>
           <figure class="gal__slide" role="group"
-                  aria-roledescription="slide" aria-label="7 of 7: EV Lab, vehicle chassis" aria-hidden="true">
+                  aria-roledescription="slide" aria-label="9 of 9: EV Lab, vehicle chassis" aria-hidden="true">
             <img src="assets/img/gallery/g-ev-chassis.webp" width="960" height="640" alt="Students around a bare electric vehicle chassis with steering column and controller wired in"
                  loading="lazy" decoding="async">
           </figure>
@@ -987,7 +998,7 @@
           </button>
 
           <div class="gal__foot">
-            <p class="gal__count"><span id="galNow">01</span> <i>/</i> 07</p>
+            <p class="gal__count"><span id="galNow">01</span> <i>/</i> 09</p>
             <button type="button" class="gal__zoom" id="galZoom">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
@@ -1025,18 +1036,30 @@
           </li>
           <li>
             <button type="button" class="gal__thumb" data-go="4"
+                    aria-label="Show School of Engineering block">
+              <img src="assets/img/gallery/g-school-block.webp" width="960" height="640" alt="" loading="lazy" decoding="async">
+            </button>
+          </li>
+          <li>
+            <button type="button" class="gal__thumb" data-go="5"
+                    aria-label="Show Campus grounds">
+              <img src="assets/img/gallery/g-campus-field.webp" width="960" height="640" alt="" loading="lazy" decoding="async">
+            </button>
+          </li>
+          <li>
+            <button type="button" class="gal__thumb" data-go="6"
                     aria-label="Show EV Lab, hub motor stripped down">
               <img src="assets/img/gallery/g-ev-motor.webp" width="960" height="640" alt="" loading="lazy" decoding="async">
             </button>
           </li>
           <li>
-            <button type="button" class="gal__thumb" data-go="5"
+            <button type="button" class="gal__thumb" data-go="7"
                     aria-label="Show EV Lab, wire harness and controller">
               <img src="assets/img/gallery/g-ev-harness.webp" width="960" height="640" alt="" loading="lazy" decoding="async">
             </button>
           </li>
           <li>
-            <button type="button" class="gal__thumb" data-go="6"
+            <button type="button" class="gal__thumb" data-go="8"
                     aria-label="Show EV Lab, vehicle chassis">
               <img src="assets/img/gallery/g-ev-chassis.webp" width="960" height="640" alt="" loading="lazy" decoding="async">
             </button>
@@ -1047,7 +1070,7 @@
 
         <!-- Announced from here rather than from the caption, which would
              otherwise be read twice. -->
-        <p class="sr-only" aria-live="polite" id="galLive">Main academic block, 1 of 7</p>
+        <p class="sr-only" aria-live="polite" id="galLive">Main academic block, 1 of 9</p>
       </div>
     </div>
 
