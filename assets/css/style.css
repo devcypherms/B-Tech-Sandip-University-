@@ -678,7 +678,13 @@ table { border-collapse: collapse; width: 100%; }
 }
 .hero__branches li { border-bottom: 1px solid var(--hairline); }
 .hero__branches a {
-  display: block;
+  /* Icon and label on one baseline. The icon is sized in em so it tracks
+     the label through every clamp rather than needing its own breakpoints,
+     and flex-shrink is off so a long label never squeezes it out of
+     square. */
+  display: flex;
+  align-items: center;
+  gap: .625rem;
   padding-block: .5rem;
   font-family: var(--font-display);
   font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
@@ -686,7 +692,19 @@ table { border-collapse: collapse; width: 100%; }
   letter-spacing: -.01em;
   transition: color .3s var(--ease);
 }
+.hero__branch-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: 0 0 auto;
+  /* Held back from the label: at full strength five icons out-shout the
+     five words they belong to, and the words are what a reader is choosing
+     between. They come up to match on hover with the label. */
+  opacity: .62;
+  transition: opacity .3s var(--ease), color .3s var(--ease);
+}
 .hero__branches a:hover { color: var(--accent); }
+.hero__branches a:hover .hero__branch-icon { opacity: 1; }
+.hero__branches a:focus-visible .hero__branch-icon { opacity: 1; }
 
 @media (max-width: 899px) {
   /* On a phone the form owns the fold; the branches follow it. */
