@@ -1,6 +1,6 @@
 /* =============================================================================
    Sandip University — B.Tech Admission 2026
-   One ground: paper. Fraunces / Instrument Sans.
+   One ground: paper. Source Serif 4 / Instrument Sans.
 
    Discipline notes, so later edits do not undo the design:
    - ONE ground for the whole page, hero included. Sections are told apart
@@ -30,12 +30,25 @@
    ========================================================================== */
 
 /* ---------- 0. FONTS ---------- */
-/* Both are variable fonts: one file serves every weight, and Fraunces also
-   carries the optical-size axis used to size the hero differently from H2s. */
+/* Both are variable fonts: one file serves every weight, and Source Serif
+   also carries an optical-size axis, used to set the page in its text cut
+   rather than letting large type climb into a display one. */
+/* Source Serif 4 replaces Fraunces.
+
+   Fraunces is a personality face — it ships an axis literally named WONK —
+   and no amount of tuning was going to make it read as an institution. Six
+   rounds of adjusting optical size, weight and tracking got it closer and
+   never got it there, because the problem was the drawing rather than the
+   settings.
+
+   Source Serif is the opposite brief: Adobe's academic workhorse, drawn to
+   be read and not noticed. It carries a genuine optical-size axis (8-60)
+   rather than a stylistic one, so the machinery the page already has still
+   applies — it just now means what it says. */
 @font-face {
-  font-family: Fraunces;
-  src: url("../fonts/fraunces-var.woff2") format("woff2-variations");
-  font-weight: 100 900;
+  font-family: "Source Serif 4";
+  src: url("../fonts/source-serif-var.woff2") format("woff2-variations");
+  font-weight: 300 700;
   font-display: swap;
 }
 @font-face {
@@ -50,9 +63,9 @@
    scoped by unicode-range so they load only when a rupee is actually used.
    Verified with a per-glyph width test, not assumed. */
 @font-face {
-  font-family: Fraunces;
-  src: url("../fonts/fraunces-rupee.woff2") format("woff2");
-  font-weight: 100 900;
+  font-family: "Source Serif 4";
+  src: url("../fonts/source-serif-rupee.woff2") format("woff2");
+  font-weight: 300 700;
   font-display: swap;
   unicode-range: U+20B9;
 }
@@ -65,12 +78,15 @@
 }
 
 /* Metric-matched fallbacks so the swap does not reflow the page. */
+/* Re-measured for Source Serif, which is narrower and sits lower than
+   Fraunces did. The old 106% size-adjust was tuned to a different face and
+   carrying it over would reflow the page on every font swap. */
 @font-face {
-  font-family: "Fraunces Fallback";
+  font-family: "Source Serif Fallback";
   src: local("Georgia"), local("Times New Roman"), local("Liberation Serif");
-  size-adjust: 106%;
-  ascent-override: 92%;
-  descent-override: 24%;
+  size-adjust: 98%;
+  ascent-override: 96%;
+  descent-override: 26%;
   line-gap-override: 0%;
 }
 @font-face {
@@ -137,10 +153,18 @@
   --radius: 6px;
   --elevation: 0 1px 2px rgba(0, 0, 0, .45), 0 10px 28px rgba(0, 0, 0, .34);
 
-  --fvs-display: "opsz" 24, "SOFT" 0, "WONK" 0;
-  /* The sturdy text cut, for figures that want character but not dress. */
-  --fvs-data: "opsz" 14, "SOFT" 0, "WONK" 0;
-  --font-display: Fraunces, "Fraunces Fallback", Georgia, serif;
+  /* SOFT and WONK were Fraunces axes and do not exist here; naming an axis
+     a font does not have is ignored, but leaving them in would be a lie
+     about what the page is doing.
+
+     opsz is kept and now set honestly. Source Serif's range is 8-60 and it
+     is a real optical size, so this asks for the text cut at 20 rather than
+     holding a display face down: the difference from before is that the
+     face is sober at every setting, so the axis is tuning readability
+     instead of fighting personality. */
+  --fvs-display: "opsz" 20;
+  --fvs-data: "opsz" 12;
+  --font-display: "Source Serif 4", "Source Serif Fallback", Georgia, serif;
   --font-body: "Instrument Sans", "Instrument Fallback", system-ui, sans-serif;
 
   --fs-hero: clamp(2.75rem, 7vw, 6.5rem);
