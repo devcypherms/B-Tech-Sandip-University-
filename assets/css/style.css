@@ -137,6 +137,7 @@
   --radius: 6px;
   --elevation: 0 1px 2px rgba(0, 0, 0, .45), 0 10px 28px rgba(0, 0, 0, .34);
 
+  --fvs-display: "opsz" 24, "SOFT" 0, "WONK" 0;
   --font-display: Fraunces, "Fraunces Fallback", Georgia, serif;
   --font-body: "Instrument Sans", "Instrument Fallback", system-ui, sans-serif;
 
@@ -226,8 +227,10 @@
 [hidden] { display: none !important; }
 
 html {
-  /* Explicit, though it is the initial value: the whole problem was that
-     naming opsz in font-variation-settings silently turned this off. */
+  /* The display face is deliberately held in one optical register instead
+     of tracking size — see --fvs-display. Naming opsz there disables
+     automatic optical sizing on those elements by itself; this keeps the
+     automatic behaviour for anything that does not opt out. */
   font-optical-sizing: auto;
   /* One line that scales the entire page.
 
@@ -305,7 +308,7 @@ table { border-collapse: collapse; width: 100%; }
 /* Display face, used for headings and every large number. */
 .display {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   letter-spacing: -.015em;
   line-height: 1.1;
@@ -648,7 +651,7 @@ table { border-collapse: collapse; width: 100%; }
      at this size and contrast the 400 hairlines read as underfed rather
      than elegant, which is the other half of why the headline looked
      wrong. */
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 600;
   font-size: var(--fs-hero);
   line-height: 1.05;
@@ -695,7 +698,7 @@ table { border-collapse: collapse; width: 100%; }
   gap: .625rem;
   padding-block: .5rem;
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: clamp(1rem, 1.3vw, 1.1875rem);
   letter-spacing: -.01em;
   transition: color .3s var(--ease);
@@ -747,7 +750,7 @@ table { border-collapse: collapse; width: 100%; }
 }
 .hero__form-title {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: clamp(1.25rem, 1.7vw, 1.5rem);
   letter-spacing: -.01em;
@@ -801,7 +804,7 @@ table { border-collapse: collapse; width: 100%; }
 }
 .hero__rail .value {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   /* 500 rather than 400: these are four short figures on a hairline rail
      and they were the thinnest type on the page. */
   font-weight: 500;
@@ -1007,7 +1010,7 @@ mark.confirm {
 }
 .section__title {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: var(--fs-h2);
   line-height: 1.1;
@@ -1034,7 +1037,7 @@ mark.confirm {
 
 .why__list h3 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: var(--fs-h3);
   line-height: 1.25;
@@ -1088,7 +1091,7 @@ mark.confirm {
 .acc__name {
   grid-area: name;
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: var(--fs-h3);
   line-height: 1.25;
   letter-spacing: -.01em;
@@ -1185,7 +1188,7 @@ mark.confirm {
 .pl__pkg {
   color: var(--red-ink);
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1;
   letter-spacing: -.02em;
@@ -1265,7 +1268,7 @@ mark.confirm {
 }
 .plist__pkg {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: clamp(1.125rem, 2.2vw, 1.375rem);
   letter-spacing: -.01em;
   /* Not --emphasis: that is spent once by design, on the 5.7 total. The
@@ -1401,7 +1404,7 @@ mark.confirm {
 
 .mq__word {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
   letter-spacing: -.01em;
   white-space: nowrap;
@@ -1433,7 +1436,7 @@ mark.confirm {
 
 .fees__h3 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: var(--fs-h3);
   letter-spacing: -.01em;
@@ -1493,7 +1496,7 @@ mark.confirm {
    6.20:1, #E86A45 on ink at 5.74:1. */
 .tbl--total td {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: clamp(1.125rem, 2.2vw, 1.5rem);
   color: var(--emphasis);
   letter-spacing: -.01em;
@@ -1919,7 +1922,7 @@ mark.confirm {
 .proc__n {
   display: block;
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: 1.125rem;
   line-height: 1;
   color: var(--mark);
@@ -1935,7 +1938,7 @@ mark.confirm {
 
 .proc__step h3 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: var(--fs-h3);
   line-height: 1.25;
@@ -2058,7 +2061,7 @@ mark.confirm {
 .loc__place { color: var(--muted); }
 .loc__km {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: 1.125rem;
   letter-spacing: -.01em;
 }
@@ -2157,7 +2160,7 @@ mark.confirm {
 .rec__fig {
   color: var(--red-ink);
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: clamp(2.5rem, 6vw, 4rem);
   line-height: 1;
   letter-spacing: -.03em;
@@ -2180,7 +2183,7 @@ mark.confirm {
 .rec__split > * { min-width: 0; }
 .rec__h3 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: var(--fs-h3);
   letter-spacing: -.01em;
@@ -2200,7 +2203,7 @@ mark.confirm {
 }
 .rec__branches li span:last-child {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-size: 1.25rem;
   color: var(--fg);
 }
@@ -2253,7 +2256,7 @@ mark.confirm {
 .cta__what li:last-child { border-bottom: 0; padding-bottom: 0; }
 .cta__what h3 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: 1.0625rem;
   letter-spacing: -.01em;
@@ -2265,7 +2268,7 @@ mark.confirm {
 .f__title {
   margin-bottom: .375rem;
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 0;
+  font-variation-settings: var(--fvs-display);
   font-weight: 400;
   font-size: var(--fs-h3);
   letter-spacing: -.01em;
