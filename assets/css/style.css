@@ -2185,6 +2185,18 @@ mark.confirm {
   border-block: 1px solid var(--hairline);
 }
 .rec__figures dd { margin: 0; }
+/* Each figure sits over its own caption rather than beside its left edge.
+
+   The caption is capped at 28ch, so the number was hanging at the start of
+   a box much wider than itself and reading as unrelated to the words under
+   it. Centring the pair makes the caption the figure's base — which is what
+   a statistic is: one number and the sentence that says what it counts. */
+.rec__figures > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 .rec__fig {
   color: var(--red-ink);
   font-family: var(--font-display);
