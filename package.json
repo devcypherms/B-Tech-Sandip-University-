@@ -1,0 +1,11 @@
+{
+  "name": "btech-sandip-university-madhubani",
+  "version": "1.0.0",
+  "private": true,
+  "description": "B.Tech admission landing page for Sandip University, Sijoul (Madhubani). Static HTML, CSS and vanilla JS — no build step, no dependencies.",
+  "scripts": {
+    "build": "node confirm.js",
+    "vercel-build": "node confirm.js",
+    "check": "node confirm.js"
+  }
+}
