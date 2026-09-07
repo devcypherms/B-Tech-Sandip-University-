@@ -14,4 +14,4 @@ Allow: /assets/js/
 Allow: /assets/fonts/
 Allow: /assets/img/
 
-Sitemap: https://b-tech-sandip-university-git-main-cypher-dev1.vercel.app/sitemap.xml
+Sitemap: https://b-tech-sandip-university.vercel.app/sitemap.xml

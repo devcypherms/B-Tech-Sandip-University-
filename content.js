@@ -67,7 +67,7 @@ const CONTENT = {
 
      Must end in a trailing slash. /x and /x/ are different URLs. */
   site: {
-    canonical: 'https://b-tech-sandip-university-git-main-cypher-dev1.vercel.app/',
+    canonical: 'https://b-tech-sandip-university.vercel.app/',
   },
 
   links: {

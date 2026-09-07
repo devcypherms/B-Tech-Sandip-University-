@@ -150,9 +150,23 @@
   --space-block: clamp(2rem, 5vw, 4rem);
   --gutter: clamp(1.25rem, 5vw, 5rem);
 
-  --wrap: 1320px;
+  /* The only px value left in the scale, and the reason a large screen
+     looked half empty: 1320px flat meant 1440 used 92% of itself, 1920 used
+     69%, and 2560 used 52%.
+
+     It is a cap in rem, and rem now grows with the viewport (see the html
+     rule), so the cap grows with it: 1536px at a 1440 screen, 1864px at
+     1920, 2304px at 2560. Below the cap the container is simply 100% wide
+     and the gutter does the insetting.
+
+     A vw term was tried here first and was wrong: 94vw bites at every size,
+     so a 390px phone lost 24px of content width to it. A pure rem cap
+     cannot bite until the viewport is wider than the cap, which leaves the
+     phone layout untouched — which is the whole reason to express it in the
+     unit that scales rather than in a percentage of the screen. */
+  --wrap: 96rem;
   --ease: cubic-bezier(.22, .61, .36, 1);
-  --header-h: 76px;
+  --header-h: 4.75rem;
 }
 
 /* PAPER — the only ground.
@@ -212,6 +226,24 @@
 [hidden] { display: none !important; }
 
 html {
+  /* One line that scales the entire page.
+
+     Everything here is already in rem, so moving the root moves the type,
+     the spacing, the container cap and the touch targets together, in
+     proportion — which is why no per-breakpoint sizes are needed.
+
+     Solved against the reference site, which does exactly this: its root
+     runs 15px at 1280 through to 24px at 2560. This holds 16px up to a 1440
+     viewport, then rises on the same slope to 24px at 2560:
+
+       1440 -> 16.0    1680 -> 17.7    1920 -> 19.4    2560 -> 24.0
+
+     The lower bound is 1rem rather than a pixel count, and on the root
+     element rem resolves against the browser's own default — so a reader
+     who has set a larger default keeps it, and the page scales from there
+     rather than overriding them. Below 1440 nothing changes at all, which
+     leaves the phone layout exactly as it was tuned. */
+  font-size: clamp(1rem, 0.357rem + 0.714vw, 1.5rem);
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
@@ -1228,10 +1260,16 @@ mark.confirm {
   max-width: 62ch;
 }
 
+/* Capped in ch, not px. With the container now tracking the viewport this
+   sentence ran the full 1613px at a 1920 screen — the one block on the page
+   with no measure of its own. A ch cap holds the line at a readable length
+   whatever the root font-size does, which is the point of measuring type in
+   its own units rather than the screen's. */
 .pl__source {
   margin-top: 1.5rem;
   font-size: var(--fs-small);
   color: var(--muted);
+  max-width: 74ch;
 }
 .pl__source a {
   color: var(--fg);

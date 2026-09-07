@@ -6,7 +6,7 @@
      splits the page's own ranking signals. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://b-tech-sandip-university-git-main-cypher-dev1.vercel.app/</loc>
+    <loc>https://b-tech-sandip-university.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
