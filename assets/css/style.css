@@ -2187,14 +2187,20 @@ mark.confirm {
 .rec__figures dd { margin: 0; }
 /* Each figure sits over its own caption rather than beside its left edge.
 
-   The caption is capped at 28ch, so the number was hanging at the start of
-   a box much wider than itself and reading as unrelated to the words under
-   it. Centring the pair makes the caption the figure's base — which is what
-   a statistic is: one number and the sentence that says what it counts. */
+   The caption is capped at 28ch inside a 400px column, so the number was
+   centring in 400 while the caption centred in 261 from the left edge —
+   two centres 70px apart, which is the unevenness rather than anything
+   about the words being different lengths.
+
+   justify-items, not align-items. This was written as a flex column with
+   align-items:center and looked correct in isolation, but the wide-screen
+   rule below sets display:grid for the subgrid, and in a grid align-items
+   works on the block axis. It was centring them vertically, which they
+   already were. justify-items is the inline-axis equivalent and survives
+   the display change, so both rules can keep their own job. */
 .rec__figures > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  justify-items: center;
   text-align: center;
 }
 .rec__fig {
