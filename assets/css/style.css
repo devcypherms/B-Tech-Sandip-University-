@@ -652,12 +652,10 @@ table { border-collapse: collapse; width: 100%; }
      than elegant, which is the other half of why the headline looked
      wrong. */
   font-variation-settings: var(--fvs-display);
-  font-weight: 600;
+  font-weight: 400;
   font-size: var(--fs-hero);
   line-height: 1.05;
-  /* Loosened a touch with the extra weight: -.03em was set for 400, and a
-     heavier cut needs less help closing its own gaps. */
-  letter-spacing: -.022em;
+  letter-spacing: -.028em;
   max-width: 16ch;
 }
 /* Each line is a mask window; the span inside is what travels. */
@@ -805,9 +803,7 @@ table { border-collapse: collapse; width: 100%; }
 .hero__rail .value {
   font-family: var(--font-display);
   font-variation-settings: var(--fvs-display);
-  /* 500 rather than 400: these are four short figures on a hairline rail
-     and they were the thinnest type on the page. */
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(1.25rem, 2.4vw, 1.75rem);
   line-height: 1.1;
 }
@@ -1702,6 +1698,7 @@ mark.confirm {
 }
 .gal__count {
   font-family: var(--font-display);
+  font-variation-settings: var(--fvs-display);
   font-size: var(--fs-small);
   letter-spacing: .12em;
   color: #fff;
@@ -1864,6 +1861,7 @@ mark.confirm {
 }
 .lb__count {
   font-family: var(--font-display);
+  font-variation-settings: var(--fvs-display);
   letter-spacing: .12em;
   color: #fff;
   font-variant-numeric: tabular-nums;
