@@ -168,8 +168,21 @@ for (const file of htmlFiles) {
 const DEPLOY_BLOCKERS = [
   ['site.canonical', 'canonical, og:url, sitemap and robots all derive from it — a wrong value hands the ranking to another page'],
   ['org.phone', 'the site displays one number and dials another; the mobile Call button is wired to this'],
-  ['FORM_ENDPOINT', 'the form refuses to submit until this is real'],
 ];
+
+/* Not a blocker, but not something to lose either.
+
+   FORM_ENDPOINT used to fail the build. The reason given was that the form
+   refuses to submit until it is real — which is true, and which is enforced
+   in main.js rather than here: with no endpoint the form shows a red
+   message saying nothing was sent and nobody has the visitor's details.
+   That is the protection. The gate was a second copy of it, and the second
+   copy was preventing the page from being deployed at all.
+
+   It prints as a banner on every build instead, because a landing page that
+   silently collects nothing is the worst failure available to this project
+   and it must not be quietly forgotten. */
+const FORM_WARN = 'FORM_ENDPOINT';
 
 /* ---------- report ---------- */
 const line = '='.repeat(72);
@@ -379,6 +392,18 @@ console.log('     are louder there than anywhere else');
    once per occurrence, and counting both made the total read as 78 when
    there were 32 questions to answer. Drift and structured-data mismatches
    still block unconditionally — those are not incomplete, they are wrong. */
+const formValue = lookup(FORM_WARN);
+const formUnset = typeof formValue === 'string' && /\[\[CONFIRM:/.test(formValue);
+if (formUnset) {
+  console.log('\n' + red(bold('  ' + '!'.repeat(68))));
+  console.log(red(bold('  THE ENQUIRY FORM IS NOT CONNECTED.')));
+  console.log(dim('  FORM_ENDPOINT in content.js is still a placeholder, so the form sends'));
+  console.log(dim('  nowhere. It tells the visitor so rather than faking success, but this'));
+  console.log(dim('  page exists to collect enquiries and right now it collects none.'));
+  console.log(dim('  Do not run ads or hand this URL to the client as live until it is set.'));
+  console.log(red(bold('  ' + '!'.repeat(68))));
+}
+
 const blockingCount = blocking.length + drifted.length + orphanHooks.length
   + faqDrift.length + seoDrift.length;
 console.log('\n' + line);

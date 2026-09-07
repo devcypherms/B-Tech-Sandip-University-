@@ -67,7 +67,7 @@ const CONTENT = {
 
      Must end in a trailing slash. /x and /x/ are different URLs. */
   site: {
-    canonical: '[[CONFIRM: production URL — canonical, og:url and sitemap all derive from this; include the trailing slash]]',
+    canonical: 'https://b-tech-sandip-university.vercel.app/',
   },
 
   links: {
