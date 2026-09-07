@@ -471,16 +471,37 @@
         return '';
       },
       branch: function (v) { return v ? '' : 'Choose a branch, or "Not decided yet".'; },
-      district: function (v) { return v ? '' : 'Choose your district.'; },
+      /* State is asked before district so the district list can be the right
+         one, and because it is the order people think about where they live. */
+      state: function (v) { return v ? '' : 'Choose your state.'; },
+      /* Either a pick from Bihar's list or something typed for another state,
+         so this cannot just test for truthiness the way branch does. */
+      district: function (v) {
+        if (!v.trim()) return 'Tell us your district.';
+        if (v.trim().length < 3) return 'That looks too short to be a district.';
+        return '';
+      },
       consent: function (_, el) { return el.checked ? '' : 'Please tick this so we can call you.'; },
     };
 
+    /* Whichever control of this name is currently enabled. District is two
+       controls — a select for Bihar, a text box for every other state — and
+       form.elements.district would hand back a RadioNodeList whose .value is
+       empty for anything that is not a radio group. */
+    function control(name) {
+      var all = form.querySelectorAll('[name="' + name + '"]');
+      for (var i = 0; i < all.length; i++) if (!all[i].disabled) return all[i];
+      return all[0] || null;
+    }
+
     var FIELDS = Object.keys(RULES).map(function (name) {
-      return {
-        name: name,
-        el: form.elements[name],
-        err: document.getElementById(prefix + 'e-' + name),
-      };
+      var field = { name: name, err: document.getElementById(prefix + 'e-' + name) };
+      /* A getter rather than a captured node, so every existing field.el
+         reader picks up the swap without knowing it happened. */
+      Object.defineProperty(field, 'el', {
+        get: function () { return control(name); },
+      });
+      return field;
     }).filter(function (f) { return f.el && f.err; });
 
     function show(field, message) {
@@ -519,13 +540,56 @@
       });
     }
 
+    /* Bound to every node carrying the name, not just the one live at init,
+       because the district text box starts disabled and may become the live
+       control later. */
     FIELDS.forEach(function (field) {
-      var events = field.el.type === 'checkbox' || field.el.tagName === 'SELECT'
-        ? ['change'] : ['input', 'blur'];
-      events.forEach(function (ev) {
-        field.el.addEventListener(ev, function () { if (submitted) check(field); });
+      var nodes = form.querySelectorAll('[name="' + field.name + '"]');
+      Array.prototype.forEach.call(nodes, function (el) {
+        var events = el.type === 'checkbox' || el.tagName === 'SELECT'
+          ? ['change'] : ['input', 'blur'];
+        events.forEach(function (ev) {
+          el.addEventListener(ev, function () { if (submitted) check(field); });
+        });
       });
     });
+
+    /* Bihar's districts are listed; every other state gets a text box. The
+       two controls share the name "district" and exactly one is ever enabled,
+       so FormData sends one value and the payload shape never changes.
+
+       Both are cleared on every switch. Without that, a student who picks
+       Madhubani, then changes the state to Jharkhand, would send Madhubani
+       from a form that no longer shows it. */
+    var stateEl = form.elements.state;
+    var dWrap = document.getElementById('f-district-wrap');
+    var dSel = document.getElementById('f-district');
+    var dTxt = document.getElementById('f-district-text');
+    var dLabel = form.querySelector('[data-district-label]');
+
+    function districtMode() {
+      /* Empty counts as Bihar so the field is never a bare disabled box
+         before a state has been chosen. */
+      var listed = !stateEl.value || stateEl.value === 'Bihar';
+      dWrap.hidden = !listed;
+      dSel.disabled = !listed;
+      dTxt.hidden = listed;
+      dTxt.disabled = listed;
+      dSel.value = '';
+      dTxt.value = '';
+      dLabel.setAttribute('for', listed ? 'f-district' : 'f-district-text');
+      dTxt.placeholder = stateEl.value === 'Outside India'
+        ? 'Type your city' : 'Type your district';
+      /* The old error belonged to a control that is no longer on screen. */
+      FIELDS.forEach(function (f) { if (f.name === 'district') show(f, ''); });
+    }
+
+    if (stateEl && dWrap && dSel && dTxt && dLabel) {
+      stateEl.addEventListener('change', districtMode);
+      /* reset() puts the state back to its placeholder but fires no change,
+         so after a successful send the district would stay a text box. */
+      form.addEventListener('reset', function () { setTimeout(districtMode, 0); });
+    }
 
     /* Read the label off the markup rather than hardcoding it, so the two
        forms can say different things on their buttons. */

@@ -1684,55 +1684,142 @@
           </div>
         </div>
 
+        <div class="f__field">
+          <label class="f__label" for="f-branch">Branch</label>
+          <div class="f__selectwrap">
+            <select class="f__select" id="f-branch" name="branch"
+                    aria-describedby="e-branch" required>
+              <option value="" selected disabled>Choose a branch</option>
+              <option>B.Tech (Civil Engineering)</option>
+              <option>B.Tech (Electrical Engineering)</option>
+              <option>B.Tech (Mechanical Engineering)</option>
+              <option>B.Tech (Computer Science and Engineering)</option>
+              <option>B.Tech (Computer Science and Engineering with AI &amp; ML)</option>
+              <option>Not decided yet</option>
+            </select>
+          </div>
+          <p class="f__err" id="e-branch" hidden></p>
+        </div>
+
         <div class="f__row">
           <div class="f__field">
-            <label class="f__label" for="f-branch">Branch</label>
+            <label class="f__label" for="f-state">State</label>
+            <!-- Bihar sits above the group rather than inside it because all
+                 but a handful of enquiries begin there, and a student in
+                 Madhubani should not scroll past Andhra Pradesh to find it. -->
             <div class="f__selectwrap">
-              <select class="f__select" id="f-branch" name="branch"
-                      aria-describedby="e-branch" required>
-                <option value="" selected disabled>Choose a branch</option>
-                <option>B.Tech (Civil Engineering)</option>
-                <option>B.Tech (Electrical Engineering)</option>
-                <option>B.Tech (Mechanical Engineering)</option>
-                <option>B.Tech (Computer Science and Engineering)</option>
-                <option>B.Tech (Computer Science and Engineering with AI &amp; ML)</option>
-                <option>Not decided yet</option>
+              <select class="f__select" id="f-state" name="state"
+                      aria-describedby="e-state" required>
+                <option value="" selected disabled>Choose your state</option>
+                <option>Bihar</option>
+                <optgroup label="Other states and union territories">
+                  <option>Andaman and Nicobar Islands</option>
+                  <option>Andhra Pradesh</option>
+                  <option>Arunachal Pradesh</option>
+                  <option>Assam</option>
+                  <option>Chandigarh</option>
+                  <option>Chhattisgarh</option>
+                  <option>Dadra and Nagar Haveli and Daman and Diu</option>
+                  <option>Delhi</option>
+                  <option>Goa</option>
+                  <option>Gujarat</option>
+                  <option>Haryana</option>
+                  <option>Himachal Pradesh</option>
+                  <option>Jammu and Kashmir</option>
+                  <option>Jharkhand</option>
+                  <option>Karnataka</option>
+                  <option>Kerala</option>
+                  <option>Ladakh</option>
+                  <option>Lakshadweep</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Maharashtra</option>
+                  <option>Manipur</option>
+                  <option>Meghalaya</option>
+                  <option>Mizoram</option>
+                  <option>Nagaland</option>
+                  <option>Odisha</option>
+                  <option>Puducherry</option>
+                  <option>Punjab</option>
+                  <option>Rajasthan</option>
+                  <option>Sikkim</option>
+                  <option>Tamil Nadu</option>
+                  <option>Telangana</option>
+                  <option>Tripura</option>
+                  <option>Uttar Pradesh</option>
+                  <option>Uttarakhand</option>
+                  <option>West Bengal</option>
+                </optgroup>
+                <option>Outside India</option>
               </select>
             </div>
-            <p class="f__err" id="e-branch" hidden></p>
+            <p class="f__err" id="e-state" hidden></p>
           </div>
 
           <div class="f__field">
-            <label class="f__label" for="f-district">District or state</label>
-            <!-- Not all 38 districts alphabetically. This is the six the campus
-                 draws from, then every district that physically borders one of
-                 those six, ordered by rough distance from Sijoul so a local
-                 finds their own near the top. Patna is included because it is
-                 the search term the page targets, not because it is close.
-                 Two fallbacks at the end so nobody is turned away. -->
-            <div class="f__selectwrap">
+            <label class="f__label" for="f-district" data-district-label>District</label>
+            <!-- All thirty-eight of Bihar's districts, but not alphabetically.
+                 The first group is the six the campus draws from plus every
+                 district bordering one of those six, ordered by rough distance
+                 from Sijoul, so a local finds their own without scrolling. The
+                 second group is the remaining twenty-three, so nobody in the
+                 state is turned away.
+
+                 Choosing any other state swaps this select for the text box
+                 below it: an all-India district list is around seven hundred
+                 names to ship and to keep correct, and a student outside Bihar
+                 does not need help spelling their own district. -->
+            <div class="f__selectwrap" id="f-district-wrap">
               <select class="f__select" id="f-district" name="district"
                       aria-describedby="e-district" required>
                 <option value="" selected disabled>Choose your district</option>
-                <option>Madhubani</option>
-                <option>Darbhanga</option>
-                <option>Supaul</option>
-                <option>Sitamarhi</option>
-                <option>Saharsa</option>
-                <option>Madhepura</option>
-                <option>Samastipur</option>
-                <option>Sheohar</option>
-                <option>Araria</option>
-                <option>Muzaffarpur</option>
-                <option>Khagaria</option>
-                <option>Begusarai</option>
-                <option>East Champaran</option>
-                <option>Vaishali</option>
-                <option>Patna</option>
-                <option>Another district in Bihar</option>
-                <option>Outside Bihar</option>
+                <optgroup label="Nearest the campus">
+                  <option>Madhubani</option>
+                  <option>Darbhanga</option>
+                  <option>Supaul</option>
+                  <option>Sitamarhi</option>
+                  <option>Saharsa</option>
+                  <option>Madhepura</option>
+                  <option>Samastipur</option>
+                  <option>Sheohar</option>
+                  <option>Araria</option>
+                  <option>Muzaffarpur</option>
+                  <option>Khagaria</option>
+                  <option>Begusarai</option>
+                  <option>East Champaran</option>
+                  <option>Vaishali</option>
+                  <option>Patna</option>
+                </optgroup>
+                <optgroup label="Elsewhere in Bihar">
+                  <option>Arwal</option>
+                  <option>Aurangabad</option>
+                  <option>Banka</option>
+                  <option>Bhagalpur</option>
+                  <option>Bhojpur</option>
+                  <option>Buxar</option>
+                  <option>Gaya</option>
+                  <option>Gopalganj</option>
+                  <option>Jamui</option>
+                  <option>Jehanabad</option>
+                  <option>Kaimur</option>
+                  <option>Katihar</option>
+                  <option>Kishanganj</option>
+                  <option>Lakhisarai</option>
+                  <option>Munger</option>
+                  <option>Nalanda</option>
+                  <option>Nawada</option>
+                  <option>Purnia</option>
+                  <option>Rohtas</option>
+                  <option>Saran</option>
+                  <option>Sheikhpura</option>
+                  <option>Siwan</option>
+                  <option>West Champaran</option>
+                </optgroup>
               </select>
             </div>
+            <input class="f__input" id="f-district-text" name="district" type="text"
+                   autocomplete="address-level2" autocapitalize="words" spellcheck="false"
+                   placeholder="Type your district" aria-describedby="e-district"
+                   hidden disabled required>
             <p class="f__err" id="e-district" hidden></p>
           </div>
         </div>
