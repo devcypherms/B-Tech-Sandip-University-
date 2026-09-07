@@ -57,6 +57,14 @@
   font-weight: 100 900;
   font-display: swap;
 }
+/* The headline face. Geometric, but wider and more settled than Poppins,
+   which is why it reads as an institution rather than as a product. */
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/montserrat-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
 /* U+20B9 is absent from Google's "latin" subset (which carries U+20AC but
    not the rupee), so both faces were silently falling back to a system font
    for every fee figure. These supplementary subsets carry the glyph and are
@@ -670,21 +678,39 @@ table { border-collapse: collapse; width: 100%; }
 }
 
 .hero__title {
-  font-family: var(--font-display);
-  /* No opsz here, and now that is actually true: this comment used to sit
-     directly above a line that set it. At --fs-hero the browser picks the
-     display cut, which is finer and more even than the text cut that was
-     being enlarged into this slot. */
-  font-weight: 400;
+  /* Montserrat, not the page's serif. Every other heading is still the
+     serif, so this is the one deliberate exception unless that changes too.
+
+     A geometric sans wants tighter tracking and a shorter line height than
+     the serif did at the same size, or the two lines drift apart. */
+  font-family: "Montserrat", var(--font-body);
+  font-weight: 500;
+  /* The fallback size. Browsers that understand cqi override it on the lines
+     below; browsers that do not keep exactly what shipped before. */
   font-size: var(--fs-hero);
-  line-height: 1.05;
-  letter-spacing: -.01em;
-  max-width: 16ch;
+  line-height: 1.03;
+  letter-spacing: -.022em;
+  container-type: inline-size;
 }
 /* Each line is a mask window; the span inside is what travels. */
 .hero__line {
   display: block;
   overflow: hidden;
+  /* Sized against the headline's own column, so "Engineering ki padhai,"
+     fits on one line at 320px and at 3440px alike. The cap stops it becoming
+     absurd on a very wide screen, and a cap can only make the line shorter
+     than it needs to be, never longer — so it cannot cause a wrap. */
+  font-size: min(8.6cqi, 5rem);
+}
+/* Two lines means two lines. The size above is derived to fit, and this
+   makes the intent explicit rather than relying on it. */
+.hero__line > span { white-space: nowrap; }
+
+/* Below the two-column split the headline has the whole page to fill, and
+   a line sized to a 738px column reads as shouting on a tablet. Capping the
+   container caps the size, since one now follows the other. */
+@media (max-width: 899px) {
+  .hero__title { max-width: 41rem; }
 }
 .hero__line > span {
   display: block;
@@ -994,7 +1020,6 @@ mark.confirm {
   .hero__media img { object-position: 50% 76%; }
 
   .hero__inner { padding-top: calc(var(--header-h) + 1.5rem); }
-  .hero__title { max-width: 14ch; }
   .hero__sub { margin-top: 1rem; }
   .hero__actions { margin-top: 1.75rem; gap: .625rem; }
   .hero__actions .btn { flex: 1 1 auto; min-height: 48px; padding-inline: 1rem; }
