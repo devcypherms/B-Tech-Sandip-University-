@@ -208,6 +208,26 @@ a{color:inherit}
         </p>
       </div>
 
+        <div class="cdown cdown--hero" id="cdownHero" hidden aria-live="off">
+          <span class="cdown__lbl">Applications close in</span>
+          <span class="cdown__units">
+            <span class="cdown__u"><b data-cd="d">--</b><i>days</i></span>
+            <span class="cdown__u"><b data-cd="h">--</b><i>hrs</i></span>
+            <span class="cdown__u"><b data-cd="m">--</b><i>min</i></span>
+          </span>
+        </div>
+      <div class="hero__rec">
+        <p class="hero__rec-lbl">Our students have been placed at</p>
+        <ul class="hero__rec-row">
+          <li><img src="assets/img/recruiters/trim/tcs.webp" alt="TCS" width="330" height="96" loading="lazy"></li>
+          <li><img src="assets/img/recruiters/trim/infosys.webp" alt="Infosys" width="233" height="96" loading="lazy"></li>
+          <li><img src="assets/img/recruiters/trim/cognizant.webp" alt="Cognizant" width="511" height="96" loading="lazy"></li>
+          <li><img src="assets/img/recruiters/trim/amazon.webp" alt="Amazon" width="244" height="96" loading="lazy"></li>
+          <li><img src="assets/img/recruiters/trim/mahindra.webp" alt="Mahindra" width="354" height="96" loading="lazy"></li>
+          <li><img src="assets/img/recruiters/trim/godrej.webp" alt="Godrej" width="195" height="96" loading="lazy"></li>
+        </ul>
+      </div>
+
       <!-- The branch list that used to sit here is gone. The form's chips now
            name all five branches in the same viewport, and listing them twice
            was asking the reader to compare a list against itself. -->
@@ -258,14 +278,6 @@ a{color:inherit}
       </label>
       <p class="f__err" id="q-e-consent" hidden></p>
 
-      <div class="cdown" id="cdownHero" hidden aria-live="off">
-        <span class="cdown__lbl">Applications close in</span>
-        <span class="cdown__units">
-          <span class="cdown__u"><b data-cd="d">--</b><i>days</i></span>
-          <span class="cdown__u"><b data-cd="h">--</b><i>hrs</i></span>
-          <span class="cdown__u"><b data-cd="m">--</b><i>min</i></span>
-        </span>
-      </div>
       <button class="btn btn-primary lead__submit" type="submit" id="q-submit">Request a call back</button>
       <p class="f__status" id="q-status" role="alert" hidden></p>
 
@@ -622,7 +634,7 @@ a{color:inherit}
       reach you rather than work it out yourself.
     </p>
     <div class="tablewrap">
-      <table class="tbl tbl--schol">
+      <table class="tbl tbl--schol tbl--stack">
         <caption class="sr-only">Annual tuition after each merit scholarship band</caption>
         <thead><tr>
           <th scope="col">Branch</th>
@@ -1021,7 +1033,7 @@ a{color:inherit}
 <!-- ========== FINAL CTA + FULL FORM ========== -->
 <section class="cta" id="apply" aria-labelledby="cta-title">
   <div class="wrap cta__grid">
-    <div class="cta__copy">
+    <div>
       <p class="cta__flag">Admissions open · apply by <b data-c="dates.lastDate">30 September 2026</b></p>
       <h2 class="cta__title" id="cta-title">One call, and you will know exactly where you stand.</h2>
       <p class="cta__lede">
@@ -1140,28 +1152,70 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== FOOTER ========== -->
+<!-- ========== FOOTER ==========
+     Four columns rather than two. The old one carried a logo, an address and
+     three social links across a full-width band, which left most of it empty
+     and read as the page having run out rather than having finished. -->
 <footer class="ftr">
   <div class="wrap ftr__in">
-    <div>
+    <div class="ftr__brand">
       <img class="ftr__logo" src="assets/img/logo.webp" alt="Sandip University" width="201" height="59" loading="lazy">
+      <p class="ftr__blurb">
+        Bihar's first NAAC accredited private university. A
+        <span data-c="hero.campusSize">125+ acres</span> residential campus at
+        Sijoul, Madhubani, with <span data-c="stats.programmes">20+</span>
+        programmes and <span data-c="stats.students">4,000+</span> students.
+      </p>
+      <p class="ftr__social">
+        <a href="https://www.facebook.com/SandipUnivsijoul" rel="noopener" aria-label="Sandip University Sijoul on Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/sandipunivsijoul" rel="noopener" aria-label="Sandip University Sijoul on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@SandipUnivsijoul" rel="noopener" aria-label="Sandip University Sijoul on YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M21.6 7.2a2.6 2.6 0 0 0-1.8-1.8C18.1 5 12 5 12 5s-6.1 0-7.8.4A2.6 2.6 0 0 0 2.4 7.2 27 27 0 0 0 2 12a27 27 0 0 0 .4 4.8 2.6 2.6 0 0 0 1.8 1.8C5.9 19 12 19 12 19s6.1 0 7.8-.4a2.6 2.6 0 0 0 1.8-1.8A27 27 0 0 0 22 12a27 27 0 0 0-.4-4.8ZM10 15V9l5.2 3Z"/></svg>
+        </a>
+      </p>
+    </div>
+
+    <nav class="ftr__col" aria-label="Programmes">
+      <h2 class="ftr__h">B.Tech branches</h2>
+      <a href="#programmes">Civil Engineering</a>
+      <a href="#programmes">Electrical Engineering</a>
+      <a href="#programmes">Mechanical Engineering</a>
+      <a href="#programmes">Computer Science &amp; Engineering</a>
+      <a href="#programmes">CSE with AI &amp; ML</a>
+    </nav>
+
+    <nav class="ftr__col" aria-label="Admission">
+      <h2 class="ftr__h">Admission</h2>
+      <a href="#fees">Fees &amp; Student Credit Card</a>
+      <a href="#fees">Scholarships</a>
+      <a href="#process">How admission works</a>
+      <a href="#dates">Eligibility &amp; dates</a>
+      <a href="#placements">Placement record</a>
+      <a href="#faq">Common questions</a>
+    </nav>
+
+    <div class="ftr__col">
+      <h2 class="ftr__h">Admission cell</h2>
+      <a href="tel:18002122714" data-track="call-footer"><span data-c="org.phone">1800-212-2714</span></a>
+      <a href="mailto:info.sijoul@sandipuniversity.edu.in"><span data-c="org.email">info.sijoul@sandipuniversity.edu.in</span></a>
       <address class="ftr__addr">
         <span data-c="org.addressLine1">Neelam Vidya Vihar, Village Sijoul</span><br>
         <span data-c="org.addressLine2">P.O. Mailam, Madhubani, Bihar 847235</span>
       </address>
-    </div>
-    <div class="ftr__contact">
-      <p><a href="tel:18002122714"><span data-c="org.phone">1800-212-2714</span></a></p>
-      <p><a href="mailto:info.sijoul@sandipuniversity.edu.in"><span data-c="org.email">info.sijoul@sandipuniversity.edu.in</span></a></p>
-      <p class="ftr__social">
-        <a href="https://www.facebook.com/SandipUnivsijoul" rel="noopener">Facebook</a>
-        <a href="https://www.instagram.com/sandipunivsijoul" rel="noopener">Instagram</a>
-        <a href="https://www.youtube.com/@SandipUnivsijoul" rel="noopener">YouTube</a>
-      </p>
+      <a class="ftr__wa" href="https://wa.me/918956530828?text=Hi%2C%20I%20want%20B.Tech%20admission%20details%20for%202026%20at%20Sandip%20University%2C%20Madhubani." rel="noopener" data-track="wa-footer">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a13 13 0 0 1-5.7-4.8c-.4-.6-.9-1.5-.9-2.4s.5-1.4.7-1.6c.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6.4.7.9 1.3 1.5 1.8.6.5 1.1.7 1.4.8.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.6 0 1.2Z"/></svg>
+        WhatsApp us
+      </a>
     </div>
   </div>
+
   <div class="wrap ftr__legal">
     <p>© 2026 Sandip University, Sijoul, Madhubani. UGC recognised, NAAC accredited.</p>
+    <p class="ftr__note">Fees, dates and scholarship bands are indicative and confirmed in writing by the admission cell before any payment.</p>
   </div>
 </footer>
 
