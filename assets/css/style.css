@@ -203,13 +203,14 @@ p:last-child{margin-bottom:0}
     background:var(--ink-900);color:var(--fg-ink);
   }
   .ann__in{
-    display:flex;align-items:center;gap:.85rem;height:100%;
+    display:flex;align-items:center;gap:.9rem;height:100%;
     max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);
     font-size:.78rem;
   }
   .ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
   .ann__in>span:first-of-type{color:var(--sub-ink)}
   .ann__cd{margin-left:auto;color:var(--muted-ink);white-space:nowrap}
+  .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}
   .ann__cd[hidden]{display:none!important}
   .ann__cd b{color:var(--gold);font-weight:700;font-variant-numeric:tabular-nums}
   .ann__in a{color:#fff;font-weight:650;text-decoration:none;border-bottom:1px solid rgba(242,180,65,.6);padding-bottom:1px}
@@ -242,7 +243,6 @@ p:last-child{margin-bottom:0}
 .hdr__in{display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
 .hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
 .hdr__logo img{height:30px;width:auto}
-.hdr__accr{font-size:.68rem;font-weight:650;color:var(--gold-deep);border:1px solid rgba(125,90,16,.3);background:rgba(242,180,65,.14);padding:.2rem .5rem;border-radius:var(--radius-pill);white-space:nowrap}
 .hdr__spacer{flex:1 1 auto}
 .hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
 .hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.9rem;font-weight:550;color:var(--muted);transition:color .16s var(--ease)}
@@ -254,9 +254,7 @@ p:last-child{margin-bottom:0}
 .hdr__cta:active{transform:translateY(1px)}
 @media(min-width:1080px){.hdr__nav{display:flex}}
 @media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:34px}}
-/* Under 480px the logo and the accreditation chip fight for the same 40px.
-   The chip goes; the trust strip carries it four screens later. */
-@media(max-width:479px){.hdr__accr{display:none}}
+@media(max-width:479px){}
 
 /* ---------- 6. HERO ----------
    The critical block in <head> carries the backdrop, headline, proof row and
@@ -722,6 +720,7 @@ p:last-child{margin-bottom:0}
 .fees__grid{display:block}
 .fees__main{min-width:0}
 .feecard{display:none}
+@media(min-width:1100px){#fees .nudge{display:none}}
 @media(min-width:1100px){
   .fees__grid{display:grid;grid-template-columns:minmax(0,1fr) 19rem;gap:clamp(2rem,4vw,3.5rem);align-items:start}
   .tablewrap{max-width:none}

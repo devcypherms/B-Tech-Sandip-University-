@@ -55,15 +55,13 @@ a{color:inherit}
 .ann__in{display:flex;align-items:center;gap:.85rem;height:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);font-size:.78rem}
 .ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
 .ann__cd[hidden]{display:none!important}
-.ann__in a{color:#fff;font-weight:650;text-decoration:none}
-.ann ~ .hdr{top:var(--ann-h)}
+.ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}.ann ~ .hdr{top:var(--ann-h)}
 .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
 :root{--header-h:4.25rem}}
 .hdr{position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);display:flex;align-items:center;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;color:var(--fg)}
 .hdr__in{display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
 .hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
 .hdr__logo img{height:30px;width:auto}
-.hdr__accr{font-size:.68rem;font-weight:700;color:#8A5D06;border:1px solid rgba(138,93,6,.28);background:rgba(245,184,65,.18);padding:.2rem .5rem;border-radius:999px;white-space:nowrap}
 .hdr__spacer{flex:1 1 auto}
 .hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
 .hdr__nav a{text-decoration:none;font-size:.875rem;font-weight:500;color:var(--muted)}
@@ -71,7 +69,7 @@ a{color:inherit}
 .hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:650;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
 @media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:34px}}
-@media(max-width:479px){.hdr__accr{display:none}}
+@media(max-width:479px){}
 .hero{position:relative;background:var(--paper);padding:var(--header-h) 0 0;color:#fff}
 .hero__panel{position:relative;overflow:hidden;isolation:isolate;width:100%;padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%)}
 
@@ -116,7 +114,6 @@ a{color:inherit}
     <span class="ann__cd" id="annCd" hidden>
       Closes in <b data-cd="d">--</b>d <b data-cd="h">--</b>h <b data-cd="m">--</b>m
     </span>
-    <a href="#apply" data-track="cta-announce">Apply now</a>
   </div>
 </div>
 
@@ -125,7 +122,6 @@ a{color:inherit}
   <div class="hdr__in">
     <a class="hdr__logo" href="#main" aria-label="Sandip University, Madhubani — B.Tech admission 2026">
       <img src="assets/img/logo-colour.webp" alt="Sandip University" width="201" height="59" fetchpriority="high">
-      <span class="hdr__accr">NAAC Accredited</span>
     </a>
     <span class="hdr__spacer"></span>
     <nav class="hdr__nav" aria-label="Sections">
