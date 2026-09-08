@@ -68,11 +68,21 @@ change is needed. Set `analytics.demo` to `false` at the same time.
   the university's PDF, which is a scan of the superseded scheme. The revised
   scheme is interest-free for everybody; the widely repeated "4% simple
   interest" belongs to the old one.
-- **The accreditation line.** "Bihar's first private university, NAAC B++
-  accredited" — two separate facts. The current Google Ads copy says "Bihar's
-  first NAAC accredited university", which merges them into a claim the
-  university's own site never makes. AICTE does not appear on their approvals
-  page, so the page claims UGC and NAAC B++ only.
+- **The accreditation line — CLIENT-AUTHORISED, and it supersedes BRIEF §3.8.**
+  The page states "Bihar's first NAAC accredited private university", and shows
+  "NAAC accredited" rather than the B++ grade, on the client's instruction of
+  9 September 2026.
+
+  This is recorded because the earlier analysis reached the opposite
+  conclusion: the university's own site carries a NAAC B++ banner and a
+  separate "1st — Private University in Bihar" stat, and never states the two
+  together, so the combined claim was flagged as unsupported by the site.
+  The client has confirmed the combined claim is correct. It is a claim on an
+  admission page, so if it is ever challenged, the authority for it is the
+  client and not this build. Obtain the NAAC certificate for the file.
+
+  AICTE still does not appear on the approvals page, so the page claims UGC
+  and NAAC only.
 - **The placement figures.** 16 B.Tech records, 3–12 LPA, 6 employers, counted
   from the university's published list rather than asserted. The page says
   "100% placement **assistance**" and never "100% placement".
