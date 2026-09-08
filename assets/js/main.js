@@ -246,6 +246,13 @@
     consent: function (v, el) { return el.checked ? '' : 'Please tick this so we may contact you.'; }
   };
 
+  /* form.elements[name] is an element for a single control but a RadioNodeList
+     for a radio group. The list carries .value (the checked value, or '') and
+     nothing else — no setAttribute, no addEventListener, no .type. Both are
+     guarded here rather than at every call site. */
+  function isGroup(el) { return el && typeof el.setAttribute !== 'function'; }
+  function groupNodes(el) { return isGroup(el) ? Array.prototype.slice.call(el) : [el]; }
+
   function fieldError(form, prefix, name) {
     var el = form.elements[name];
     if (!el || !RULES[name]) return '';
@@ -255,9 +262,13 @@
       out.textContent = msg;
       out.hidden = !msg;
     }
-    if (el.type !== 'checkbox') {
+    if (!isGroup(el) && el.type !== 'checkbox') {
       if (msg) el.setAttribute('aria-invalid', 'true');
       else el.removeAttribute('aria-invalid');
+    }
+    if (isGroup(el)) {
+      var wrap = form.querySelector('.chips');
+      if (wrap) wrap.classList.toggle('is-bad', !!msg);
     }
     return msg;
   }
@@ -272,9 +283,13 @@
 
     names.forEach(function (n) {
       var el = form.elements[n];
-      var ev = (el.tagName === 'SELECT' || el.type === 'checkbox') ? 'change' : 'input';
-      el.addEventListener(ev, function () {
-        if (touched[n]) fieldError(form, prefix, n);
+      groupNodes(el).forEach(function (node) {
+        if (!node || !node.addEventListener) return;
+        var ev = (node.tagName === 'SELECT' || node.type === 'checkbox' || node.type === 'radio')
+          ? 'change' : 'input';
+        node.addEventListener(ev, function () {
+          if (touched[n]) fieldError(form, prefix, n);
+        });
       });
     });
 
@@ -289,8 +304,9 @@
 
       if (firstBad) {
         if (status) { status.hidden = true; status.className = 'f__status'; }
-        firstBad.focus();
-        if (firstBad.scrollIntoView) firstBad.scrollIntoView({ block: 'center', behavior: reduced ? 'auto' : 'smooth' });
+        var target = isGroup(firstBad) ? groupNodes(firstBad)[0] : firstBad;
+        if (target && target.focus) target.focus();
+        if (target && target.scrollIntoView) target.scrollIntoView({ block: 'center', behavior: reduced ? 'auto' : 'smooth' });
         track('form_invalid', source);
         return;
       }
@@ -302,7 +318,7 @@
       };
       names.forEach(function (n) {
         var el = form.elements[n];
-        payload[n] = el.type === 'checkbox' ? !!el.checked : el.value.trim();
+        payload[n] = (!isGroup(el) && el.type === 'checkbox') ? !!el.checked : (el.value || '').trim();
       });
 
       submit.disabled = true;

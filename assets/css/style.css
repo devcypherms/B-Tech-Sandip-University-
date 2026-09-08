@@ -1,6 +1,7 @@
 /* =============================================================================
    Sandip University — B.Tech Admission 2026
-   Conversion rebuild. Source Serif 4 (display, figures) / Instrument Sans (UI).
+   Conversion rebuild. One family: Instrument Sans, 400 for text and 750-800
+   with tight tracking for display.
 
    What changed from the page this replaces, and why:
 
@@ -22,94 +23,110 @@
    ========================================================================== */
 
 /* ---------- 0. FONTS ----------
-   Declared in the critical block in <head> too, so the hero can paint before
-   this file arrives. Repeated here for the no-JS path, where the noscript
-   link is the only stylesheet. Duplicate @font-face with identical src is
-   deduplicated by the browser and costs nothing. */
-@font-face{font-family:"Source Serif 4";src:url("../fonts/source-serif-var.woff2") format("woff2-variations");font-weight:300 700;font-display:swap}
+   ONE family, and that is the point.
+
+   Source Serif was carrying every heading and every figure, and it was doing
+   two things wrong at once. It cost 122KB — the heaviest asset on the page
+   after the hero photograph, on the critical path, over Bihar 4G. And it made
+   the page read like a broadsheet: a seventeen-year-old choosing an
+   engineering college is not the reader of a leader column.
+
+   Instrument Sans is 30KB and carries 100-900. Display is the same face at
+   750-800 with tracking pulled in hard; body is 400. Weight and size do the
+   work a second family was being paid 122KB to do. */
 @font-face{font-family:"Instrument Sans";src:url("../fonts/instrument-sans-var.woff2") format("woff2-variations");font-weight:100 900;font-display:swap}
-/* U+20B9 is absent from the latin subset of both faces, so every fee figure
-   was silently falling back to a system font. Scoped by unicode-range so
-   these load only when a rupee is actually rendered. */
-@font-face{font-family:"Source Serif 4";src:url("../fonts/source-serif-rupee.woff2") format("woff2");font-weight:300 700;font-display:swap;unicode-range:U+20B9}
+/* U+20B9 is absent from the latin subset, so every fee figure was silently
+   falling back to a system font. Scoped so it loads only when a rupee renders. */
 @font-face{font-family:"Instrument Sans";src:url("../fonts/instrument-sans-rupee.woff2") format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+20B9}
-/* Metric-matched fallbacks so the swap does not reflow. */
-@font-face{font-family:"Serif Fallback";src:local("Georgia"),local("Times New Roman"),local("Liberation Serif");size-adjust:98%;ascent-override:96%;descent-override:26%;line-gap-override:0%}
+/* Metric-matched fallback so the swap does not reflow. */
 @font-face{font-family:"Sans Fallback";src:local("Arial"),local("Helvetica"),local("Liberation Sans");size-adjust:100%;ascent-override:95%;descent-override:24%;line-gap-override:0%}
 
 /* ---------- 1. TOKENS ----------
-   Palette rebuilt for a paid-traffic page. The previous one was a warm beige
-   over a desaturated slate, and the honest description of it is drab: at
-   phone brightness in daylight it read as an unfinished page rather than a
-   restrained one, which is the wrong risk to take with a click that cost
-   money.
+   Rebuilt again, and this time the problem was not contrast — it was energy.
+   The previous palette was a warm cream over a desaturated navy, which is a
+   restrained, expensive-looking combination and completely wrong for this
+   page. It read as old. Nobody applies to a college because the landing page
+   looked tasteful.
 
-   What changed, and why:
-   - The dark ground is now genuinely BLUE (#080E20) rather than a blue-grey.
-     Saturation in the ground is what separates confident from washed out,
-     and it costs nothing.
-   - Red is brought up to the brand's own vividness. #C5403B was the logo red
-     at two thirds chroma, chosen when this was a quiet editorial page; on a
-     conversion page the primary action should look like one.
-   - Brass became amber. #C79A4B is a heritage colour and went muddy against
-     the new ground; #F2B441 holds its chroma on ink and still passes on
-     paper in its deepened form.
-   - Paper is a warm white rather than a beige, so photographs and the red
-     sit on it cleanly.
+   What changed:
+   - The light ground is WHITE and its tint is COOL (#F3F4F8), not beige.
+     Cream is what made everything sitting on it look dated.
+   - The dark ground carries a violet cast (#0A0A16 towards #2A1B5E) so the
+     hero can run a real gradient instead of a flat slab. A gradient is the
+     cheapest thing on earth that makes a dark panel read as now.
+   - Red is at full brand vividness for action.
+   - Amber is brighter, and still only ever marks money.
+   - Violet is new and is a LIGHT-on-dark accent only: eyebrows, marks, glow.
+     It never competes with red, because red alone is allowed to mean "act".
 
-   EVERY value below is measured rather than judged by eye — the ratios in
-   the comments are computed. Nothing here is under 4.5:1 against the ground
-   it is actually used on. */
+   Every pair measured against the ground it is actually used on. Nothing
+   below 4.5:1. */
 :root{
-  /* Grounds */
-  --ink-900:#080E20;      /* hero, final CTA */
-  --ink-800:#0E1730;      /* placement band */
-  --ink-700:#18234A;      /* raised surface on ink */
-  --paper:#FBFAF7;        /* page */
-  --paper-2:#F2EFE9;      /* tinted section */
-  --paper-3:#E7E2D8;      /* raised surface on paper */
+  /* Dark grounds */
+  --ink-900:#0A0A16;      /* hero base, final CTA */
+  --ink-800:#13132A;      /* placement band */
+  --ink-700:#1E1E3F;      /* raised surface on ink */
+  --violet:#2A1B5E;       /* gradient partner, never a flat fill */
+
+  /* Light grounds */
+  --paper:#FFFFFF;
+  --paper-2:#F3F4F8;      /* cool, not cream */
+  --paper-3:#E6E8F0;
 
   /* Type */
-  --fg:#111A26;           /* 16.8:1 on paper */
-  --muted:#5A6675;        /* 5.6:1 on paper, 5.4:1 on paper-2 */
-  --fg-ink:#F7F5F0;       /* 17.6:1 on ink-900 */
-  --muted-ink:#A8B8CB;    /* 9.5:1 on ink-900, 8.8:1 on ink-800 */
-  --body-ink:#C9D5E2;     /* 11.9:1 on ink-800 */
-  --sub-ink:#D8E0EA;      /* 14.4:1 on ink-900 */
+  --fg:#0B0B18;           /* 19.5:1 on white */
+  --muted:#55596B;        /* 6.9:1 on white, 6.3:1 on paper-2 */
+  --fg-ink:#FFFFFF;       /* 19.7:1 on ink-900 */
+  --muted-ink:#AEB2CC;    /* 9.4:1 on ink-900, 7.1:1 on violet */
+  --body-ink:#C9CCE0;     /* 12.4:1 on ink-900, 11.4:1 on ink-800 */
+  --sub-ink:#C9CCE0;
 
   /* Rules */
-  --hair:rgba(17,26,38,.13);
-  --hair-2:rgba(17,26,38,.24);
-  --hair-ink:rgba(247,245,240,.15);
+  --hair:rgba(11,11,24,.10);
+  --hair-2:rgba(11,11,24,.20);
+  --hair-ink:rgba(255,255,255,.14);
 
-  /* Action. The brand hue, at the brand's own chroma. */
-  --brand:#EA1F28;        /* logo value, reference only, never used for type */
-  --red-fill:#D62B33;     /* white on it 4.94:1 — the button ground */
-  --red-ink:#A81E26;      /* 6.99:1 on paper — type, figures, focus rings */
-  --red-hi:#FF6B63;       /* 6.89:1 on ink-900 — red that reads on the dark */
-  --red-wash:#FCEEEE;
+  /* Action */
+  --brand:#EA1F28;
+  --red-fill:#E01B24;     /* white on it 4.83:1 */
+  --red-ink:#C41220;      /* 6.08:1 on white */
+  --red-hi:#FF6B63;
+  --red-wash:#FFF1F1;
 
-  /* Money. Amber marks a figure that saves the reader money, and nothing
-     else on the page is allowed to use it. */
-  --gold:#F2B441;         /* 10.4:1 on ink-900, 8.3:1 on ink-700 */
-  --gold-deep:#7D5A10;    /* 6.0:1 on paper */
+  /* Money */
+  --gold:#FFB020;         /* 10.7:1 on ink-900, 8.1:1 on violet */
+  --gold-deep:#8A5A00;    /* 5.9:1 on white */
 
-  --font-display:"Source Serif 4","Serif Fallback",Georgia,serif;
+  /* Accent. Indigo does ALL the decorative work — eyebrows, icons, marks,
+     selected states, focus rings — because red is not a decoration.
+
+     Red is the logo colour, and the page had drifted into using it for
+     eyebrows, every icon, the step numbers and the chip selection. That
+     spends the one colour that is supposed to mean "press this", and by the
+     time a reader reaches a button, red has stopped being a signal. Red is
+     now allowed in exactly four places: the primary buttons, the header CTA,
+     the deadline countdown, and the mobile Apply bar. */
+  --indigo:#4A3AD9;       /* white on it 7.25:1 — fills and icons */
+  --indigo-ink:#3F32B5;   /* 8.99:1 on white, 8.18:1 on paper-2 — text */
+  --indigo-wash:#EEECFC;  /* icon tiles; indigo-ink on it is 7.73:1 */
+  --vio-lite:#B9A5FF;     /* 9.3:1 on ink-900, 7.0:1 on violet */
+
+  --font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
   --font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
 
-  --fs-h1:clamp(2rem,5.6vw,3.7rem);
-  --fs-h2:clamp(1.6rem,3.4vw,2.6rem);
-  --fs-h3:clamp(1.1rem,1.8vw,1.35rem);
+  --fs-h1:clamp(2.15rem,6vw,4.15rem);
+  --fs-h2:clamp(1.7rem,3.6vw,2.9rem);
+  --fs-h3:clamp(1.08rem,1.7vw,1.3rem);
   --fs-small:.875rem;
 
-  --space-section:clamp(3.25rem,7vw,5.5rem);
+  --space-section:clamp(3.5rem,7.5vw,6rem);
   --gutter:clamp(1.15rem,4vw,3.5rem);
   --wrap:82rem;
-  --radius:14px;          /* cards, panels, media */
-  --radius-lg:24px;       /* the hero panel and the form card */
-  --radius-pill:999px;    /* buttons, chips, badges */
-  --shadow-card:0 1px 2px rgba(8,14,32,.06),0 12px 32px rgba(8,14,32,.10);
-  --shadow-lift:0 2px 4px rgba(8,14,32,.10),0 24px 60px rgba(8,14,32,.22);
+  --radius:16px;
+  --radius-lg:28px;
+  --radius-pill:999px;
+  --shadow-card:0 1px 2px rgba(11,11,24,.05),0 14px 34px rgba(11,11,24,.09);
+  --shadow-lift:0 2px 6px rgba(11,11,24,.10),0 28px 70px rgba(11,11,24,.24);
   --header-h:3.75rem;
   --ease:cubic-bezier(.22,.61,.36,1);
 }
@@ -128,28 +145,42 @@ body{
 @media(max-width:899px){body{padding-bottom:calc(3.75rem + env(safe-area-inset-bottom))}}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
-h1,h2,h3,h4{margin:0;font-weight:600;line-height:1.18;letter-spacing:-.012em}
+/* Display is the body face at 750-800 with tracking pulled in. That tightness
+   is what makes a grotesque read as a display cut rather than as big body
+   copy — without it a one-family page just looks unstyled. */
+h1,h2,h3,h4{margin:0;font-weight:750;line-height:1.12;letter-spacing:-.028em}
 p{margin:0 0 1rem}
 p:last-child{margin-bottom:0}
-:focus-visible{outline:2px solid var(--red-ink);outline-offset:3px;border-radius:3px}
+:focus-visible{outline:2px solid var(--indigo);outline-offset:3px;border-radius:3px}
 .section--ink :focus-visible,.hero__panel :focus-visible,.cta :focus-visible{outline-color:var(--gold)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:.5rem;top:.5rem;z-index:99;background:var(--paper);color:var(--fg);padding:.6rem 1rem;border-radius:6px}
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
-.num{font-family:var(--font-display);font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;font-weight:650;letter-spacing:-.02em}
 .em{color:var(--gold-deep);font-weight:600}
 .section--ink .em,.cta .em,.hero .em{color:var(--gold)}
 
 /* ---------- 3. SECTIONS ---------- */
 .section{padding-block:var(--space-section);border-top:1px solid var(--hair)}
 .section--tint{background:var(--paper-2)}
-.section--ink{background:var(--ink-800);color:var(--fg-ink);border-top:0}
+.section--ink{
+  color:var(--fg-ink);border-top:0;
+  background:radial-gradient(85% 70% at 82% 6%, rgba(109,91,255,.20) 0%, transparent 55%),
+             linear-gradient(170deg,#141033 0%,var(--ink-800) 60%,#0F0E24 100%);
+}
 .section--ink .sec-lede,.section--ink .students__note,.section--ink .wall__note{color:var(--muted-ink)}
 .sec-head{max-width:62ch;margin-bottom:clamp(1.75rem,3.5vw,2.75rem)}
-.sec-title{font-family:var(--font-display);font-size:var(--fs-h2);margin-bottom:.6rem}
+/* The eyebrow exists so the headline does not have to carry the keyword.
+   BRIEF §6 maps a keyword set to every section, and honouring that inside the
+   headline is what produced label-shaped headings like "Five B.Tech branches".
+   The keyword lives here; the headline is free to answer an objection. */
+.eyebrow{display:inline-block;margin:0 0 .6rem;font-size:.76rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--indigo-ink)}
+.section--ink .eyebrow,.cta .eyebrow{color:var(--vio-lite)}
+.sec-title{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.032em;margin-bottom:.7rem;max-width:20ch}
 .sec-lede{color:var(--muted);font-size:1.02rem;margin:0}
-.sub{font-family:var(--font-display);font-size:var(--fs-h3);margin-bottom:.9rem}
+.sub{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h3);margin-bottom:.9rem}
 
 /* ---------- 4. BUTTONS ---------- */
 .btn{
@@ -157,12 +188,13 @@ p:last-child{margin-bottom:0}
   font-family:var(--font-body);font-size:.95rem;font-weight:650;line-height:1.2;
   padding:.9rem 1.6rem;border-radius:var(--radius-pill);border:1px solid transparent;
   text-decoration:none;cursor:pointer;
-  transition:background-color .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease);
+  transition:background-color .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .18s var(--ease),box-shadow .18s var(--ease);
   /* 44px minimum target. Phones are the whole audience here. */
   min-height:2.875rem;
 }
-.btn-primary{background:var(--red-fill);color:#fff}
-.btn-primary:hover{background:var(--red-ink)}
+.btn-primary{background:var(--red-fill);color:#fff;box-shadow:0 6px 18px rgba(224,27,36,.28)}
+.btn-primary:hover{background:var(--red-ink);transform:translateY(-1px);box-shadow:0 10px 24px rgba(224,27,36,.34)}
+.btn-primary:active{transform:translateY(0)}
 .btn-ghost{background:transparent;color:inherit;border-color:currentColor}
 .btn-ghost:hover{background:rgba(247,245,240,.1)}
 .btn[disabled]{opacity:.55;cursor:not-allowed}
@@ -224,7 +256,7 @@ p:last-child{margin-bottom:0}
 .hdr__nav a{text-decoration:none;font-size:.875rem;font-weight:500;color:var(--muted);transition:color .16s var(--ease)}
 .hdr__nav a:hover{color:var(--fg)}
 .hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:650;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
-.hdr__tel:hover{color:var(--red-ink)}
+.hdr__tel:hover{color:var(--indigo-ink)}
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:650;font-size:.875rem;padding:.62rem 1.25rem;border-radius:var(--radius-pill);white-space:nowrap;transition:background-color .18s var(--ease),transform .18s var(--ease)}
 .hdr__cta:hover{background:var(--red-ink)}
 .hdr__cta:active{transform:translateY(1px)}
@@ -241,11 +273,23 @@ p:last-child{margin-bottom:0}
 /* The hero is a panel, not a band: inset by the gutter, rounded, with the
    photograph clipped inside it. The page ground shows around it. */
 .hero{position:relative;background:var(--paper);padding:calc(var(--header-h) + .6rem) var(--gutter) 0;color:var(--fg-ink)}
-.hero__panel{position:relative;border-radius:var(--radius-lg);overflow:hidden;isolation:isolate;background:var(--ink-900);width:100%;max-width:var(--wrap);margin-inline:auto;padding:clamp(1.25rem,3.5vw,2.75rem) clamp(1.1rem,3vw,2.5rem) 0}
+.hero__panel{
+  position:relative;border-radius:var(--radius-lg);overflow:hidden;isolation:isolate;
+  width:100%;max-width:var(--wrap);margin-inline:auto;
+  padding:clamp(1.25rem,3.5vw,2.75rem) clamp(1.1rem,3vw,2.5rem) 0;
+  /* Two radial glows over a diagonal base. This is the whole reason the panel
+     reads as 2026 rather than as a dark rectangle: a flat fill has no depth to
+     look at, and the photograph alone was not carrying it. */
+  background:
+    radial-gradient(120% 90% at 8% 0%, rgba(109,91,255,.42) 0%, transparent 58%),
+    radial-gradient(90% 80% at 100% 100%, rgba(224,27,36,.24) 0%, transparent 55%),
+    linear-gradient(158deg, #14103A 0%, var(--ink-900) 46%, #120B2E 100%);
+}
 /* Desktop: the photograph is the panel's backdrop and the copy sits over the
    dark side of the gradient. */
 .hero__bg{position:absolute;inset:0;z-index:0}
-.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+.hero__bg picture{display:block;width:100%;height:100%}
+.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:34% 46%}
 
 /* Phone: it is NOT a backdrop. The panel runs about 2,400px tall on a 390px
    screen, so object-fit:cover was cropping a 900x1200 photograph to a narrow
@@ -257,7 +301,7 @@ p:last-child{margin-bottom:0}
    sees the place. The panel keeps a ground of its own so the copy above it
    is still on a solid, measured field rather than on a photograph. */
 @media(max-width:899px){
-  .hero__panel{background:linear-gradient(168deg,#0B1428 0%,#0A1330 52%,#111C3C 100%)}
+
   .hero__bg{position:static;order:8;margin:.35rem 0 0;border-radius:var(--radius);overflow:hidden}
   .hero__bg img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:50% 42%}
   .hero__scrim{display:none}
@@ -267,7 +311,7 @@ p:last-child{margin-bottom:0}
   .hero{padding-top:calc(var(--header-h) + 1.25rem)}
   /* On a wide screen the copy sits over the dark side of the gradient and
      the photograph stays legible on the right, behind the form's own card. */
-  .hero__scrim{background:linear-gradient(96deg,rgba(8,14,32,.93) 0%,rgba(8,14,32,.84) 46%,rgba(8,14,32,.46) 100%)}
+  .hero__scrim{background:linear-gradient(96deg,rgba(10,10,22,.97) 0%,rgba(12,10,34,.92) 26%,rgba(12,10,34,.34) 54%,rgba(12,10,34,.62) 100%)}
 }
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem}
 
@@ -313,15 +357,15 @@ p:last-child{margin-bottom:0}
    own flex item, so it broke away from the sentence and sat on its own line
    with a gap in front of it, which reads as a layout fault rather than as a
    date. inline-block keeps it in the text flow. */
-.hero__flag{display:inline-block;font-size:.72rem;font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.34rem .8rem;border-radius:var(--radius-pill);margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
+.hero__flag{display:inline-block;font-size:.72rem;font-weight:650;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:var(--radius-pill);margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
 .hero__flag b{color:#fff;font-weight:700}
 .hero__flag-ico{width:14px;height:14px;color:var(--gold);vertical-align:-2px;margin-right:.3rem}
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 /* One highlighted phrase, in the money colour, because the phrase that is
    highlighted IS the offer: the degree without leaving the state. */
-.hero h1{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h1);line-height:1.08;letter-spacing:-.015em;margin:0 0 .8rem;max-width:15ch}
-.hero h1 em{font-style:normal;color:var(--gold)}
+.hero h1{font-family:var(--font-display);font-weight:750;font-size:var(--fs-h1);line-height:1.08;letter-spacing:-.015em;margin:0 0 .8rem;max-width:15ch}
+.hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FF8A3D 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(.94rem,1.5vw,1.08rem);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
 .hero__proof{display:flex;flex-wrap:wrap;gap:.35rem .4rem;margin:0 0 1.15rem;padding:0;list-style:none}
@@ -334,7 +378,7 @@ p:last-child{margin-bottom:0}
 .hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(242,180,65,.42);background:linear-gradient(180deg,rgba(242,180,65,.13),rgba(242,180,65,.04));border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
 .hero__money svg{flex:0 0 auto;width:22px;height:22px;color:var(--gold);margin-top:.15rem}
 .hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#EFE2C8}
-.hero__money strong{display:block;font-family:var(--font-display);font-size:1.15rem;font-weight:600;color:#fff;line-height:1.2;margin-bottom:.15rem}
+.hero__money strong{display:block;font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;font-weight:750;color:#fff;line-height:1.2;margin-bottom:.15rem}
 
 /* Branch list. "Which branch" is the first question a student has, so it is
    answered before the form asks them to choose one. Real markup, so it is
@@ -358,7 +402,7 @@ p:last-child{margin-bottom:0}
 .hero__rail li:nth-child(odd){padding-right:1rem;border-right:1px solid var(--hair-ink)}
 .hero__rail li:nth-child(even){padding-left:1rem}
 .hero__rail span{font-size:.72rem;color:var(--muted-ink);letter-spacing:.01em}
-.hero__rail b{font-family:var(--font-display);font-size:1.35rem;font-weight:600;color:var(--gold)}
+.hero__rail b{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.35rem;font-weight:750;color:var(--gold)}
 @media(min-width:760px){
   .hero__rail{grid-template-columns:repeat(4,1fr)}
   .hero__rail li,.hero__rail li:nth-child(odd),.hero__rail li:nth-child(even){padding:1rem 1.25rem 1.1rem;border-bottom:0;border-right:1px solid var(--hair-ink)}
@@ -366,42 +410,75 @@ p:last-child{margin-bottom:0}
   .hero__rail li:last-child{border-right:0}
 }
 
-/* ---------- 7. FORMS ---------- */
+/* ---------- 7. FORMS ----------
+   Rebuilt against the reference pages. The three things that dated the old
+   form: hairline-bordered fields on a flat fill, a native <select> for the
+   one question that decides the lead, and a square-ish submit.
+
+   Fields are now soft-filled with no visible border until focus, which is
+   the current convention and reads lighter. The branch question is a radio
+   group of chips: a dropdown hides its own options and costs two taps, chips
+   show all five branches and cost one — and on a phone that is the difference
+   between a considered answer and "Not sure yet". */
 .lead{
   background:var(--paper);color:var(--fg);
-  border-radius:var(--radius-lg);padding:clamp(1.2rem,3vw,1.75rem);
+  border-radius:var(--radius-lg);padding:clamp(1.25rem,3vw,1.85rem);
   box-shadow:var(--shadow-lift);
+  border:1px solid rgba(255,255,255,.6);
 }
-.lead__title{font-family:var(--font-display);font-size:1.4rem;margin-bottom:.25rem}
-.lead__lede{color:var(--muted);font-size:.86rem;margin-bottom:1.1rem}
-.lead__submit{width:100%;margin-top:.35rem}
+.lead__title{font-size:1.45rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
+.lead__lede{color:var(--muted);font-size:.86rem;margin-bottom:1.15rem}
+.lead__submit{width:100%;margin-top:.4rem;font-size:1rem;padding-block:1rem}
 .lead__foot{margin:.85rem 0 0;font-size:.8rem;color:var(--muted);text-align:center}
-.lead__foot a{color:var(--red-ink);font-weight:600}
-.f__field{margin-bottom:.85rem}
-.f__row{display:grid;gap:.85rem}
+.lead__foot a{color:var(--indigo-ink);font-weight:700}
+
+.f__field{margin-bottom:.9rem}
+.f__set{border:0;padding:0;margin-inline:0}
+.f__row{display:grid;gap:.9rem}
 @media(min-width:520px){.f__row{grid-template-columns:1fr 1fr}}
-.f__label{display:block;font-size:.8rem;font-weight:600;color:var(--fg);margin-bottom:.3rem}
+.f__label{display:block;font-size:.8rem;font-weight:700;color:var(--fg);margin-bottom:.4rem;padding:0}
 .f__opt{font-weight:400;color:var(--muted)}
+
 .f__input,.f__select{
-  width:100%;font-family:inherit;font-size:1rem;color:var(--fg);
-  background:var(--paper-2);border:1px solid var(--hair-2);border-radius:7px;
-  padding:.7rem .8rem;min-height:2.875rem;
-  transition:border-color .16s var(--ease),background-color .16s var(--ease);
+  width:100%;font-family:inherit;font-size:1rem;font-weight:500;color:var(--fg);
+  background:var(--paper-2);border:1.5px solid transparent;border-radius:12px;
+  padding:.85rem .9rem;min-height:3rem;
+  transition:background-color .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease);
 }
-/* 16px minimum on the control itself, or iOS zooms the page on focus and the
-   visitor loses the form. */
-.f__input:focus,.f__select:focus{background:#fff;border-color:var(--fg)}
+.f__input::placeholder{color:#9AA0B4}
+/* 16px on the control itself, or iOS zooms the page on focus and the visitor
+   loses the form. */
+.f__input:focus,.f__select:focus{
+  outline:none;background:var(--paper);
+  border-color:var(--indigo);box-shadow:0 0 0 4px rgba(74,58,217,.15);
+}
 .f__selectwrap{position:relative}
-.f__select{appearance:none;-webkit-appearance:none;padding-right:2.4rem;cursor:pointer}
-.f__selectwrap svg{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);width:18px;height:18px;pointer-events:none;color:var(--muted)}
-.f__check{display:flex;gap:.6rem;align-items:flex-start;font-size:.82rem;color:var(--muted);margin-bottom:.6rem;cursor:pointer;line-height:1.45}
-.f__check input{flex:0 0 auto;width:1.15rem;height:1.15rem;margin:.1rem 0 0;accent-color:var(--red-fill)}
-.f__err{margin:.3rem 0 0;font-size:.78rem;color:var(--red-ink);font-weight:600}
+.f__select{appearance:none;-webkit-appearance:none;padding-right:2.5rem;cursor:pointer}
+.f__selectwrap svg{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);width:18px;height:18px;pointer-events:none;color:var(--muted)}
+
+/* Branch chips. Real radios, visually hidden but focusable, so the group is
+   arrow-key navigable and announced correctly. */
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.chips.is-bad .chip{border-color:rgba(196,18,32,.5)}
+.chip{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;
+  min-height:2.9rem;padding:.5rem .6rem;border-radius:12px;cursor:pointer;
+  background:var(--paper-2);border:1.5px solid transparent;
+  font-size:.86rem;font-weight:600;color:var(--muted);line-height:1.25;
+  transition:border-color .15s var(--ease),background-color .15s var(--ease),color .15s var(--ease);
+}
+.chip input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chip:hover{background:var(--paper-3)}
+.chip:has(input:checked){background:var(--indigo-wash);border-color:var(--indigo);color:var(--indigo-ink)}
+.chip:has(input:focus-visible){outline:2px solid var(--indigo);outline-offset:2px}
+
+.f__check{display:flex;gap:.65rem;align-items:flex-start;font-size:.82rem;color:var(--muted);margin:.9rem 0 .3rem;cursor:pointer;line-height:1.45}
+.f__check input{flex:0 0 auto;width:1.2rem;height:1.2rem;margin:.05rem 0 0;accent-color:var(--red-fill)}
+.f__err{margin:.35rem 0 0;font-size:.78rem;color:var(--red-ink);font-weight:650}
 .f__input[aria-invalid="true"],.f__select[aria-invalid="true"]{border-color:var(--red-ink);background:var(--red-wash)}
-.f__status{margin:.8rem 0 0;font-size:.86rem;padding:.7rem .85rem;border-radius:7px;background:var(--paper-2);border:1px solid var(--hair)}
-.f__status.is-ok{background:#EAF3EC;border-color:#B7D5BE;color:#1E4D2B}
-.f__status.is-bad{background:var(--red-wash);border-color:#E4B7B4;color:var(--red-ink)}
-.lead.is-sent .f__field,.lead.is-sent .f__row,.lead.is-sent .f__check,.lead.is-sent .lead__submit{display:none}
+.f__status{margin:.85rem 0 0;font-size:.86rem;padding:.8rem .9rem;border-radius:12px;background:var(--paper-2)}
+.f__status.is-ok{background:#E9F7EE;color:#125A2A}
+.f__status.is-bad{background:var(--red-wash);color:var(--red-ink)}
+.lead.is-sent .f__field,.lead.is-sent .f__row,.lead.is-sent .f__check,.lead.is-sent .lead__submit,.lead.is-sent .lead__broch{display:none}
 
 /* ---------- 7b. COUNTDOWN ----------
    Driven by dates.lastDateISO and rendered only when that date exists and is
@@ -418,7 +495,7 @@ p:last-child{margin-bottom:0}
 .cdown__units{display:flex;gap:.4rem}
 .cdown__u{display:flex;flex-direction:column;align-items:center;min-width:2.6rem;
   background:#fff;border-radius:7px;padding:.22rem .4rem}
-.cdown__u b{font-family:var(--font-display);font-size:1.05rem;font-weight:600;line-height:1.1;color:var(--fg);font-variant-numeric:tabular-nums}
+.cdown__u b{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;font-weight:750;line-height:1.1;color:var(--fg);font-variant-numeric:tabular-nums}
 .cdown__u i{font-style:normal;font-size:.62rem;color:var(--muted)}
 .cdown--cta{background:rgba(214,43,51,.14);border-color:rgba(255,107,99,.34);margin:0 0 1.25rem;max-width:26rem}
 .cdown--cta .cdown__lbl{color:#FFD9D6}
@@ -431,144 +508,195 @@ p:last-child{margin-bottom:0}
 .lead__broch{display:flex;align-items:center;justify-content:center;gap:.45rem;
   margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--hair);
   font-size:.8rem;font-weight:600;color:var(--muted);text-decoration:none}
-.lead__broch:hover{color:var(--red-ink)}
+.lead__broch:hover{color:var(--indigo-ink)}
 .lead__broch svg{width:15px;height:15px}
 
 /* ---------- 8. TRUST STRIP ----------
-   On paper, not ink. It used to be a second full-bleed dark band directly
-   under an inset dark panel, which stepped dark-to-dark with a hard seam
-   across the middle. Here it separates the hero from the argument. */
-.trust{background:var(--paper);padding-block:clamp(1.5rem,3vw,2.25rem)}
-.trust__in{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+   Four credential cards on the page ground, each with a mark. It used to be a
+   second full-bleed dark band directly under an inset dark panel, which
+   stepped dark-to-dark with a hard seam across the middle. */
+.trust{background:var(--paper);padding-block:clamp(1.75rem,3.5vw,2.5rem)}
+.trust__in{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
 .trust__in p{
-  margin:0;padding:.85rem .9rem;text-align:center;
-  background:var(--paper-2);border:1px solid var(--hair);border-radius:var(--radius);
-  font-size:.76rem;color:var(--muted);line-height:1.35;
+  margin:0;padding:1.1rem .9rem;text-align:center;
+  background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
+  box-shadow:var(--shadow-card);
+  font-size:.78rem;color:var(--muted);line-height:1.35;
+  display:flex;flex-direction:column;align-items:center;gap:.15rem;
 }
-.trust__in b{display:block;font-family:var(--font-display);font-size:1.3rem;color:var(--fg);font-weight:600;line-height:1.15;margin-bottom:.15rem}
-@media(min-width:760px){.trust__in{grid-template-columns:repeat(4,1fr);gap:.9rem}.trust__in p{padding:1.1rem 1rem}}
+.trust .ico{width:26px;height:26px;color:var(--indigo);margin-bottom:.35rem}
+.trust__in b{display:block;font-size:1.35rem;color:var(--fg);font-weight:800;letter-spacing:-.03em;line-height:1.15}
+@media(min-width:760px){.trust__in{grid-template-columns:repeat(4,1fr);gap:1rem}.trust__in p{padding:1.4rem 1.1rem}}
 
 /* ---------- 9. WHY ----------
-   Editorial, on hairlines. Not a four-card grid: that is what every other
-   college site in India already looks like, and BRIEF §1 rules it out. */
-.why{display:grid;gap:0;border-top:1px solid var(--hair)}
-/* A mark per point, not a card. The section reads as four paragraphs of prose
-   on a phone and the eye has nothing to catch on; an icon gives each point an
-   anchor without turning this into the four-card "why us" grid that every
-   other college site in India already is. */
-.why__item{padding-block:1.4rem;border-bottom:1px solid var(--hair);display:grid;grid-template-columns:auto 1fr;column-gap:.9rem}
-.why__ico{grid-row:1/3;width:26px;height:26px;color:var(--red-ink);margin-top:.15rem}
-.why__item h3{font-family:var(--font-display);font-size:var(--fs-h3);margin-bottom:.45rem;align-self:center}
-.why__item p{color:var(--muted);max-width:62ch;margin:0}
-@media(min-width:860px){
-  .why{grid-template-columns:1fr 1fr;column-gap:clamp(2rem,5vw,4.5rem)}
-  .why__item{padding-block:1.6rem}
+   Two columns of cards. This stayed editorial for a long time on the argument
+   that a four-card "why us" grid is what every other college site in India
+   already is — which was true of the OLD card, a rounded box with a stock
+   icon and three adjectives. These carry a specific claim each and a mark
+   that names it, and the section is the page's actual argument, so it should
+   look like something rather than like a column of paragraphs. */
+.why{display:grid;gap:.85rem}
+.why__item{
+  background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
+  padding:1.4rem;box-shadow:var(--shadow-card);
+  display:grid;grid-template-columns:auto 1fr;column-gap:1rem;
+  transition:border-color .16s var(--ease),transform .16s var(--ease);
 }
+.why__item:hover{border-color:var(--hair-2);transform:translateY(-2px)}
+.why__ico{grid-row:1/3;width:34px;height:34px;padding:6px;border-radius:10px;
+  background:var(--indigo-wash);color:var(--indigo);margin-top:.1rem}
+.why__item h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.4rem;align-self:center}
+.why__item p{color:var(--muted);max-width:62ch;margin:0;font-size:.94rem}
+@media(min-width:860px){.why{grid-template-columns:1fr 1fr;gap:1rem}}
 
-/* ---------- 10. ACCORDION (programmes and FAQ) ---------- */
-.acc{border-top:1px solid var(--hair)}
-.acc__row{border-bottom:1px solid var(--hair)}
+/* ---------- 10. ACCORDION (programmes and FAQ) ----------
+   Rows are cards rather than lines on a rule. A stack of hairline rows reads
+   as a table of contents; cards read as things you can open, which is what
+   they are. */
+.acc{display:grid;gap:.65rem;border-top:0}
+.acc__row{
+  border:1px solid var(--hair);border-radius:var(--radius);background:var(--paper);
+  transition:border-color .16s var(--ease),box-shadow .16s var(--ease);
+}
+.section--tint .acc__row{background:var(--paper)}
+.acc__row:hover{border-color:var(--hair-2);box-shadow:var(--shadow-card)}
+.acc__row:has(.acc__trigger[aria-expanded="true"]){border-color:var(--indigo);box-shadow:var(--shadow-card)}
 .acc__h{margin:0;font-weight:inherit;letter-spacing:normal}
 .acc__trigger{
   display:flex;align-items:center;gap:1rem;width:100%;
   background:none;border:0;cursor:pointer;text-align:left;
-  font-family:var(--font-display);font-size:1.05rem;font-weight:600;color:var(--fg);
-  padding:1.1rem 0;line-height:1.3;
+  font-size:1.05rem;font-weight:700;letter-spacing:-.022em;color:var(--fg);
+  padding:1.15rem 1.25rem;line-height:1.3;
   transition:color .16s var(--ease);
 }
-.acc__trigger:hover{color:var(--red-ink)}
+.acc__trigger:hover{color:var(--indigo-ink)}
 .acc__name{flex:1 1 auto}
-.acc__meta{flex:0 0 auto;font-family:var(--font-body);font-size:.82rem;font-weight:400;color:var(--muted);white-space:nowrap}
-.acc__meta b{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--fg)}
-/* The plus/minus is drawn rather than iconised: two rules that cost nothing
-   and cannot arrive late or at the wrong weight. */
-.acc__icon{position:relative;flex:0 0 auto;width:18px;height:18px}
-.acc__icon::before,.acc__icon::after{content:"";position:absolute;inset:50% 0 auto;height:1.5px;background:currentColor;transform:translateY(-50%);transition:transform .22s var(--ease),opacity .22s var(--ease)}
-.acc__icon::after{transform:translateY(-50%) rotate(90deg)}
-.acc__trigger[aria-expanded="true"] .acc__icon::after{transform:translateY(-50%) rotate(0);opacity:0}
+.acc__meta{flex:0 0 auto;font-size:.82rem;font-weight:400;color:var(--muted);white-space:nowrap}
+.acc__meta b{font-size:1.02rem;font-weight:750;color:var(--fg);letter-spacing:-.02em}
+/* The plus is drawn: two rules that cannot arrive late or at the wrong weight. */
+.acc__icon{position:relative;flex:0 0 auto;width:26px;height:26px;border-radius:50%;
+  background:var(--paper-2);transition:background-color .16s var(--ease)}
+.acc__trigger:hover .acc__icon{background:var(--indigo-wash)}
+.acc__trigger[aria-expanded="true"] .acc__icon{background:var(--indigo)}
+.acc__icon::before,.acc__icon::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.8px;
+  background:currentColor;transform:translate(-50%,-50%);border-radius:2px;
+  transition:transform .22s var(--ease),opacity .22s var(--ease),background-color .16s var(--ease)}
+.acc__icon::after{transform:translate(-50%,-50%) rotate(90deg)}
+.acc__trigger[aria-expanded="true"] .acc__icon::before,
+.acc__trigger[aria-expanded="true"] .acc__icon::after{background:#fff}
+.acc__trigger[aria-expanded="true"] .acc__icon::after{transform:translate(-50%,-50%) rotate(0);opacity:0}
 .acc__panel{overflow:hidden}
 .acc__panel[hidden]{display:none}
-.acc__body{padding:0 0 1.4rem;max-width:72ch}
+.acc__body{padding:0 1.25rem 1.35rem;max-width:72ch}
 .acc__body p{color:var(--muted);font-size:.95rem}
-.acc__body p b{color:var(--fg);font-weight:650}
-.acc--faq .acc__trigger{font-family:var(--font-body);font-size:1rem;font-weight:600}
+.acc__body p b{color:var(--fg);font-weight:700}
+.acc--faq .acc__trigger{font-size:1rem;font-weight:650}
 @media(max-width:559px){
-  /* The fee cannot share a line with a branch name at this width without one
-     of them wrapping badly, so it drops under it. */
-  .acc__trigger{flex-wrap:wrap;gap:.15rem 1rem;padding-block:.95rem}
-  .acc__name{flex:1 1 100%;order:1;padding-right:26px}
+  .acc__trigger{flex-wrap:wrap;gap:.2rem 1rem;padding:1rem 1.1rem}
+  .acc__name{flex:1 1 100%;order:1;padding-right:34px}
   .acc__meta{order:2}
-  .acc__icon{order:0;position:absolute;right:0;top:1.1rem}
+  .acc__icon{order:0;position:absolute;right:1.1rem;top:1rem}
   .acc__h{position:relative}
+  .acc__body{padding:0 1.1rem 1.2rem}
 }
 
-/* Spec list. Term left, value right, on hairlines. Left-aligned values —
-   the previous build right-aligned them and long values came out ragged. */
-.spec{margin:0 0 1.1rem;display:grid;gap:0;border-top:1px solid var(--hair)}
-.spec dt{font-size:.78rem;color:var(--muted);padding-top:.6rem}
-.spec dd{margin:0;padding-bottom:.6rem;border-bottom:1px solid var(--hair);font-size:.95rem}
+/* Spec list. Term left, value left — right-aligning the value came out ragged
+   on the long ones. Wrapped as a card outside the accordion, plain inside it. */
+.spec{margin:0 0 1.1rem;display:grid;gap:0}
+.spec dt{font-size:.76rem;font-weight:600;color:var(--muted);padding-top:.7rem;letter-spacing:.01em}
+.spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair);font-size:.95rem}
+.spec dd:last-child{border-bottom:0}
 @media(min-width:640px){
   .spec{grid-template-columns:minmax(9rem,15rem) 1fr;column-gap:1.5rem}
-  .spec dt{padding-block:.65rem;border-bottom:1px solid var(--hair)}
-  .spec dd{padding-block:.65rem}
+  .spec dt{padding-block:.75rem;border-bottom:1px solid var(--hair)}
+  .spec dd{padding-block:.75rem}
+  .spec dt:last-of-type{border-bottom:0}
   .spec--wide{grid-template-columns:minmax(11rem,18rem) 1fr}
 }
+/* Outside an accordion panel the spec list is a standalone block, so it gets
+   the same card the tables get. Inside one it must not, or the panel reads as
+   a card inside a card. */
+.two .spec{background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
+  box-shadow:var(--shadow-card);padding:.35rem 1.15rem;margin-bottom:0}
 
 /* ---------- 11. NUDGE (mid-page CTA) ----------
    Three of these down the page, each after a section that raises a question
    the admission cell can answer. The old build had one form at the top and
    one at 93% depth, with nothing in between. */
 .nudge{
-  display:flex;flex-direction:column;gap:1rem;align-items:flex-start;
-  margin-top:clamp(1.75rem,3.5vw,2.5rem);padding:clamp(1.2rem,2.8vw,1.75rem);
-  background:var(--paper-3);border-radius:var(--radius);
+  display:flex;flex-direction:column;gap:1.1rem;align-items:flex-start;
+  margin-top:clamp(1.75rem,3.5vw,2.5rem);padding:clamp(1.35rem,3vw,2rem);
+  border-radius:var(--radius-lg);color:var(--fg-ink);
+  background:radial-gradient(90% 120% at 6% 0%, rgba(109,91,255,.34) 0%, transparent 60%),
+             linear-gradient(150deg,#191343 0%,var(--ink-900) 70%);
 }
-.section--tint .nudge{background:var(--paper-3)}
-.nudge p{margin:0;font-size:.95rem;max-width:58ch}
+.nudge p{color:var(--body-ink)}
+.section--tint .nudge{background:radial-gradient(90% 120% at 6% 0%, rgba(109,91,255,.34) 0%, transparent 60%),
+             linear-gradient(150deg,#191343 0%,var(--ink-900) 70%)}
+.nudge p{margin:0;font-size:1rem;max-width:56ch;font-weight:500}
 .nudge .btn{flex:0 0 auto}
 @media(min-width:760px){.nudge{flex-direction:row;align-items:center;justify-content:space-between;gap:2rem}}
 
-/* ---------- 12. TABLES ---------- */
-/* Wide content scrolls inside its own container; the page body never does. */
-.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:.75rem;max-width:64rem}
-.tbl{width:100%;border-collapse:collapse;font-size:.92rem;min-width:30rem}
-.tbl caption{text-align:left}
-.tbl th,.tbl td{text-align:left;padding:.7rem .9rem .7rem 0;border-bottom:1px solid var(--hair);vertical-align:top}
-.tbl thead th{font-size:.74rem;font-weight:600;color:var(--muted);letter-spacing:.01em;border-bottom:1px solid var(--hair-2);padding-bottom:.5rem}
-.tbl tbody th{font-weight:600}
-/* Right-aligned figures need their own right padding unless they are the
-   last cell in the row — without it "Rs 500" ran straight into "One time". */
-.tbl td.num,.tbl th.num{text-align:right;padding-right:1.75rem;white-space:nowrap;font-family:var(--font-display);font-variant-numeric:tabular-nums}
-.tbl td.num:last-child,.tbl th.num:last-child{padding-right:0}
-.tbl thead th.num{font-family:var(--font-body)}
-.tbl--total tbody th{font-weight:500}
-.tbl--total td.num{font-size:1.05rem}
-.tbl--schol{min-width:38rem}
-/* Five columns cannot fit a phone, and scrolling this one horizontally put the
-   "85%+ — you pay ₹0" column off-screen. That figure is the strongest thing on
-   the page and it was invisible to 85% of the traffic. Stacked, every band is
-   on screen and the ₹0 lands last, where it reads as the conclusion. */
-@media(max-width:719px){
-  .tablewrap:has(.tbl--schol){overflow:visible;max-width:none}
-  .tbl--schol{min-width:0;display:block}
-  .tbl--schol thead{display:none}
-  .tbl--schol tbody,.tbl--schol tr{display:block}
-  .tbl--schol tr{border-bottom:1px solid var(--hair-2);padding-block:.9rem}
-  .tbl--schol tr:last-child{border-bottom:0}
-  .tbl--schol th[scope="row"]{display:block;border:0;padding:0 0 .55rem;font-size:1rem}
-  .tbl--schol td{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
-    border:0;padding:.3rem 0;text-align:right;white-space:normal}
-  .tbl--schol td::before{content:attr(data-l);font-family:var(--font-body);font-size:.8rem;
-    font-weight:400;color:var(--muted);text-align:left}
-  .tbl--schol td.free{margin-top:.35rem;padding-top:.5rem;border-top:1px solid var(--hair);font-size:1.2rem}
-  .tbl--schol td.free::before{color:var(--gold-deep);font-weight:650;font-size:.82rem}
+/* ---------- 12. TABLES ----------
+   Wrapped as cards. Bare hairline tables on a white ground are what made
+   every money section on this page read like a printed prospectus. The data
+   has not changed; the container has. */
+.tablewrap{
+  overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:.85rem;
+  background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
+  box-shadow:var(--shadow-card);
 }
-.tablewrap:has(.tbl--schol){max-width:72rem}
-.tbl--schol thead th span{display:block;font-weight:400;font-size:.68rem;color:var(--muted);letter-spacing:0}
-.tbl--schol td.free{color:var(--gold-deep);font-weight:700}
+.section--tint .tablewrap{background:var(--paper)}
+.tbl{width:100%;border-collapse:collapse;font-size:.94rem;min-width:30rem}
+.tbl caption{text-align:left}
+.tbl th,.tbl td{text-align:left;padding:.9rem 1.1rem;border-bottom:1px solid var(--hair);vertical-align:middle}
+.tbl tbody tr:last-child th,.tbl tbody tr:last-child td{border-bottom:0}
+.tbl thead th{
+  font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.045em;text-transform:uppercase;
+  background:var(--paper-2);border-bottom:1px solid var(--hair);padding-block:.75rem;
+}
+.tbl tbody th{font-weight:650}
+.tbl tbody tr{transition:background-color .14s var(--ease)}
+.tbl tbody tr:hover{background:var(--paper-2)}
+.tbl td.num,.tbl th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:650;letter-spacing:-.02em}
+.tbl thead th.num{font-weight:700;letter-spacing:.045em}
+.tbl--total td.num{font-size:1.08rem}
 .tbl__note{font-size:.82rem;color:var(--muted);max-width:70ch;margin-bottom:clamp(2rem,4vw,3rem)}
-.fees__h3{font-family:var(--font-display);font-size:var(--fs-h3);margin-bottom:.75rem;padding-top:.5rem}
+.fees__h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.8rem;padding-top:.5rem}
 .fees__p{color:var(--muted);font-size:.95rem;max-width:66ch}
+
+/* Columns that can be dropped on a phone rather than scrolled off it.
+
+   And the actual root cause of every "the fee column is missing" bug on this
+   page: .tbl carries min-width:30rem so wide tables scroll inside their card
+   on a desktop. On a 390px phone that is 480px of forced overflow, so EVERY
+   table scrolled and the rightmost column — always the money — sat off-screen.
+   Dropping the min-width lets the two-column tables simply fit; the ones that
+   still cannot fit are stacked by .tbl--stack below. */
+@media(max-width:719px){
+  .col-hide-sm{display:none}
+  .tbl{min-width:0}
+  .tbl th,.tbl td{padding:.8rem .9rem}
+}
+
+/* Stacked tables. A three-column money table on a 390px screen pushes its
+   money column off the right edge, and horizontal scroll inside a card is
+   almost never discovered — so the figure the whole section exists to show
+   was invisible to 85% of the traffic. Stacked, every value is on screen. */
+@media(max-width:719px){
+  .tablewrap:has(.tbl--stack){overflow:visible;max-width:none}
+  .tbl--stack{min-width:0;display:block}
+  .tbl--stack thead{display:none}
+  .tbl--stack tbody,.tbl--stack tr{display:block}
+  .tbl--stack tr{border-bottom:1px solid var(--hair);padding:.9rem 1.1rem}
+  .tbl--stack tr:last-child{border-bottom:0}
+  .tbl--stack tr:hover{background:transparent}
+  .tbl--stack th[scope="row"]{display:block;border:0;padding:0 0 .5rem;font-size:.98rem;font-weight:700}
+  .tbl--stack td{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+    border:0;padding:.3rem 0;text-align:right;white-space:normal}
+  .tbl--stack td::before{content:attr(data-l);font-size:.8rem;font-weight:500;color:var(--muted);text-align:left}
+  .tbl--stack td.em{margin-top:.35rem;padding-top:.5rem;border-top:1px solid var(--hair);font-size:1.12rem}
+}
 
 /* ---------- 12b. FEES LAYOUT ----------
    On a 1440 screen the fee tables cap at 64rem and leave the right third of
@@ -587,7 +715,7 @@ p:last-child{margin-bottom:0}
     background:var(--ink-800);color:var(--fg-ink);
     border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-card);
   }
-  .feecard__k{font-family:var(--font-display);font-size:1.15rem;color:#fff;margin-bottom:.5rem}
+  .feecard__k{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;color:#fff;margin-bottom:.5rem}
   .feecard__p{font-size:.86rem;color:var(--body-ink);margin-bottom:1rem}
   .feecard__l{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
   .feecard__l li{position:relative;padding:.55rem 0 .55rem 1.4rem;border-bottom:1px solid var(--hair-ink);font-size:.82rem;color:var(--sub-ink)}
@@ -611,7 +739,7 @@ p:last-child{margin-bottom:0}
 .panel__spec{margin:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
 .panel__spec dt{font-size:.76rem;color:var(--muted-ink);padding-top:.7rem}
 .panel__spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair-ink);font-size:.9rem;color:#DCE4EE}
-.panel__spec dd.num{font-family:var(--font-display);font-size:1.5rem;font-weight:600}
+.panel__spec dd.num{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.5rem;font-weight:750}
 @media(min-width:560px){
   .panel__spec{grid-template-columns:minmax(6.5rem,8rem) 1fr;column-gap:1.25rem}
   .panel__spec dt{padding-block:.75rem;border-bottom:1px solid var(--hair-ink)}
@@ -619,13 +747,13 @@ p:last-child{margin-bottom:0}
 }
 
 /* ---------- 14. PLACEMENTS ---------- */
-.figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair-ink);border-block:1px solid var(--hair-ink)}
-.figs li{background:var(--ink-800);padding:1rem .1rem;display:flex;flex-direction:column;gap:.2rem}
-.figs b{font-family:var(--font-display);font-size:clamp(1.5rem,3.6vw,2.1rem);font-weight:600;color:#fff;line-height:1}
+.figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden}
+.figs li{background:var(--ink-800);padding:1.15rem 1.15rem;display:flex;flex-direction:column;gap:.25rem}
+.figs b{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:800;letter-spacing:-.035em;color:#fff;line-height:1;background:linear-gradient(92deg,#fff 0%,var(--vio-lite) 130%);-webkit-background-clip:text;background-clip:text}
 /* Direct children only. The unscoped selector was also catching the spans
    INSIDE <b>, so "3-12 LPA" set its two numerals at caption size. */
-.figs>li>span{font-size:.76rem;color:var(--muted-ink);max-width:22ch}
-@media(min-width:820px){.figs{grid-template-columns:repeat(4,1fr)}.figs li+li{padding-left:1.5rem}}
+.figs>li>span{font-size:.78rem;color:var(--muted-ink);max-width:22ch}
+@media(min-width:820px){.figs{grid-template-columns:repeat(4,1fr)}.figs li{padding-inline:1.5rem}}
 
 .students{display:grid;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lift)}
 @media(min-width:720px){.students{grid-template-columns:repeat(3,1fr)}}
@@ -634,15 +762,15 @@ p:last-child{margin-bottom:0}
    its placement list. A face is what makes a package read as a person. */
 .stu__face{width:56px;height:56px;border-radius:50%;object-fit:cover;
   border:2px solid rgba(242,180,65,.5);margin-bottom:.85rem;background:var(--ink-800)}
-.stu__pkg{font-family:var(--font-display);font-size:1.85rem;font-weight:600;color:var(--gold);margin:0 0 .5rem;line-height:1}
-.stu__name{font-family:var(--font-display);font-size:1.1rem;color:#fff;margin-bottom:.15rem}
+.stu__pkg{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.85rem;font-weight:750;color:var(--gold);margin:0 0 .5rem;line-height:1}
+.stu__name{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.1rem;color:#fff;margin-bottom:.15rem}
 .stu__branch{font-size:.8rem;color:var(--muted-ink);margin:0 0 .35rem}
 .stu__co{font-size:.9rem;color:#DCE4EE;margin:0}
 .students__note{font-size:.84rem;max-width:70ch;margin:1rem 0 clamp(2.25rem,4.5vw,3.25rem)}
 
 /* Recruiter strip. One marquee, greyscale, paused on hover and stopped
    entirely under prefers-reduced-motion. */
-.wall__label{font-family:var(--font-display);font-size:var(--fs-h3);margin-bottom:1rem;color:#fff}
+.wall__label{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h3);margin-bottom:1rem;color:#fff}
 .wall{overflow:hidden;position:relative;border-block:1px solid var(--hair-ink);padding-block:1.25rem;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .wall__track{display:flex;width:max-content;animation:marquee 46s linear infinite}
 .wall:hover .wall__track,.wall:focus-within .wall__track{animation-play-state:paused}
@@ -650,7 +778,7 @@ p:last-child{margin-bottom:0}
 /* Full colour, on a light plate. Greyscale logos read as decoration; a
    parent scanning for a name they recognise needs them to read as real. */
 .wall__set img{height:30px;width:auto;object-fit:contain;background:#fff;border-radius:8px;padding:.5rem .75rem;box-sizing:content-box}
-.wall__word{font-family:var(--font-display);font-size:1.05rem;color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:8px;padding:.4rem .8rem}
+.wall__word{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:8px;padding:.4rem .8rem}
 @keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 .wall__note{font-size:.82rem;max-width:66ch;margin-top:1rem}
 
@@ -670,37 +798,46 @@ p:last-child{margin-bottom:0}
 .gal__strip>li{scroll-snap-align:start}
 .gal figure{margin:0}
 .gal img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:var(--radius);background:var(--paper-3);box-shadow:var(--shadow-card)}
-.gal figcaption{font-size:.8rem;color:var(--muted);padding-top:.5rem}
+.gal figcaption{font-size:.83rem;font-weight:600;color:var(--fg);padding-top:.65rem}
 .gal__ctrl{display:none;gap:.5rem;position:absolute;top:-3.25rem;right:0}
 @media(min-width:760px){.gal__ctrl{display:flex}}
-.gal__btn{width:2.5rem;height:2.5rem;display:grid;place-items:center;border:1px solid var(--hair-2);background:var(--paper);color:var(--fg);border-radius:50%;cursor:pointer;transition:background-color .16s var(--ease),border-color .16s var(--ease)}
-.gal__btn:hover{background:var(--paper-3);border-color:var(--fg)}
+.gal__btn{width:2.6rem;height:2.6rem;display:grid;place-items:center;border:1px solid var(--hair);background:var(--paper);color:var(--fg);border-radius:50%;cursor:pointer;box-shadow:var(--shadow-card);transition:background-color .16s var(--ease),border-color .16s var(--ease),transform .16s var(--ease)}
+.gal__btn:hover{background:var(--fg);border-color:var(--fg);color:#fff;transform:translateY(-1px)}
 .gal__btn svg{width:18px;height:18px}
 .gal__btn[disabled]{opacity:.35;cursor:default}
 
 .fac{list-style:none;margin:clamp(1.5rem,3vw,2rem) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.45rem}
-.fac li{font-size:.82rem;color:var(--muted);border:1px solid var(--hair);border-radius:var(--radius-pill);padding:.4rem .9rem;background:var(--paper)}
-.section--tint .fac li{background:var(--paper-2)}
+.fac li{display:inline-flex;align-items:center;gap:.45rem;font-size:.83rem;font-weight:550;
+  color:var(--fg);border:1px solid var(--hair);border-radius:var(--radius-pill);
+  padding:.5rem 1rem .5rem .8rem;background:var(--paper);box-shadow:var(--shadow-card)}
+.fac__ico{width:17px;height:17px;color:var(--indigo);flex:0 0 auto}
+.section--tint .fac li{background:var(--paper)}
 
 /* ---------- 16. STEPS ----------
-   Numbered, because this genuinely is a sequence. Connected by one hairline. */
-.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:0}
-.steps li{counter-increment:s;position:relative;padding:0 0 1.5rem 3.25rem;border-left:1px solid var(--hair);margin-left:1.1rem}
-.steps li:last-child{border-left-color:transparent;padding-bottom:0}
-.steps li::before{
-  content:counter(s);position:absolute;left:-1.1rem;top:0;
-  width:2.2rem;height:2.2rem;display:grid;place-items:center;border-radius:50%;
-  background:var(--paper);border:1px solid var(--hair-2);
-  font-family:var(--font-display);font-size:.95rem;font-weight:600;color:var(--fg);
+   Numbered, because this genuinely is a sequence. Cards rather than a bare
+   rule, and each carries a mark so the four steps can be told apart at a
+   glance rather than only read in order. */
+.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:.85rem}
+.steps li{
+  counter-increment:s;position:relative;
+  background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
+  padding:1.35rem 1.35rem 1.35rem 4.4rem;box-shadow:var(--shadow-card);
 }
-.section--tint .steps li::before{background:var(--paper-2)}
-.steps h3{font-family:var(--font-display);font-size:var(--fs-h3);margin-bottom:.3rem}
-.steps p{color:var(--muted);font-size:.95rem;max-width:60ch;margin:0}
+.steps li::before{
+  content:counter(s);position:absolute;left:1.25rem;top:1.3rem;
+  width:2.1rem;height:2.1rem;display:grid;place-items:center;border-radius:50%;
+  background:var(--indigo);color:#fff;
+  font-size:.92rem;font-weight:800;letter-spacing:-.02em;
+}
+.steps__ico{position:absolute;right:1.25rem;top:1.3rem;width:24px;height:24px;color:var(--indigo);opacity:.35}
+.steps h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.35rem;padding-right:2rem}
+.steps p{color:var(--muted);font-size:.94rem;max-width:60ch;margin:0}
 @media(min-width:900px){
-  .steps{grid-template-columns:repeat(4,1fr);gap:0}
-  .steps li{padding:3.25rem 1.5rem 0 0;border-left:0;border-top:1px solid var(--hair);margin-left:0}
-  .steps li:last-child{border-top-color:var(--hair);padding-right:0}
-  .steps li::before{left:0;top:-1.1rem}
+  .steps{grid-template-columns:repeat(4,1fr);gap:1rem}
+  .steps li{padding:3.6rem 1.25rem 1.35rem}
+  .steps li::before{top:1.25rem;left:1.25rem}
+  .steps__ico{top:1.35rem;right:1.25rem}
+  .steps h3{padding-right:0}
 }
 
 /* ---------- 17. TWO-COLUMN ---------- */
@@ -710,7 +847,7 @@ p:last-child{margin-bottom:0}
 
 /* Map, behind a click. An iframe on first paint costs about 900KB and three
    third-party connections for a section most visitors never reach. */
-.map{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--paper-3);min-height:16rem}
+.map{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--paper-3);min-height:16rem;box-shadow:var(--shadow-card)}
 .map__btn{display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer;position:relative}
 .map__btn img{width:100%;height:100%;min-height:16rem;object-fit:cover;filter:saturate(.35) brightness(.7)}
 .map__lbl{
@@ -722,12 +859,18 @@ p:last-child{margin-bottom:0}
 .map iframe{display:block;width:100%;height:100%;min-height:20rem;border:0}
 
 /* ---------- 18. FINAL CTA ---------- */
-.cta{background:var(--ink-900);color:var(--fg-ink);padding-block:var(--space-section)}
+.cta{
+  color:var(--fg-ink);padding-block:var(--space-section);
+  background:
+    radial-gradient(90% 80% at 12% 0%, rgba(109,91,255,.34) 0%, transparent 56%),
+    radial-gradient(80% 70% at 95% 100%, rgba(224,27,36,.22) 0%, transparent 52%),
+    linear-gradient(162deg,#13103A 0%,var(--ink-900) 52%,#120B2E 100%);
+}
 .cta__grid{display:grid;gap:clamp(2rem,4vw,3.5rem)}
 @media(min-width:900px){.cta__grid{grid-template-columns:1fr .9fr;align-items:start}}
 .cta__flag{display:inline-flex;align-items:center;font-size:.76rem;font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.36rem .75rem;border-radius:100px;margin:0 0 1rem}
 .cta__flag b{color:#fff;font-weight:700;margin-left:.3rem}
-.cta__title{font-family:var(--font-display);font-size:var(--fs-h2);margin-bottom:.75rem;max-width:16ch}
+.cta__title{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h2);margin-bottom:.75rem;max-width:16ch}
 .cta__lede{color:var(--body-ink);max-width:52ch;font-size:1rem}
 .cta__pts{list-style:none;margin:1.5rem 0;padding:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
 .cta__pts li{position:relative;padding:.65rem 0 .65rem 1.6rem;border-bottom:1px solid var(--hair-ink);font-size:.92rem;color:#DCE4EE}
@@ -737,7 +880,7 @@ p:last-child{margin-bottom:0}
 .lead--full{box-shadow:0 1px 2px rgba(0,0,0,.3),0 20px 56px rgba(0,0,0,.4)}
 
 /* ---------- 19. FOOTER ---------- */
-.ftr{background:var(--ink-900);color:var(--muted-ink);border-top:1px solid var(--hair-ink);padding-top:clamp(2.25rem,4vw,3rem)}
+.ftr{background:var(--ink-900);color:var(--muted-ink);border-top:1px solid var(--hair-ink);padding-top:clamp(2.5rem,4.5vw,3.5rem)}
 .ftr__in{display:grid;gap:1.75rem;padding-bottom:1.75rem}
 @media(min-width:760px){.ftr__in{grid-template-columns:1fr auto;gap:3rem}}
 .ftr__logo{height:34px;width:auto;margin-bottom:1rem;opacity:.92}
