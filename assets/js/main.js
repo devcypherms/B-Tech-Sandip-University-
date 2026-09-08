@@ -160,7 +160,7 @@
      and catching it costs the credibility of every other number here. */
   (function () {
     var iso = (C.dates && C.dates.lastDateISO) || '';
-    var els = $$('.cdown');
+    var els = $$('.cdown').concat($$('.ann__cd'));
     if (!els.length || !iso) return;
 
     /* End of the closing day, in IST, so it does not expire early for a

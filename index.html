@@ -71,7 +71,8 @@ a{color:inherit}
 @media(min-width:1080px){.hdr__nav{display:flex}}
 .hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:650;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:650;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
-@media(min-width:900px){:root{--header-h:4.25rem}.hdr__tel{display:inline-block}.hdr__logo img{height:34px}}
+.ann{display:none}
+@media(min-width:900px){:root{--ann-h:2.4rem}.ann{display:block;position:fixed;inset:0 0 auto;z-index:51;height:var(--ann-h);background:var(--ink-900);color:#F7F5F0}.ann__in{display:flex;align-items:center;gap:.85rem;height:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);font-size:.78rem}.ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}.ann__cd[hidden]{display:none!important}.ann__in a{color:#fff;font-weight:650;text-decoration:none}.ann ~ .hdr{top:var(--ann-h)}.ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h) + 1.25rem)}:root{--header-h:4.25rem}.hdr__tel{display:inline-block}.hdr__logo img{height:34px}}
 /* hero */
 .hero{position:relative;background:var(--paper);padding:calc(var(--header-h) + .6rem) var(--gutter) 0;color:#F7F5F0}
 .hero__panel{position:relative;border-radius:24px;overflow:hidden;isolation:isolate;background:var(--ink-900);width:100%;max-width:var(--wrap);margin-inline:auto;padding:clamp(1.25rem,3.5vw,2.75rem) clamp(1.1rem,3vw,2.5rem) 0}
@@ -81,8 +82,8 @@ a{color:inherit}
 @media(min-width:900px){.hero__scrim{background:linear-gradient(96deg,rgba(8,14,32,.95) 0%,rgba(8,14,32,.88) 46%,rgba(8,14,32,.55) 100%)}}
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem}@media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero__grid>*{margin-bottom:0}.hero__flag{order:1}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}.hero__proof{order:6}}
 @media(min-width:900px){.hero__grid{grid-template-columns:1.06fr .94fr;gap:2.75rem;align-items:start}}
-.hero__flag{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;letter-spacing:.01em;background:rgba(197,64,59,.16);border:1px solid rgba(242,99,92,.4);color:#FFD9D6;padding:.36rem .7rem;border-radius:100px;margin:0 0 1rem}
-.hero__flag b{color:#fff;font-weight:700;white-space:nowrap}
+.hero__flag{display:inline-block;font-size:.72rem;font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.34rem .8rem;border-radius:999px;margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
+.hero__flag b{color:#fff;font-weight:700}
 .hero__flag-ico{width:14px;height:14px;color:var(--gold);vertical-align:-2px;margin-right:.35rem}
 .hero h1{font-family:var(--font-display);font-weight:600;font-size:clamp(2rem,5.6vw,3.7rem);line-height:1.08;letter-spacing:-.015em;margin:0 0 .8rem;max-width:15ch}
 .hero h1 em{font-style:normal;color:var(--gold)}
@@ -102,6 +103,21 @@ a{color:inherit}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<!-- Announcement strip. Every one of the reference pages runs one, and on a
+     wide screen it costs nothing: the header sits below it and the hero is
+     unaffected. Hidden under 900px, where the fold is the scarcest thing on
+     the page and the sticky bar already carries the urgency. -->
+<div class="ann" id="ann">
+  <div class="ann__in">
+    <span class="ann__dot" aria-hidden="true"></span>
+    <span>B.Tech admissions open for 2026–27 · Bihar Student Credit Card accepted</span>
+    <span class="ann__cd" id="annCd" hidden>
+      Closes in <b data-cd="d">--</b>d <b data-cd="h">--</b>h <b data-cd="m">--</b>m
+    </span>
+    <a href="#apply" data-track="cta-announce">Apply now</a>
+  </div>
+</div>
 
 <!-- ========== HEADER ========== -->
 <header class="hdr" id="siteHeader">
@@ -158,7 +174,7 @@ a{color:inherit}
     <div class="hero__copy">
       <p class="hero__flag">
         <svg class="hero__flag-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 4 2 9l10 5 10-5Z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>
-        Admissions open · Last date <b data-c="dates.lastDate">30 September 2026</b>
+        Admissions open for 2026–27
       </p>
 
       <h1>Engineering ki padhai, ab <em>Bihar mein hi</em>.</h1>
@@ -480,6 +496,8 @@ a{color:inherit}
       </p>
     </div>
 
+    <div class="fees__grid">
+    <div class="fees__main">
     <h3 class="fees__h3">Annual tuition, by branch</h3>
     <div class="tablewrap">
       <table class="tbl">
@@ -628,6 +646,31 @@ a{color:inherit}
       waived. Your band is confirmed to you in writing after your documents are
       verified and before any payment is taken.
     </p>
+
+    </div><!-- /.fees__main -->
+
+      <!-- Sticky, desktop only. On a 1440 screen the fee tables leave the
+           right third of the section empty, and this is the one place on the
+           page where a reader is doing arithmetic about money — which is
+           exactly where they want someone to check it for them. -->
+      <aside class="feecard">
+        <p class="feecard__k">Your figure, worked out</p>
+        <p class="feecard__p">
+          Tell us your 10+2 percentage and whether you plan to use the Student
+          Credit Card. The admission cell comes back with your scholarship band
+          and your actual first-year total.
+        </p>
+        <ul class="feecard__l">
+          <li>Scholarship band confirmed in writing</li>
+          <li>Before any payment is taken</li>
+          <li>Credit Card file prepared with you</li>
+        </ul>
+        <a class="btn btn-primary feecard__btn" href="#apply" data-track="cta-feecard">Talk to a counsellor</a>
+        <a class="feecard__tel" href="tel:18002122714" data-track="call-feecard">
+          or call <span data-c="org.phone">1800-212-2714</span>
+        </a>
+      </aside>
+    </div><!-- /.fees__grid -->
 
     <div class="nudge">
       <p>Tell us your 10+2 percentage and whether you plan to use the Student Credit Card, and the admission cell will work out your actual first-year figure.</p>
@@ -973,7 +1016,7 @@ a{color:inherit}
 <section class="cta" id="apply" aria-labelledby="cta-title">
   <div class="wrap cta__grid">
     <div class="cta__copy">
-      <p class="cta__flag">Admissions open · Last date <b data-c="dates.lastDate">30 September 2026</b></p>
+      <p class="cta__flag">Admissions open · apply by <b data-c="dates.lastDate">30 September 2026</b></p>
       <h2 class="cta__title" id="cta-title">Ek call, aur poori tasveer saaf.</h2>
       <p class="cta__lede">
         Tell us where you stand and the admission cell will come back with your
