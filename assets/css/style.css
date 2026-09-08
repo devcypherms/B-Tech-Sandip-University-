@@ -353,7 +353,7 @@ p:last-child{margin-bottom:0}
    date. inline-block keeps it in the text flow. */
 .hero__flag{display:inline-block;font-size:.72rem;font-weight:650;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:var(--radius-pill);margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
 .hero__flag b{color:#fff;font-weight:700}
-.hero__flag-ico{width:14px;height:14px;color:var(--gold);vertical-align:-2px;margin-right:.3rem}
+.hero__flag-ico{width:var(--ico-sm);height:var(--ico-sm);color:var(--gold);vertical-align:-2px;margin-right:.3rem}
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 /* One highlighted phrase, in the money colour, because the phrase that is
@@ -951,7 +951,7 @@ p:last-child{margin-bottom:0}
 @media(min-width:1000px){.ftr__brand{grid-column:auto}}
 @media(min-width:1000px){.ftr__in{grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:2.5rem}}
 .ftr__logo{height:38px;width:auto;margin-bottom:1rem;opacity:.95}
-.ftr__blurb{font-size:.88rem;line-height:1.6;max-width:34ch;margin-bottom:1.1rem}
+.ftr__blurb{font-size:var(--fs-meta);line-height:1.6;max-width:34ch;margin-bottom:1.1rem}
 .ftr__social{display:flex;gap:.6rem;margin:0}
 .ftr__social a{display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:50%;
   border:1px solid var(--hair-ink);color:var(--muted-ink);
@@ -963,10 +963,10 @@ p:last-child{margin-bottom:0}
 .ftr__h{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
   color:#fff;margin-bottom:.9rem}
 .ftr__col a{display:inline-flex;align-items:center;min-height:2.4rem;
-  font-size:.9rem;color:var(--muted-ink);text-decoration:none;
+  font-size:var(--fs-meta);color:var(--muted-ink);text-decoration:none;
   transition:color .16s var(--ease)}
 .ftr__col a:hover{color:var(--gold)}
-.ftr__addr{font-style:normal;font-size:.88rem;line-height:1.6;margin:.6rem 0 1rem;color:var(--muted-ink)}
+.ftr__addr{font-style:normal;font-size:var(--fs-meta);line-height:1.6;margin:.6rem 0 1rem;color:var(--muted-ink)}
 .ftr__wa{display:inline-flex!important;align-items:center;gap:.5rem;align-self:flex-start;
   padding:.6rem 1.05rem;border-radius:var(--radius-pill);
   background:#1FA855;color:#fff!important;font-weight:700;font-size:.85rem;min-height:2.75rem}
