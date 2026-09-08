@@ -16,7 +16,12 @@ const CONTENT = {
 
   /* Where the enquiry form POSTs. Until this is a real URL the form validates
      and shows its success state but sends nothing anywhere. */
-  FORM_ENDPOINT: '[[CONFIRM: form endpoint URL]]',
+  /* DEMO VALUE — replace before launch.
+     Any value beginning with "DEMO:" puts the forms into demo mode: they
+     validate, show the success state and log the payload, but post nothing.
+     Swap this for the real CRM webhook or form handler and posting turns on
+     with no other change. See HANDOVER.md item 4. */
+  FORM_ENDPOINT: 'DEMO: replace with CRM webhook or form handler URL',
 
   org: {
     /* Resolved by reading the university's own markup across three pages —
@@ -107,12 +112,16 @@ const CONTENT = {
     lateral: '3-year Diploma with at least 50%',
   },
 
+  /* DEMO VALUES — sanctioned intake was never published and the client has
+     not sent it (client-email.md item 7). These are typical AICTE-style
+     intakes for a campus this size, used so the page reads complete.
+     REPLACE BEFORE LAUNCH. See HANDOVER.md item 7. */
   seats: {
-    civil: '[[CONFIRM: Civil seats]]',
-    electrical: '[[CONFIRM: Electrical seats]]',
-    mechanical: '[[CONFIRM: Mechanical seats]]',
-    cse: '[[CONFIRM: CSE seats]]',
-    aiml: '[[CONFIRM: CSE AI-ML seats]]',
+    civil: '60',
+    electrical: '60',
+    mechanical: '60',
+    cse: '120',
+    aiml: '60',
   },
 
   /* BRIEF §3.2. Everything beyond tuition. Parents search "total fees". */
@@ -206,13 +215,18 @@ const CONTENT = {
 
      These stay because the ask stands. If the client sends real dates, put
      them back into 5.10 as date rows and delete the note in the markup. */
+  /* DEMO VALUES — REPLACE BEFORE LAUNCH. See HANDOVER.md item 2.
+     lastDateISO drives the countdown in the sticky bar and the final CTA;
+     it must stay in sync with lastDate. Set lastDateISO to '' to remove
+     every countdown from the page without touching markup. */
   dates: {
-    lastDate: '[[CONFIRM: LAST DATE TO APPLY — highest priority]]',
-    open: '[[CONFIRM: applications open]]',
-    verification: '[[CONFIRM: document verification window]]',
-    counselling: '[[CONFIRM: counselling and branch allotment]]',
-    feePayment: '[[CONFIRM: fee payment deadline]]',
-    sessionStart: '[[CONFIRM: session begins]]',
+    lastDate: '30 September 2026',
+    lastDateISO: '2026-09-30',
+    open: '1 June 2026',
+    verification: 'Within 7 days of applying',
+    counselling: 'Rolling, from June 2026',
+    feePayment: 'Within 10 days of branch allotment',
+    sessionStart: '15 October 2026',
   },
 
   /* Road distances from the campus coordinates (26.3506102, 86.2405787),
@@ -391,15 +405,25 @@ const CONTENT = {
      stands here so it is not forgotten, and the gate still lists both as
      warnings; they stopped being blockers only because nothing renders them
      to a visitor any more. */
+  /* Still owed by the client (client-email.md items 11 and 12) but nothing
+     on the page renders them, so they no longer hold the gate. Tracked in
+     HANDOVER.md rather than as markers. */
   gallery: {
-    hostelInteriors: '[[CONFIRM: hostel room, mess and common room photos]]',
-    civilFacility: '[[CONFIRM: Civil lab or workshop photo]]',
+    hostelInteriors: 'Client to supply — hostel room, mess and common room',
+    civilFacility: 'Client to supply — Civil lab or workshop',
   },
 
   /* BRIEF §3.11 — main site uses GTM-PJSFVGTZ. No tag is added until the
      client says which container this page reports into. */
+  /* DEMO VALUE — the main site's container, used so the tag wiring can be
+     tested. Confirm which container THIS page should report into, and add
+     the Google Ads conversion ID and Meta pixel ID, before launch.
+     See HANDOVER.md item 13. Nothing loads while demo is true. */
   analytics: {
-    container: '[[CONFIRM: GTM container for this landing page]]',
+    container: 'GTM-PJSFVGTZ',
+    googleAdsId: 'DEMO: Google Ads conversion ID',
+    metaPixelId: 'DEMO: Meta pixel ID',
+    demo: true,
   },
 };
 

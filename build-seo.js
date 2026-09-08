@@ -59,11 +59,13 @@ const rupeesToNumber = v =>
    already names in its data-c hook. Neither side is retyped here. */
 function branches(html) {
   const out = [];
-  const re = /<span class="acc__name">([^<]+)<\/span>\s*<span class="acc__fee"><span data-c="(fees\.[a-zA-Z]+)">/g;
+  /* Matches the programmes accordion only: the FAQ accordion below it has no
+     acc__meta fee, so it cannot be picked up by mistake. */
+  const re = /<span class="acc__name">([\s\S]*?)<\/span>\s*<span class="acc__meta"><b data-c="(fees\.[a-zA-Z]+)">/g;
   let m;
   while ((m = re.exec(html)) !== null) {
     const key = m[2].split('.')[1];
-    const panel = html.slice(m.index).match(/<h4>What you study<\/h4>\s*<p>([\s\S]*?)<\/p>/);
+    const panel = html.slice(m.index).match(/<p><b>What you study\.<\/b>([\s\S]*?)<\/p>/);
     out.push({
       name: textOf(m[1]),
       feeKey: key,
