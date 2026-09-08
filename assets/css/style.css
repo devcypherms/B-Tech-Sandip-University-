@@ -544,6 +544,25 @@ p:last-child{margin-bottom:0}
 .tbl--total tbody th{font-weight:500}
 .tbl--total td.num{font-size:1.05rem}
 .tbl--schol{min-width:38rem}
+/* Five columns cannot fit a phone, and scrolling this one horizontally put the
+   "85%+ — you pay ₹0" column off-screen. That figure is the strongest thing on
+   the page and it was invisible to 85% of the traffic. Stacked, every band is
+   on screen and the ₹0 lands last, where it reads as the conclusion. */
+@media(max-width:719px){
+  .tablewrap:has(.tbl--schol){overflow:visible;max-width:none}
+  .tbl--schol{min-width:0;display:block}
+  .tbl--schol thead{display:none}
+  .tbl--schol tbody,.tbl--schol tr{display:block}
+  .tbl--schol tr{border-bottom:1px solid var(--hair-2);padding-block:.9rem}
+  .tbl--schol tr:last-child{border-bottom:0}
+  .tbl--schol th[scope="row"]{display:block;border:0;padding:0 0 .55rem;font-size:1rem}
+  .tbl--schol td{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+    border:0;padding:.3rem 0;text-align:right;white-space:normal}
+  .tbl--schol td::before{content:attr(data-l);font-family:var(--font-body);font-size:.8rem;
+    font-weight:400;color:var(--muted);text-align:left}
+  .tbl--schol td.free{margin-top:.35rem;padding-top:.5rem;border-top:1px solid var(--hair);font-size:1.2rem}
+  .tbl--schol td.free::before{color:var(--gold-deep);font-weight:650;font-size:.82rem}
+}
 .tablewrap:has(.tbl--schol){max-width:72rem}
 .tbl--schol thead th span{display:block;font-weight:400;font-size:.68rem;color:var(--muted);letter-spacing:0}
 .tbl--schol td.free{color:var(--gold-deep);font-weight:700}
