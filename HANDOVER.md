@@ -51,13 +51,29 @@ change is needed. Set `analytics.demo` to `false` at the same time.
 
 | # | Item | Why |
 |---|---|---|
-| 14 | Hostel photographs | The only interiors on file are 340px thumbnails, and the one filed as a room is a shared washroom. Hostel is ₹75,000 a year and the page sells it. |
-| 15 | A Civil lab or workshop photograph | None exists in the image set, and Civil is one of the two largest placement groups. |
+| 14 | Hostel photographs | **Checked the official site on 9 Sept 2026 — six exist at `/images/facility1/hostel/h1–h6.jpg`, and they are camera originals rather than the 340px thumbnails we had.** They were NOT used: every frame carries a "GPS Map Camera" watermark with a location and date stamp burned in, and the yards still hold construction rubble. Cropping clears the caption band but not the corner badge. Hostel is ₹75,000 a year and the page sells it, so clean re-shoots are still needed. What we did take from them is data, not pixels — see below. |
+| 15 | A Civil lab or workshop photograph | **Also found: `/images/facility1/lab/lab1–lab11.jpg`, and `lab6` shows civil and architectural models.** Same problem — GPS watermark, and a plain room in flat light. Not used. |
 | 16 | Mechanical placements | The published list shows Civil 5, Electrical 6, CSE 2, Mechanical 0, while the page promotes a Mechanical branch. Is the list partial or out of date? |
 | 17 | Engineering testimonials | All five video testimonials on the site are MBA students bar one. MBA testimonials on a B.Tech page are worse than none, so the page runs the named placement record instead. |
 | 18 | Scholarship scope | The university's scholarship page is headed "for Maharashtra State" with a 2024-25 footnote. The bands are published and used here, and the page states the band is confirmed in writing before any payment — but confirm they apply at Sijoul. |
 
 ---
+
+## Taken from the official site on 9 September 2026
+
+Data rather than imagery, since the imagery could not be used:
+
+- **The hostels are named.** Signage in the university's own facility
+  photographs reads "VAISHALI HOSTEL (GIRLS)" and "MAGADH HOSTEL (BOYS)". The
+  page named neither before; it now does, in §5.4 and in the facilities row.
+  For a family sending a daughter away from home, a named block is a checkable
+  fact where "separate hostels" is only a claim.
+- **B1 is the boys' block.** The GPS caption on the boys' frame reads
+  "B1_hostel", which ties it to the "B1 Hostel supplement ₹10,000" line in the
+  fee table. That line had sat unexplained; the table now names it.
+
+Both are worth one line of confirmation from the admission office before
+launch, since they are read off photographs rather than stated in prose.
 
 ## What is verified and should not be changed casually
 

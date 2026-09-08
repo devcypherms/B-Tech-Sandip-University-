@@ -405,6 +405,17 @@ const CONTENT = {
      stands here so it is not forgotten, and the gate still lists both as
      warnings; they stopped being blockers only because nothing renders them
      to a visitor any more. */
+  /* Hostel block names, read off the university's own facility photographs at
+     /images/facility1/hostel/ (verified 9 September 2026). The signage in
+     those frames reads "VAISHALI HOSTEL (GIRLS)" and "MAGADH HOSTEL (BOYS)",
+     and the GPS caption on the boys' frame reads "B1_hostel" — which ties it
+     to the B1 Hostel supplement in the fee table, a connection the page had
+     never made. */
+  hostel: {
+    girls: 'Vaishali Hostel',
+    boys: 'Magadh Hostel',
+  },
+
   /* Still owed by the client (client-email.md items 11 and 12) but nothing
      on the page renders them, so they no longer hold the gate. Tracked in
      HANDOVER.md rather than as markers. */
