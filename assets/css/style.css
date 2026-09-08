@@ -223,7 +223,7 @@ p:last-child{margin-bottom:0}
      exactly what it did. Raising specificity makes the rule independent of
      source order. */
   .ann ~ .hdr{top:var(--ann-h)}
-  .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h) + 1.25rem)}
+  .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
   html:has(.ann){scroll-padding-top:calc(var(--ann-h) + var(--header-h) + 1rem)}
 }
 
@@ -266,14 +266,24 @@ p:last-child{margin-bottom:0}
    of it: the branch list, the lead form and the spec rail. */
 /* The hero is a panel, not a band: inset by the gutter, rounded, with the
    photograph clipped inside it. The page ground shows around it. */
-.hero{position:relative;background:var(--paper);padding:calc(var(--header-h) + .6rem) var(--gutter) 0;color:var(--fg-ink)}
+.hero{position:relative;background:var(--paper);padding:var(--header-h) 0 0;color:var(--fg-ink)}
+/* Full-bleed, not an inset card.
+
+   As a floating panel it produced three gaps at once on a wide screen: the
+   header's background runs edge to edge while the panel capped at --wrap, so
+   their left and right edges did not line up; a white band sat between the two;
+   and the panel's inner padding put its copy 16px off the header's logo. Three
+   different misalignments reading as one unfinished box.
+
+   Edge to edge, the gradient meets the header with no seam, and the grid
+   inside it uses the same --wrap and --gutter as .hdr__in, so the headline
+   starts on the same vertical as the logo above it. */
 .hero__panel{
-  position:relative;border-radius:var(--radius-lg);overflow:hidden;isolation:isolate;
-  width:100%;max-width:var(--wrap);margin-inline:auto;
-  padding:clamp(1.5rem,4vw,3.25rem) clamp(1.1rem,3vw,2.5rem) 0;
-  /* Two radial glows over a diagonal base. This is the whole reason the panel
-     reads as 2026 rather than as a dark rectangle: a flat fill has no depth to
-     look at, and the photograph alone was not carrying it. */
+  position:relative;overflow:hidden;isolation:isolate;width:100%;
+  /* Reset explicitly. The critical block in <head> once set these, and a rule
+     that merely omits a property leaves the earlier value standing. */
+  max-width:none;margin-inline:0;border-radius:0;
+  padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;
   background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),
     radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),
     radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),
@@ -291,7 +301,7 @@ p:last-child{margin-bottom:0}
   -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%);
   mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%);
 }
-.hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem}
+.hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem;width:100%;max-width:var(--wrap);margin-inline:auto}
 
 /* Mobile order. display:contents dissolves the copy wrapper so the form can
    be ordered without a second copy of the markup in the page.
@@ -371,7 +381,7 @@ p:last-child{margin-bottom:0}
 /* Spec rail. Four facts on hairlines, pinned under the hero. */
 /* Inside the panel, so it carries no ground of its own and is separated by
    rules rather than by a painted gap. */
-.hero__rail{position:relative;z-index:2;list-style:none;display:grid;grid-template-columns:1fr 1fr;margin:1.35rem 0 0;padding:0;border-top:1px solid var(--hair-ink)}
+.hero__rail{position:relative;z-index:2;width:100%;max-width:var(--wrap);margin-inline:auto;list-style:none;display:grid;grid-template-columns:1fr 1fr;margin:1.35rem 0 0;padding:0;border-top:1px solid var(--hair-ink)}
 .hero__rail li{padding:.85rem 0 1rem;display:flex;flex-direction:column;gap:.15rem;border-bottom:1px solid var(--hair-ink)}
 .hero__rail li:nth-child(odd){padding-right:1rem;border-right:1px solid var(--hair-ink)}
 .hero__rail li:nth-child(even){padding-left:1rem}
