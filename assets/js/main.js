@@ -333,12 +333,12 @@
           form.classList.add('is-sent');
           status.className = 'f__status is-ok';
           status.textContent = 'Thank you — your enquiry has reached the admission cell. We call within one working day. For anything urgent, call ' +
-            ((C.org && C.org.phone) || '1800-212-2714') + '.';
+            ((C.org && C.org.phone) || '1800-313-2714') + '.';
           track('form_submit', source);
         } else {
           status.className = 'f__status is-bad';
           status.textContent = 'That did not go through. Please call ' +
-            ((C.org && C.org.phone) || '1800-212-2714') + ' or try again in a moment.';
+            ((C.org && C.org.phone) || '1800-313-2714') + ' or try again in a moment.';
           track('form_error', source);
         }
       };

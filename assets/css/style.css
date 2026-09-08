@@ -113,6 +113,22 @@
   --fs-h3:clamp(1.08rem,1.7vw,1.3rem);
   --fs-small:.875rem;
 
+  /* Icon scale. An audit of the rendered page found eight different icon
+     sizes — 15, 17, 18, 20, 22, 24, 26 and 34px — which is not a scale, it is
+     eight separate decisions. Four steps, on a 4px grid, each with one job. */
+  --ico-sm:16px;   /* inline in text: chevrons, arrows, small marks */
+  --ico-md:20px;   /* buttons, chips, floating actions */
+  --ico-lg:24px;   /* section and step marks */
+  --ico-xl:32px;   /* feature marks — the one size that carries a claim */
+
+  /* Type scale, for the same reason: the page was rendering 11.5, 12.2, 12.8,
+     13.8, 15, 16, 16.3, 16.8 and 17.3px. These are the only sizes below the
+     headings now. */
+  --fs-label:.75rem;   /* 12px — eyebrows, table heads, form labels */
+  --fs-meta:.875rem;   /* 14px — captions, chips, notes */
+  --fs-body:1rem;      /* 16px — body copy, the floor */
+  --fs-lead:1.0625rem; /* 17px — section ledes, hero subline */
+
   --space-section:clamp(3.5rem,7.5vw,6rem);
   --gutter:clamp(1.15rem,4vw,3.5rem);
   --wrap:82rem;
@@ -169,11 +185,11 @@ p:last-child{margin-bottom:0}
    BRIEF §6 maps a keyword set to every section, and honouring that inside the
    headline is what produced label-shaped headings like "Five B.Tech branches".
    The keyword lives here; the headline is free to answer an objection. */
-.eyebrow{display:inline-block;margin:0 0 .6rem;font-size:.76rem;font-weight:700;
-  letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink)}
+.eyebrow{display:inline-block;margin:0 0 .6rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);font-size:var(--fs-label)}
 .section--ink .eyebrow,.cta .eyebrow{color:var(--accent-lite)}
 .sec-title{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.032em;margin-bottom:.7rem;max-width:20ch}
-.sec-lede{color:var(--muted);font-size:1.02rem;margin:0}
+.sec-lede{color:var(--muted);font-size:var(--fs-lead);margin:0}
 .sub{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h3);margin-bottom:.9rem}
 
 /* ---------- 4. BUTTONS ---------- */
@@ -207,7 +223,7 @@ p:last-child{margin-bottom:0}
     max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);
     font-size:.78rem;
   }
-  .ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
+  .ann__dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto}
   .ann__in>span:first-of-type{color:var(--sub-ink)}
   .ann__cd{margin-left:auto;color:var(--muted-ink);white-space:nowrap}
   .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}
@@ -322,9 +338,14 @@ p:last-child{margin-bottom:0}
   .hero__sub{order:3;margin-bottom:0}
   .hero__money{order:4;margin-bottom:0;max-width:none}
   .lead{order:5}
-  .hero__proof{order:6;margin-bottom:0}
+  
 }
-@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:start}}
+/* Top-aligned. Centring was tried and was worse: it split the height
+   difference evenly, and the half that landed above pushed the headline a
+   third of the way down the screen. A reader expects a headline at the top.
+   The difference is closed by making the form shorter instead — see the chip
+   grid below. */
+@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:start;padding-block:0 1.5rem}}
 
 /* One sentence, set as one line of text. inline-flex made the bold date its
    own flex item, so it broke away from the sentence and sat on its own line
@@ -339,23 +360,18 @@ p:last-child{margin-bottom:0}
    highlighted IS the offer: the degree without leaving the state. */
 .hero h1{font-family:var(--font-display);font-weight:750;font-size:var(--fs-h1);line-height:1.08;letter-spacing:-.015em;margin:0 0 .8rem;max-width:15ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(1rem,1.5vw,1.1rem);line-height:1.5;max-width:46ch}
+.hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
-.hero__proof{display:flex;flex-wrap:wrap;gap:.35rem .4rem;margin:0 0 1.15rem;padding:0;list-style:none}
-/* Ticked, not tagged. A check reads as a claim being asserted; a bare pill
-   reads as a tag. */
-.hero__proof li{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:550;
   color:#E4ECFB;border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-pill);
   padding:.34rem .8rem .34rem .6rem;background:rgba(255,255,255,.07);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.hero__tick{width:13px;height:13px;flex:0 0 auto;color:var(--gold)}
 
 /* The Student Credit Card, above the fold. This is the single fact that
    decides whether a family weighing Rs 90,000 a year reads any further, and
    on the page this replaces it sat at 55% scroll depth. Brass, because it is
    money the reader saves — the only place on the page amber fills anything. */
 .hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(242,180,65,.42);background:linear-gradient(180deg,rgba(242,180,65,.13),rgba(242,180,65,.04));border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
-.hero__money svg{flex:0 0 auto;width:22px;height:22px;color:var(--gold);margin-top:.15rem}
+.hero__money svg{flex:0 0 auto;width:var(--ico-lg);height:var(--ico-lg);color:var(--gold);margin-top:.15rem}
 .hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#EFE2C8}
 .hero__money strong{display:block;font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;font-weight:750;color:#fff;line-height:1.2;margin-bottom:.15rem}
 
@@ -404,21 +420,21 @@ p:last-child{margin-bottom:0}
    between a considered answer and "Not sure yet". */
 .lead{
   background:var(--paper);color:var(--fg);
-  border-radius:var(--radius-lg);padding:clamp(1.25rem,3vw,1.85rem);
+  border-radius:var(--radius-lg);padding:clamp(1.25rem,2.6vw,1.65rem);
   box-shadow:var(--shadow-lift);
   border:1px solid rgba(255,255,255,.6);
 }
 .lead__title{font-size:1.45rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
-.lead__lede{color:var(--muted);font-size:.86rem;margin-bottom:1.15rem}
+.lead__lede{color:var(--muted);font-size:var(--fs-meta);margin-bottom:1rem}
 .lead__submit{width:100%;margin-top:.4rem;font-size:1rem;padding-block:1rem}
 .lead__foot{margin:.85rem 0 0;font-size:.85rem;color:var(--muted);text-align:center}
 .lead__foot a{display:inline-block;padding:.6rem .2rem;min-height:2.75rem;color:var(--accent-ink);font-weight:700}
 
-.f__field{margin-bottom:.9rem}
+.f__field{margin-bottom:.8rem}
 .f__set{border:0;padding:0;margin-inline:0}
 .f__row{display:grid;gap:.9rem}
 @media(min-width:520px){.f__row{grid-template-columns:1fr 1fr}}
-.f__label{display:block;font-size:.8rem;font-weight:700;color:var(--fg);margin-bottom:.4rem;padding:0}
+.f__label{display:block;font-size:var(--fs-label);font-weight:700;color:var(--fg);margin-bottom:.4rem;padding:0}
 .f__opt{font-weight:400;color:var(--muted)}
 
 .f__input,.f__select{
@@ -436,7 +452,7 @@ p:last-child{margin-bottom:0}
 }
 .f__selectwrap{position:relative}
 .f__select{appearance:none;-webkit-appearance:none;padding-right:2.5rem;cursor:pointer}
-.f__selectwrap svg{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);width:18px;height:18px;pointer-events:none;color:var(--muted)}
+.f__selectwrap svg{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);width:var(--ico-sm);height:var(--ico-sm);pointer-events:none;color:var(--muted)}
 
 /* Mobile field with a fixed country code. The prefix is decorative — the
    input still holds ten digits and the validator still strips a stray 0 or 91
@@ -452,14 +468,15 @@ p:last-child{margin-bottom:0}
 /* Branch chips. Real radios, visually hidden but focusable, so the group is
    arrow-key navigable and announced correctly. */
 .chips{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+@media(min-width:1180px){.chips{grid-template-columns:repeat(3,1fr)}}
 .chips.is-bad .chip{border-color:rgba(196,18,32,.5)}
 /* The catch-all spans the row: it is a different kind of answer from the five
    branches above it, and it should not read as a sixth branch. */
 .chip--wide{grid-column:1/-1;font-size:.85rem}
 .chip{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;
-  min-height:3rem;padding:.55rem .65rem;border-radius:12px;cursor:pointer;
+  min-height:2.85rem;padding:.5rem .55rem;border-radius:12px;cursor:pointer;
   background:var(--paper-2);border:1.5px solid transparent;
-  font-size:.9rem;font-weight:600;color:var(--muted);line-height:1.25;
+  font-size:var(--fs-meta);font-weight:600;color:var(--muted);line-height:1.25;
   transition:border-color .15s var(--ease),background-color .15s var(--ease),color .15s var(--ease);
 }
 .chip input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
@@ -467,7 +484,7 @@ p:last-child{margin-bottom:0}
 .chip:has(input:checked){background:var(--accent-wash);border-color:var(--accent);color:var(--accent-ink)}
 .chip:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 
-.f__check{display:flex;gap:.65rem;align-items:flex-start;font-size:.82rem;color:var(--muted);margin:.7rem 0 .2rem;padding:.4rem 0;min-height:2.75rem;cursor:pointer;line-height:1.45}
+.f__check{display:flex;gap:.65rem;align-items:flex-start;font-size:var(--fs-meta);color:var(--muted);margin:.7rem 0 .2rem;padding:.4rem 0;min-height:2.75rem;cursor:pointer;line-height:1.45}
 .f__check input{flex:0 0 auto;width:1.2rem;height:1.2rem;margin:.05rem 0 0;accent-color:var(--accent)}
 .f__err{margin:.35rem 0 0;font-size:.78rem;color:var(--red-ink);font-weight:650}
 .f__input[aria-invalid="true"],.f__select[aria-invalid="true"]{border-color:var(--red-ink);background:var(--red-wash)}
@@ -513,7 +530,7 @@ p:last-child{margin-bottom:0}
   margin-top:.6rem;padding:.85rem .5rem .35rem;border-top:1px solid var(--hair);
   min-height:2.75rem;font-size:.85rem;font-weight:650;color:var(--muted);text-decoration:none}
 .lead__broch:hover{color:var(--accent-ink)}
-.lead__broch svg{width:15px;height:15px}
+.lead__broch svg{width:var(--ico-sm);height:var(--ico-sm)}
 
 /* ---------- 8. TRUST STRIP ----------
    Four credential cards on the page ground, each with a mark. It used to be a
@@ -528,7 +545,7 @@ p:last-child{margin-bottom:0}
   font-size:.78rem;color:var(--muted);line-height:1.35;
   display:flex;flex-direction:column;align-items:center;gap:.15rem;
 }
-.trust .ico{width:26px;height:26px;color:var(--accent);margin-bottom:.35rem}
+.trust .ico{width:var(--ico-lg);height:var(--ico-lg);color:var(--accent);margin-bottom:.35rem}
 .trust__in b{display:block;font-size:1.35rem;color:var(--fg);font-weight:800;letter-spacing:-.03em;line-height:1.15}
 @media(min-width:760px){.trust__in{grid-template-columns:repeat(4,1fr);gap:1rem}.trust__in p{padding:1.4rem 1.1rem}}
 
@@ -547,7 +564,7 @@ p:last-child{margin-bottom:0}
   transition:border-color .16s var(--ease),transform .16s var(--ease);
 }
 .why__item:hover{border-color:var(--hair-2);transform:translateY(-2px)}
-.why__ico{grid-row:1/3;width:34px;height:34px;padding:6px;border-radius:10px;
+.why__ico{grid-row:1/3;width:var(--ico-xl);height:var(--ico-xl);padding:6px;border-radius:10px;
   background:var(--accent-wash);color:var(--accent);margin-top:.1rem}
 .why__item h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.4rem;align-self:center}
 .why__item p{color:var(--muted);max-width:62ch;margin:0;font-size:1rem}
@@ -569,13 +586,13 @@ p:last-child{margin-bottom:0}
 .acc__trigger{
   display:flex;align-items:center;gap:1rem;width:100%;
   background:none;border:0;cursor:pointer;text-align:left;
-  font-size:1.05rem;font-weight:700;letter-spacing:-.022em;color:var(--fg);
+  font-size:var(--fs-lead);font-weight:700;letter-spacing:-.022em;color:var(--fg);
   padding:1.15rem 1.25rem;line-height:1.3;
   transition:color .16s var(--ease);
 }
 .acc__trigger:hover{color:var(--accent-ink)}
 .acc__name{flex:1 1 auto}
-.acc__meta{flex:0 0 auto;font-size:.82rem;font-weight:400;color:var(--muted);white-space:nowrap}
+.acc__meta{flex:0 0 auto;font-size:var(--fs-meta);font-weight:400;color:var(--muted);white-space:nowrap}
 .acc__meta b{font-size:1.02rem;font-weight:750;color:var(--fg);letter-spacing:-.02em}
 /* The plus is drawn: two rules that cannot arrive late or at the wrong weight. */
 .acc__icon{position:relative;flex:0 0 auto;width:26px;height:26px;border-radius:50%;
@@ -593,7 +610,7 @@ p:last-child{margin-bottom:0}
 .acc__body{padding:0 1.25rem 1.35rem;max-width:72ch}
 .acc__body p{color:var(--muted);font-size:1rem}
 .acc__body p b{color:var(--fg);font-weight:700}
-.acc--faq .acc__trigger{font-size:1rem;font-weight:650}
+.acc--faq .acc__trigger{font-size:var(--fs-body);font-weight:650}
 @media(max-width:559px){
   .acc__trigger{flex-wrap:wrap;gap:.2rem 1rem;padding:1rem 1.1rem}
   .acc__name{flex:1 1 100%;order:1;padding-right:34px}
@@ -655,16 +672,16 @@ p:last-child{margin-bottom:0}
 .tbl th,.tbl td{text-align:left;padding:.9rem 1.1rem;border-bottom:1px solid var(--hair);vertical-align:middle}
 .tbl tbody tr:last-child th,.tbl tbody tr:last-child td{border-bottom:0}
 .tbl thead th{
-  font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.045em;text-transform:uppercase;
+  font-size:var(--fs-label);font-weight:700;color:var(--muted);letter-spacing:.045em;text-transform:uppercase;
   background:var(--paper-2);border-bottom:1px solid var(--hair);padding-block:.75rem;
 }
 .tbl tbody th{font-weight:650}
 .tbl tbody tr{transition:background-color .14s var(--ease)}
 .tbl tbody tr:hover{background:var(--paper-2)}
-.tbl td.num,.tbl th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:-.022em;font-size:1.05rem}
-.tbl thead th.num{font-weight:700;letter-spacing:.045em;font-size:.72rem}
+.tbl td.num,.tbl th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:-.022em;font-size:var(--fs-lead)}
+.tbl thead th.num{font-weight:700;letter-spacing:.045em;font-size:var(--fs-label)}
 .tbl--total td.num{font-size:1.08rem}
-.tbl__note{font-size:.82rem;color:var(--muted);max-width:70ch;margin-bottom:clamp(2rem,4vw,3rem)}
+.tbl__note{font-size:var(--fs-meta);color:var(--muted);max-width:70ch;margin-bottom:clamp(2rem,4vw,3rem)}
 .fees__h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.8rem;padding-top:.5rem}
 .fees__p{color:var(--muted);font-size:1rem;max-width:66ch}
 
@@ -821,19 +838,19 @@ p:last-child{margin-bottom:0}
 .gal__strip>li{scroll-snap-align:start}
 .gal figure{margin:0}
 .gal img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:var(--radius);background:var(--paper-3);box-shadow:var(--shadow-card)}
-.gal figcaption{font-size:.83rem;font-weight:600;color:var(--fg);padding-top:.65rem}
+.gal figcaption{font-size:var(--fs-meta);font-weight:600;color:var(--fg);padding-top:.65rem}
 .gal__ctrl{display:none;gap:.5rem;position:absolute;top:-3.25rem;right:0}
 @media(min-width:760px){.gal__ctrl{display:flex}}
 .gal__btn{width:2.6rem;height:2.6rem;display:grid;place-items:center;border:1px solid var(--hair);background:var(--paper);color:var(--fg);border-radius:50%;cursor:pointer;box-shadow:var(--shadow-card);transition:background-color .16s var(--ease),border-color .16s var(--ease),transform .16s var(--ease)}
 .gal__btn:hover{background:var(--fg);border-color:var(--fg);color:#fff;transform:translateY(-1px)}
-.gal__btn svg{width:18px;height:18px}
+.gal__btn svg{width:var(--ico-md);height:var(--ico-md)}
 .gal__btn[disabled]{opacity:.35;cursor:default}
 
 .fac{list-style:none;margin:clamp(1.5rem,3vw,2rem) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.45rem}
-.fac li{display:inline-flex;align-items:center;gap:.5rem;font-size:.88rem;font-weight:550;
+.fac li{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--fs-meta);font-weight:550;
   color:var(--fg);border:1px solid var(--hair);border-radius:var(--radius-pill);
   padding:.5rem 1rem .5rem .8rem;background:var(--paper);box-shadow:var(--shadow-card)}
-.fac__ico{width:17px;height:17px;color:var(--accent);flex:0 0 auto}
+.fac__ico{width:var(--ico-sm);height:var(--ico-sm);color:var(--accent);flex:0 0 auto}
 .section--tint .fac li{background:var(--paper)}
 
 /* ---------- 16. STEPS ----------
@@ -852,7 +869,7 @@ p:last-child{margin-bottom:0}
   background:var(--accent);color:#fff;
   font-size:.92rem;font-weight:800;letter-spacing:-.02em;
 }
-.steps__ico{position:absolute;right:1.25rem;top:1.3rem;width:24px;height:24px;color:var(--accent);opacity:.35}
+.steps__ico{position:absolute;right:1.25rem;top:1.3rem;width:var(--ico-lg);height:var(--ico-lg);color:var(--accent);opacity:.35}
 .steps h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.35rem;padding-right:2rem}
 .steps p{color:var(--muted);font-size:1rem;max-width:60ch;margin:0}
 @media(min-width:900px){
@@ -917,7 +934,7 @@ p:last-child{margin-bottom:0}
   color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:4px;
   text-decoration-color:rgba(245,184,65,.7);text-decoration-thickness:2px}
 .cta__apply a:hover{color:var(--gold)}
-.cta__apply svg{width:15px;height:15px}
+.cta__apply svg{width:var(--ico-sm);height:var(--ico-sm)}
 .cta__alt{font-size:.9rem;color:var(--muted-ink);margin:0}
 .cta__alt a{display:inline-block;padding:.55rem 0;min-height:2.75rem;color:var(--gold);font-weight:700;text-underline-offset:3px}
 .lead--full{box-shadow:0 1px 2px rgba(0,0,0,.3),0 20px 56px rgba(0,0,0,.4)}
@@ -940,7 +957,7 @@ p:last-child{margin-bottom:0}
   border:1px solid var(--hair-ink);color:var(--muted-ink);
   transition:background-color .16s var(--ease),color .16s var(--ease),border-color .16s var(--ease)}
 .ftr__social a:hover{background:var(--gold);border-color:var(--gold);color:var(--ink-900)}
-.ftr__social svg{width:17px;height:17px}
+.ftr__social svg{width:var(--ico-sm);height:var(--ico-sm)}
 
 .ftr__col{display:flex;flex-direction:column}
 .ftr__h{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
@@ -954,7 +971,7 @@ p:last-child{margin-bottom:0}
   padding:.6rem 1.05rem;border-radius:var(--radius-pill);
   background:#1FA855;color:#fff!important;font-weight:700;font-size:.85rem;min-height:2.75rem}
 .ftr__wa:hover{background:#1B9049;color:#fff!important}
-.ftr__wa svg{width:17px;height:17px}
+.ftr__wa svg{width:var(--ico-sm);height:var(--ico-sm)}
 
 .ftr__legal{border-top:1px solid var(--hair-ink);padding-block:1.3rem;
   display:flex;flex-wrap:wrap;gap:.4rem 2rem;justify-content:space-between}
@@ -979,7 +996,7 @@ p:last-child{margin-bottom:0}
     font-size:.72rem;font-weight:600;border-left:1px solid var(--hair-ink);
   }
   .bar__a:first-child{border-left:0}
-  .bar__a svg{width:19px;height:19px}
+  .bar__a svg{width:var(--ico-md);height:var(--ico-md)}
   .bar__a--cta{background:var(--red-fill);color:#fff;font-size:.85rem;border-left:0}
 }
 
@@ -1030,5 +1047,5 @@ p:last-child{margin-bottom:0}
     transition:padding-right .18s var(--ease);
   }
   .wafab:hover{padding-right:1.3rem}
-  .wafab svg{width:20px;height:20px}
+  .wafab svg{width:var(--ico-md);height:var(--ico-md)}
 }

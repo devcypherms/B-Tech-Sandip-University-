@@ -24,29 +24,22 @@ const CONTENT = {
   FORM_ENDPOINT: 'DEMO: replace with CRM webhook or form handler URL',
 
   org: {
-    /* Resolved by reading the university's own markup across three pages —
-       the homepage, /admission-faq.php and /fees-structure.php.
+    /* SETTLED BY THE CLIENT, 9 September 2026: the toll-free number is
+       1800-313-2714. This supersedes the inference below, which is kept
+       because it explains why the page ever showed anything else.
 
-       The site does contradict itself: every page DISPLAYS 1800-313-2714
-       while every tel: link behind it dials 1800-212-2714. But the
-       contradiction is one-sided, and that settles it:
+       BRIEF §3.10 recorded that the university's site contradicts itself —
+       every page DISPLAYS 1800-313-2714 while every tel: link behind it dials
+       1800-212-2714. With nothing else to go on, the earlier build reasoned
+       that 212 was the number their markup actually dialled and used that.
 
-         1800-212-2714  appears in every tel: href on every page checked,
-                        and on /admission-faq.php it also appears as the
-                        visible text of the footer "Call Now" button, where
-                        it matches its own href
-         1800-313-2714  appears only as display text, and never once inside
-                        a link anywhere on the site
-
-       So 212 is the number their site actually dials today, and the only
-       number that ever agrees with itself. 313 is a stale display string
-       that was not updated when the links were.
-
-       This page shows and dials the same number, which is the bug fixed
-       rather than reproduced. Still worth one call to verify before launch:
-       it is an inference from their markup, not a statement from them. */
-    phone: '1800-212-2714',
-    phoneHref: 'tel:18002122714',
+       The client has now confirmed 313 is the number that is answered, so the
+       displayed number was right and the links on their own site are wrong.
+       This page shows and dials 1800-313-2714, which is the bug fixed rather
+       than reproduced. Worth telling the client their own tel: links need
+       correcting too — every tap from their site currently fails. */
+    phone: '1800-313-2714',
+    phoneHref: 'tel:18003132714',
 
     email: 'info.sijoul@sandipuniversity.edu.in',
     whatsapp: '918956530828',

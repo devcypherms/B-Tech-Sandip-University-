@@ -79,8 +79,8 @@ a{color:inherit}
 .hero__panel::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%)}
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem;width:100%;max-width:var(--wrap);margin-inline:auto}
 
-@media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero__grid>*{margin-bottom:0}.hero__flag{order:1}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}.hero__proof{order:6}}
-@media(min-width:900px){.hero__grid{grid-template-columns:1.06fr .94fr;gap:2.75rem;align-items:start}}
+@media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero__grid>*{margin-bottom:0}.hero__flag{order:1}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}}
+@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:start;padding-block:0 1.5rem}}
 .hero__flag{display:inline-block;font-size:.72rem;font-weight:650;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:999px;margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
 .hero__flag b{color:#fff;font-weight:700}
 .hero__flag-ico{width:14px;height:14px;color:var(--gold);vertical-align:-2px;margin-right:.3rem}
@@ -88,8 +88,6 @@ a{color:inherit}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(.94rem,1.5vw,1.08rem);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:650}
-.hero__proof{display:flex;flex-wrap:wrap;gap:.35rem .4rem;margin:0 0 1.15rem;padding:0;list-style:none}
-.hero__proof li{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:550;color:#E4ECFB;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:.34rem .8rem .34rem .6rem;background:rgba(255,255,255,.07);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}.hero__tick{width:13px;height:13px;flex:0 0 auto;color:var(--gold)}
 .hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(245,184,65,.42);background:linear-gradient(180deg,rgba(245,184,65,.16),rgba(245,184,65,.04));border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
 .hero__money svg{flex:0 0 auto;width:22px;height:22px;color:var(--gold);margin-top:.15rem}
 .hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#F6E6C4}
@@ -131,8 +129,8 @@ a{color:inherit}
       <a href="#campus">Campus</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="hdr__tel" href="tel:18002122714" data-track="call-header">
-      <span data-c="org.phone">1800-212-2714</span>
+    <a class="hdr__tel" href="tel:18003132714" data-track="call-header">
+      <span data-c="org.phone">1800-313-2714</span>
     </a>
     <a class="hdr__cta" href="#apply" data-track="cta-header">Apply for B.Tech</a>
   </div>
@@ -184,14 +182,6 @@ a{color:inherit}
         <b>Bihar's first NAAC accredited private university</b>.
       </p>
 
-      <ul class="hero__proof">
-        <li><svg class="hero__tick" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>UGC recognised</li>
-        <li><svg class="hero__tick" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>NAAC accredited</li>
-        <li><svg class="hero__tick" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span data-c="hero.campusSize">125+ acres</span></li>
-        <li><svg class="hero__tick" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span data-c="stats.faculty">250+</span> faculty</li>
-        <li><svg class="hero__tick" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span data-c="stats.programmes">20+</span> programmes</li>
-        <li><svg class="hero__tick" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span data-c="stats.partners">100+</span> recruiters</li>
-      </ul>
 
       <div class="hero__money">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -278,7 +268,7 @@ a{color:inherit}
       <p class="f__status" id="q-status" role="alert" hidden></p>
 
       <p class="lead__foot">
-        Or call <a href="tel:18002122714" data-track="call-form"><span data-c="org.phone">1800-212-2714</span></a>
+        Or call <a href="tel:18003132714" data-track="call-form"><span data-c="org.phone">1800-313-2714</span></a>
         — admission cell, 9 am to 6 pm.
       </p>
       <a class="lead__broch" href="https://sijoul.sandipuniversity.edu.in/pdf/All-courses-details.pdf" rel="noopener" data-track="brochure-hero">
@@ -674,8 +664,8 @@ a{color:inherit}
           <li>Credit Card file prepared with you</li>
         </ul>
         <a class="btn btn-primary feecard__btn" href="#apply" data-track="cta-feecard">Talk to a counsellor</a>
-        <a class="feecard__tel" href="tel:18002122714" data-track="call-feecard">
-          or call <span data-c="org.phone">1800-212-2714</span>
+        <a class="feecard__tel" href="tel:18003132714" data-track="call-feecard">
+          or call <span data-c="org.phone">1800-313-2714</span>
         </a>
       </aside>
     </div><!-- /.fees__grid -->
@@ -1061,7 +1051,7 @@ a{color:inherit}
       </p>
       <p class="cta__alt">
         Prefer to talk now? Call
-        <a href="tel:18002122714" data-track="call-cta"><span data-c="org.phone">1800-212-2714</span></a>
+        <a href="tel:18003132714" data-track="call-cta"><span data-c="org.phone">1800-313-2714</span></a>
         or WhatsApp <a href="https://wa.me/918956530828?text=Hi%2C%20I%20want%20B.Tech%20admission%20details%20for%202026%20at%20Sandip%20University%2C%20Madhubani." rel="noopener" data-track="wa-cta"><span data-c="org.whatsappDisplay">+91 89565 30828</span></a>.
       </p>
     </div>
@@ -1196,7 +1186,7 @@ a{color:inherit}
 
     <div class="ftr__col">
       <h2 class="ftr__h">Admission cell</h2>
-      <a href="tel:18002122714" data-track="call-footer"><span data-c="org.phone">1800-212-2714</span></a>
+      <a href="tel:18003132714" data-track="call-footer"><span data-c="org.phone">1800-313-2714</span></a>
       <a href="mailto:info.sijoul@sandipuniversity.edu.in"><span data-c="org.email">info.sijoul@sandipuniversity.edu.in</span></a>
       <address class="ftr__addr">
         <span data-c="org.addressLine1">Neelam Vidya Vihar, Village Sijoul</span><br>
@@ -1226,7 +1216,7 @@ a{color:inherit}
 
 <!-- ========== MOBILE STICKY BAR ========== -->
 <div class="bar" id="bar">
-  <a class="bar__a" href="tel:18002122714" data-track="call-bar">
+  <a class="bar__a" href="tel:18003132714" data-track="call-bar">
     <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 5.2 2 2 0 0 1 6.5 3Z"/></svg>
     <span>Call</span>
   </a>
@@ -1247,7 +1237,7 @@ a{color:inherit}
   "name": "Sandip University, Madhubani",
   "alternateName": "Sandip University Sijoul",
   "url": "https://b-tech-sandip-university.vercel.app/",
-  "telephone": "1800-212-2714",
+  "telephone": "1800-313-2714",
   "email": "info.sijoul@sandipuniversity.edu.in",
   "address": {
     "@type": "PostalAddress",
