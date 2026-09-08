@@ -270,55 +270,29 @@ p:last-child{margin-bottom:0}
 .hero__panel{
   position:relative;border-radius:var(--radius-lg);overflow:hidden;isolation:isolate;
   width:100%;max-width:var(--wrap);margin-inline:auto;
-  padding:clamp(1.25rem,3.5vw,2.75rem) clamp(1.1rem,3vw,2.5rem) 0;
+  padding:clamp(1.5rem,4vw,3.25rem) clamp(1.1rem,3vw,2.5rem) 0;
   /* Two radial glows over a diagonal base. This is the whole reason the panel
      reads as 2026 rather than as a dark rectangle: a flat fill has no depth to
      look at, and the photograph alone was not carrying it. */
-  background:
-    radial-gradient(120% 95% at 6% 0%, rgba(41,98,214,.55) 0%, transparent 60%),
-    radial-gradient(85% 80% at 98% 96%, rgba(245,184,65,.18) 0%, transparent 52%),
-    linear-gradient(158deg, #0E2A6B 0%, var(--ink-900) 52%, #050C26 100%);
+  background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),
+    radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),
+    radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),
+    linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%);
 }
-/* Desktop: the photograph is the panel's backdrop and the copy sits over the
-   dark side of the gradient. */
-.hero__bg{position:absolute;inset:0;z-index:0}
-.hero__bg picture{display:block;width:100%;height:100%}
-.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:34% 46%}
-
-/* Phone: it is NOT a backdrop. The panel runs about 2,400px tall on a 390px
-   screen, so object-fit:cover was cropping a 900x1200 photograph to a narrow
-   vertical sliver of sky and rendering it under a scrim on top of that — the
-   campus was, in practice, not on the page at all for 85% of the traffic.
-
-   Here it is a bounded image in the flow, shown whole, at its own aspect
-   ratio, directly under the form. A family that has just read the offer then
-   sees the place. The panel keeps a ground of its own so the copy above it
-   is still on a solid, measured field rather than on a photograph. */
-@media(max-width:899px){
-
-  .hero__bg{position:static;order:8;margin:.35rem 0 0;border-radius:var(--radius);overflow:hidden}
-  .hero__bg img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:50% 42%}
-  .hero__scrim{display:none}
-}
-.hero__scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,14,32,.70) 0%,rgba(8,14,32,.82) 45%,rgba(8,14,32,.94) 100%)}
-@media(min-width:900px){
-  .hero{padding-top:calc(var(--header-h) + 1.25rem)}
-  /* On a wide screen the copy sits over the dark side of the gradient and
-     the photograph stays legible on the right, behind the form's own card. */
-  .hero__scrim{background:linear-gradient(96deg,rgba(7,16,51,.96) 0%,rgba(9,22,66,.80) 24%,rgba(12,32,88,.16) 50%,rgba(12,32,88,.08) 100%)}
+/* A fine dot grid over the gradient. Without the photograph the panel was a
+   flat field of colour, and flat colour at this size reads as unfinished
+   rather than as calm. The grid is 1px dots at 22px, at 6% white — invisible
+   as a pattern, but it gives the surface something to catch the light on.
+   Masked away from the bottom so it never competes with the copy. */
+.hero__panel::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%);
+  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%);
 }
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem}
 
-/* The photograph and the scrim live INSIDE this grid, so that the phone can
-   order the photograph after the form. That has one consequence that must be
-   paid for here: the grid's own z-index:2 now covers the whole group, and
-   within it the scrim (z-index:1) outranks any sibling that has no z-index of
-   its own. Without this rule the scrim paints ON TOP of the headline and the
-   form, and the entire hero renders washed out — which is exactly what it did.
-
-   Every content child is lifted above the scrim explicitly. .hero__bg and
-   .hero__scrim are excluded because they ARE the backdrop. */
-.hero__grid>*:not(.hero__bg):not(.hero__scrim){position:relative;z-index:2}
 /* Mobile order. display:contents dissolves the copy wrapper so the form can
    be ordered without a second copy of the markup in the page.
 
@@ -360,10 +334,16 @@ p:last-child{margin-bottom:0}
    highlighted IS the offer: the degree without leaving the state. */
 .hero h1{font-family:var(--font-display);font-weight:750;font-size:var(--fs-h1);line-height:1.08;letter-spacing:-.015em;margin:0 0 .8rem;max-width:15ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(1rem,1.5vw,1.1rem);line-height:1.5;max-width:46ch;text-shadow:0 1px 14px rgba(4,10,34,.85)}
+.hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(1rem,1.5vw,1.1rem);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
 .hero__proof{display:flex;flex-wrap:wrap;gap:.35rem .4rem;margin:0 0 1.15rem;padding:0;list-style:none}
-.hero__proof li{font-size:.74rem;color:#CBD6E3;border:1px solid var(--hair-ink);border-radius:var(--radius-pill);padding:.32rem .75rem;background:rgba(247,245,240,.06)}
+/* Ticked, not tagged. A check reads as a claim being asserted; a bare pill
+   reads as a tag. */
+.hero__proof li{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:550;
+  color:#E4ECFB;border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-pill);
+  padding:.34rem .8rem .34rem .6rem;background:rgba(255,255,255,.07);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.hero__tick{width:13px;height:13px;flex:0 0 auto;color:var(--gold)}
 
 /* The Student Credit Card, above the fold. This is the single fact that
    decides whether a family weighing Rs 90,000 a year reads any further, and
@@ -466,6 +446,9 @@ p:last-child{margin-bottom:0}
    arrow-key navigable and announced correctly. */
 .chips{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 .chips.is-bad .chip{border-color:rgba(196,18,32,.5)}
+/* The catch-all spans the row: it is a different kind of answer from the five
+   branches above it, and it should not read as a sixth branch. */
+.chip--wide{grid-column:1/-1;font-size:.85rem}
 .chip{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;
   min-height:3rem;padding:.55rem .65rem;border-radius:12px;cursor:pointer;
   background:var(--paper-2);border:1.5px solid transparent;
@@ -873,7 +856,7 @@ p:last-child{margin-bottom:0}
     linear-gradient(162deg,#0E2A6B 0%,var(--ink-900) 56%,#050C26 100%);
 }
 .cta__grid{display:grid;gap:clamp(2rem,4vw,3.5rem)}
-@media(min-width:900px){.cta__grid{grid-template-columns:1fr .9fr;align-items:start}}
+@media(min-width:900px){.cta__grid{grid-template-columns:1fr .9fr;align-items:center}}
 .cta__flag{display:inline-flex;align-items:center;font-size:.76rem;font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.36rem .75rem;border-radius:100px;margin:0 0 1rem}
 .cta__flag b{color:#fff;font-weight:700;margin-left:.3rem}
 .cta__title{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.032em;margin-bottom:.85rem;max-width:17ch}
@@ -881,7 +864,16 @@ p:last-child{margin-bottom:0}
 .cta__pts{list-style:none;margin:1.5rem 0;padding:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
 .cta__pts li{position:relative;padding:.65rem 0 .65rem 1.6rem;border-bottom:1px solid var(--hair-ink);font-size:.92rem;color:#DCE4EE}
 .cta__pts li::before{content:"";position:absolute;left:0;top:1.15rem;width:7px;height:7px;border-radius:50%;background:var(--gold)}
-.cta__alt{font-size:.88rem;color:var(--muted-ink);margin:0}
+/* A direct route to the portal for anyone who has already decided. The form
+   stays the primary action; this is the escape hatch that stops a high-intent
+   visitor bouncing because the only option was to wait for a call. */
+.cta__apply{margin:0 0 .5rem;font-size:.9rem;color:var(--muted-ink)}
+.cta__apply a{display:inline-flex;align-items:center;gap:.35rem;padding:.55rem 0;min-height:2.75rem;
+  color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:4px;
+  text-decoration-color:rgba(245,184,65,.7);text-decoration-thickness:2px}
+.cta__apply a:hover{color:var(--gold)}
+.cta__apply svg{width:15px;height:15px}
+.cta__alt{font-size:.9rem;color:var(--muted-ink);margin:0}
 .cta__alt a{display:inline-block;padding:.55rem 0;min-height:2.75rem;color:var(--gold);font-weight:700;text-underline-offset:3px}
 .lead--full{box-shadow:0 1px 2px rgba(0,0,0,.3),0 20px 56px rgba(0,0,0,.4)}
 
