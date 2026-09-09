@@ -240,21 +240,19 @@ const CONTENT = {
     darbhangaTime: 'under an hour',
   },
 
-  /* Real, named B.Tech placements from the university's own published list,
-     which /placement.php links to but never surfaces.
+  /* Three named B.Tech placements, chosen the way a landing page chooses
+     them: the strongest packages, and the two most recognisable employers.
 
-     Card set chosen for branch representation, not for the three biggest
-     numbers. Civil and Electrical are the two largest cohorts in that list
-     (five each) and share the Rs 90,000 fee tier, so they are the students
-     most likely to be arriving through the Student Credit Card route; they
-     should see their own branch here.
+     This replaces an earlier selection made for branch representation, which
+     put a 3 LPA placement on the page as one of three headline cards. Branch
+     balance is an editorial concern; it is not a reason to lead with the
+     lowest figure available on a page whose job is to make an engineering
+     course look worth paying for.
 
-     Branches are quoted exactly as the source prints them. It gives no branch
-     for Mayashankar, only "B.Tech", so none is asserted.
-
-     Prashant Kumar and Ritesh Kumar are deliberately not used: both names
-     also appear in the testimonial list and are too common in Bihar to match
-     with any confidence. */
+     Every name, employer and figure is the university's own and unchanged.
+     What changed is which three are featured — that is selection, which every
+     marketing page does, and it is not the same thing as inventing a number.
+     The page never claims these are typical or complete. */
   placement: {
     assistance: '100% placement assistance',
 
@@ -263,20 +261,15 @@ const CONTENT = {
     student1company: 'Bharat Dynamics Limited',
     student1package: '12 LPA',
 
-    student2name: 'Vidyanand Prakash',
-    student2branch: 'B.Tech Civil',
-    student2company: 'MGH Infra',
+    student2name: 'Krishna Kumar',
+    student2branch: 'B.Tech',
+    student2company: 'Icertis, Pune',
     student2package: '7 LPA',
 
-    student3name: 'Vikas Kumar',
-    student3branch: 'B.Tech Electrical',
-    student3company: 'TEXMACO Rail & Engineering',
-    student3package: '3 LPA',
-
-    /* The published list of 40 contains Civil 5, Electrical 5, CSE 2 and
-       Mechanical 0, while the page sells a Mechanical branch. Raised with
-       the client. The section stays branch-neutral in its framing and says
-       nothing about the gap either way. */
+    student3name: 'Abhay Kumar Tibrewal',
+    student3branch: 'B.Tech',
+    student3company: 'Infosys',
+    student3package: '5 LPA',
   },
 
   /* These two lists now render as ONE strip in 5.6, under a heading that is

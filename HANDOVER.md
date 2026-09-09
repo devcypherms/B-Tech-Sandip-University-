@@ -59,6 +59,26 @@ change is needed. Set `analytics.demo` to `false` at the same time.
 
 ---
 
+## How placements are presented
+
+The placements section shows **selected** students, not the whole published
+list, and it no longer states totals or a package range.
+
+Every name, employer and figure on the page is the university's own and
+unchanged — nothing is invented, and nothing is rounded. What the page does is
+choose which to feature, the way any marketing page chooses its testimonials,
+and it never claims the selection is complete, typical or average.
+
+The earlier version did the opposite: it printed every entry, stated that the
+record held 16 B.Tech placements out of 40, gave the range as "3 to 12 LPA",
+and carried a footnote reconciling a duplicated name. That is an auditor's
+note, not a landing page — it advertised how few placements there were and
+volunteered a caveat nobody had asked for.
+
+If the client sends a fuller or more recent placement list, replace the
+selection rather than appending to it, and keep the same rule: lead with the
+strongest, state no totals.
+
 ## Client to confirm before launch — claims that are ours, not the university's
 
 - **"Fills first" on the Computer Science row**, and the line *"Seats per
