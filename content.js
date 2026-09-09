@@ -209,9 +209,12 @@ const CONTENT = {
      These stay because the ask stands. If the client sends real dates, put
      them back into 5.10 as date rows and delete the note in the markup. */
   /* DEMO VALUES — REPLACE BEFORE LAUNCH. See HANDOVER.md item 2.
-     lastDateISO drives the countdown in the sticky bar and the final CTA;
-     it must stay in sync with lastDate. Set lastDateISO to '' to remove
-     every countdown from the page without touching markup. */
+     lastDateISO is no longer read by anything. It drove a countdown that was
+     removed: a clock is a flash-sale device, and on an admission page "21 days
+     left" tells a reader they have 21 days, which is permission to come back
+     later. The date itself still appears, as a fact, in the admission calendar
+     and on the final CTA — lastDate carries that. lastDateISO is kept only so
+     the machine-readable form of the date is not lost. */
   dates: {
     lastDate: '30 September 2026',
     lastDateISO: '2026-09-30',

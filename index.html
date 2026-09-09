@@ -54,8 +54,8 @@ a{color:inherit}
 .ann{display:block;position:fixed;inset:0 0 auto;z-index:51;height:var(--ann-h);color:#fff;background:linear-gradient(90deg,var(--ink-900) 0%,#0E2154 50%,var(--ink-900) 100%);border-bottom:1px solid rgba(255,255,255,.07)}
 .ann__in{display:flex;align-items:center;justify-content:center;gap:.8rem;height:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);font-size:.875rem}
 .ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
-.ann__cd[hidden]{display:none!important}
-.ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}.ann ~ .hdr{top:var(--ann-h)}
+
+.ann ~ main .hero__flag{display:none}.ann ~ .hdr{top:var(--ann-h)}
 .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
 :root{--header-h:4.25rem}}
 .hdr{position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);display:flex;align-items:center;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;color:var(--fg)}
@@ -109,9 +109,7 @@ a{color:inherit}
   <div class="ann__in">
     <span class="ann__dot" aria-hidden="true"></span>
     <span>B.Tech admissions open for 2026–27 · Bihar Student Credit Card accepted</span>
-    <span class="ann__cd" id="annCd" hidden>
-      Closes in <b data-cd="d">--</b><i>d</i> <b data-cd="h">--</b><i>h</i> <b data-cd="m">--</b><i>m</i>
-    </span>
+    <span class="ann__note">Apply early — branch allotment goes by merit and order of application</span>
   </div>
 </div>
 
@@ -195,14 +193,6 @@ a{color:inherit}
         </p>
       </div>
 
-        <div class="cdown cdown--hero" id="cdownHero" hidden aria-live="off">
-          <span class="cdown__lbl">Applications close in</span>
-          <span class="cdown__units">
-            <span class="cdown__u"><b data-cd="d">--</b><i>days</i></span>
-            <span class="cdown__u"><b data-cd="h">--</b><i>hrs</i></span>
-            <span class="cdown__u"><b data-cd="m">--</b><i>min</i></span>
-          </span>
-        </div>
       <ul class="hero__feats">
         <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 2"/></svg><span>Duration</span><b data-c="hero.duration">4 Years</b></li>
         <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9.5 11h1M13.5 11h1M9.5 15h1M13.5 15h1"/></svg><span>Recruiters</span><b data-c="stats.partners">100+</b></li>
@@ -1148,14 +1138,6 @@ a{color:inherit}
         <li>Your scholarship band, in writing, before any payment</li>
         <li>Student Credit Card file prepared with your family</li>
       </ul>
-      <div class="cdown cdown--cta" id="cdownCta" hidden aria-live="off">
-        <span class="cdown__lbl">Applications close in</span>
-        <span class="cdown__units">
-          <span class="cdown__u"><b data-cd="d">--</b><i>days</i></span>
-          <span class="cdown__u"><b data-cd="h">--</b><i>hrs</i></span>
-          <span class="cdown__u"><b data-cd="m">--</b><i>min</i></span>
-        </span>
-      </div>
       <p class="cta__apply">
         Already decided?
         <a href="https://sijouladmission.sandipuniversity.edu.in/" rel="noopener" data-track="apply-portal">

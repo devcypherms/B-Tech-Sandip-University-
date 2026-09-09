@@ -208,7 +208,7 @@ p:last-child{margin-bottom:0}
   background:radial-gradient(85% 70% at 84% 4%, rgba(41,98,214,.30) 0%, transparent 56%),
              linear-gradient(170deg,#0D2560 0%,var(--ink-800) 62%,#071033 100%);
 }
-.section--ink .sec-lede,.section--ink .students__note,.section--ink .wall__note{color:var(--muted-ink)}
+.section--ink .sec-lede,.section--ink .wall__note{color:var(--muted-ink)}
 .sec-head{max-width:62ch;margin-bottom:clamp(1.75rem,3.5vw,2.75rem)}
 /* Two columns above 1000px. Capped at 62ch, every section heading left 651 of
    the container's 1312 pixels empty — half the width, beside every single
@@ -282,15 +282,17 @@ p:last-child{margin-bottom:0}
   .ann__dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto;
     box-shadow:0 0 0 3px rgba(245,184,65,.18)}
   .ann__in>span:nth-of-type(2){color:var(--sub-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ann__cd{color:var(--muted-ink);white-space:nowrap;
+  /* Replaces the countdown that used to sit here. A clock is a flash-sale
+     device: on an admission page "21 days left" tells a reader they have 21
+     days, which is permission to come back later, and everyone knows a
+     private university's deadline moves anyway. Applying earlier genuinely
+     produces a better outcome here, so the bar says that instead. */
+  .ann__note{color:var(--muted-ink);white-space:nowrap;
     padding-left:.9rem;border-left:1px solid rgba(255,255,255,.14)}
-  .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}
-  .ann__cd[hidden]{display:none!important}
-  .ann__cd b{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums}
+  .ann ~ main .hero__flag{display:none}
   /* The unit belongs to the digit, not to the sentence. Same hue, stepped
      down in weight and opacity, so "21d" reads as one value while "Closes in"
      stays part of the line. */
-  .ann__cd i{font-style:normal;font-weight:600;color:var(--gold);opacity:.7;margin-right:.2rem}
   .ann ~ .hdr{top:var(--ann-h)}
   .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
   html:has(.ann){scroll-padding-top:calc(var(--ann-h) + var(--header-h) + 1rem)}
@@ -589,37 +591,6 @@ p:last-child{margin-bottom:0}
 .f__status.is-ok{background:#E9F7EE;color:#125A2A}
 .f__status.is-bad{background:var(--red-wash);color:var(--red-ink)}
 .lead.is-sent .f__field,.lead.is-sent .f__row,.lead.is-sent .f__check,.lead.is-sent .lead__submit,.lead.is-sent .lead__broch{display:none}
-
-/* ---------- 7b. COUNTDOWN ----------
-   Driven by dates.lastDateISO and rendered only when that date exists and is
-   still ahead. There is no evergreen timer and no reset: a countdown that
-   restarts is the one device on a page like this that a visitor can catch
-   you doing, and it costs the whole page's credibility when they do. */
-/* `hidden` must win over the display rule below it, or the countdown
-   renders its placeholder dashes on a deadline that has already passed. */
-.cdown[hidden]{display:none!important}
-.cdown{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;
-  margin:.25rem 0 .9rem;padding:.6rem .8rem;border-radius:var(--radius);
-  background:var(--red-wash);border:1px solid rgba(168,30,38,.18)}
-.cdown__lbl{font-size:.74rem;font-weight:700;color:var(--red-ink)}
-.cdown__units{display:flex;gap:.4rem}
-.cdown__u{display:flex;flex-direction:column;align-items:center;min-width:2.6rem;
-  background:#fff;border-radius:7px;padding:.22rem .4rem}
-.cdown__u b{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;font-weight:800;line-height:1.1;color:var(--fg);font-variant-numeric:tabular-nums}
-.cdown__u i{font-style:normal;font-size:var(--fs-label);line-height:1.25;color:var(--muted)}
-/* In the hero the countdown sits on the dark panel, not inside the white
-   form card, so it takes the same treatment as the CTA's. */
-.cdown--hero{background:rgba(224,27,36,.16);border-color:rgba(255,107,99,.34);margin:.35rem 0 0;max-width:26rem}
-.cdown--hero .cdown__lbl{color:#FFD9D6}
-.cdown--hero .cdown__u{background:rgba(255,255,255,.1)}
-.cdown--hero .cdown__u b{color:#fff}
-.cdown--hero .cdown__u i{color:var(--muted-ink)}
-@media(max-width:899px){.cdown--hero{order:5;max-width:none}}
-.cdown--cta{background:rgba(214,43,51,.14);border-color:rgba(255,107,99,.34);margin:0 0 1.25rem;max-width:26rem}
-.cdown--cta .cdown__lbl{color:#FFD9D6}
-.cdown--cta .cdown__u{background:rgba(247,245,240,.1)}
-.cdown--cta .cdown__u b{color:#fff}
-.cdown--cta .cdown__u i{color:var(--muted-ink)}
 
 /* Brochure link under the form. A second, lower-commitment action for someone
    not ready to hand over a phone number. */
@@ -955,7 +926,6 @@ p:last-child{margin-bottom:0}
 .stu__name{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.1rem;color:#fff;margin-bottom:.15rem}
 .stu__branch{font-size:.8rem;color:var(--muted-ink);margin:0 0 .35rem}
 .stu__co{font-size:.9rem;color:#DCE4EE;margin:0}
-.students__note{font-size:.84rem;max-width:70ch;margin:1rem 0 clamp(2.25rem,4.5vw,3.25rem)}
 
 /* ---------- 14b. THE FULL PLACEMENT RECORD ----------
    Sixteen rows, so rows — not the large cards the three featured students get.
@@ -1012,7 +982,6 @@ p:last-child{margin-bottom:0}
   font-size:var(--fs-lead);font-weight:800;letter-spacing:-.02em;color:var(--gold);
   font-variant-numeric:tabular-nums;
 }
-.plist__src{font-size:.78rem;color:var(--muted-ink);max-width:72ch;margin:1rem 0 0}
 @media(max-width:400px){
   /* At 320px a three-column row cannot hold a name, an employer and a figure.
      The package moves under the name rather than squeezing all three. */

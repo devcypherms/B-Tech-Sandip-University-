@@ -152,46 +152,6 @@
     });
   }
 
-  /* ---------- 6b. COUNTDOWN ----------
-     Honest by construction. It reads dates.lastDateISO, and if that value is
-     missing, unparseable, or already past, every countdown on the page stays
-     hidden rather than falling back to an evergreen timer. A timer that
-     resets is the one trick on a page like this a visitor can catch you at,
-     and catching it costs the credibility of every other number here. */
-  (function () {
-    var iso = (C.dates && C.dates.lastDateISO) || '';
-    var els = $$('.cdown').concat($$('.ann__cd'));
-    if (!els.length || !iso) return;
-
-    /* End of the closing day, in IST, so it does not expire early for a
-       visitor whose device clock is set elsewhere. */
-    var end = new Date(iso + 'T23:59:59+05:30').getTime();
-    if (isNaN(end)) return;
-
-    function tick() {
-      var left = end - Date.now();
-      if (left <= 0) {
-        els.forEach(function (el) { el.hidden = true; });
-        return false;
-      }
-      var mins = Math.floor(left / 60000);
-      var parts = { d: Math.floor(mins / 1440), h: Math.floor(mins % 1440 / 60), m: mins % 60 };
-      els.forEach(function (el) {
-        el.hidden = false;
-        $$('[data-cd]', el).forEach(function (b) {
-          var v = parts[b.getAttribute('data-cd')];
-          b.textContent = v < 10 ? '0' + v : String(v);
-        });
-      });
-      return true;
-    }
-
-    if (!tick()) return;
-    /* Once a minute is enough for a deadline weeks away, and it keeps the
-       page off the main thread on a mid-range phone. */
-    window.setInterval(tick, 60000);
-  }());
-
   /* ---------- 7. ANALYTICS ----------
      Nothing third-party is loaded. Events are pushed to the dataLayer, which
      is where GTM will pick them up once the client confirms the container,
