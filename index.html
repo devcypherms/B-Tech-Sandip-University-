@@ -43,7 +43,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--fg);font-family:var(--font-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
-h1,h2,h3{margin:0;font-weight:750;line-height:1.12;letter-spacing:-.028em}
+h1,h2,h3{margin:0;font-weight:800;line-height:1.12;letter-spacing:-.028em}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
@@ -64,10 +64,10 @@ a{color:inherit}
 .hdr__logo img{height:36px;width:auto}
 .hdr__spacer{flex:1 1 auto}
 .hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
-.hdr__nav a{text-decoration:none;font-size:.875rem;font-weight:500;color:var(--muted)}
+.hdr__nav a{text-decoration:none;font-size:.875rem;font-weight:600;color:var(--muted)}
 @media(min-width:1080px){.hdr__nav{display:flex}}
 .hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
-.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:650;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
+.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
 @media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}}
 @media(max-width:479px){}
 .hero{position:relative;background:var(--paper);padding:var(--header-h) 0 0;color:#fff}
@@ -81,17 +81,17 @@ a{color:inherit}
 
 @media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero__grid>*{margin-bottom:0}.hero__flag{order:1}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}}
 @media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}.hero__copy{display:flex;flex-direction:column;justify-content:space-between}.hero__copy > .hero__rec{padding-top:.5rem}}
-.hero__flag{display:inline-block;font-size:.72rem;font-weight:650;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:999px;margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
+.hero__flag{display:inline-block;font-size:.72rem;font-weight:700;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:999px;margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
 .hero__flag b{color:#fff;font-weight:700}
 .hero__flag-ico{width:16px;height:16px;color:var(--gold);vertical-align:-2px;margin-right:.3rem}
-.hero h1{font-weight:800;font-size:clamp(2.15rem,6vw,4.15rem);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
+.hero h1{font-weight:800;font-size:clamp(2.15rem,6vw,4.6rem);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(.94rem,1.5vw,1.08rem);line-height:1.5;max-width:46ch}
-.hero__sub b{color:#fff;font-weight:650}
+.hero__sub b{color:#fff;font-weight:700}
 .hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(245,184,65,.42);background:linear-gradient(180deg,rgba(245,184,65,.16),rgba(245,184,65,.04));border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
 .hero__money svg{flex:0 0 auto;width:22px;height:22px;color:var(--gold);margin-top:.15rem}
 .hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#F6E6C4}
-.hero__money strong{display:block;font-size:1.15rem;font-weight:750;letter-spacing:-.02em;color:#fff;line-height:1.2;margin-bottom:.15rem}
+.hero__money strong{display:block;font-size:1.15rem;font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1.2;margin-bottom:.15rem}
 </style>
 
 <!-- The rest, async. The noscript copy keeps the page styled with JS off. -->
@@ -296,6 +296,28 @@ a{color:inherit}
     <p><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v17H6.5A2.5 2.5 0 0 0 4 22.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v17h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg><b data-c="stats.programmes">20+</b> programmes across the university</p>
     <p><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 20a6.2 6.2 0 0 1 12.4 0"/><path d="M16.5 5.2a3.2 3.2 0 0 1 0 5.9M17.6 14.4A5.6 5.6 0 0 1 21.2 20"/></svg><b data-c="stats.students">4,000+</b> students on campus</p>
   </div>
+</section>
+
+<!-- ========== CAMPUS BAND ==========
+     The page sells a 125-acre residential campus to families sending a child
+     away from home, and after the hero photograph was removed it had nothing
+     to show them until §5.8. This is that, early: one wide frame of the place,
+     full bleed, breaking the run of card rows.
+
+     Lazy and below the fold, so it costs nothing on first load. The caption
+     sits on a scrim because text over a photograph cannot be judged from the
+     DOM — its contrast was sampled from rendered pixels. -->
+<section class="band" aria-label="The campus at Sijoul">
+  <picture>
+    <source media="(max-width:699px)" srcset="assets/img/band-campus-sm.webp" width="780" height="520">
+    <img src="assets/img/band-campus.webp"
+         alt="The main academic block at Sandip University, Sijoul, seen across its lawns and palms"
+         width="1600" height="609" loading="lazy" decoding="async">
+  </picture>
+  <p class="band__cap">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+    Neelam Vidya Vihar, Sijoul — <b><span data-c="stats.campus">125+</span> acres</b>
+  </p>
 </section>
 
 <!-- ========== WHY ========== -->
@@ -608,9 +630,9 @@ a{color:inherit}
       </div>
       <dl class="panel__spec">
         <dt>Maximum loan</dt><dd class="num em" data-c="scc.amount">₹4,00,000</dd>
-        <dt>Interest</dt><dd data-c="scc.interest">Nil. The revised state scheme is interest-free for every applicant.</dd>
+        <dt>Interest</dt><dd class="ok" data-c="scc.interest">Nil. The revised state scheme is interest-free for every applicant.</dd>
         <dt>Repayment</dt><dd data-c="scc.repayment">Repayment starts a year after the course ends: up to 84 monthly instalments, and up to 120 on a loan above ₹2,00,000.</dd>
-        <dt>Security</dt><dd data-c="scc.collateral">No property or deposit is pledged. A parent, spouse or guardian signs as co-applicant.</dd>
+        <dt>Security</dt><dd class="ok" data-c="scc.collateral">No property or deposit is pledged. A parent, spouse or guardian signs as co-applicant.</dd>
         <dt>Age limit</dt><dd data-c="scc.ageLimit">25 years on the date of application.</dd>
         <dt>Documents</dt><dd data-c="scc.documents">Aadhaar for you and your co-applicant, your marksheets and certificates, a bank passbook showing IFSC, the admission letter and fee statement from the university, address proof and two photographs each. Nothing is uploaded online — you carry the originals to the DRCC.</dd>
       </dl>

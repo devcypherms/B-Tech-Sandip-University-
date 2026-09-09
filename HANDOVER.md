@@ -59,6 +59,26 @@ change is needed. Set `analytics.demo` to `false` at the same time.
 
 ---
 
+## Photography still on file but not on the page
+
+About 940KB of the client's photographs sit in `assets/img/` unreferenced —
+`about`, `campus-main`, `campus-hero`, the `classroom-*`, `lab-*`, `hostel-*`
+and `student-*` sets, and `student-cta`.
+
+They are kept deliberately rather than deleted. An unreferenced file is never
+requested, so none of it reaches a visitor or affects page weight, and it is
+the client's own source material to draw on when a section needs an image.
+
+Two were used to cut the campus band: `band-campus.webp` (1600x609, 21:8) and
+`band-campus-sm.webp` (780x520, 3:2), both cropped from `campus-hero.webp`.
+If that band is ever re-cropped, cut from the source rather than rescaling the
+crop.
+
+The §5.4 cards were considered for images and deliberately left as text: only
+two of the four claims have an honest photograph behind them, and putting
+images on two of four breaks the grid while forcing them on all four would
+decorate two claims with pictures that do not evidence them.
+
 ## How placements are presented
 
 The placements section shows **selected** students, not the whole published

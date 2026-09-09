@@ -99,6 +99,19 @@
   --gold:#F5B841;         /* 10.5:1 on ink-900, 5.9:1 on royal */
   --gold-deep:#8A5D06;    /* 5.8:1 on white, 5.3:1 on paper-2 */
 
+  /* Positive outcome. A fourth role, added because the other three cannot do
+     this job: any yellow dark enough to pass 4.5:1 on white lands in
+     olive-brown, so gold could not express "this costs you nothing" — and the
+     ₹0 in the scholarship table, the strongest figure on the page, was
+     rendering in #8A5D06 mud.
+
+     Used ONLY for zero-cost and approved states. Not for the indicative
+     first-year totals, which are a cost and stay gold; not for the money
+     panel, which is money-and-achievement; and never for anything red does. */
+  --ok:#12703A;        /* 6.2:1 on white, 5.6:1 on paper-2 */
+  --ok-lite:#5EE9A0;   /* 12.1:1 on ink-900 */
+  --ok-wash:#E8F6EE;
+
   /* Accent — carries every decorative and stateful job */
   --accent:#2454C6;       /* white on it 6.65:1 — fills, icons */
   --accent-ink:#1B3A8F;   /* 10.3:1 on white, 9.4:1 on paper-2 — text */
@@ -124,7 +137,7 @@
   --font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
   --font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
 
-  --fs-h1:clamp(2.15rem,6vw,4.15rem);
+  --fs-h1:clamp(2.15rem,6vw,4.6rem);
   --fs-h2:clamp(1.7rem,3.6vw,2.9rem);
   --fs-h3:clamp(1.08rem,1.7vw,1.3rem);
   --fs-small:.875rem;
@@ -174,7 +187,7 @@ a{color:inherit}
 /* Display is the body face at 750-800 with tracking pulled in. That tightness
    is what makes a grotesque read as a display cut rather than as big body
    copy — without it a one-family page just looks unstyled. */
-h1,h2,h3,h4{margin:0;font-weight:750;line-height:1.12;letter-spacing:-.028em}
+h1,h2,h3,h4{margin:0;font-weight:800;line-height:1.12;letter-spacing:-.028em}
 p{margin:0 0 1rem}
 p:last-child{margin-bottom:0}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
@@ -183,7 +196,7 @@ p:last-child{margin-bottom:0}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:.5rem;top:.5rem;z-index:99;background:var(--paper);color:var(--fg);padding:.6rem 1rem;border-radius:6px}
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
-.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;font-weight:650;letter-spacing:-.02em}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;font-weight:700;letter-spacing:-.02em}
 .em{color:var(--gold-deep);font-weight:600}
 .section--ink .em,.cta .em,.hero .em{color:var(--gold)}
 
@@ -227,7 +240,7 @@ p:last-child{margin-bottom:0}
 /* ---------- 4. BUTTONS ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  font-family:var(--font-body);font-size:.95rem;font-weight:650;line-height:1.2;
+  font-family:var(--font-body);font-size:.95rem;font-weight:700;line-height:1.2;
   padding:.9rem 1.6rem;border-radius:var(--radius-pill);border:1px solid transparent;
   text-decoration:none;cursor:pointer;
   transition:background-color .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .18s var(--ease),box-shadow .18s var(--ease);
@@ -261,7 +274,7 @@ p:last-child{margin-bottom:0}
   .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}
   .ann__cd[hidden]{display:none!important}
   .ann__cd b{color:var(--gold);font-weight:700;font-variant-numeric:tabular-nums}
-  .ann__in a{color:#fff;font-weight:650;text-decoration:none;border-bottom:1px solid rgba(242,180,65,.6);padding-bottom:1px}
+  .ann__in a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(242,180,65,.6);padding-bottom:1px}
   .ann__in a:hover{color:var(--gold)}
   /* Sibling selectors, not bare .hdr/.hero. These offsets have to beat the
      `inset: 0 0 auto` shorthand in section 5 and the padding in section 6,
@@ -293,11 +306,11 @@ p:last-child{margin-bottom:0}
 .hdr__logo img{height:36px;width:auto}
 .hdr__spacer{flex:1 1 auto}
 .hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
-.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.9rem;font-weight:550;color:var(--muted);transition:color .16s var(--ease)}
+.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.9rem;font-weight:600;color:var(--muted);transition:color .16s var(--ease)}
 .hdr__nav a:hover{color:var(--fg)}
-.hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:650;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
+.hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
 .hdr__tel:hover{color:var(--accent-ink)}
-.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:650;font-size:.875rem;padding:.62rem 1.25rem;border-radius:var(--radius-pill);white-space:nowrap;transition:background-color .18s var(--ease),transform .18s var(--ease)}
+.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.62rem 1.25rem;border-radius:var(--radius-pill);white-space:nowrap;transition:background-color .18s var(--ease),transform .18s var(--ease)}
 .hdr__cta:hover{background:var(--red-ink)}
 .hdr__cta:active{transform:translateY(1px)}
 @media(min-width:1080px){.hdr__nav{display:flex}}
@@ -385,7 +398,7 @@ p:last-child{margin-bottom:0}
    own flex item, so it broke away from the sentence and sat on its own line
    with a gap in front of it, which reads as a layout fault rather than as a
    date. inline-block keeps it in the text flow. */
-.hero__flag{display:inline-block;font-size:.72rem;font-weight:650;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:var(--radius-pill);margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
+.hero__flag{display:inline-block;font-size:.72rem;font-weight:700;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:var(--radius-pill);margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
 .hero__flag b{color:#fff;font-weight:700}
 .hero__flag-ico{width:var(--ico-sm);height:var(--ico-sm);color:var(--gold);vertical-align:-2px;margin-right:.3rem}
 
@@ -428,7 +441,7 @@ p:last-child{margin-bottom:0}
   color:var(--gold);opacity:.9;
 }
 .hero__feats li > span{
-  grid-column:2;font-size:.72rem;font-weight:550;letter-spacing:.02em;
+  grid-column:2;font-size:.72rem;font-weight:600;letter-spacing:.02em;
   color:var(--muted-ink);line-height:1.3;
 }
 .hero__feats li > b{
@@ -462,7 +475,7 @@ p:last-child{margin-bottom:0}
 }
 .hero__money svg{flex:0 0 auto;width:var(--ico-lg);height:var(--ico-lg);color:var(--gold);margin-top:.15rem}
 .hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#EFE2C8}
-.hero__money strong{display:block;font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;font-weight:750;color:#fff;line-height:1.2;margin-bottom:.15rem}
+.hero__money strong{display:block;font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:.15rem}
 
 /* Branch list. "Which branch" is the first question a student has, so it is
    answered before the form asks them to choose one. Real markup, so it is
@@ -513,7 +526,7 @@ p:last-child{margin-bottom:0}
 .f__opt{font-weight:400;color:var(--muted)}
 
 .f__input,.f__select{
-  width:100%;font-family:inherit;font-size:1rem;font-weight:500;color:var(--fg);
+  width:100%;font-family:inherit;font-size:1rem;font-weight:600;color:var(--fg);
   background:var(--paper-2);border:1.5px solid transparent;border-radius:12px;
   padding:.85rem .9rem;min-height:3rem;
   transition:background-color .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease);
@@ -535,7 +548,7 @@ p:last-child{margin-bottom:0}
 .f__tel{display:flex;align-items:stretch;background:var(--paper-2);border:1.5px solid transparent;
   border-radius:12px;overflow:hidden;transition:border-color .16s var(--ease),box-shadow .16s var(--ease),background-color .16s var(--ease)}
 .f__tel:focus-within{background:var(--paper);border-color:var(--accent);box-shadow:0 0 0 4px rgba(36,84,198,.18)}
-.f__tel-cc{display:flex;align-items:center;padding:0 .5rem 0 .9rem;font-size:1rem;font-weight:650;
+.f__tel-cc{display:flex;align-items:center;padding:0 .5rem 0 .9rem;font-size:1rem;font-weight:700;
   color:var(--muted);border-right:1px solid var(--hair)}
 .f__tel .f__input{border:0;border-radius:0;background:transparent;padding-left:.7rem}
 .f__tel .f__input:focus{box-shadow:none;background:transparent}
@@ -561,7 +574,7 @@ p:last-child{margin-bottom:0}
 
 .f__check{display:flex;gap:.65rem;align-items:flex-start;font-size:var(--fs-meta);color:var(--muted);margin:.7rem 0 .2rem;padding:.4rem 0;min-height:2.75rem;cursor:pointer;line-height:1.45}
 .f__check input{flex:0 0 auto;width:1.2rem;height:1.2rem;margin:.05rem 0 0;accent-color:var(--accent)}
-.f__err{margin:.35rem 0 0;font-size:.78rem;color:var(--red-ink);font-weight:650}
+.f__err{margin:.35rem 0 0;font-size:.78rem;color:var(--red-ink);font-weight:700}
 .f__input[aria-invalid="true"],.f__select[aria-invalid="true"]{border-color:var(--red-ink);background:var(--red-wash)}
 .f__status{margin:.85rem 0 0;font-size:.86rem;padding:.8rem .9rem;border-radius:12px;background:var(--paper-2)}
 .f__status.is-ok{background:#E9F7EE;color:#125A2A}
@@ -579,11 +592,11 @@ p:last-child{margin-bottom:0}
 .cdown{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;
   margin:.25rem 0 .9rem;padding:.6rem .8rem;border-radius:var(--radius);
   background:var(--red-wash);border:1px solid rgba(168,30,38,.18)}
-.cdown__lbl{font-size:.74rem;font-weight:650;color:var(--red-ink)}
+.cdown__lbl{font-size:.74rem;font-weight:700;color:var(--red-ink)}
 .cdown__units{display:flex;gap:.4rem}
 .cdown__u{display:flex;flex-direction:column;align-items:center;min-width:2.6rem;
   background:#fff;border-radius:7px;padding:.22rem .4rem}
-.cdown__u b{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;font-weight:750;line-height:1.1;color:var(--fg);font-variant-numeric:tabular-nums}
+.cdown__u b{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;font-weight:800;line-height:1.1;color:var(--fg);font-variant-numeric:tabular-nums}
 .cdown__u i{font-style:normal;font-size:.62rem;color:var(--muted)}
 /* In the hero the countdown sits on the dark panel, not inside the white
    form card, so it takes the same treatment as the CTA's. */
@@ -603,7 +616,7 @@ p:last-child{margin-bottom:0}
    not ready to hand over a phone number. */
 .lead__broch{display:flex;align-items:center;justify-content:center;gap:.45rem;
   margin-top:.6rem;padding:.85rem .5rem .35rem;border-top:1px solid var(--hair);
-  min-height:2.75rem;font-size:.85rem;font-weight:650;color:var(--muted);text-decoration:none}
+  min-height:2.75rem;font-size:.85rem;font-weight:700;color:var(--muted);text-decoration:none}
 .lead__broch:hover{color:var(--accent-ink)}
 .lead__broch svg{width:var(--ico-sm);height:var(--ico-sm)}
 
@@ -624,6 +637,27 @@ p:last-child{margin-bottom:0}
 .trust__in b{display:block;font-size:1.35rem;color:var(--fg);font-weight:800;letter-spacing:-.03em;line-height:1.15}
 @media(min-width:760px){.trust__in{grid-template-columns:repeat(4,1fr);gap:1rem}.trust__in p{padding:1.4rem 1.1rem}}
 
+/* ---------- 8b. CAMPUS BAND ----------
+   Full bleed on purpose: it is the only element on the page that is not inside
+   the --wrap grid, which is what makes it read as a break in the rhythm rather
+   than as another card. Fixed aspect so it cannot shift layout. */
+.band{position:relative;isolation:isolate;background:var(--ink-900)}
+.band picture{display:block;width:100%;height:100%}
+.band img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;aspect-ratio:3/2;display:block}
+@media(min-width:700px){.band img{aspect-ratio:21/8}}
+.band__cap{
+  position:absolute;left:0;right:0;bottom:0;margin:0;
+  display:flex;align-items:center;gap:.5rem;
+  padding:2.5rem var(--gutter) 1.1rem;
+  font-size:var(--fs-meta);font-weight:600;color:#fff;
+  background:linear-gradient(180deg,transparent,rgba(7,16,51,.82));
+}
+.band__cap svg{width:var(--ico-sm);height:var(--ico-sm);color:var(--gold);flex:0 0 auto}
+.band__cap b{font-weight:800;color:var(--gold)}
+@media(min-width:700px){
+  .band__cap{justify-content:center;padding-bottom:1.4rem;font-size:1rem}
+}
+
 /* ---------- 9. WHY ----------
    Two columns of cards. This stayed editorial for a long time on the argument
    that a four-card "why us" grid is what every other college site in India
@@ -641,7 +675,7 @@ p:last-child{margin-bottom:0}
 .why__item:hover{border-color:var(--hair-2);transform:translateY(-2px)}
 .why__ico{grid-row:1/3;width:var(--ico-xl);height:var(--ico-xl);padding:6px;border-radius:10px;
   background:var(--accent-wash);color:var(--accent);margin-top:.1rem}
-.why__item h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.4rem;align-self:center}
+.why__item h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.025em;margin-bottom:.4rem;align-self:center}
 .why__item p{color:var(--muted);max-width:62ch;margin:0;font-size:1rem}
 @media(min-width:860px){.why{grid-template-columns:1fr 1fr;gap:1rem}}
 
@@ -668,7 +702,7 @@ p:last-child{margin-bottom:0}
 .acc__trigger:hover{color:var(--accent-ink)}
 .acc__name{flex:1 1 auto}
 .acc__meta{flex:0 0 auto;font-size:var(--fs-meta);font-weight:400;color:var(--muted);white-space:nowrap}
-.acc__meta b{font-size:1.02rem;font-weight:750;color:var(--fg);letter-spacing:-.02em}
+.acc__meta b{font-size:1.02rem;font-weight:800;color:var(--fg);letter-spacing:-.02em}
 /* Soft scarcity, and deliberately soft: no number, no percentage, no counter.
    The CSE panel already states that this branch carries the largest intake and
    still closes earliest, so the tag repeats the page rather than inventing
@@ -694,7 +728,7 @@ p:last-child{margin-bottom:0}
 .acc__body{padding:0 1.25rem 1.35rem;max-width:72ch}
 .acc__body p{color:var(--muted);font-size:1rem}
 .acc__body p b{color:var(--fg);font-weight:700}
-.acc--faq .acc__trigger{font-size:var(--fs-body);font-weight:650}
+.acc--faq .acc__trigger{font-size:var(--fs-body);font-weight:700}
 @media(max-width:559px){
   .acc__trigger{flex-wrap:wrap;gap:.2rem 1rem;padding:1rem 1.1rem}
   .acc__name{flex:1 1 100%;order:1;padding-right:34px}
@@ -737,7 +771,7 @@ p:last-child{margin-bottom:0}
 
 .section--tint .nudge{background:radial-gradient(90% 120% at 5% 0%, rgba(41,98,214,.48) 0%, transparent 62%),
              linear-gradient(150deg,#0F2C70 0%,var(--ink-900) 72%)}
-.nudge p{margin:0;font-size:1rem;max-width:56ch;font-weight:500;color:var(--body-ink)}
+.nudge p{margin:0;font-size:1rem;max-width:56ch;font-weight:600;color:var(--body-ink)}
 .nudge .btn{flex:0 0 auto}
 @media(min-width:760px){.nudge{flex-direction:row;align-items:center;justify-content:space-between;gap:2rem}}
 
@@ -759,7 +793,7 @@ p:last-child{margin-bottom:0}
   font-size:var(--fs-label);font-weight:700;color:var(--muted);letter-spacing:.045em;text-transform:uppercase;
   background:var(--paper-2);border-bottom:1px solid var(--hair);padding-block:.75rem;
 }
-.tbl tbody th{font-weight:650}
+.tbl tbody th{font-weight:700}
 .tbl tbody tr{transition:background-color .14s var(--ease)}
 .tbl tbody tr:hover{background:var(--paper-2)}
 .tbl td.num,.tbl th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:-.022em;font-size:var(--fs-lead)}
@@ -774,7 +808,7 @@ p:last-child{margin-bottom:0}
    Adjacent-sibling selectors so nothing else moves. */
 .acc + .tbl__note{margin-top:1.5rem}
 .students + .plist{margin-top:1.35rem}
-.fees__h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.8rem;padding-top:.5rem}
+.fees__h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.025em;margin-bottom:.8rem;padding-top:.5rem}
 .fees__p{color:var(--muted);font-size:1rem;max-width:66ch}
 
 /* Five columns need room on a wide screen; below 720px .tbl--stack takes over.
@@ -783,7 +817,7 @@ p:last-child{margin-bottom:0}
    pay ₹0" column silently went back off-screen on every phone. */
 .tbl--schol{min-width:44rem}
 .tbl--schol thead th span{display:block;font-weight:400;font-size:.68rem;color:var(--muted);letter-spacing:0;text-transform:none}
-.tbl--schol td.free{color:var(--gold-deep);font-weight:800}
+.tbl--schol td.free{color:var(--ok);font-weight:800}
 @media(min-width:1100px){.tablewrap:has(.tbl--schol){max-width:none}}
 
 /* Columns that can be dropped on a phone rather than scrolled off it.
@@ -815,9 +849,9 @@ p:last-child{margin-bottom:0}
   .tbl--stack th[scope="row"]{display:block;border:0;padding:0 0 .5rem;font-size:.98rem;font-weight:700}
   .tbl--stack td{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
     border:0;padding:.3rem 0;text-align:right;white-space:normal}
-  .tbl--stack td::before{content:attr(data-l);font-size:.8rem;font-weight:500;color:var(--muted);text-align:left}
+  .tbl--stack td::before{content:attr(data-l);font-size:.8rem;font-weight:600;color:var(--muted);text-align:left}
   .tbl--stack td.em,.tbl--stack td.free{margin-top:.35rem;padding-top:.5rem;border-top:1px solid var(--hair);font-size:1.15rem}
-  .tbl--stack td.free::before{color:var(--gold-deep);font-weight:700}
+  .tbl--stack td.free::before{color:var(--ok);font-weight:700}
 }
 
 /* ---------- 12b. FEES LAYOUT ----------
@@ -871,7 +905,16 @@ p:last-child{margin-bottom:0}
 .panel__spec{margin:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
 .panel__spec dt{font-size:.76rem;color:var(--muted-ink);padding-top:.7rem}
 .panel__spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair-ink);font-size:.9rem;color:#DCE4EE}
-.panel__spec dd.num{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.5rem;font-weight:750}
+.panel__spec dd.num{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.5rem;font-weight:800}
+/* The two rows that say "this costs you nothing" and "you risk nothing". A
+   tick marks them as the good news they are; the rest of the list is neutral
+   fact and is left neutral. Drawn, not iconised — it cannot arrive late. */
+.panel__spec dd.ok{position:relative;padding-left:1.6rem;color:#fff}
+.panel__spec dd.ok::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:9px;height:5px;border-left:2px solid var(--ok-lite);
+  border-bottom:2px solid var(--ok-lite);transform:rotate(-45deg);
+}
 @media(min-width:560px){
   .panel__spec{grid-template-columns:minmax(6.5rem,8rem) 1fr;column-gap:1.25rem}
   .panel__spec dt{padding-block:.75rem;border-bottom:1px solid var(--hair-ink)}
@@ -894,7 +937,7 @@ p:last-child{margin-bottom:0}
    its placement list. A face is what makes a package read as a person. */
 .stu__face{width:56px;height:56px;border-radius:50%;object-fit:cover;
   border:2px solid rgba(242,180,65,.5);margin-bottom:.85rem;background:var(--ink-800)}
-.stu__pkg{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.85rem;font-weight:750;color:var(--gold);margin:0 0 .5rem;line-height:1}
+.stu__pkg{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.85rem;font-weight:800;color:var(--gold);margin:0 0 .5rem;line-height:1}
 .stu__name{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.1rem;color:#fff;margin-bottom:.15rem}
 .stu__branch{font-size:.8rem;color:var(--muted-ink);margin:0 0 .35rem}
 .stu__co{font-size:.9rem;color:#DCE4EE;margin:0}
@@ -916,7 +959,7 @@ p:last-child{margin-bottom:0}
   min-height:3rem;padding:.85rem 1.15rem;border-radius:var(--radius);
   background:var(--glass-fill);border:1px solid var(--glass-line);
   box-shadow:inset 0 1px 0 var(--glass-edge);
-  font-size:var(--fs-meta);font-weight:650;color:var(--fg-ink);
+  font-size:var(--fs-meta);font-weight:700;color:var(--fg-ink);
   transition:background-color .16s var(--ease),border-color .16s var(--ease);
 }
 .plist__sum::-webkit-details-marker{display:none}
@@ -1002,7 +1045,7 @@ p:last-child{margin-bottom:0}
 .gal__btn[disabled]{opacity:.35;cursor:default}
 
 .fac{list-style:none;margin:clamp(1.5rem,3vw,2rem) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.45rem}
-.fac li{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--fs-meta);font-weight:550;
+.fac li{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--fs-meta);font-weight:600;
   color:var(--fg);border:1px solid var(--hair);border-radius:var(--radius-pill);
   padding:.5rem 1rem .5rem .8rem;background:var(--paper);box-shadow:var(--shadow-card)}
 .fac__ico{width:var(--ico-sm);height:var(--ico-sm);color:var(--accent);flex:0 0 auto}
@@ -1025,7 +1068,7 @@ p:last-child{margin-bottom:0}
   font-size:.92rem;font-weight:800;letter-spacing:-.02em;
 }
 .steps__ico{position:absolute;right:1.25rem;top:1.3rem;width:var(--ico-lg);height:var(--ico-lg);color:var(--accent);opacity:.35}
-.steps h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.35rem;padding-right:2rem}
+.steps h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.025em;margin-bottom:.35rem;padding-right:2rem}
 .steps p{color:var(--muted);font-size:1rem;max-width:60ch;margin:0}
 @media(min-width:900px){
   .steps{grid-template-columns:repeat(4,1fr);gap:1rem}
@@ -1202,7 +1245,7 @@ p:last-child{margin-bottom:0}
     display:inline-flex;align-items:center;gap:.5rem;
     position:fixed;right:0;top:58%;z-index:55;
     background:#1FA855;color:#fff;text-decoration:none;
-    font-size:.82rem;font-weight:650;letter-spacing:.01em;
+    font-size:.82rem;font-weight:700;letter-spacing:.01em;
     padding:.7rem .95rem;border-radius:10px 0 0 10px;
     box-shadow:0 6px 24px rgba(8,14,32,.28);
     transition:padding-right .18s var(--ease);
