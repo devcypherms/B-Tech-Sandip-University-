@@ -177,10 +177,16 @@
       /* The capsule's own middle, not the top of the viewport — what matters
          is the colour directly behind it. */
       var y = hdr.getBoundingClientRect().top + hdr.offsetHeight / 2;
+      /* Hysteresis. The capsule inverts against its ground, so a boundary
+         sitting exactly under it would otherwise shimmer between the two
+         materials on every small scroll. Entering a dark ground is immediate;
+         leaving one takes 14px more, so a boundary has to be genuinely crossed
+         before the capsule changes back. */
+      var pad = hdr.classList.contains('on-dark') ? 14 : 0;
       var over = false;
       for (var i = 0; i < dark.length; i++) {
         var r = dark[i].getBoundingClientRect();
-        if (r.top <= y && r.bottom >= y) { over = true; break; }
+        if (r.top - pad <= y && r.bottom + pad >= y) { over = true; break; }
       }
       hdr.classList.toggle('on-dark', over);
     }

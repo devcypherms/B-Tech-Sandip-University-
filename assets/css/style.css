@@ -341,37 +341,71 @@ p:last-child{margin-bottom:0}
    within a few values of each other no matter what tint is used. What defines
    it there is the edge — a hairline of ink outside so the shape reads, and a
    highlight inside so it reads as a raised pane rather than a drawn outline. */
+/* THE CAPSULE'S MATERIAL.
+
+   Two wrong answers were tried before this one, and both failed for the same
+   reason — they treated the fill as the thing that makes a floating object
+   visible.
+
+   The first was one light fill everywhere. At .86 the blur had nothing to work
+   on and it read as a solid white lozenge; dropped far enough to actually see
+   through, the nav ink fell under 4.5:1 against the grey it composites to over
+   the navy sections. Measured at 4.74 over the credit-card panel.
+
+   The second was matching: light glass on the light sections, dark glass on
+   the dark ones. Every contrast passed and the capsule disappeared, because a
+   translucent surface that takes the tone of what is behind it is camouflage.
+   That is the opposite of what floating chrome is for.
+
+   This one inverts. The capsule is always the opposite of its ground — dark
+   over the white sections, light over the navy ones — so separation is at its
+   maximum everywhere on the page rather than at its minimum. It is still one
+   material: the same blur, the same saturation lift, the same two-tone edge, a
+   hairline outside and a specular highlight inside. Only the tone flips, and
+   because each tone only has to hold contrast against one kind of ground, both
+   can be genuinely transparent instead of the compromise a single fill forces.
+
+   Inverting also fixes the reason the edge treatment existed. A matched pill
+   needs its two borders because nothing else tells it apart from the ground;
+   an inverted one is already unmistakable, and the borders now do what borders
+   are for — they finish the shape rather than carry it. */
+
+/* Over the light sections. Navy, because navy is the page's own ground and a
+   dark object on white is the most separated thing this page can put there. */
 .hdr.is-solid .hdr__in{
   width:var(--pill-w);column-gap:0;
   height:var(--header-h-sm);padding:0 .4rem 0 1.5rem;
   border-radius:var(--radius-pill);
-  /* .72, not the .86 this carried before. At .86 the blur has almost nothing
-     to work on and the capsule reads as a solid white lozenge — the effect was
-     being paid for and not delivered. It can be this transparent only because
-     the capsule no longer has to hold contrast over the dark sections too;
-     see the .on-dark block below. */
-  background:rgba(252,253,255,.72);
-  backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);
-  border-color:rgba(10,19,48,.12);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),
-             0 2px 8px rgba(10,19,48,.10),
-             0 18px 46px rgba(10,19,48,.22);
-}
-/* Over the hero, the placements panel, the closing call to action and the
-   footer. Same material, inverted: a dark fill so the panel behind it stays
-   whole, a light hairline so the shape still reads, and light ink. */
-.hdr.is-solid.on-dark .hdr__in{
-  background:rgba(9,20,54,.55);
-  backdrop-filter:blur(26px) saturate(170%);-webkit-backdrop-filter:blur(26px) saturate(170%);
+  background:rgba(9,20,54,.74);
+  backdrop-filter:blur(24px) saturate(175%);-webkit-backdrop-filter:blur(24px) saturate(175%);
   border-color:rgba(255,255,255,.20);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),
-             0 2px 8px rgba(0,0,0,.20),
-             0 18px 46px rgba(0,0,0,.34);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),
+             0 2px 8px rgba(10,19,48,.14),
+             0 20px 48px rgba(10,19,48,.30);
 }
-.hdr.is-solid.on-dark .hdr__nav a{color:var(--sub-ink)}
-.hdr.is-solid.on-dark .hdr__nav a:hover{color:#fff}
-.hdr.is-solid.on-dark .hdr__nav a[aria-current]{color:#fff}
-.hdr.is-solid.on-dark .hdr__nav a[aria-current]::after{background:var(--red-hi)}
+.hdr.is-solid .hdr__nav a{color:var(--sub-ink)}
+.hdr.is-solid .hdr__nav a:hover{color:#fff}
+.hdr.is-solid .hdr__nav a[aria-current]{color:#fff}
+.hdr.is-solid .hdr__nav a[aria-current]::after{background:var(--red-hi)}
+
+/* Over the hero, the campus band, the credit-card panel, the placements
+   section, the closing call to action and the footer. Frosted white, which
+   over a saturated navy is the one place on this page the blur has real work
+   to do and shows it. The ink goes to full --fg here, not the tuned header
+   ink: at .70 the fill composites to about 175 grey over those grounds, where
+   #414D69 measures 3.66 and #0A1330 measures 7.7. */
+.hdr.is-solid.on-dark .hdr__in{
+  background:rgba(252,253,255,.70);
+  backdrop-filter:blur(24px) saturate(195%);-webkit-backdrop-filter:blur(24px) saturate(195%);
+  border-color:rgba(10,19,48,.14);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92),
+             0 2px 8px rgba(0,0,0,.18),
+             0 20px 48px rgba(0,0,0,.34);
+}
+.hdr.is-solid.on-dark .hdr__nav a{color:var(--fg)}
+.hdr.is-solid.on-dark .hdr__nav a:hover{color:#000}
+.hdr.is-solid.on-dark .hdr__nav a[aria-current]{color:var(--ink-900)}
+.hdr.is-solid.on-dark .hdr__nav a[aria-current]::after{background:var(--red-fill)}
 
 /* ---- brand, left column: present in the bar, gone in the capsule ---- */
 .hdr__brand{
@@ -411,18 +445,16 @@ p:last-child{margin-bottom:0}
   text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--body-ink);
   transition:color .16s var(--ease)}
 .hdr__nav a:hover{color:#fff}
-.hdr.is-solid .hdr__nav a{color:var(--hdr-ink)}
-.hdr.is-solid .hdr__nav a:hover{color:var(--fg)}
 /* The section you are in. A dot rather than an underline: the capsule is short
    and an underline under one of five links reads as a broken border. */
+/* The capsule's own inks live with the capsule's material, above. These are
+   the resting bar, over the hero. */
 .hdr__nav a[aria-current]{color:#fff;font-weight:700}
-.hdr.is-solid .hdr__nav a[aria-current]{color:var(--fg)}
 .hdr__nav a[aria-current]::after{
   content:"";position:absolute;left:50%;bottom:.55rem;
   width:5px;height:5px;margin-left:-2.5px;border-radius:50%;
   background:var(--red-hi);
 }
-.hdr.is-solid .hdr__nav a[aria-current]::after{background:var(--red-fill)}
 
 /* Outlined at rest, filled once the bar is a capsule. Above the fold the form
    is on screen and its "Request a call back" is already red — two red buttons
