@@ -377,7 +377,9 @@ p:last-child{margin-bottom:0}
    third of the way down the screen. A reader expects a headline at the top.
    The difference is closed by making the form shorter instead — see the chip
    grid below. */
-@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:start;padding-block:0 1.5rem}}
+@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}
+  .hero__copy{display:flex;flex-direction:column}
+  .hero__copy > .hero__rec{margin-top:auto;padding-top:1.25rem}}
 
 /* One sentence, set as one line of text. inline-flex made the bold date its
    own flex item, so it broke away from the sentence and sat on its own line
@@ -431,11 +433,11 @@ p:last-child{margin-bottom:0}
 .hero__rec-lbl{margin:0 0 .7rem;font-size:.74rem;font-weight:600;letter-spacing:.03em;
   text-transform:uppercase;color:var(--muted-ink)}
 .hero__rec-row{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0;padding:0}
-.hero__rec-row img{height:28px;width:auto;object-fit:contain;background:#fff;
-  border-radius:8px;padding:.45rem .65rem;box-sizing:content-box}
+.hero__rec-row img{width:92px;height:26px;object-fit:contain;background:#fff;
+  border-radius:8px;padding:.5rem .4rem;box-sizing:content-box}
 @media(max-width:899px){
   .hero__rec{order:8;margin-top:.1rem}
-  .hero__rec-row img{height:24px;padding:.4rem .55rem}
+  .hero__rec-row img{width:78px;height:22px;padding:.45rem .35rem}
 }
 
 /* Spec rail. Four facts on hairlines, pinned under the hero. */
@@ -737,6 +739,7 @@ p:last-child{margin-bottom:0}
 .tbl thead th.num{font-weight:700;letter-spacing:.045em;font-size:var(--fs-label)}
 .tbl--total td.num{font-size:1.08rem}
 .tbl__note{font-size:var(--fs-meta);color:var(--muted);max-width:70ch;margin-bottom:clamp(2rem,4vw,3rem)}
+.tbl__note--lead{margin-bottom:.5rem;color:var(--fg)}
 .fees__h3{font-size:var(--fs-h3);font-weight:750;letter-spacing:-.025em;margin-bottom:.8rem;padding-top:.5rem}
 .fees__p{color:var(--muted);font-size:1rem;max-width:66ch}
 
@@ -935,7 +938,7 @@ p:last-child{margin-bottom:0}
 .wall__set{display:flex;align-items:center;gap:clamp(2rem,5vw,3.5rem);padding-right:clamp(2rem,5vw,3.5rem)}
 /* Full colour, on a light plate. Greyscale logos read as decoration; a
    parent scanning for a name they recognise needs them to read as real. */
-.wall__set img{height:36px;width:auto;object-fit:contain;background:#fff;border-radius:9px;padding:.55rem .85rem;box-sizing:content-box}
+.wall__set img{width:124px;height:34px;object-fit:contain;background:#fff;border-radius:9px;padding:.6rem .5rem;box-sizing:content-box}
 .wall__word{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:8px;padding:.4rem .8rem}
 @keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 .wall__note{font-size:.82rem;max-width:66ch;margin-top:1rem}
@@ -1068,7 +1071,13 @@ p:last-child{margin-bottom:0}
 @media(min-width:680px){.ftr__in{grid-template-columns:1fr 1fr}.ftr__brand{grid-column:1/-1}}
 @media(min-width:1000px){.ftr__brand{grid-column:auto}}
 @media(min-width:1000px){.ftr__in{grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:2.5rem}}
-.ftr__logo{height:48px;width:auto;margin-bottom:1.1rem;opacity:.95}
+/* Sized against its column, the way the header mark is sized against the bar.
+   At 48px it rendered 164px wide in a ~348px column — 47%, which left it
+   floating rather than anchoring the brand block. 60px puts it at 208px, or
+   60% of the column, which is where the header mark also sits relative to its
+   own container. Source is 420x121, so 208px wide is still inside native
+   resolution and stays sharp. */
+.ftr__logo{height:60px;width:auto;margin-bottom:1.15rem;opacity:.95}
 .ftr__blurb{font-size:var(--fs-meta);line-height:1.6;max-width:34ch;margin-bottom:1.1rem}
 .ftr__social{display:flex;gap:.6rem;margin:0}
 .ftr__social a{display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:50%;

@@ -80,7 +80,7 @@ a{color:inherit}
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem;width:100%;max-width:var(--wrap);margin-inline:auto}
 
 @media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero__grid>*{margin-bottom:0}.hero__flag{order:1}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}}
-@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:start;padding-block:0 1.5rem}}
+@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}.hero__copy{display:flex;flex-direction:column}.hero__copy > .hero__rec{margin-top:auto;padding-top:1.25rem}}
 .hero__flag{display:inline-block;font-size:.72rem;font-weight:650;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:999px;margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
 .hero__flag b{color:#fff;font-weight:700}
 .hero__flag-ico{width:16px;height:16px;color:var(--gold);vertical-align:-2px;margin-right:.3rem}
@@ -334,7 +334,7 @@ a{color:inherit}
         </p>
       </article>
       <article class="why__item">
-        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>Named hostels on a <span data-c="hero.campusSize">125+ acres</span> campus</h3>
+        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>Named hostels on a <span data-c="stats.campus">125+</span> acre campus</h3>
         <p>
           Separate hostels — <span data-c="hostel.girls">Vaishali Hostel</span>
           for girls and <span data-c="hostel.boys">Magadh Hostel</span> for boys
@@ -477,9 +477,12 @@ a{color:inherit}
 
     </div>
 
-    <p class="tbl__note">
+    <p class="tbl__note tbl__note--lead">
       <b>Seats per branch are limited, and allotment goes by merit and by order
-      of application.</b> These five are the B.Tech branches. Sandip University runs
+      of application.</b>
+    </p>
+    <p class="tbl__note">
+      These five are the B.Tech branches. Sandip University runs
       <span data-c="stats.programmes">20+</span> programmes in all, including its
       own Polytechnic and postgraduate courses — if you are looking at something
       other than engineering, say so on the form and the admission cell will put
@@ -1333,7 +1336,7 @@ a{color:inherit}
       <img class="ftr__logo" src="assets/img/logo.webp" alt="Sandip University" width="201" height="59" loading="lazy">
       <p class="ftr__blurb">
         Bihar's first NAAC accredited private university. A
-        <span data-c="hero.campusSize">125+ acres</span> residential campus at
+        <span data-c="stats.campus">125+</span> acre residential campus at
         Sijoul, Madhubani, with <span data-c="stats.programmes">20+</span>
         programmes and <span data-c="stats.students">4,000+</span> students.
       </p>
