@@ -39,7 +39,7 @@
 @font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-var.woff2") format("woff2-variations");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-rupee.woff2") format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+20B9}
 @font-face{font-family:"Sans Fallback";src:local("Arial"),local("Helvetica");size-adjust:100%;ascent-override:95%;descent-override:24%;line-gap-override:0%}
-:root{--ink-900:#071033;--ink-800:#0C1A45;--ink-700:#14265C;--royal:#123A8A;--paper:#FFFFFF;--paper-2:#F2F5FA;--fg:#0A1330;--muted:#4E5B78;--muted-ink:#A3B4D4;--sub-ink:#C6D2EA;--hair:rgba(10,19,48,.10);--hair-ink:rgba(255,255,255,.14);--red-fill:#E01B24;--red-ink:#C41220;--gold:#F5B841;--accent:#2454C6;--accent-ink:#1B3A8F;--font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--wrap:82rem;--gutter:clamp(1.15rem,4vw,3.5rem);--header-h:3.75rem;--radius:16px;--radius-lg:28px;--ease:cubic-bezier(.22,.61,.36,1)}
+:root{--ink-900:#071033;--ink-800:#0C1A45;--ink-700:#14265C;--royal:#123A8A;--paper:#FFFFFF;--paper-2:#F2F5FA;--fg:#0A1330;--muted:#4E5B78;--muted-ink:#A3B4D4;--sub-ink:#C6D2EA;--hair:rgba(10,19,48,.10);--hair-ink:rgba(255,255,255,.14);--red-fill:#E01B24;--red-ink:#C41220;--gold:#F5B841;--accent:#2454C6;--accent-ink:#1B3A8F;--font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--wrap:82rem;--gutter:clamp(1.15rem,4vw,3.5rem);--header-h:3.75rem;--header-h-sm:3.25rem;--hdr-gap:.6rem;--hdr-total:calc(var(--hdr-gap) + var(--header-h));--radius:16px;--radius-lg:28px;--ease:cubic-bezier(.22,.61,.36,1)}
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--fg);font-family:var(--font-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -55,11 +55,11 @@ a{color:inherit}
 .ann__in{display:flex;align-items:center;justify-content:center;gap:.8rem;height:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);font-size:.875rem}
 .ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
 
-.ann ~ main .hero__flag{display:none}.ann ~ .hdr{top:var(--ann-h)}
-.ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
-:root{--header-h:4.25rem}}
-.hdr{position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);display:flex;align-items:center;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;color:var(--fg)}
-.hdr__in{display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+.ann ~ main .hero__flag{display:none}.ann ~ .hdr{top:calc(var(--ann-h) + var(--hdr-gap))}
+.ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--hdr-total) + .5rem)}
+:root{--header-h:4.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
+.hdr{position:fixed;inset:var(--hdr-gap) 0 auto;z-index:50;padding-inline:var(--gutter);pointer-events:none}
+.hdr__in{pointer-events:auto;display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;height:var(--header-h);padding-inline:1.35rem;border-radius:var(--radius-lg);background:rgba(255,255,255,.82);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid rgba(255,255,255,.7);box-shadow:0 1px 2px rgba(10,19,48,.06),0 10px 30px rgba(10,19,48,.10)}
 .hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
 .hdr__logo img{height:36px;width:auto}
 .hdr__spacer{flex:1 1 auto}
@@ -70,7 +70,7 @@ a{color:inherit}
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
 @media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}}
 @media(max-width:479px){}
-.hero{position:relative;background:var(--paper);padding:var(--header-h) 0 0;color:#fff}
+.hero{position:relative;background:var(--paper);padding:calc(var(--hdr-total) + .5rem) 0 0;color:#fff}
 .hero__panel{position:relative;overflow:hidden;isolation:isolate;width:100%;padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%)}
 
 
@@ -344,11 +344,10 @@ a{color:inherit}
         </p>
       </article>
       <article class="why__item">
-        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>Named hostels on a <span data-c="stats.campus">125+</span> acre campus</h3>
+        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>Multiple hostels on a <span data-c="stats.campus">125+</span> acre campus</h3>
         <p>
-          Separate hostels — <span data-c="hostel.girls">Vaishali Hostel</span>
-          for girls and <span data-c="hostel.boys">Magadh Hostel</span> for boys
-          — plus canteens, library, gymnasium, 24×7 security and an on-campus
+          Several hostels on campus, separate for boys and girls, plus
+          canteens, library, gymnasium, 24×7 security and an on-campus
           ambulance. For a family sending a child away from home for the first
           time, this is the part they came to see.
         </p>
@@ -582,7 +581,7 @@ a{color:inherit}
           <tr><th scope="row">Uniform</th><td class="num" data-l="Amount" data-c="costs.uniform">₹5,500</td><td data-l="When">At admission</td></tr>
           <tr><th scope="row">Hostel</th><td class="num" data-l="Amount" data-c="costs.hostel">₹75,000</td><td data-l="When">Per year</td></tr>
           <tr><th scope="row">Hostel security deposit</th><td class="num" data-l="Amount" data-c="costs.hostelDeposit">₹5,000</td><td data-l="When">One time</td></tr>
-          <tr><th scope="row">B1 Hostel supplement (Magadh Hostel)</th><td class="num" data-l="Amount" data-c="costs.hostelB1">₹10,000</td><td data-l="When">Per year, subject to availability</td></tr>
+          <tr><th scope="row">B1 Hostel supplement</th><td class="num" data-l="Amount" data-c="costs.hostelB1">₹10,000</td><td data-l="When">Per year, subject to availability</td></tr>
           <tr><th scope="row">University caution money</th><td class="num" data-l="Amount" data-c="costs.caution">₹3,000</td><td data-l="When">Refundable</td></tr>
           <tr><th scope="row">Convocation and certificate</th><td class="num" data-l="Amount" data-c="costs.convocation">₹3,000</td><td data-l="When">Final year</td></tr>
         </tbody>
@@ -899,7 +898,7 @@ a{color:inherit}
     </div>
 
     <ul class="fac">
-      <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/></svg>Vaishali Hostel (girls) &amp; Magadh Hostel (boys)</li>
+      <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/></svg>Boys' &amp; girls' hostels</li>
       <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v8a3 3 0 0 0 6 0V3M9 11v10"/><path d="M17 3c-1.5 1.5-2 3.5-2 5.5S16 12 17 12v9"/></svg>Canteens and mess</li>
       <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v17H6.5A2.5 2.5 0 0 0 4 22.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v17h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>Library</li>
       <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6M20 9v6M7 6v12M17 6v12M7 12h10"/></svg>Gymnasium</li>

@@ -167,13 +167,16 @@
   --shadow-card:0 1px 2px rgba(10,19,48,.05),0 14px 34px rgba(10,19,48,.09);
   --shadow-lift:0 2px 6px rgba(10,19,48,.10),0 28px 70px rgba(10,19,48,.22);
   --header-h:3.75rem;
+  --header-h-sm:3.25rem;  /* shrunk on scroll */
+  --hdr-gap:.6rem;        /* how far the pill floats off the top edge */
+  --hdr-total:calc(var(--hdr-gap) + var(--header-h));
   --ease:cubic-bezier(.22,.61,.36,1);
 }
-@media(min-width:900px){:root{--header-h:4.5rem}}
+@media(min-width:900px){:root{--header-h:4.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
 
 /* ---------- 2. BASE ---------- */
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 1rem)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr-total) + 1rem)}
 body{
   margin:0;background:var(--paper);color:var(--fg);
   font-family:var(--font-body);font-size:1rem;line-height:1.6;
@@ -293,40 +296,74 @@ p:last-child{margin-bottom:0}
   /* The unit belongs to the digit, not to the sentence. Same hue, stepped
      down in weight and opacity, so "21d" reads as one value while "Closes in"
      stays part of the line. */
-  .ann ~ .hdr{top:var(--ann-h)}
-  .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
-  html:has(.ann){scroll-padding-top:calc(var(--ann-h) + var(--header-h) + 1rem)}
+  .ann ~ .hdr{top:calc(var(--ann-h) + var(--hdr-gap))}
+  .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--hdr-total) + .5rem)}
+  html:has(.ann){scroll-padding-top:calc(var(--ann-h) + var(--hdr-total) + 1rem)}
 }
 
-/* ---------- 5. HEADER ----------
-   Light, on the page ground. The hero is an inset panel now, so a dark
-   header floated above it as a separate slab that belonged to nothing — and
-   it forced the white knockout logo, which carries a black NAAC box that
-   only reads on a dark ground. On paper the full-colour logo works and the
-   header stops competing with the panel. */
+/* ---------- 5. HEADER — a floating pill ----------
+   Measured before changing it: the old full-width bar plus the announcement
+   strip held 14% of the screen permanently, on both a phone and a 13-inch
+   laptop. That is what made it read as an old sticky header — a full-height,
+   always-on slab.
+
+   The pill is the 2025-26 pattern, and the usual objection to it is that a
+   small centred capsule cannot hold real content. That objection is about the
+   capsule, not the pattern: what makes it read as floating is the inset from
+   every edge, the radius, and the shadow — not narrowness. So this one keeps
+   the full --wrap width and holds the logo, five links, the phone number and
+   the CTA without crowding any of them.
+
+   .hdr is now only a positioning wrapper with no paint of its own; .hdr__in is
+   the pill. Content scrolls past in the gutters either side of it, which is
+   what makes the page feel lighter than a bar bolted across the top.
+
+   It shrinks on scroll via the .is-solid class that main.js already toggles
+   from an IntersectionObserver — no scroll handler was added for this. */
 .hdr{
-  position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);
-  display:flex;align-items:center;
-  background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  color:var(--fg);border-bottom:1px solid transparent;
-  transition:border-color .25s var(--ease),background-color .25s var(--ease);
+  position:fixed;inset:var(--hdr-gap) 0 auto;z-index:50;
+  padding-inline:var(--gutter);pointer-events:none;
+  transition:top .28s var(--ease);
 }
-.hdr.is-solid{background:rgba(255,255,255,.96);border-bottom-color:var(--hair)}
-.hdr__in{display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+.hdr__in{
+  pointer-events:auto;
+  display:flex;align-items:center;gap:.9rem;
+  width:100%;max-width:var(--wrap);margin-inline:auto;
+  height:var(--header-h);padding-inline:1.35rem;
+  border-radius:var(--radius-lg);
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 1px 2px rgba(10,19,48,.06),0 10px 30px rgba(10,19,48,.10);
+  transition:height .28s var(--ease),background-color .28s var(--ease),box-shadow .28s var(--ease);
+}
+/* Shrunk state. Same class the header already used to go solid, so the two
+   behaviours share one observer. */
+.hdr.is-solid .hdr__in{
+  height:var(--header-h-sm);
+  background:rgba(255,255,255,.94);
+  box-shadow:0 1px 2px rgba(10,19,48,.08),0 14px 36px rgba(10,19,48,.16);
+}
 .hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
-.hdr__logo img{height:36px;width:auto}
+.hdr__logo img{height:36px;width:auto;transition:height .28s var(--ease)}
+.hdr.is-solid .hdr__logo img{height:30px}
 .hdr__spacer{flex:1 1 auto}
 .hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
-.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.9rem;font-weight:600;color:var(--muted);transition:color .16s var(--ease)}
+.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;
+  font-size:var(--fs-meta);font-weight:600;color:var(--muted);transition:color .16s var(--ease)}
 .hdr__nav a:hover{color:var(--fg)}
-.hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
+.hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;
+  color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
 .hdr__tel:hover{color:var(--accent-ink)}
-.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.62rem 1.25rem;border-radius:var(--radius-pill);white-space:nowrap;transition:background-color .18s var(--ease),transform .18s var(--ease)}
+.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);
+  color:#fff;text-decoration:none;font-weight:700;font-size:var(--fs-meta);
+  padding:.62rem 1.25rem;border-radius:var(--radius-pill);white-space:nowrap;
+  box-shadow:0 4px 14px rgba(224,27,36,.30);
+  transition:background-color .18s var(--ease),transform .18s var(--ease)}
 .hdr__cta:hover{background:var(--red-ink)}
 .hdr__cta:active{transform:translateY(1px)}
 @media(min-width:1080px){.hdr__nav{display:flex}}
-@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}}
-@media(max-width:479px){}
+@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}.hdr.is-solid .hdr__logo img{height:34px}}
 
 /* ---------- 6. HERO ----------
    The critical block in <head> carries the backdrop, headline, proof row and
@@ -334,7 +371,7 @@ p:last-child{margin-bottom:0}
    of it: the branch list, the lead form and the spec rail. */
 /* The hero is a panel, not a band: inset by the gutter, rounded, with the
    photograph clipped inside it. The page ground shows around it. */
-.hero{position:relative;background:var(--paper);padding:var(--header-h) 0 0;color:var(--fg-ink)}
+.hero{position:relative;background:var(--paper);padding:calc(var(--hdr-total) + .5rem) 0 0;color:var(--fg-ink)}
 /* Full-bleed, not an inset card.
 
    As a floating panel it produced three gaps at once on a wide screen: the
@@ -857,7 +894,7 @@ p:last-child{margin-bottom:0}
      it holds true beside the tuition table, the credit card and the bands
      alike. */
   .feecard{
-    display:block;position:sticky;top:calc(var(--ann-h,0px) + var(--header-h) + 1.25rem);
+    display:block;position:sticky;top:calc(var(--ann-h,0px) + var(--hdr-total) + 1.25rem);
     background:var(--ink-800);color:var(--fg-ink);
     border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-card);
   }

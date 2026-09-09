@@ -99,6 +99,22 @@ If the client sends a fuller or more recent placement list, replace the
 selection rather than appending to it, and keep the same rule: lead with the
 strongest, state no totals.
 
+## Needed from the client — the hostel list
+
+The page says "several hostels on campus, separate for boys and girls" and
+names none, because nothing supports naming them. The university's own site
+never names or counts its hostels; its only line is *"Hostel: A home away from
+home with comfortable beds, study tables, and wardrobes."*
+
+An earlier version named two — Vaishali (girls) and Magadh (boys) — read off
+signage in two of the six photographs at `/images/facility1/hostel/`. That was
+withdrawn: naming two asserts there are two, and the client has confirmed there
+are considerably more.
+
+**Send the full list with the boys'/girls' split** and the names go back on the
+page. For a family sending a daughter away from home, a named block is
+checkable where a count is not, so this is worth having.
+
 ## Client to confirm before launch — claims that are ours, not the university's
 
 - **"Fills first" on the Computer Science row**, and the line *"Seats per

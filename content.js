@@ -394,16 +394,21 @@ const CONTENT = {
      stands here so it is not forgotten, and the gate still lists both as
      warnings; they stopped being blockers only because nothing renders them
      to a visitor any more. */
-  /* Hostel block names, read off the university's own facility photographs at
-     /images/facility1/hostel/ (verified 9 September 2026). The signage in
-     those frames reads "VAISHALI HOSTEL (GIRLS)" and "MAGADH HOSTEL (BOYS)",
-     and the GPS caption on the boys' frame reads "B1_hostel" — which ties it
-     to the B1 Hostel supplement in the fee table, a connection the page had
-     never made. */
-  hostel: {
-    girls: 'Vaishali Hostel',
-    boys: 'Magadh Hostel',
-  },
+  /* Hostel names are NOT published here, deliberately.
+
+     An earlier pass read "VAISHALI HOSTEL (GIRLS)" and "MAGADH HOSTEL (BOYS)"
+     off signage in two of the six facility photographs at
+     /images/facility1/hostel/ and put both on the page. That was wrong:
+     naming two asserts that there are two, and the client has confirmed there
+     are considerably more. The university's own site names none of them and
+     gives no count — its only line is "Hostel: A home away from home with
+     comfortable beds, study tables, and wardrobes."
+
+     The page now says several hostels, separate for boys and girls, which is
+     what the evidence supports. Ask the client for the full list with the
+     boys'/girls' split and the names can go back in — a named block is
+     checkable where a count is not, and for a family sending a daughter away
+     from home that is worth having. See HANDOVER.md. */
 
   /* Still owed by the client (client-email.md items 11 and 12) but nothing
      on the page renders them, so they no longer hold the gate. Tracked in
