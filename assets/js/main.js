@@ -122,6 +122,14 @@
       for (var i = 0; i < targets.length; i++) {
         if (targets[i].getBoundingClientRect().top <= line) mark = byId[targets[i].id];
       }
+      /* Past the end of the last nav section there is nothing left to be in.
+         "Last one passed" is the right rule between the nav sections, because
+         the reader is on their way from one to the next through the sections
+         that are not in the nav — but the closing call to action and the
+         footer are not on the way to anything, so holding FAQ lit down there
+         was claiming a position the reader had left. Nothing before the first,
+         nothing after the last. */
+      if (targets[targets.length - 1].getBoundingClientRect().bottom < line) mark = null;
       if (mark === current) return;
       if (current) current.removeAttribute('aria-current');
       if (mark) mark.setAttribute('aria-current', 'true');
