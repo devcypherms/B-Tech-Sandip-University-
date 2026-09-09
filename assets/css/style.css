@@ -474,6 +474,24 @@ p:last-child{margin-bottom:0}
   background:var(--red-fill);color:#fff;border-color:transparent;
   box-shadow:0 4px 14px rgba(224,27,36,.30)}
 .hdr.is-solid .hdr__cta:hover{background:var(--red-ink)}
+
+/* ---- and it gives the colour back whenever the page has a red button of its
+   own on screen. Two reds in one view split the instruction rather than
+   doubling it, and the one that should win is always the button attached to
+   what the reader is reading. main.js sets .red-taken from an
+   IntersectionObserver over every .btn-primary. Outlined in whichever ink the
+   capsule's current material calls for. ---- */
+.red-taken .hdr.is-solid .hdr__cta{
+  background:transparent;color:#fff;
+  border-color:rgba(255,255,255,.36);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.red-taken .hdr.is-solid .hdr__cta:hover{
+  background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.6)}
+.red-taken .hdr.is-solid.on-dark .hdr__cta{
+  color:var(--fg);border-color:rgba(10,19,48,.26);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.red-taken .hdr.is-solid.on-dark .hdr__cta:hover{
+  background:rgba(10,19,48,.07);border-color:rgba(10,19,48,.45)}
 .hdr__cta:active{transform:translateY(1px)}
 /* Below 1180px the bar runs out of room, and the way it ran out was the worst
    of the options: the brand sits in an auto track, auto tracks shrink under
@@ -1424,7 +1442,15 @@ p:last-child{margin-bottom:0}
   }
   .bar__a:first-child{border-left:0}
   .bar__a svg{width:var(--ico-md);height:var(--ico-md)}
-  .bar__a--cta{background:var(--red-fill);color:#fff;font-size:.85rem;border-left:0}
+  .bar__a--cta{background:var(--red-fill);color:#fff;font-size:.85rem;border-left:0;
+    transition:background-color .22s var(--ease),box-shadow .22s var(--ease)}
+  /* Same rule as the capsule. Once the form's own submit is on screen, a
+     second Apply at the foot of the phone competes with the button the reader
+     is already looking at. It stays the emphasised cell, in glass rather than
+     in red. */
+  .red-taken .bar__a--cta{
+    background:rgba(255,255,255,.11);color:var(--fg-ink);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.20)}
 }
 
 /* ---------- 21. MOTION AND PRINT ----------

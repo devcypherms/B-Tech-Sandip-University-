@@ -196,6 +196,53 @@
     test();
   }());
 
+  /* ---------- 2d. ONE RED PER SCREEN ----------
+     The capsule carries a red button and it never leaves, so anywhere the page
+     puts a red button of its own there were two on one screen — the form's
+     "Request a call back", the fee card's "Talk to a counsellor", the closing
+     ask. Two reds in a view do not double the instruction, they split it: the
+     reader has to work out which one is the one, and the answer is always the
+     same one — the button attached to the thing they are reading.
+
+     So red is a floor, not a fixture. The capsule holds it while nothing else
+     does, and hands it over the moment a real call to action comes into view,
+     dropping to an outline. The reader never loses the action, and there is
+     never more than one red mass on screen. The mobile bar does the same, for
+     the same reason: once the form's own submit is on screen, a second Apply
+     at the foot of the phone is competing with the button the reader is
+     already looking at.
+
+     A crossing is exactly what an IntersectionObserver is for, so unlike the
+     section marker this one does not need the scroll frame. */
+  (function () {
+    var rivals = $$('.btn-primary');
+    if (!rivals.length || !('IntersectionObserver' in window)) return;
+
+    /* State per button, not a running count. A counter looks obvious and is
+       wrong: the observer's first callback reports every button at once,
+       almost all of them not intersecting, so the tally goes deeply negative,
+       gets clamped at zero, and the one button that IS on screen is lost. The
+       page then opened with two reds in the hero. */
+    var visible = [];
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var i = visible.indexOf(e.target);
+        if (e.isIntersecting) { if (i < 0) visible.push(e.target); }
+        else if (i >= 0) { visible.splice(i, 1); }
+      });
+      document.documentElement.classList.toggle('red-taken', visible.length > 0);
+    }, {
+      /* Any part of it, not a quarter. At a quarter, a button straddling the
+         screen edge still showed a red sliver while the chrome had not yet
+         given the colour up — two reds on one screen, which is the whole thing
+         this exists to prevent. Measured at two positions on a 390x844 sweep;
+         zero at threshold 0. The handover fades over 220ms, so grazing the
+         edge reads as a soften rather than a switch. */
+      threshold: 0
+    });
+    rivals.forEach(function (el) { io.observe(el); });
+  }());
+
   /* ---------- 3. ACCORDIONS ----------
      Real buttons with aria-expanded, panels toggled by the hidden attribute.
      The height animation runs from the panel's own scrollHeight and is
