@@ -181,6 +181,22 @@ p:last-child{margin-bottom:0}
 }
 .section--ink .sec-lede,.section--ink .students__note,.section--ink .wall__note{color:var(--muted-ink)}
 .sec-head{max-width:62ch;margin-bottom:clamp(1.75rem,3.5vw,2.75rem)}
+/* Two columns above 1000px. Capped at 62ch, every section heading left 651 of
+   the container's 1312 pixels empty — half the width, beside every single
+   section on the page, which is the void that made the whole thing look
+   unfinished. Title and lede sit side by side and share the width, aligned on
+   their baselines so the lede reads as an answer to the heading rather than
+   as a caption floating beside it. */
+@media(min-width:1000px){
+  .sec-head{
+    max-width:none;display:grid;
+    grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+    column-gap:clamp(2.5rem,5vw,4.5rem);align-items:end;
+  }
+  .sec-head .eyebrow{grid-column:1;grid-row:1;margin-bottom:.5rem}
+  .sec-head .sec-title{grid-column:1;grid-row:2;max-width:16ch;margin-bottom:0}
+  .sec-head .sec-lede{grid-column:2;grid-row:2;max-width:48ch;padding-bottom:.4rem}
+}
 /* The eyebrow exists so the headline does not have to carry the keyword.
    BRIEF §6 maps a keyword set to every section, and honouring that inside the
    headline is what produced label-shaped headings like "Five B.Tech branches".
