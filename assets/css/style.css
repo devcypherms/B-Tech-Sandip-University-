@@ -108,6 +108,12 @@
      Used ONLY for zero-cost and approved states. Not for the indicative
      first-year totals, which are a cost and stay gold; not for the money
      panel, which is money-and-achievement; and never for anything red does. */
+  /* Nav on glass. Its ground moves — blue-tinted over the hero panel,
+     white once the page scrolls under it — so it is measured against both:
+     5.9:1 tinted, 8.4:1 white. --muted was 4.75:1 tinted, which passes with
+     no headroom on a background that changes. */
+  --hdr-ink:#414D69;
+
   --ok:#12703A;        /* 6.2:1 on white, 5.6:1 on paper-2 */
   --ok-lite:#5EE9A0;   /* 12.1:1 on ink-900 */
   --ok-wash:#E8F6EE;
@@ -256,52 +262,6 @@ p:last-child{margin-bottom:0}
 .btn-primary:active{transform:translateY(0)}
 .btn[disabled]{opacity:.55;cursor:not-allowed}
 
-/* ---------- 4b. ANNOUNCEMENT STRIP ----------
-   Desktop only. The header offsets itself below it via --ann-h, so the fixed
-   header and the hero's top padding both stay correct without a second set
-   of numbers to keep in step. */
-.ann{display:none}
-@media(min-width:900px){
-  :root{--ann-h:2.6rem}
-  /* One statement, centred, not two fragments at opposite ends of the room.
-     margin-left:auto was pushing the countdown to the far edge, which at 1440
-     left 633px of empty bar between it and the message — the bar read as two
-     unrelated things rather than one line.
-
-     Text was 12.48px, the smallest on the page and below the 14px caption
-     step; it is on the scale now. And the ground carries the same gradient
-     idea as every other dark surface here, so it stops reading as a plain
-     slab bolted above a light header. */
-  .ann{
-    display:block;position:fixed;inset:0 0 auto;z-index:51;height:var(--ann-h);
-    color:var(--fg-ink);
-    background:linear-gradient(90deg,var(--ink-900) 0%,#0E2154 50%,var(--ink-900) 100%);
-    border-bottom:1px solid rgba(255,255,255,.07);
-  }
-  .ann__in{
-    display:flex;align-items:center;justify-content:center;gap:.8rem;height:100%;
-    max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);
-    font-size:var(--fs-meta);
-  }
-  .ann__dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto;
-    box-shadow:0 0 0 3px rgba(245,184,65,.18)}
-  .ann__in>span:nth-of-type(2){color:var(--sub-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  /* Replaces the countdown that used to sit here. A clock is a flash-sale
-     device: on an admission page "21 days left" tells a reader they have 21
-     days, which is permission to come back later, and everyone knows a
-     private university's deadline moves anyway. Applying earlier genuinely
-     produces a better outcome here, so the bar says that instead. */
-  .ann__note{color:var(--muted-ink);white-space:nowrap;
-    padding-left:.9rem;border-left:1px solid rgba(255,255,255,.14)}
-  .ann ~ main .hero__flag{display:none}
-  /* The unit belongs to the digit, not to the sentence. Same hue, stepped
-     down in weight and opacity, so "21d" reads as one value while "Closes in"
-     stays part of the line. */
-  .ann ~ .hdr{top:calc(var(--ann-h) + var(--hdr-gap))}
-  .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--hdr-total) + .5rem)}
-  html:has(.ann){scroll-padding-top:calc(var(--ann-h) + var(--hdr-total) + 1rem)}
-}
-
 /* ---------- 5. HEADER — a floating pill ----------
    Second pass, and the first one deserved the criticism: it kept everything
    the old bar had and rounded the corners, which is a rounded bar, not a pill.
@@ -352,10 +312,18 @@ p:last-child{margin-bottom:0}
   box-shadow:0 1px 2px rgba(10,19,48,.07),0 16px 40px rgba(10,19,48,.18);
 }
 .hdr__nav{display:flex;gap:1.55rem}
-.hdr__nav a{display:inline-flex;align-items:center;height:100%;min-height:2.75rem;
-  text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--muted);
+.hdr__nav a{position:relative;display:inline-flex;align-items:center;height:100%;min-height:2.75rem;
+  text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--hdr-ink);
   transition:color .16s var(--ease)}
 .hdr__nav a:hover{color:var(--fg)}
+/* The section you are in. A dot rather than an underline: the pill is short
+   and an underline under one of five links reads as a broken border. */
+.hdr__nav a[aria-current]{color:var(--fg);font-weight:700}
+.hdr__nav a[aria-current]::after{
+  content:"";position:absolute;left:50%;bottom:.55rem;
+  width:5px;height:5px;margin-left:-2.5px;border-radius:50%;
+  background:var(--red-fill);
+}
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;
   background:var(--red-fill);color:#fff;text-decoration:none;
   font-weight:700;font-size:var(--fs-meta);white-space:nowrap;
@@ -373,7 +341,7 @@ p:last-child{margin-bottom:0}
 /* The hero is a panel, not a band: inset by the gutter, rounded, with the
    photograph clipped inside it. The page ground shows around it. */
 .hero{position:relative;background:var(--paper);padding:1.1rem 0 0;color:var(--fg-ink)}
-@media(min-width:900px){.hero{padding-top:calc(var(--hdr-total) + .5rem)}}
+@media(min-width:900px){.hero{padding-top:var(--hdr-gap)}}
 /* Full-bleed, not an inset card.
 
    As a floating panel it produced three gaps at once on a wide screen: the
@@ -385,12 +353,15 @@ p:last-child{margin-bottom:0}
    Edge to edge, the gradient meets the header with no seam, and the grid
    inside it uses the same --wrap and --gutter as .hdr__in, so the headline
    starts on the same vertical as the logo above it. */
+@media(min-width:900px){.hero__panel{padding-top:calc(var(--hdr-gap) + var(--header-h) + 1.6rem)}}
 .hero__panel{
   position:relative;overflow:hidden;isolation:isolate;width:100%;
   /* Reset explicitly. The critical block in <head> once set these, and a rule
      that merely omits a property leaves the earlier value standing. */
   max-width:none;margin-inline:0;border-radius:0;
   padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;
+  /* Above 900px the pill floats over this panel, so the content starts below
+     where the pill ends rather than where the panel does. */
   background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),
     radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),
     radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),
@@ -901,7 +872,7 @@ p:last-child{margin-bottom:0}
      it holds true beside the tuition table, the credit card and the bands
      alike. */
   .feecard{
-    display:block;position:sticky;top:calc(var(--ann-h,0px) + var(--hdr-total) + 1.25rem);
+    display:block;position:sticky;top:calc(var(--hdr-total) + 1.25rem);
     background:var(--ink-800);color:var(--fg-ink);
     border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-card);
   }

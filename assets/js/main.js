@@ -46,6 +46,46 @@
     }, { rootMargin: '-' + (hdr.offsetHeight || 64) + 'px 0px 0px 0px' }).observe(sentinel);
   }
 
+  /* ---------- 2b. WHERE AM I ----------
+     Icons beside five links in a 559px capsule would be clutter — five marks
+     competing with the one button that matters. This does the job an icon
+     cannot: it tells the reader which section they are actually in, and it
+     turns the pill from decoration into a position indicator.
+
+     Same mechanism as the header state above — an IntersectionObserver, not a
+     scroll handler, so it costs nothing on a mid-range phone. */
+  (function () {
+    var links = $$('.hdr__nav a');
+    if (!links.length || !('IntersectionObserver' in window)) return;
+
+    var byId = {};
+    links.forEach(function (a) {
+      var id = (a.getAttribute('href') || '').slice(1);
+      if (id) byId[id] = a;
+    });
+    var targets = Object.keys(byId)
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    if (!targets.length) return;
+
+    var current = null;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var a = byId[e.target.id];
+        if (!a || a === current) return;
+        if (current) current.removeAttribute('aria-current');
+        a.setAttribute('aria-current', 'true');
+        current = a;
+      });
+    }, {
+      /* Fire when a section crosses the upper third, so the mark changes as a
+         section takes over the screen rather than the moment it peeks in. */
+      rootMargin: '-30% 0px -60% 0px'
+    });
+    targets.forEach(function (el) { io.observe(el); });
+  }());
+
   /* ---------- 3. ACCORDIONS ----------
      Real buttons with aria-expanded, panels toggled by the hidden attribute.
      The height animation runs from the panel's own scrollHeight and is
