@@ -45,8 +45,12 @@ const CONTENT = {
     whatsapp: '918956530828',
     whatsappDisplay: '+91 89565 30828',
 
+    /* addressLine1 is the postal street line and feeds the JSON-LD only.
+       The page prints addressVisible instead: the estate name means nothing
+       to a prospect, and the client asked for it out of the copy. */
     addressLine1: 'Neelam Vidya Vihar, Village Sijoul',
-    addressLine2: 'P.O. Mailam, Madhubani, Bihar 847235',
+    addressVisible: 'Village Sijoul, P.O. Mailam',
+    addressLine2: 'Madhubani, Bihar 847235',
     lat: '26.3506102',
     lng: '86.2405787',
   },

@@ -243,6 +243,35 @@
     rivals.forEach(function (el) { io.observe(el); });
   }());
 
+  /* ---------- 2e. VIDEO FACADES ----------
+     Nothing from YouTube is requested until someone presses play. The card is
+     a local WebP thumbnail and a button; on click it becomes the iframe, with
+     autoplay so the press that loaded it is also the press that starts it.
+     Same pattern as the map lower down, and the reason is the same — a page
+     that runs on paid traffic cannot spend its first load on three embeds
+     nobody has asked for, and it should not hand a visitor's address to a
+     third party for a video they may never open. */
+  $$('.voice').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var yt = btn.getAttribute('data-yt');
+      if (!yt || btn.dataset.loaded) return;
+      btn.dataset.loaded = '1';
+      var f = document.createElement('iframe');
+      /* nocookie, and only the parameters needed to play. */
+      f.src = 'https://www.youtube-nocookie.com/embed/' + yt + '?autoplay=1&rel=0';
+      f.title = btn.getAttribute('aria-label') || 'Student video';
+      f.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
+      f.setAttribute('allowfullscreen', '');
+      var img = btn.querySelector('img'), play = btn.querySelector('.voice__play');
+      if (img) img.remove();
+      if (play) play.remove();
+      btn.insertBefore(f, btn.firstChild);
+      btn.style.cursor = 'default';
+      /* No track() call here: the button already carries data-track, and the
+         generic [data-track] handler below fires on the same click. */
+    });
+  });
+
   /* ---------- 3. ACCORDIONS ----------
      Real buttons with aria-expanded, panels toggled by the hidden attribute.
      The height animation runs from the panel's own scrollHeight and is

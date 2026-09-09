@@ -652,7 +652,35 @@ p:last-child{margin-bottom:0}
   .hero__brand img{height:46px;width:auto;opacity:1}
 }
 .hero h1{font-weight:800;font-size:var(--fs-h1);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
-.hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+/* GRADIENT DISPLAY TYPE, and the rule for it.
+
+   It is worth having, and it is worth being rare. Three things constrain it.
+
+   A gradient makes every glyph a different colour, so contrast stops being a
+   number the DOM can report and has to be sampled from the render. An accent
+   that appears on all nine section titles is not an accent — it is the heading
+   style, and the page loses the ability to point at anything. And a gradient
+   run across a whole multi-line heading lands wherever the line breaks put it:
+   applied to the placements title as a block, it turned "Infosys," gold and
+   left "up to 12 LPA" white, which highlights a layout accident rather than
+   the offer.
+
+   So the rule is the one the hero already followed: the gradient marks the
+   PHRASE that carries the offer, never the heading. Only on the dark grounds,
+   where both stops are bright and the range between them costs nothing —
+   worst case is solid gold on the navy panel, sampled at 8.6:1. The six
+   headings on white keep solid ink, because a gradient over dark ink on white
+   is mud, not a highlight.
+
+   Three phrases on this page: "without leaving Bihar", "up to 12 LPA", and
+   "exactly where you stand". */
+.hero h1 em,.section--ink .sec-title em,.cta__title em{
+  font-style:normal;
+  background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  padding-right:.06em;margin-right:-.06em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
 /* The credential. It was a bold clause opening the sentence below, which is
    where a claim goes to be skimmed past — and at body weight and body size it
    read as copy, not as a fact the university has earned. Given its own line,
@@ -865,45 +893,6 @@ p:last-child{margin-bottom:0}
    Four credential cards on the page ground, each with a mark. It used to be a
    second full-bleed dark band directly under an inset dark panel, which
    stepped dark-to-dark with a hard seam across the middle. */
-/* Four figures, on hairlines, exactly as the hero sets its four. They were
-   white cards with hairline borders and card shadows on a white ground, which
-   is fog: the container was doing no work except adding four more rectangles
-   to a page that had just had eight taken out of it. And they sat directly
-   under a hero that had already set its figures a different way, so the page
-   said two things about how a figure looks within one screen of itself.
-
-   The label also had to grow. It was .78rem of --muted, which is a footnote
-   size for a line that is the university's whole case. */
-.trust{background:var(--paper);padding-block:clamp(1.9rem,4vw,3rem)}
-.trust__in{
-  display:grid;grid-template-columns:1fr 1fr;
-  border-top:1px solid var(--hair);
-}
-.trust__in p{
-  margin:0;padding:1.15rem 1.1rem 1.15rem 0;
-  border-bottom:1px solid var(--hair);
-  /* Top aligned, not centred: one of the four labels runs to two lines, and
-     centring made that cell's figure sit lower than the other three. Figures
-     in a row have to share a line or the row reads as broken. */
-  display:grid;grid-template-columns:auto 1fr;column-gap:.7rem;align-items:start;
-  font-size:.8125rem;font-weight:600;color:var(--muted);line-height:1.3;
-}
-.trust__in p:nth-child(2n){padding-left:1.35rem;border-left:1px solid var(--hair)}
-.trust .ico{
-  grid-row:1/3;width:var(--ico-lg);height:var(--ico-lg);
-  color:var(--accent);opacity:.85;margin-top:.2rem;
-}
-.trust__in b{
-  grid-column:2;display:block;font-size:var(--fs-fig);color:var(--fg);
-  font-weight:800;letter-spacing:-.03em;line-height:1.1;
-}
-@media(min-width:760px){
-  .trust__in{grid-template-columns:repeat(4,1fr)}
-  .trust__in p{padding:1.35rem 1.4rem 1.35rem 0;border-bottom:0}
-  .trust__in p + p{padding-left:1.6rem;border-left:1px solid var(--hair)}
-  .trust__in b{font-size:var(--fs-fig)}
-}
-
 /* ---------- 8b. CAMPUS BAND ----------
    Full bleed on purpose: it is the only element on the page that is not inside
    the --wrap grid, which is what makes it read as a break in the rhythm rather
@@ -912,25 +901,50 @@ p:last-child{margin-bottom:0}
 .band picture{display:block;width:100%;height:100%}
 .band img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;aspect-ratio:3/2;display:block}
 @media(min-width:700px){.band img{aspect-ratio:21/8}}
-/* Bottom left, on the page's own left edge rather than floating in the middle
-   of the picture, and set as a caption: the subject in white, the place under
-   it. Centred small type over the brightest part of a photograph is the one
-   place a caption cannot be read, which is where this was. */
-.band__cap{
-  position:absolute;left:0;right:0;bottom:0;margin:0;
-  display:flex;align-items:flex-end;gap:.6rem;
-  padding:5rem var(--gutter) 1.35rem;
-  color:#fff;
-  background:linear-gradient(180deg,transparent 0%,rgba(5,11,32,.10) 42%,rgba(5,11,32,.72) 100%);
+/* The figure bar, attached to the bottom of the photograph with no gap so the
+   two read as one composed block rather than as a picture and then a strip.
+   The caption that used to float over the picture is gone: the bar says where
+   this is, and a caption saying it again over the brightest part of the image
+   was the least readable place on the page to say anything.
+
+   125+ leads at display size because it is the figure that is actually rare
+   here, and because the photograph directly above it is the evidence. The
+   other two follow at standard figure size, on a hairline. */
+.band__bar{background:var(--ink-900);padding:clamp(1.4rem,3vw,2rem) 0}
+.band__in{
+  display:grid;grid-template-columns:1fr;gap:1.25rem;
+  padding-inline:var(--gutter);
 }
-.band__cap svg{width:var(--ico-md);height:var(--ico-md);color:var(--gold);flex:0 0 auto;margin-bottom:.1rem}
-.band__cap span{display:flex;flex-direction:column;line-height:1.25;
-  font-size:.8125rem;font-weight:500;color:var(--muted-ink)}
-.band__cap b{font-size:1.0625rem;font-weight:700;letter-spacing:-.012em;color:#fff}
-@media(min-width:700px){
-  .band__cap{padding:6rem var(--gutter) 1.75rem}
-  .band__cap b{font-size:1.25rem}
-  .band__cap span{font-size:.875rem}
+.band__lead{margin:0;display:flex;align-items:baseline;gap:.75rem}
+.band__lead b{
+  font-size:clamp(2.6rem,6vw,3.6rem);font-weight:800;letter-spacing:-.04em;
+  line-height:.95;color:transparent;
+  background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);
+  -webkit-background-clip:text;background-clip:text;
+}
+.band__lead > span{
+  display:flex;flex-direction:column;
+  font-size:var(--fs-lead);font-weight:700;color:#fff;
+  letter-spacing:-.014em;line-height:1.2;
+}
+.band__lead i{
+  font-style:normal;margin-top:.2rem;
+  font-size:.8125rem;font-weight:500;color:var(--muted-ink);letter-spacing:0;
+}
+.band__figs{
+  list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--hair-ink);
+}
+.band__figs li{padding:.95rem 1rem .2rem 0}
+.band__figs li + li{padding-left:1.4rem;border-left:1px solid var(--hair-ink)}
+.band__figs b{display:block;font-size:var(--fs-fig);font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1.1}
+.band__figs span{display:block;margin-top:.15rem;font-size:.78rem;font-weight:600;color:var(--muted-ink);line-height:1.3}
+@media(min-width:820px){
+  .band__in{grid-template-columns:auto 1fr;align-items:center;gap:clamp(2rem,5vw,4.5rem)}
+  .band__figs{border-top:0;grid-template-columns:auto auto;justify-content:end}
+  .band__figs li{padding:.2rem 0 .2rem 2.4rem}
+  .band__figs li + li{padding-left:2.4rem;margin-left:2.4rem;border-left:1px solid var(--hair-ink)}
 }
 
 /* ---------- 9. WHY ----------
@@ -1236,6 +1250,71 @@ p:last-child{margin-bottom:0}
   .figs li + li{padding-left:1.8rem;border-left:1px solid var(--hair-ink)}
 }
 
+/* Video facades. A surface, not hairlines — the rule this page follows is that
+   a bare fact sits on a hairline and a surface is for something with an object
+   in it, and these hold a photograph. */
+/* .students carries no bottom margin, so without this the heading sat flush
+   against the panel above it. Matches the section's other sub-block gap. */
+.voices{margin:clamp(2rem,4vw,2.75rem) 0}
+.voices__k{font-size:1.0625rem;font-weight:700;letter-spacing:-.014em;color:#fff;margin:0 0 .9rem}
+.voices__l{list-style:none;margin:0;padding:0;display:grid;gap:.85rem;grid-template-columns:1fr}
+@media(min-width:700px){.voices__l{grid-template-columns:repeat(3,1fr)}}
+.voice{
+  display:block;width:100%;padding:0;text-align:left;cursor:pointer;
+  position:relative;overflow:hidden;border-radius:var(--radius);
+  background:var(--glass-fill);border:1px solid var(--glass-line);
+  box-shadow:inset 0 1px 0 var(--glass-edge);
+  transition:border-color .18s var(--ease),transform .18s var(--ease);
+}
+.voice:hover{border-color:rgba(255,255,255,.30);transform:translateY(-2px)}
+.voice:active{transform:translateY(0)}
+.voice img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.voice__play{
+  position:absolute;left:50%;top:calc(50% - 1.55rem);transform:translate(-50%,-50%);
+  width:3.25rem;height:3.25rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  /* Not red. Red on this page means "the action", and three play badges beside
+     the capsule's Apply button put four red masses in one view — the exact
+     thing the one-red-per-screen rule exists to prevent. A play affordance is
+     not the page's action. Dark glass with a white triangle also survives any
+     thumbnail behind it, which a red disc does not. */
+  background:rgba(8,16,40,.62);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.34);
+  box-shadow:0 6px 20px rgba(5,11,32,.45);
+  transition:transform .18s var(--ease);
+}
+.voice:hover .voice__play{transform:translate(-50%,-50%) scale(1.06);background:rgba(8,16,40,.78);border-color:rgba(255,255,255,.55)}
+.voice__play svg{width:var(--ico-lg);height:var(--ico-lg);color:#fff;margin-left:2px}
+.voice__n{display:block;padding:.8rem .9rem .85rem;font-size:.78rem;color:var(--muted-ink);line-height:1.35}
+.voice__n b{display:block;font-size:var(--fs-meta);font-weight:700;color:#fff;margin-bottom:.1rem}
+.voice iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
+.voices__src{margin:.85rem 0 0;font-size:.78rem;color:var(--muted-ink)}
+
+/* The training evidence, on the dark ground. Hairlines and no container, the
+   same rule the rest of the page follows: these are bare facts. Two columns so
+   four items read as a set rather than as a list to be worked through. */
+.train{margin:0 0 clamp(2rem,4vw,2.75rem)}
+.train__k{
+  font-size:1.0625rem;font-weight:700;letter-spacing:-.014em;color:#fff;
+  margin:0 0 .9rem;
+}
+.train__l{
+  list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;
+  border-top:1px solid var(--hair-ink);
+}
+.train__l li{
+  padding:.9rem 1.2rem .9rem 0;border-bottom:1px solid var(--hair-ink);
+  display:flex;flex-direction:column;gap:.2rem;
+}
+.train__l b{font-size:var(--fs-meta);font-weight:700;color:#fff}
+.train__l span{font-size:var(--fs-meta);color:var(--muted-ink);line-height:1.45}
+.train__src{margin:.85rem 0 0;font-size:.78rem;color:var(--muted-ink)}
+@media(min-width:760px){
+  .train__l{grid-template-columns:1fr 1fr}
+  .train__l li:nth-child(2n){padding-left:1.6rem;border-left:1px solid var(--hair-ink)}
+}
+
 .students{display:grid;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lift)}
 @media(min-width:720px){.students{grid-template-columns:repeat(3,1fr)}}
 .stu{background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);padding:1.35rem;display:flex;flex-direction:column}
@@ -1367,6 +1446,15 @@ p:last-child{margin-bottom:0}
   .fac li:not(:nth-child(4n+1)){padding-left:1.3rem;border-left:1px solid var(--hair)}
   .fac li:nth-last-child(-n+4){border-bottom:0}
 }
+
+/* Two claims that need a sentence each rather than a chip, so they sit as a
+   pair of lines under the facility grid instead of inside it. */
+.life{display:grid;gap:1.1rem;margin-top:clamp(1.5rem,3vw,2rem)}
+.life p{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:.7rem;align-items:start}
+.life .ico{grid-row:1/2;width:var(--ico-md);height:var(--ico-md);color:var(--accent);margin-top:.15rem}
+.life span{display:block;font-size:var(--fs-meta);color:var(--muted);line-height:1.5}
+.life b{display:block;font-size:var(--fs-body);font-weight:700;color:var(--fg);margin-bottom:.15rem;letter-spacing:-.012em}
+@media(min-width:760px){.life{grid-template-columns:1fr 1fr;gap:1.6rem}}
 
 /* ---------- 16. STEPS ----------
    Numbered, because this genuinely is a sequence. Cards rather than a bare

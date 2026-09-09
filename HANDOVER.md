@@ -183,6 +183,37 @@ launch, since they are read off photographs rather than stated in prose.
 
 ## Client asks
 
+- **Record two or three B.Tech student videos.** Asked 10 Sep 2026. The
+  university publishes twelve student videos and none of them is usable as a
+  B.Tech testimonial: of the five that carry a programme label, four are MBA
+  and one is B.Tech Agriculture, and the other seven carry no programme at
+  all. Not one of the twelve has a written quote anywhere on the site, so
+  there is no line that can be put in quotation marks without writing it
+  ourselves and attributing it to a real named student — which on a page
+  running paid ads to families making a four-lakh decision is a fabricated
+  endorsement, not a placeholder, and is what ASCI's endorsement guidelines
+  and the Consumer Protection Act 2019 are about. So the section on the page
+  uses three of the university's own videos, captioned exactly as the
+  university captions them, claiming no branch.
+  What would make it much stronger: two or three sixty-second clips of current
+  B.Tech students — name, branch, year, and what they would tell someone from
+  their own district who is deciding. Drop them in and the section is ready
+  for them.
+
+- **Two numbers contradict between the university's own pages.** Found
+  10 Sep 2026 while sourcing campus-life content. `index.php` publishes
+  `4000+ Global Alumni Network` and `125+ Acres of Campus`; `why-us.php`
+  publishes `10,000+ Global Alumni Network` and `100+ acre`. The landing page
+  uses 125+ acres. Please confirm which is right, and have the site corrected
+  either way — an ad landing page and the official site disagreeing on campus
+  size is the kind of thing a careful parent checks.
+
+- **The events page year labels look wrong.** `events.php` filters read
+  `Sandipostav 2026`, `Kisan Mela 2026` and `Jobfair 4.0 2026`, but every
+  photograph under them is alt-tagged 2024. Not used on the landing page for
+  that reason. Worth fixing on the site.
+
+
 - **"Neelam Vidya Vihar" is out of the marketing copy, still in the address.**
   Asked for on 10 Sep 2026. It has been removed from the campus band caption
   and the location lede, where it read as a name a prospect has no use for.

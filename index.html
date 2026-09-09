@@ -192,8 +192,8 @@ a{color:inherit}
       </p>
 
       <p class="hero__sub">
-        Faculty qualified at IITs and NITs, on a 125-acre residential campus
-        at Madhubani.
+        Faculty qualified at IITs and NITs, on a residential campus at
+        Madhubani.
       </p>
 
 
@@ -297,25 +297,18 @@ a{color:inherit}
     </div><!-- /.hero__panel -->
 </section>
 
-<!-- ========== TRUST STRIP ========== -->
-<section class="trust" aria-label="Recognition and accreditation">
-  <div class="wrap trust__in">
-    <p><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6L17 22l-1.6-8.6"/></svg><b data-c="stats.rank">1st</b> NAAC accredited private university in Bihar</p>
-    <p><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-4.5L19 9v12"/><path d="M9.5 21v-5.5h5V21"/></svg><b data-c="stats.campus">125+</b> acre residential campus</p>
-    <p><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v17H6.5A2.5 2.5 0 0 0 4 22.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v17h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg><b data-c="stats.programmes">20+</b> programmes across the university</p>
-    <p><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 20a6.2 6.2 0 0 1 12.4 0"/><path d="M16.5 5.2a3.2 3.2 0 0 1 0 5.9M17.6 14.4A5.6 5.6 0 0 1 21.2 20"/></svg><b data-c="stats.students">4,000+</b> students on campus</p>
-  </div>
-</section>
+<!-- ========== THE CAMPUS, AND WHAT IT HOLDS ==========
+     The trust strip used to be a separate white section sitting between the
+     dark hero and this photograph — a thin sliver with four figures in it,
+     which is what made it read as abrupt: two section changes in 400px, and
+     the figure it mattered most about sitting next to a picture of that exact
+     thing without either knowing about the other.
 
-<!-- ========== CAMPUS BAND ==========
-     The page sells a 125-acre residential campus to families sending a child
-     away from home, and after the hero photograph was removed it had nothing
-     to show them until §5.8. This is that, early: one wide frame of the place,
-     full bleed, breaking the run of card rows.
-
-     Lazy and below the fold, so it costs nothing on first load. The caption
-     sits on a scrim because text over a photograph cannot be judged from the
-     DOM — its contrast was sampled from rendered pixels. -->
+     One block now. The photograph is the 125 acres; the bar under it says so.
+     It also drops one figure. "1st NAAC accredited private university in
+     Bihar" was a verbatim restatement of the credential line under the
+     headline, one screen above — the same claim twice is not emphasis, it is
+     clutter, and it was crowding out the figure that is genuinely rare here. -->
 <section class="band" aria-label="The campus at Sijoul">
   <picture>
     <source media="(max-width:699px)" srcset="assets/img/band-campus-sm.webp" width="780" height="520">
@@ -323,13 +316,18 @@ a{color:inherit}
          alt="The main academic block at Sandip University, Sijoul, seen across its lawns and palms"
          width="1600" height="609" loading="lazy" decoding="async">
   </picture>
-  <!-- Captions the photograph, and nothing more. It used to name the campus
-       estate and repeat the acreage the trust figures carry just above it,
-       centred in small type over the brightest part of the picture. -->
-  <p class="band__cap">
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
-    <span><b>The academic block</b>Sijoul campus, Madhubani</span>
-  </p>
+  <div class="band__bar">
+    <div class="wrap band__in">
+      <p class="band__lead">
+        <b data-c="stats.campus">125+</b>
+        <span>acre residential campus<i>Sijoul, Madhubani &mdash; and a rare thing in Bihar</i></span>
+      </p>
+      <ul class="band__figs">
+        <li><b data-c="stats.students">4,000+</b><span>students on campus</span></li>
+        <li><b data-c="stats.programmes">20+</b><span>programmes across the university</span></li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <!-- ========== WHY ========== -->
@@ -337,7 +335,7 @@ a{color:inherit}
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Private engineering college in Bihar</p>
-      <h2 class="sec-title" id="why-title">Bihar chhodne ki zaroorat nahi.</h2>
+      <h2 class="sec-title" id="why-title">Wo sab, jiske liye log Bihar chhodte hain.</h2>
       <p class="sec-lede">
         Every private engineering college in this state has to answer the same
         question: does staying home mean settling for less? These are the four
@@ -366,7 +364,7 @@ a{color:inherit}
         </p>
       </article>
       <article class="why__item">
-        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>Multiple hostels on a <span data-c="stats.campus">125+</span> acre campus</h3>
+        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>Multiple hostels, on campus</h3>
         <p>
           Several hostels on campus, separate for boys and girls, plus
           canteens, library, gymnasium, 24×7 security and an on-campus
@@ -718,7 +716,7 @@ a{color:inherit}
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Placements</p>
-      <h2 class="sec-title" id="pl-title">Placed at Bharat Dynamics and Infosys, up to 12 LPA.</h2>
+      <h2 class="sec-title" id="pl-title">Placed at Bharat Dynamics and Infosys, <em>up to 12 LPA</em>.</h2>
       <p class="sec-lede">
         Training, aptitude preparation and interview practice start in the first
         year, not the final one. These are students of this university, with the
@@ -769,6 +767,22 @@ a{color:inherit}
          Branch labels are set in plain form. The source prints them
          inconsistently ("B.TECH-EE", "B.Tech- Electrcal"); reproducing its
          typos was a transcription instinct, not a presentational one. -->
+    <!-- The university's own published student videos, not ours and not
+         reworded. Three points of care.
+
+         Nothing is quoted. The site publishes twelve of these and not one
+         carries a written quote, so any sentence in quotation marks here would
+         have been written by us and attributed to a student — which is not a
+         placeholder, it is a fabricated endorsement on a page that will run
+         paid ads to families making a four-lakh decision.
+
+         No branch is claimed. Of the five videos the site labels with a
+         programme, four are MBA and one is B.Tech Agriculture; these three
+         carry no programme label at all. They are captioned exactly as the
+         university captions them, which claims nothing it cannot support.
+
+         Nothing loads until asked. The thumbnails are local WebP; YouTube is
+         only contacted when someone presses play. -->
     <details class="plist">
       <summary class="plist__sum">
         <span class="plist__open">See more students and where they were placed</span>
@@ -859,6 +873,46 @@ a{color:inherit}
       </ul>
     </details>
 
+    <div class="voices">
+      <h3 class="voices__k">Students of this campus, in their own words</h3>
+      <ul class="voices__l">
+        <li>
+          <button class="voice" type="button" data-yt="3mNK_dGdaMk" data-track="voice-play"
+                  aria-label="Play the video: Shahadat Ansari, Journey at Sandip University, Sijoul">
+            <img src="assets/img/voices/3mNK_dGdaMk.webp" alt="" width="480" height="270" loading="lazy" decoding="async">
+            <span class="voice__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg>
+            </span>
+            <span class="voice__n"><b>Shahadat Ansari</b>Journey at Sandip University, Sijoul</span>
+          </button>
+        </li>
+        <li>
+          <button class="voice" type="button" data-yt="YW1Gf1fJYyQ" data-track="voice-play"
+                  aria-label="Play the video: Prashant Kumar, Journey at Sandip University, Sijoul">
+            <img src="assets/img/voices/YW1Gf1fJYyQ.webp" alt="" width="480" height="270" loading="lazy" decoding="async">
+            <span class="voice__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg>
+            </span>
+            <span class="voice__n"><b>Prashant Kumar</b>Journey at Sandip University, Sijoul</span>
+          </button>
+        </li>
+        <li>
+          <button class="voice" type="button" data-yt="gznbi9HV5to" data-track="voice-play"
+                  aria-label="Play the video: Rohit Kumar, Journey at Sandip University, Sijoul">
+            <img src="assets/img/voices/gznbi9HV5to.webp" alt="" width="480" height="270" loading="lazy" decoding="async">
+            <span class="voice__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg>
+            </span>
+            <span class="voice__n"><b>Rohit Kumar</b>Journey at Sandip University, Sijoul</span>
+          </button>
+        </li>
+      </ul>
+      <p class="voices__src">
+        Published by the university. Pressing play loads the video from YouTube.
+      </p>
+    </div>
+
+
     <h3 class="wall__label">Companies that recruit at Sandip University</h3>
     <div class="wall" id="wall" aria-label="Recruiting companies">
       <div class="wall__track" id="wallTrack">
@@ -893,10 +947,9 @@ a{color:inherit}
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Campus &amp; hostel</p>
-      <h2 class="sec-title" id="gal-title">125 acres. See it before you visit.</h2>
+      <h2 class="sec-title" id="gal-title">See it before you visit.</h2>
       <p class="sec-lede">
-        <span data-c="hero.campusSize">125+ acres</span> at Sijoul. Photographs
-        from the university's own files — the academic blocks, the hostel, the
+        Photographs from the university's own files — the academic blocks, the hostel, the
         classrooms and the EV Lab. Not stock images.
       </p>
     </div>
@@ -929,6 +982,21 @@ a{color:inherit}
       <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 4.6 6v6.1c0 4.5 3.1 8.2 7.4 9.1 4.3-.9 7.4-4.6 7.4-9.1V6z"/></svg>24×7 security</li>
       <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/><path d="M8.5 11.5h3M10 10v3"/></svg>On-campus ambulance</li>
     </ul>
+
+    <!-- Sport and clubs, named rather than gestured at. Both lists are the
+         university's own published ones: eleven facilities from its sports
+         page, six clubs from the Director of Student Welfare's page. Nothing
+         here is a count that cannot be shown. -->
+    <div class="life">
+      <p>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 0 0 18M12 3a14 14 0 0 1 0 18M3.5 9h17M3.5 15h17"/></svg>
+        <span><b>Eleven sports facilities</b>A cricket ground, football fields, basketball, volleyball and badminton courts, athletics tracks, table tennis, chess and carrom rooms, a gym and a yoga hall.</span>
+      </p>
+      <p>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 20a6.2 6.2 0 0 1 12.4 0"/><path d="M16.5 5.2a3.2 3.2 0 0 1 0 5.9M17.6 14.4A5.6 5.6 0 0 1 21.2 20"/></svg>
+        <span><b>Six student clubs</b>Sports, cultural, photography, English, electoral literacy and community. A Super Saturday programme runs soft skills, and &ldquo;English for All&rdquo; runs for students from Hindi-medium schools.</span>
+      </p>
+    </div>
   </div>
 </section>
 
@@ -970,7 +1038,7 @@ a{color:inherit}
     <div class="sec-head">
       <p class="eyebrow">Eligibility &amp; important dates</p>
       <h2 class="sec-title" id="dates-title">Applications close <span data-c="dates.lastDate">30 September 2026</span>.</h2>
-      <p class="sec-lede">Seats are limited and branch allotment goes by merit and by order of application, so applying early counts for more than the deadline does.</p>
+      <p class="sec-lede">Applying early counts for more than the deadline suggests — seats go in the order they are asked for.</p>
     </div>
     <div class="two">
       <div>
@@ -1020,8 +1088,11 @@ a{color:inherit}
           <dt>Patna</dt><dd><span data-c="distance.patna">181 km</span>, <span data-c="distance.patnaTime">about 3 hours</span></dd>
         </dl>
         <address class="addr">
-          <span data-c="org.addressLine1">Neelam Vidya Vihar, Village Sijoul</span><br>
-          <span data-c="org.addressLine2">P.O. Mailam, Madhubani, Bihar 847235</span>
+          <!-- The estate name is deliberately not printed. It stays in the
+               PostalAddress of the JSON-LD, where Google resolves the listing
+               on it, but a prospect has no use for it. -->
+          <span data-c="org.addressVisible">Village Sijoul, P.O. Mailam</span><br>
+          <span data-c="org.addressLine2">Madhubani, Bihar 847235</span>
         </address>
       </div>
       <!-- Map loads only on click. An iframe here on first paint costs about
@@ -1149,7 +1220,7 @@ a{color:inherit}
   <div class="wrap cta__grid">
     <div>
       <p class="cta__flag">Admissions open · apply by <b data-c="dates.lastDate">30 September 2026</b></p>
-      <h2 class="cta__title" id="cta-title">One call, and you will know exactly where you stand.</h2>
+      <h2 class="cta__title" id="cta-title">One call, and you will know <em>exactly where you stand</em>.</h2>
       <p class="cta__lede">
         Tell us where you stand. No obligation, and nothing is charged to speak
         to us.
@@ -1306,8 +1377,8 @@ a{color:inherit}
       <a href="tel:18003132714" data-track="call-footer"><span data-c="org.phone">1800-313-2714</span></a>
       <a href="mailto:info.sijoul@sandipuniversity.edu.in"><span data-c="org.email">info.sijoul@sandipuniversity.edu.in</span></a>
       <address class="ftr__addr">
-        <span data-c="org.addressLine1">Neelam Vidya Vihar, Village Sijoul</span><br>
-        <span data-c="org.addressLine2">P.O. Mailam, Madhubani, Bihar 847235</span>
+        <span data-c="org.addressVisible">Village Sijoul, P.O. Mailam</span><br>
+        <span data-c="org.addressLine2">Madhubani, Bihar 847235</span>
       </address>
       <a class="ftr__wa" href="https://wa.me/918956530828?text=Hi%2C%20I%20want%20B.Tech%20admission%20details%20for%202026%20at%20Sandip%20University%2C%20Madhubani." rel="noopener" data-track="wa-footer">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a13 13 0 0 1-5.7-4.8c-.4-.6-.9-1.5-.9-2.4s.5-1.4.7-1.6c.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6.4.7.9 1.3 1.5 1.8.6.5 1.1.7 1.4.8.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.6 0 1.2Z"/></svg>
