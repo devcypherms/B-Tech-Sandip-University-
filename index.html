@@ -56,21 +56,21 @@ a{color:inherit}
 .ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
 
 .ann ~ main .hero__flag{display:none}.ann ~ .hdr{top:calc(var(--ann-h) + var(--hdr-gap))}
-.ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--hdr-total) + .5rem)}
+.ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--hdr-total) + .5rem)}.hdr__nav{display:flex;gap:1.55rem}.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.875rem;font-weight:600;color:var(--muted)}
 :root{--header-h:4.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
-.hdr{position:fixed;inset:var(--hdr-gap) 0 auto;z-index:50;padding-inline:var(--gutter);pointer-events:none}
-.hdr__in{pointer-events:auto;display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;height:var(--header-h);padding-inline:1.35rem;border-radius:var(--radius-lg);background:rgba(255,255,255,.82);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid rgba(255,255,255,.7);box-shadow:0 1px 2px rgba(10,19,48,.06),0 10px 30px rgba(10,19,48,.10)}
-.hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
-.hdr__logo img{height:36px;width:auto}
-.hdr__spacer{flex:1 1 auto}
-.hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
-.hdr__nav a{text-decoration:none;font-size:.875rem;font-weight:600;color:var(--muted)}
-@media(min-width:1080px){.hdr__nav{display:flex}}
-.hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
+.hdr{position:fixed;inset:var(--hdr-gap) 0 auto;z-index:50;display:none;justify-content:center;padding-inline:var(--gutter);pointer-events:none}
+.hdr__in{pointer-events:auto;display:inline-flex;align-items:center;gap:1.4rem;height:var(--header-h);padding:0 .45rem 0 1.5rem;border-radius:999px;background:rgba(255,255,255,.80);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid rgba(255,255,255,.65);box-shadow:0 1px 2px rgba(10,19,48,.05),0 12px 34px rgba(10,19,48,.13)}
+
+
+
+
+
+@media(min-width:1080px){}
+
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
-@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}}
+@media(min-width:900px){}
 @media(max-width:479px){}
-.hero{position:relative;background:var(--paper);padding:calc(var(--hdr-total) + .5rem) 0 0;color:#fff}
+.hero{position:relative;background:var(--paper);padding:1.1rem 0 0;color:#fff}
 .hero__panel{position:relative;overflow:hidden;isolation:isolate;width:100%;padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%)}
 
 
@@ -116,10 +116,6 @@ a{color:inherit}
 <!-- ========== HEADER ========== -->
 <header class="hdr" id="siteHeader">
   <div class="hdr__in">
-    <a class="hdr__logo" href="#main" aria-label="Sandip University, Madhubani — B.Tech admission 2026">
-      <img src="assets/img/logo-colour.webp" alt="Sandip University" width="201" height="59" fetchpriority="high">
-    </a>
-    <span class="hdr__spacer"></span>
     <nav class="hdr__nav" aria-label="Sections">
       <a href="#programmes">Branches</a>
       <a href="#fees">Fees</a>
@@ -127,9 +123,6 @@ a{color:inherit}
       <a href="#campus">Campus</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="hdr__tel" href="tel:18003132714" data-track="call-header">
-      <span data-c="org.phone">1800-313-2714</span>
-    </a>
     <a class="hdr__cta" href="#apply" data-track="cta-header">Apply for B.Tech</a>
   </div>
 </header>
@@ -168,6 +161,9 @@ a{color:inherit}
 
 
     <div class="hero__copy">
+      <a class="hero__brand" href="#main" aria-label="Sandip University, Madhubani">
+        <img src="assets/img/logo.webp" alt="Sandip University" width="420" height="121" fetchpriority="high">
+      </a>
       <p class="hero__flag">
         <svg class="hero__flag-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 4 2 9l10 5 10-5Z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>
         Admissions open for 2026–27

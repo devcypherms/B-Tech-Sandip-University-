@@ -176,7 +176,8 @@
 
 /* ---------- 2. BASE ---------- */
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr-total) + 1rem)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:1.25rem}
+@media(min-width:900px){html{scroll-padding-top:calc(var(--hdr-total) + 1rem)}}
 body{
   margin:0;background:var(--paper);color:var(--fg);
   font-family:var(--font-body);font-size:1rem;line-height:1.6;
@@ -302,68 +303,68 @@ p:last-child{margin-bottom:0}
 }
 
 /* ---------- 5. HEADER — a floating pill ----------
-   Measured before changing it: the old full-width bar plus the announcement
-   strip held 14% of the screen permanently, on both a phone and a 13-inch
-   laptop. That is what made it read as an old sticky header — a full-height,
-   always-on slab.
+   Second pass, and the first one deserved the criticism: it kept everything
+   the old bar had and rounded the corners, which is a rounded bar, not a pill.
 
-   The pill is the 2025-26 pattern, and the usual objection to it is that a
-   small centred capsule cannot hold real content. That objection is about the
-   capsule, not the pattern: what makes it read as floating is the inset from
-   every edge, the radius, and the shadow — not narrowness. So this one keeps
-   the full --wrap width and holds the logo, five links, the phone number and
-   the CTA without crowding any of them.
+   What came out, and why:
 
-   .hdr is now only a positioning wrapper with no paint of its own; .hdr__in is
-   the pill. Content scrolls past in the gutters either side of it, which is
-   what makes the page feel lighter than a bar bolted across the top.
+   THE LOGO. A pill does not need one. The visitor arrived from an ad and knows
+   whose page this is; the logo is brand furniture, and on a landing page it
+   belongs in the hero, where the page introduces itself. It is there now.
 
-   It shrinks on scroll via the .is-solid class that main.js already toggles
-   from an IntersectionObserver — no scroll handler was added for this. */
+   THE PHONE NUMBER. This page exists to collect form submissions. A number in
+   the header offers a way around the form at the exact moment someone is
+   deciding to fill it — and a call that comes from a header tap arrives
+   without a branch or a district, so it is a worse lead as well as a lost one.
+   It is still on the page four times, where it belongs: under the form, in
+   the final CTA, in the footer, and on the mobile bar for a caller who wants
+   to call.
+
+   What is left is what a pill is for: the five section links and the one
+   action. It shrinks to that content and centres, rather than stretching to
+   --wrap, so the page shows through on both sides of it.
+
+   Below 900px the pill is hidden entirely. The nav does not fit there, and the
+   sticky bottom bar already carries Call, WhatsApp and Apply — a floating
+   capsule holding a single button, above a bar holding the same button, is
+   furniture. Hiding it returns about 60px of a phone screen. */
 .hdr{
   position:fixed;inset:var(--hdr-gap) 0 auto;z-index:50;
+  display:none;justify-content:center;
   padding-inline:var(--gutter);pointer-events:none;
-  transition:top .28s var(--ease);
 }
 .hdr__in{
   pointer-events:auto;
-  display:flex;align-items:center;gap:.9rem;
-  width:100%;max-width:var(--wrap);margin-inline:auto;
-  height:var(--header-h);padding-inline:1.35rem;
-  border-radius:var(--radius-lg);
-  background:rgba(255,255,255,.82);
-  backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
-  border:1px solid rgba(255,255,255,.7);
-  box-shadow:0 1px 2px rgba(10,19,48,.06),0 10px 30px rgba(10,19,48,.10);
+  display:inline-flex;align-items:center;gap:1.4rem;
+  height:var(--header-h);padding:0 .45rem 0 1.5rem;
+  border-radius:var(--radius-pill);
+  background:rgba(255,255,255,.80);
+  backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+  border:1px solid rgba(255,255,255,.65);
+  box-shadow:0 1px 2px rgba(10,19,48,.05),0 12px 34px rgba(10,19,48,.13);
   transition:height .28s var(--ease),background-color .28s var(--ease),box-shadow .28s var(--ease);
 }
-/* Shrunk state. Same class the header already used to go solid, so the two
-   behaviours share one observer. */
+/* Shrunk state, on the .is-solid class main.js already toggles from an
+   IntersectionObserver — no scroll handler was added for this. */
 .hdr.is-solid .hdr__in{
   height:var(--header-h-sm);
-  background:rgba(255,255,255,.94);
-  box-shadow:0 1px 2px rgba(10,19,48,.08),0 14px 36px rgba(10,19,48,.16);
+  background:rgba(255,255,255,.93);
+  box-shadow:0 1px 2px rgba(10,19,48,.07),0 16px 40px rgba(10,19,48,.18);
 }
-.hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
-.hdr__logo img{height:36px;width:auto;transition:height .28s var(--ease)}
-.hdr.is-solid .hdr__logo img{height:30px}
-.hdr__spacer{flex:1 1 auto}
-.hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
-.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;
-  font-size:var(--fs-meta);font-weight:600;color:var(--muted);transition:color .16s var(--ease)}
+.hdr__nav{display:flex;gap:1.55rem}
+.hdr__nav a{display:inline-flex;align-items:center;height:100%;min-height:2.75rem;
+  text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--muted);
+  transition:color .16s var(--ease)}
 .hdr__nav a:hover{color:var(--fg)}
-.hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;
-  color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
-.hdr__tel:hover{color:var(--accent-ink)}
-.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);
-  color:#fff;text-decoration:none;font-weight:700;font-size:var(--fs-meta);
-  padding:.62rem 1.25rem;border-radius:var(--radius-pill);white-space:nowrap;
+.hdr__cta{display:inline-flex;align-items:center;justify-content:center;
+  background:var(--red-fill);color:#fff;text-decoration:none;
+  font-weight:700;font-size:var(--fs-meta);white-space:nowrap;
+  padding:.68rem 1.35rem;border-radius:var(--radius-pill);
   box-shadow:0 4px 14px rgba(224,27,36,.30);
   transition:background-color .18s var(--ease),transform .18s var(--ease)}
 .hdr__cta:hover{background:var(--red-ink)}
 .hdr__cta:active{transform:translateY(1px)}
-@media(min-width:1080px){.hdr__nav{display:flex}}
-@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}.hdr.is-solid .hdr__logo img{height:34px}}
+@media(min-width:900px){.hdr{display:flex}}
 
 /* ---------- 6. HERO ----------
    The critical block in <head> carries the backdrop, headline, proof row and
@@ -371,7 +372,8 @@ p:last-child{margin-bottom:0}
    of it: the branch list, the lead form and the spec rail. */
 /* The hero is a panel, not a band: inset by the gutter, rounded, with the
    photograph clipped inside it. The page ground shows around it. */
-.hero{position:relative;background:var(--paper);padding:calc(var(--hdr-total) + .5rem) 0 0;color:var(--fg-ink)}
+.hero{position:relative;background:var(--paper);padding:1.1rem 0 0;color:var(--fg-ink)}
+@media(min-width:900px){.hero{padding-top:calc(var(--hdr-total) + .5rem)}}
 /* Full-bleed, not an inset card.
 
    As a floating panel it produced three gaps at once on a wide screen: the
@@ -458,6 +460,11 @@ p:last-child{margin-bottom:0}
    pre-rebuild 750/1.08/-.015em — and being later in the cascade, this file was
    winning, so the headline had been rendering at the weaker settings since the
    type pass. Both files now say the same thing. */
+/* The logo, in the hero, because the pill no longer carries it and this is
+   where a landing page introduces itself. White knockout on the dark panel. */
+.hero__brand{display:inline-block;margin-bottom:1.1rem}
+.hero__brand img{height:46px;width:auto;opacity:.97}
+@media(max-width:899px){.hero__brand{margin-bottom:.9rem}.hero__brand img{height:38px}}
 .hero h1{font-weight:800;font-size:var(--fs-h1);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
