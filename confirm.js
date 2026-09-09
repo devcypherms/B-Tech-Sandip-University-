@@ -1,27 +1,4 @@
 #!/usr/bin/env node
-/* =============================================================================
-   confirm.js — the pre-deploy gate.
-
-     node confirm.js
-
-   Reports five things and exits non-zero if any of them would ship:
-
-     1. [[CONFIRM]] values still sitting in content.js
-     2. [[CONFIRM]] text still sitting in the static markup
-     3. data-c hooks whose static text has drifted from content.js
-     4. FAQPage structured data that no longer matches the visible answers
-     5. generated SEO artefacts (canonical, sitemap, robots, Course,
-        CollegeOrUniversity) that no longer agree with each other
-
-   (3) matters because the static text is what a visitor with JS disabled
-   sees, and what a search engine indexes first. If content.js says one fee
-   and the markup says another, one of them is wrong on a live page.
-
-   This IS the deploy step: vercel.json runs it as buildCommand, so a
-   non-zero exit fails the deployment. A dev marker reaching production is
-   the failure this whole content model exists to prevent, and until now
-   the gate only failed if somebody chose to run it.
-   ========================================================================== */
 
 const fs = require('fs');
 const path = require('path');
@@ -34,7 +11,6 @@ const red = s => '\x1b[31m' + s + '\x1b[0m';
 const green = s => '\x1b[32m' + s + '\x1b[0m';
 const dim = s => '\x1b[2m' + s + '\x1b[0m';
 
-/* ---------- 1. markers in content.js ---------- */
 const CONTENT = require(path.join(ROOT, 'content.js'));
 
 const inData = [];
@@ -49,11 +25,6 @@ const inData = [];
   }
 })(CONTENT, '');
 
-/* ---------- 2 & 3. the markup and the generated files ----------
-   sitemap.xml and robots.txt are generated from content.js site.canonical
-   and can carry a marker exactly like the page can. A marker reaching a
-   live robots.txt would point crawlers at a sitemap that does not exist,
-   so they are scanned on the same terms. */
 const htmlFiles = fs.readdirSync(ROOT)
   .filter(f => f.endsWith('.html') || ['sitemap.xml', 'robots.txt', 'vercel.json'].includes(f));
 
@@ -76,9 +47,6 @@ for (const file of htmlFiles) {
     if (hits) hits.forEach(h => inMarkup.push({ file, line: i + 1, text: h }));
   });
 
-  /* Compare each hook's static text with the value it will be given.
-     Deliberately loose about whitespace and HTML entities, strict about
-     everything else. */
   const hookRe = /<span[^>]*\sdata-c="([^"]+)"[^>]*>([\s\S]*?)<\/span>/g;
   let m;
   while ((m = hookRe.exec(html)) !== null) {
@@ -92,9 +60,7 @@ for (const file of htmlFiles) {
 
     const staticText = rawInner
       .replace(/<[^>]+>/g, '')
-      /* The entity table has to cover everything the markup actually uses,
-         or a correct page reports as drifted. &mdash; was missing and the
-         SU-JEE copy tripped it. */
+
       .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
       .replace(/&rsquo;/g, '’').replace(/&lsquo;/g, '‘')
       .replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')
@@ -108,26 +74,12 @@ for (const file of htmlFiles) {
   }
 }
 
-/* ---------- which markers a visitor can actually read ----------
-   A marker in rendered text is a red monospace chip on a live page. A
-   marker in an attribute, a <script> block or an HTML comment is invisible
-   to a reader even though it is in the file.
-
-   The distinction decides whether a marker blocks. Anything a visitor can
-   see blocks regardless of which list it is on, because shipping it means
-   publishing a developer note to a prospective student.
-
-   "Visible" means reachable, not on-screen at load: a marker inside a
-   closed accordion panel is one tap away and counts. This is a static
-   read, and it was checked against the rendered DOM — opening every
-   disclosure in a real browser and walking the text nodes returns the same
-   set it does. */
 function visibleMarkers(html) {
   const stripped = html
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<!--[\s\S]*?-->/g, ' ')
-    /* Attribute values, including the ones carrying a marker. */
+
     .replace(/<[a-zA-Z][^>]*>/g, ' ');
   const out = new Set();
   const hits = stripped.match(MARKER) || [];
@@ -141,50 +93,13 @@ for (const file of htmlFiles) {
   visibleMarkers(fs.readFileSync(path.join(ROOT, file), 'utf8')).forEach(m => visibleSet.add(m));
 }
 
-/* ---------- deploy blockers ----------
-   Not every marker costs the same. These four make the page actively wrong
-   rather than merely incomplete if it ships, so they are named above the
-   full list instead of being left to scroll past with the other 28.
-
-   site.canonical is the worst of them and the least obvious. An unresolved
-   canonical is not a blank: whatever sits there is published to Google as
-   this page's own address. The value this repo shipped with pointed at the
-   Nashik domain, so it would have told crawlers to rank a different page,
-   and quietly wasted every other SEO decision on the build.
-
-   vercel.json runs this file as its buildCommand, so a non-zero exit now
-   fails the deployment itself. Before that, the gate only failed if
-   somebody chose to run it. */
-/* dates.lastDate was a named blocker on the reasoning that an admission
-   page with no deadline has no urgency. That held while 5.10 was six date
-   rows. It is not a deadline the university publishes anywhere - not the
-   admission page, the campus site, its own 2026-27 landing page or the
-   application portal - so the section was rewritten to carry the sequence
-   and the scarcity instead, and nothing on the page now waits on a date.
-
-   It stays in content.js and is still reported as a warning: if the client
-   sends real dates they belong back in 5.10. It is no longer allowed to
-   fail the build, because the page it was protecting no longer exists. */
 const DEPLOY_BLOCKERS = [
   ['site.canonical', 'canonical, og:url, sitemap and robots all derive from it — a wrong value hands the ranking to another page'],
   ['org.phone', 'the site displays one number and dials another; the mobile Call button is wired to this'],
 ];
 
-/* Not a blocker, but not something to lose either.
-
-   FORM_ENDPOINT used to fail the build. The reason given was that the form
-   refuses to submit until it is real — which is true, and which is enforced
-   in main.js rather than here: with no endpoint the form shows a red
-   message saying nothing was sent and nobody has the visitor's details.
-   That is the protection. The gate was a second copy of it, and the second
-   copy was preventing the page from being deployed at all.
-
-   It prints as a banner on every build instead, because a landing page that
-   silently collects nothing is the worst failure available to this project
-   and it must not be quietly forgotten. */
 const FORM_WARN = 'FORM_ENDPOINT';
 
-/* ---------- report ---------- */
 const line = '='.repeat(72);
 console.log('\n' + line);
 console.log(bold('  Pre-deploy check'));
@@ -196,10 +111,6 @@ const unresolvedBlockers = DEPLOY_BLOCKERS.filter(([k]) => {
   return typeof v === 'string' && /\[\[CONFIRM:/.test(v);
 });
 
-/* Two lists now. A marker blocks if it is one of the four named blockers,
-   or if a visitor can read it. Everything else is a warning: the page still
-   works without it, and during admission season three weeks of waiting for
-   a photograph costs more enquiries than shipping without one. */
 const blocking = [];
 const warning = [];
 inData.forEach(d => {
@@ -259,12 +170,6 @@ if (orphanHooks.length) {
   orphanHooks.forEach(d => console.log('     ' + d.file + '  ' + red(d.path)));
 }
 
-/* ---------- 4. FAQPage structured data vs the visible answers ----------
-   Google requires the answer in the structured data to be the answer on the
-   page. Two hand-kept copies of twelve answers will drift, and the drift is
-   invisible: the page looks correct while the rich result quietly says
-   something else. faq-jsonld.js generates the block from the markup; this
-   confirms nobody has since edited one side without regenerating. */
 const faqDrift = [];
 let faqCount = 0;
 try {
@@ -305,11 +210,6 @@ if (!faqDrift.length) {
   faqDrift.forEach(d => console.log('     ' + red(d.q) + '  ' + d.why));
 }
 
-/* ---------- 5. generated SEO artefacts still agree ----------
-   Same argument as the FAQ check: these values live in more than one place
-   and a mismatch is silent. A canonical that disagrees with the sitemap
-   splits the page's own signals; a Course price that has drifted from the
-   fee table publishes a number the visible page contradicts. */
 const seoDrift = [];
 let courseCount = 0;
 try {
@@ -329,16 +229,13 @@ try {
 
   if (fs.existsSync(path.join(ROOT, 'robots.txt'))) {
     const robots = fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8');
-    /* Match to end of line rather than \S+. While the canonical is still a
-       marker its value contains spaces, and \S+ captured only "[[CONFIRM:"
-       and reported a mismatch that was not real. */
+
     const sm = (robots.match(/^Sitemap:[ \t]*(.+?)[ \t]*$/m) || [])[1];
     if (sm !== base + 'sitemap.xml') seoDrift.push('robots.txt Sitemap line does not match the canonical');
     const blocked = robots.match(/^Disallow:\s*(\S+)/gm) || [];
     if (blocked.length) seoDrift.push('robots.txt disallows ' + blocked.join(', ') + ' — a blocked asset path stops the page rendering for the crawler');
   } else seoDrift.push('robots.txt missing — run: node build-seo.js');
 
-  /* Course blocks must carry the same fees and eligibility the page shows. */
   const courseMatch = html.match(/<!-- Course\. GENERATED by build-seo\.js[\s\S]*?<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   if (!courseMatch) {
     seoDrift.push('no generated Course block — run: node build-seo.js');
@@ -376,22 +273,12 @@ console.log('\n' + bold('  5. Generated SEO artefacts agree  (' + courseCount + 
 if (!seoDrift.length) console.log('     ' + green('in step'));
 else seoDrift.forEach(d => console.log('     ' + red(d)));
 
-/* Standing reminder, not a blocker. 5.7 currently shows --madder totals
-   next to dark-red [[CONFIRM]] blocks; they read as different things while
-   both are present, because one is large display type and the other is an
-   outlined monospace chip. Once the chips clear, madder is the only red on
-   the page and the question changes: does it still read as emphasis, or
-   does it read as an error? That can only be judged with the markers gone. */
 console.log('\n' + bold('  Standing check'));
 console.log('     re-verify §5.7 red hierarchy once markers clear');
 console.log('     re-read §5.7 as a whole once markers clear — it is the most');
 console.log('     important block on the page and it sits on ink, so the chips');
 console.log('     are louder there than anywhere else');
 
-/* inMarkup is no longer counted: it is the same values as 1a and 1b seen
-   once per occurrence, and counting both made the total read as 78 when
-   there were 32 questions to answer. Drift and structured-data mismatches
-   still block unconditionally — those are not incomplete, they are wrong. */
 const formValue = lookup(FORM_WARN);
 const formUnset = typeof formValue === 'string' && /\[\[CONFIRM:/.test(formValue);
 if (formUnset) {

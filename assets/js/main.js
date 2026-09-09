@@ -1,11 +1,3 @@
-/* =============================================================================
-   main.js — hydration, accordions, gallery, map, forms.
-
-   Nothing here is required for the page to be readable, indexable or usable.
-   Every value is already in the markup as static text; every accordion panel
-   is a real element; the gallery is a native scroll container. This file
-   improves what is already there and never creates it.
-   ========================================================================== */
 (function () {
   'use strict';
 
@@ -15,11 +7,6 @@
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
 
-  /* ---------- 1. HYDRATION ----------
-     Walk the dotted path in data-c and write the value in. The markup already
-     carries the same value as static text, so this is a consistency pass
-     rather than a render: with JS off the page is complete, and with JS on
-     content.js becomes the single place a fee or a date is changed. */
   function lookup(path) {
     return path.split('.').reduce(function (o, k) {
       return (o && Object.prototype.hasOwnProperty.call(o, k)) ? o[k] : undefined;
@@ -31,20 +18,6 @@
     if (typeof v === 'string' && v && el.textContent.trim() !== v) el.textContent = v;
   });
 
-  /* ---------- 2. HEADER ----------
-     A plain full-width bar at rest, the floating capsule once the page has
-     moved. The sentinel sits 96px into the hero and the root is inset by the
-     bar's height, so the change lands at about 24px of scroll.
-
-     That number is not taste. The resting bar has no fill, so hero copy
-     sliding underneath it would show straight through — and the first line of
-     copy sits 102px down against a 72px bar, so it reaches the bar at 30px of
-     scroll. Firing at 24 means the fill arrives before anything can pass
-     behind it, and it is also early enough that the capsule reads as the
-     answer to scrolling rather than as something that happens later.
-
-     Driven by an IntersectionObserver rather than a scroll handler so it costs
-     nothing on a mid-range phone. */
   var hdr = $('#siteHeader');
   var hero = $('.hero');
   if (hdr && hero && 'IntersectionObserver' in window) {
@@ -56,14 +29,6 @@
     }, { rootMargin: '-' + (hdr.offsetHeight || 64) + 'px 0px 0px 0px' }).observe(sentinel);
   }
 
-  /* ---------- 2b. WHERE AM I ----------
-     Icons beside five links in a 559px capsule would be clutter — five marks
-     competing with the one button that matters. This does the job an icon
-     cannot: it tells the reader which section they are actually in, and it
-     turns the pill from decoration into a position indicator.
-
-     Unlike the header state above, this cannot be an IntersectionObserver —
-     the reason is in the note below. */
   (function () {
     var links = $$('.hdr__nav a');
     if (!links.length) return;
@@ -76,42 +41,12 @@
     var targets = Object.keys(byId)
       .map(function (id) { return document.getElementById(id); })
       .filter(Boolean)
-      /* Document order, so "the last one passed" means the last one down the
-         page rather than the last one written in the nav. */
+
       .sort(function (a, b) {
         return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
       });
     if (!targets.length) return;
 
-    /* Three things were wrong before.
-
-       One: the observer reports changes, not state, and this reacted only to
-       entries that were intersecting — so the last section entered stayed
-       marked forever. Land at the top with a section briefly in the band while
-       images were still settling and "Branches" stayed lit at 0% scroll, with
-       the reader nowhere near it.
-
-       Two: five of the page's sections are in the nav and several are not. A
-       rule that marks only the section it is inside goes blank for long
-       stretches — through scholarships, process and dates — which reads as
-       broken rather than as accurate. The rule is "the last nav section you
-       have passed", measured against a line at 40% of the viewport. Above the
-       first one nothing is marked, which is the correct state over the hero
-       and the one the page opens in.
-
-       Three, and this is why the observer had to go: IntersectionObserver
-       signals crossings, not position. Every link on this page jumps — the nav
-       itself, the buttons, the skip link — and a jump from the FAQ back to the
-       top changes no section from intersecting to not intersecting, because
-       none of them were intersecting a 1%-tall band at either end. Nothing
-       fired, and the mark stayed on FAQ over the hero. Position is what is
-       being asked for here, so position is what is read.
-
-       The cost is a scroll listener, which is what the header state was
-       deliberately built to avoid. It is paid down: passive, coalesced to one
-       animation frame, and doing nothing but reading five rects and comparing
-       one node reference. It does not write unless the answer changed, so it
-       never touches layout in a scroll frame. */
     var current = null;
     var queued = false;
 
@@ -122,13 +57,7 @@
       for (var i = 0; i < targets.length; i++) {
         if (targets[i].getBoundingClientRect().top <= line) mark = byId[targets[i].id];
       }
-      /* Past the end of the last nav section there is nothing left to be in.
-         "Last one passed" is the right rule between the nav sections, because
-         the reader is on their way from one to the next through the sections
-         that are not in the nav — but the closing call to action and the
-         footer are not on the way to anything, so holding FAQ lit down there
-         was claiming a position the reader had left. Nothing before the first,
-         nothing after the last. */
+
       if (targets[targets.length - 1].getBoundingClientRect().bottom < line) mark = null;
       if (mark === current) return;
       if (current) current.removeAttribute('aria-current');
@@ -147,41 +76,18 @@
     paint();
   }());
 
-  /* ---------- 2c. WHAT IS BEHIND THE CAPSULE ----------
-     A single light capsule cannot be glass over this page, because the page is
-     not one colour. Over the white sections a translucent white fill shows the
-     backdrop and reads as glass; carry the same fill over the dark placements
-     section and it reads as a hole punched in the panel — and dropping its
-     opacity far enough to actually see through it takes the nav ink below 4.5:1
-     against the grey it composites to. Measured, not assumed.
-
-     So the capsule takes its material from what it is over. Light glass on the
-     light sections, dark glass on the dark ones, and because each only has to
-     hold contrast against one kind of ground, both can be far more transparent
-     than one compromise fill could ever be.
-
-     Four rects on a frame that already reads five for the section marker. */
   (function () {
     if (!hdr) return;
-    /* Every dark ground on the page, not just the dark sections: the campus
-       band and the credit-card panel are dark objects sitting inside light
-       sections, and leaving them out left the capsule wearing its light fill
-       over the panel — a bright lozenge punched into a navy slab, with the nav
-       ink measured at 4.74 against what it composited to. */
+
     var dark = $$('.hero, .section--ink, .cta, .ftr, .band, .panel');
     if (!dark.length) return;
 
     var pending = false;
     function test() {
       pending = false;
-      /* The capsule's own middle, not the top of the viewport — what matters
-         is the colour directly behind it. */
+
       var y = hdr.getBoundingClientRect().top + hdr.offsetHeight / 2;
-      /* Hysteresis. The capsule inverts against its ground, so a boundary
-         sitting exactly under it would otherwise shimmer between the two
-         materials on every small scroll. Entering a dark ground is immediate;
-         leaving one takes 14px more, so a boundary has to be genuinely crossed
-         before the capsule changes back. */
+
       var pad = hdr.classList.contains('on-dark') ? 14 : 0;
       var over = false;
       for (var i = 0; i < dark.length; i++) {
@@ -196,33 +102,10 @@
     test();
   }());
 
-  /* ---------- 2d. ONE RED PER SCREEN ----------
-     The capsule carries a red button and it never leaves, so anywhere the page
-     puts a red button of its own there were two on one screen — the form's
-     "Request a call back", the fee card's "Talk to a counsellor", the closing
-     ask. Two reds in a view do not double the instruction, they split it: the
-     reader has to work out which one is the one, and the answer is always the
-     same one — the button attached to the thing they are reading.
-
-     So red is a floor, not a fixture. The capsule holds it while nothing else
-     does, and hands it over the moment a real call to action comes into view,
-     dropping to an outline. The reader never loses the action, and there is
-     never more than one red mass on screen. The mobile bar does the same, for
-     the same reason: once the form's own submit is on screen, a second Apply
-     at the foot of the phone is competing with the button the reader is
-     already looking at.
-
-     A crossing is exactly what an IntersectionObserver is for, so unlike the
-     section marker this one does not need the scroll frame. */
   (function () {
     var rivals = $$('.btn-primary');
     if (!rivals.length || !('IntersectionObserver' in window)) return;
 
-    /* State per button, not a running count. A counter looks obvious and is
-       wrong: the observer's first callback reports every button at once,
-       almost all of them not intersecting, so the tally goes deeply negative,
-       gets clamped at zero, and the one button that IS on screen is lost. The
-       page then opened with two reds in the hero. */
     var visible = [];
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -232,32 +115,19 @@
       });
       document.documentElement.classList.toggle('red-taken', visible.length > 0);
     }, {
-      /* Any part of it, not a quarter. At a quarter, a button straddling the
-         screen edge still showed a red sliver while the chrome had not yet
-         given the colour up — two reds on one screen, which is the whole thing
-         this exists to prevent. Measured at two positions on a 390x844 sweep;
-         zero at threshold 0. The handover fades over 220ms, so grazing the
-         edge reads as a soften rather than a switch. */
+
       threshold: 0
     });
     rivals.forEach(function (el) { io.observe(el); });
   }());
 
-  /* ---------- 2e. VIDEO FACADES ----------
-     Nothing from YouTube is requested until someone presses play. The card is
-     a local WebP thumbnail and a button; on click it becomes the iframe, with
-     autoplay so the press that loaded it is also the press that starts it.
-     Same pattern as the map lower down, and the reason is the same — a page
-     that runs on paid traffic cannot spend its first load on three embeds
-     nobody has asked for, and it should not hand a visitor's address to a
-     third party for a video they may never open. */
   $$('.voice').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var yt = btn.getAttribute('data-yt');
       if (!yt || btn.dataset.loaded) return;
       btn.dataset.loaded = '1';
       var f = document.createElement('iframe');
-      /* nocookie, and only the parameters needed to play. */
+
       f.src = 'https://www.youtube-nocookie.com/embed/' + yt + '?autoplay=1&rel=0';
       f.title = btn.getAttribute('aria-label') || 'Student video';
       f.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
@@ -267,15 +137,10 @@
       if (play) play.remove();
       btn.insertBefore(f, btn.firstChild);
       btn.style.cursor = 'default';
-      /* No track() call here: the button already carries data-track, and the
-         generic [data-track] handler below fires on the same click. */
+
     });
   });
 
-  /* ---------- 3. ACCORDIONS ----------
-     Real buttons with aria-expanded, panels toggled by the hidden attribute.
-     The height animation runs from the panel's own scrollHeight and is
-     skipped entirely under prefers-reduced-motion. */
   function closePanel(btn, panel) {
     btn.setAttribute('aria-expanded', 'false');
     if (reduced) { panel.hidden = true; return; }
@@ -310,9 +175,7 @@
       btn.addEventListener('click', function () {
         var open = btn.getAttribute('aria-expanded') === 'true';
         if (open) { closePanel(btn, panel); return; }
-        /* One panel at a time. A reader comparing two branches scrolls
-           between them; a page of open panels is harder to compare, not
-           easier. */
+
         $$('.acc__trigger[aria-expanded="true"]', acc).forEach(function (other) {
           closePanel(other, document.getElementById(other.getAttribute('aria-controls')));
         });
@@ -322,11 +185,6 @@
     });
   });
 
-  /* ---------- 4. RECRUITER MARQUEE ----------
-     The strip animates to -50%, so it needs exactly two copies of the set to
-     loop seamlessly. Cloning here rather than duplicating in the markup
-     keeps one list to maintain and keeps the duplicate out of the
-     accessibility tree and out of the indexable text. */
   var wallTrack = $('#wallTrack');
   if (wallTrack && !reduced) {
     var set = $('.wall__set', wallTrack);
@@ -338,9 +196,6 @@
     }
   }
 
-  /* ---------- 5. GALLERY ----------
-     The strip already scrolls, drags and takes arrow keys on its own. These
-     buttons page it by one viewport and disable themselves at each end. */
   var strip = $('#galStrip');
   var prev = $('#galPrev');
   var next = $('#galNext');
@@ -359,9 +214,6 @@
     sync();
   }
 
-  /* ---------- 6. MAP ON CLICK ----------
-     Google's embed pulls roughly 900KB across three third-party origins. It
-     loads when someone asks for it and not before. */
   var mapBtn = $('#mapBtn');
   if (mapBtn) {
     mapBtn.addEventListener('click', function () {
@@ -378,33 +230,23 @@
     });
   }
 
-  /* ---------- 7. ANALYTICS ----------
-     Nothing third-party is loaded. Events are pushed to the dataLayer, which
-     is where GTM will pick them up once the client confirms the container,
-     the Google Ads conversion ID and the Meta pixel ID (HANDOVER.md item 13).
-     Until then this is a queue nobody is draining, which costs nothing and
-     means the tags need no markup changes when they are switched on. */
   window.dataLayer = window.dataLayer || [];
   function track(action, label) {
     try {
       window.dataLayer.push({ event: 'lp_' + action, lp_label: label || '' });
-    } catch (e) { /* analytics must never break the page */ }
+    } catch (e) {  }
   }
 
   $$('[data-track]').forEach(function (el) {
     el.addEventListener('click', function () { track('click', el.getAttribute('data-track')); });
   });
 
-  /* ---------- 8. FORMS ----------
-     Validated on submit, then per-field once a field has been corrected
-     — validating on first blur punishes someone who has not finished typing.
+  var tel = String((C.org && C.org.phone) || '').replace(/\D/g, '');
+  if (tel) {
+    $$('a[href^="tel:"]').forEach(function (a) { a.href = 'tel:' + tel; });
+  }
 
-     FORM_ENDPOINT beginning with "DEMO:" puts the form into demo mode: it
-     validates, shows the success state and logs the payload, but posts
-     nothing. Swap in the real endpoint and posting turns on with no other
-     change. See HANDOVER.md item 4. */
   var ENDPOINT = C.FORM_ENDPOINT || '';
-  var DEMO = /^DEMO:/i.test(ENDPOINT) || !ENDPOINT;
 
   var RULES = {
     name: function (v) {
@@ -415,8 +257,7 @@
     mobile: function (v) {
       var d = v.replace(/\D/g, '');
       if (!d) return 'Please enter your mobile number.';
-      /* Indian mobile numbers are ten digits and start 6-9. Accepting a
-         leading 0 or +91 and stripping it is kinder than rejecting it. */
+
       if (d.length === 11 && d.charAt(0) === '0') d = d.slice(1);
       if (d.length === 12 && d.slice(0, 2) === '91') d = d.slice(2);
       if (d.length !== 10) return 'A mobile number is 10 digits.';
@@ -424,7 +265,7 @@
       return '';
     },
     email: function (v) {
-      if (!v.trim()) return '';               /* optional */
+      if (!v.trim()) return '';
       return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Please check the email address.';
     },
     branch: function (v) { return v ? '' : 'Please choose a branch.'; },
@@ -432,10 +273,6 @@
     consent: function (v, el) { return el.checked ? '' : 'Please tick this so we may contact you.'; }
   };
 
-  /* form.elements[name] is an element for a single control but a RadioNodeList
-     for a radio group. The list carries .value (the checked value, or '') and
-     nothing else — no setAttribute, no addEventListener, no .type. Both are
-     guarded here rather than at every call site. */
   function isGroup(el) { return el && typeof el.setAttribute !== 'function'; }
   function groupNodes(el) { return isGroup(el) ? Array.prototype.slice.call(el) : [el]; }
 
@@ -529,12 +366,7 @@
         }
       };
 
-      if (DEMO) {
-        /* Demo mode. Nothing is posted anywhere. */
-        if (window.console && console.info) console.info('[demo] enquiry not sent:', payload);
-        window.setTimeout(function () { done(true); }, 550);
-        return;
-      }
+      if (!ENDPOINT) { done(false); return; }
 
       fetch(ENDPOINT, {
         method: 'POST',

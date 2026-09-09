@@ -1,27 +1,10 @@
 #!/usr/bin/env node
-/* =============================================================================
-   faq-jsonld.js — generate the FAQPage block FROM the visible markup.
-
-     node faq-jsonld.js
-
-   Google requires the structured answer to match the answer a visitor reads.
-   Hand-maintaining two copies of twelve answers guarantees they drift, and
-   the drift is invisible: the page looks right and the rich result quietly
-   says something else. So the block is generated from the markup, and
-   confirm.js re-checks the match on every run.
-
-   Note what this means for [[CONFIRM]] markers: a marker inside a visible
-   answer is copied into the JSON-LD verbatim rather than being papered over
-   with a plausible value. confirm.js already refuses to ship any markup
-   containing one, so the gate covers the structured data too.
-   ========================================================================== */
 
 const fs = require('fs');
 const path = require('path');
 
 const FILE = path.join(__dirname, 'index.html');
 
-/* Strip tags and decode the handful of entities this page actually uses. */
 function textOf(html) {
   return html
     .replace(/<[^>]+>/g, '')
@@ -34,8 +17,6 @@ function textOf(html) {
     .trim();
 }
 
-/* Pull the question/answer pairs out of the FAQ accordion only, so the
-   programmes accordion higher up the page is never mistaken for one. */
 function extract(html) {
   const section = html.match(/<div class="acc acc--faq">([\s\S]*?)<\/div>\s*<\/div>\s*<\/section>/);
   if (!section) throw new Error('FAQ accordion not found in index.html');

@@ -1,141 +1,51 @@
-/* =============================================================================
-   Sandip University — B.Tech Admission 2026
-   Conversion rebuild. One family: Instrument Sans, 400 for text and 750-800
-   with tight tracking for display.
-
-   What changed from the page this replaces, and why:
-
-   - MONTSERRAT IS GONE. BRIEF §2 bans it by name, and a third variable font
-     was 68KB on the render path for one headline. Two families now.
-   - TWO GROUNDS, not one. Ink carries the hero, the placement band and the
-     final CTA; paper carries everything a family reads slowly. Alternating
-     them gives the page a rhythm a single beige ground could not, and it
-     puts the three conversion moments on the darker, higher-contrast field.
-   - Density is deliberate. The old page ran 21,389px on a 390px phone — 26
-     screens. Section padding is now on a tighter scale and the accordion
-     rows carry their fee inline rather than in a column of their own.
-   - Colour still marks hierarchy rather than decorating. Red is action and
-     nothing else. Brass marks money. Neither ever fills a large area.
-
-   The measured colour values are carried over unchanged from the previous
-   build — they were derived in OKLCH against both grounds and re-deriving
-   them would have been throwing away work that was already correct.
-   ========================================================================== */
-
-/* ---------- 0. FONTS ----------
-   ONE family, and that is the point.
-
-   Source Serif was carrying every heading and every figure, and it was doing
-   two things wrong at once. It cost 122KB — the heaviest asset on the page
-   after the hero photograph, on the critical path, over Bihar 4G. And it made
-   the page read like a broadsheet: a seventeen-year-old choosing an
-   engineering college is not the reader of a leader column.
-
-   Instrument Sans is 30KB and carries 100-900. Display is the same face at
-   750-800 with tracking pulled in hard; body is 400. Weight and size do the
-   work a second family was being paid 122KB to do. */
 @font-face{font-family:"Instrument Sans";src:url("../fonts/instrument-sans-var.woff2") format("woff2-variations");font-weight:100 900;font-display:swap}
-/* U+20B9 is absent from the latin subset, so every fee figure was silently
-   falling back to a system font. Scoped so it loads only when a rupee renders. */
+
 @font-face{font-family:"Instrument Sans";src:url("../fonts/instrument-sans-rupee.woff2") format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+20B9}
-/* Metric-matched fallback so the swap does not reflow. */
+
 @font-face{font-family:"Sans Fallback";src:local("Arial"),local("Helvetica"),local("Liberation Sans");size-adjust:100%;ascent-override:95%;descent-override:24%;line-gap-override:0%}
 
-/* ---------- 1. TOKENS ----------
-   Third pass, and the one that fixed it. The previous palette was a violet
-   near-black with an indigo accent, and the honest read is that it looked
-   like an AI startup: violet is the default "modern" gradient of the moment
-   and it says nothing about a university. It also fought the hero photograph,
-   which is a sandstone building under a blue sky.
-
-   This is deep royal blue and gold. Blue is the education colour and the one
-   every serious institution in this market already uses, so it reads as
-   trust rather than as trend. Gold is achievement — it marks the scholarship,
-   the loan and the figures, and nothing else. And the blue harmonises with
-   the campus photograph instead of arguing with it.
-
-   Three hues, three jobs, no overlap:
-     BLUE   structure, ground, accent marks, icons, focus, selected states
-     GOLD   money and achievement — the loan, the waiver, the figures
-     RED    action, and only action: the two submit buttons, the header CTA,
-            the deadline countdown, the mobile Apply bar. Nothing else may
-            use it. Red spent as decoration stops working as a signal.
-
-   Every pair measured against the ground it is actually used on. Nothing
-   below 4.5:1. */
 :root{
-  /* Dark grounds */
-  --ink-900:#071033;      /* hero base, final CTA */
-  --ink-800:#0C1A45;      /* placement band */
-  --ink-700:#14265C;      /* raised surface on ink */
-  --royal:#123A8A;        /* gradient partner, never a flat fill */
 
-  /* Light grounds */
+  --ink-900:#071033;
+  --ink-800:#0C1A45;
+  --ink-700:#14265C;
+  --royal:#123A8A;
+
   --paper:#FFFFFF;
-  --paper-2:#F2F5FA;      /* cool, blue-tinted, not beige */
+  --paper-2:#F2F5FA;
   --paper-3:#E3E9F4;
 
-  /* Type */
-  --fg:#0A1330;           /* 18.3:1 on white */
-  --muted:#4E5B78;        /* 6.8:1 on white, 6.2:1 on paper-2 */
-  --fg-ink:#FFFFFF;       /* 18.6:1 on ink-900 */
-  --muted-ink:#A3B4D4;    /* 8.9:1 on ink-900, 5.0:1 on royal */
-  --body-ink:#C6D2EA;     /* 12.2:1 on ink-900, 6.9:1 on royal */
+  --fg:#0A1330;
+  --muted:#4E5B78;
+  --fg-ink:#FFFFFF;
+  --muted-ink:#A3B4D4;
+  --body-ink:#C6D2EA;
   --sub-ink:#C6D2EA;
 
-  /* Rules */
   --hair:rgba(10,19,48,.10);
   --hair-2:rgba(10,19,48,.20);
   --hair-ink:rgba(255,255,255,.14);
 
-  /* Action — red, and only red, and only for action. */
   --brand:#EA1F28;
-  --red-fill:#E01B24;     /* white on it 4.83:1 */
-  --red-ink:#C41220;      /* 6.08:1 on white */
+  --red-fill:#E01B24;
+  --red-ink:#C41220;
   --red-hi:#FF6B63;
   --red-wash:#FFF1F1;
 
-  /* Money and achievement */
-  --gold:#F5B841;         /* 10.5:1 on ink-900, 5.9:1 on royal */
-  --gold-deep:#8A5D06;    /* 5.8:1 on white, 5.3:1 on paper-2 */
+  --gold:#F5B841;
+  --gold-deep:#8A5D06;
 
-  /* Positive outcome. A fourth role, added because the other three cannot do
-     this job: any yellow dark enough to pass 4.5:1 on white lands in
-     olive-brown, so gold could not express "this costs you nothing" — and the
-     ₹0 in the scholarship table, the strongest figure on the page, was
-     rendering in #8A5D06 mud.
-
-     Used ONLY for zero-cost and approved states. Not for the indicative
-     first-year totals, which are a cost and stay gold; not for the money
-     panel, which is money-and-achievement; and never for anything red does. */
-  /* Nav on glass. Its ground moves — blue-tinted over the hero panel,
-     white once the page scrolls under it — so it is measured against both:
-     5.9:1 tinted, 8.4:1 white. --muted was 4.75:1 tinted, which passes with
-     no headroom on a background that changes. */
   --hdr-ink:#414D69;
 
-  --ok:#12703A;        /* 6.2:1 on white, 5.6:1 on paper-2 */
-  --ok-lite:#5EE9A0;   /* 12.1:1 on ink-900 */
+  --ok:#12703A;
+  --ok-lite:#5EE9A0;
   --ok-wash:#E8F6EE;
 
-  /* Accent — carries every decorative and stateful job */
-  --accent:#2454C6;       /* white on it 6.65:1 — fills, icons */
-  --accent-ink:#1B3A8F;   /* 10.3:1 on white, 9.4:1 on paper-2 — text */
-  --accent-wash:#E8EFFC;  /* icon tiles; accent-ink on it is 8.9:1 */
-  --accent-lite:#8FB8FF;  /* 9.3:1 on ink-900 — light-on-dark marks */
+  --accent:#2454C6;
+  --accent-ink:#1B3A8F;
+  --accent-wash:#E8EFFC;
+  --accent-lite:#8FB8FF;
 
-  /* Glass. Two mechanisms, deliberately, because real blur has a budget.
-     backdrop-filter is capped at about two to three surfaces in one view
-     before mid-range devices drop frames, and this page already spends that
-     on a phone: the fixed header and the sticky bar are both blurred and both
-     permanently on screen. Mobile is 85% of the traffic and the weakest
-     hardware, so it gets no new blur at all.
-
-     Everything else uses these three, which produce the same read at zero
-     compositing cost. The inset top highlight is what sells it — a lit edge
-     is how a real pane of glass catches light, and a translucent fill without
-     one just looks faded. Only ever used over the three gradient grounds;
-     on flat white there is nothing behind to suggest. */
   --glass-fill:rgba(255,255,255,.07);
   --glass-line:rgba(255,255,255,.10);
   --glass-edge:rgba(255,255,255,.18);
@@ -146,69 +56,55 @@
   --fs-h1:clamp(2.15rem,6vw,4.6rem);
   --fs-h2:clamp(1.7rem,3.6vw,2.9rem);
   --fs-h3:clamp(1.08rem,1.7vw,1.3rem);
-  --fs-small:.875rem;
 
-  /* Icon scale. An audit of the rendered page found eight different icon
-     sizes — 15, 17, 18, 20, 22, 24, 26 and 34px — which is not a scale, it is
-     eight separate decisions. Four steps, on a 4px grid, each with one job. */
-  --ico-sm:16px;   /* inline in text: chevrons, arrows, small marks */
-  --ico-md:20px;   /* buttons, chips, floating actions */
-  --ico-lg:24px;   /* section and step marks */
-  --ico-xl:32px;   /* feature marks — the one size that carries a claim */
+  --ico-sm:16px;
+  --ico-md:20px;
+  --ico-lg:24px;
+  --ico-xl:32px;
 
-  /* Type scale, for the same reason: the page was rendering 11.5, 12.2, 12.8,
-     13.8, 15, 16, 16.3, 16.8 and 17.3px. These are the only sizes below the
-     headings now. */
-  --fs-label:.75rem;   /* 12px — eyebrows, table heads, form labels */
-  --fs-meta:.875rem;   /* 14px — captions, chips, notes */
-  --fs-body:1rem;      /* 16px — body copy, the floor */
+  --fs-label:.75rem;
+  --fs-meta:.875rem;
+  --fs-body:1rem;
   --fs-lead:1.0625rem;
-  /* Figures. Two steps and no more: the standard figure, and the one display
-     figure the placements section opens with. Before this the page set the
-     same role at 24px in the hero, 26px in the trust row and 24px again in
-     the credit-card panel — a near-miss, which is what reads as careless. */
+  --fs-h4:1.15rem;
+
   --fs-fig:1.625rem;
-  --fs-fig-lg:2.3rem; /* 17px — section ledes, hero subline */
+  --fs-fig-lg:2.3rem;
 
   --space-section:clamp(3.5rem,7.5vw,6rem);
   --gutter:clamp(1.15rem,4vw,3.5rem);
   --wrap:82rem;
-  --radius-sm:10px;    /* chips, icon tiles, logo plates, list items */
+  --radius-sm:10px;
   --radius:16px;
-  --radius-field:12px; /* inputs, selects, the choice tiles */
+  --radius-field:12px;
   --radius-lg:28px;
   --radius-pill:999px;
-  --pill-w:35rem;      /* the capsule's measure once it has collapsed */
+  --pill-w:35rem;
   --shadow-card:0 1px 2px rgba(10,19,48,.05),0 14px 34px rgba(10,19,48,.09);
   --shadow-lift:0 2px 6px rgba(10,19,48,.10),0 28px 70px rgba(10,19,48,.22);
   --header-h:3.75rem;
-  --header-h-sm:3.25rem;  /* shrunk on scroll */
-  --hdr-gap:.6rem;        /* how far the pill floats off the top edge */
-  /* What is on screen once the page has scrolled is the capsule, not the
-     taller resting bar, so anchor offsets and the sticky card measure against
-     the small height. */
+  --header-h-sm:3.25rem;
+  --hdr-gap:.6rem;
+
   --hdr-total:calc(var(--hdr-gap) + var(--header-h-sm));
   --ease:cubic-bezier(.22,.61,.36,1);
 }
 @media(min-width:900px){:root{--header-h:5.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
 
-/* ---------- 2. BASE ---------- */
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:1.25rem}
 @media(min-width:900px){html{scroll-padding-top:calc(var(--hdr-total) + 1rem)}}
 body{
   margin:0;background:var(--paper);color:var(--fg);
-  font-family:var(--font-body);font-size:1rem;line-height:1.6;
+  font-family:var(--font-body);font-size:var(--fs-body);line-height:1.6;
   font-optical-sizing:auto;-webkit-font-smoothing:antialiased;
-  /* The sticky bar is fixed over the page; this keeps it off the footer. */
+
   padding-bottom:env(safe-area-inset-bottom);
 }
 @media(max-width:899px){body{padding-bottom:calc(3.75rem + env(safe-area-inset-bottom))}}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
-/* Display is the body face at 750-800 with tracking pulled in. That tightness
-   is what makes a grotesque read as a display cut rather than as big body
-   copy — without it a one-family page just looks unstyled. */
+
 h1,h2,h3,h4{margin:0;font-weight:800;line-height:1.12;letter-spacing:-.028em}
 p{margin:0 0 1rem}
 p:last-child{margin-bottom:0}
@@ -222,7 +118,6 @@ p:last-child{margin-bottom:0}
 .em{color:var(--gold-deep);font-weight:600}
 .section--ink .em,.cta .em,.hero .em{color:var(--gold)}
 
-/* ---------- 3. SECTIONS ---------- */
 .section{padding-block:var(--space-section);border-top:1px solid var(--hair)}
 .section--tint{background:var(--paper-2)}
 .section--ink{
@@ -232,12 +127,7 @@ p:last-child{margin-bottom:0}
 }
 .section--ink .sec-lede,.section--ink .wall__note{color:var(--muted-ink)}
 .sec-head{max-width:62ch;margin-bottom:clamp(1.75rem,3.5vw,2.75rem)}
-/* Two columns above 1000px. Capped at 62ch, every section heading left 651 of
-   the container's 1312 pixels empty — half the width, beside every single
-   section on the page, which is the void that made the whole thing look
-   unfinished. Title and lede sit side by side and share the width, aligned on
-   their baselines so the lede reads as an answer to the heading rather than
-   as a caption floating beside it. */
+
 @media(min-width:1000px){
   .sec-head{
     max-width:none;display:grid;
@@ -248,10 +138,7 @@ p:last-child{margin-bottom:0}
   .sec-head .sec-title{grid-column:1;grid-row:2;max-width:16ch;margin-bottom:0}
   .sec-head .sec-lede{grid-column:2;grid-row:2;max-width:48ch;padding-bottom:.4rem}
 }
-/* The eyebrow exists so the headline does not have to carry the keyword.
-   BRIEF §6 maps a keyword set to every section, and honouring that inside the
-   headline is what produced label-shaped headings like "Five B.Tech branches".
-   The keyword lives here; the headline is free to answer an objection. */
+
 .eyebrow{display:inline-block;margin:0 0 .6rem;font-weight:700;
   letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);font-size:var(--fs-label)}
 .section--ink .eyebrow,.cta .eyebrow{color:var(--accent-lite)}
@@ -259,14 +146,13 @@ p:last-child{margin-bottom:0}
 .sec-lede{color:var(--muted);font-size:var(--fs-lead);margin:0}
 .sub{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h3);margin-bottom:.9rem}
 
-/* ---------- 4. BUTTONS ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  font-family:var(--font-body);font-size:.95rem;font-weight:700;line-height:1.2;
+  font-family:var(--font-body);font-size:var(--fs-body);font-weight:700;line-height:1.2;
   padding:.9rem 1.6rem;border-radius:var(--radius-pill);border:1px solid transparent;
   text-decoration:none;cursor:pointer;
   transition:background-color .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .18s var(--ease),box-shadow .18s var(--ease);
-  /* 44px minimum target. Phones are the whole audience here. */
+
   min-height:2.875rem;
 }
 .btn-primary{background:var(--red-fill);color:#fff;box-shadow:0 6px 18px rgba(224,27,36,.28)}
@@ -274,56 +160,15 @@ p:last-child{margin-bottom:0}
 .btn-primary:active{transform:translateY(0)}
 .btn[disabled]{opacity:.55;cursor:not-allowed}
 
-/* ---------- 5. HEADER — a floating pill ----------
-   Second pass, and the first one deserved the criticism: it kept everything
-   the old bar had and rounded the corners, which is a rounded bar, not a pill.
-
-   What came out, and why:
-
-   THE LOGO. It sits in the left column of the resting bar, opposite the
-   accreditation, and collapses out on the way into the capsule. That is the
-   one place it can be both prominent and free: in the bar it holds the
-   conventional top-left position at 52px, and by the time the reader is
-   mid-page it has gone, so the capsule still carries only what a reader
-   scrolling needs. Below 900px the bar is hidden, so the hero keeps its own
-   copy of the logo and the mark is never absent and never doubled.
-
-   THE ACCREDITATION. It answers the void the capsule left on the right. A
-   credential is the one thing that earns a permanent place beside the button
-   on a page selling admission — it is the reason to believe, standing where
-   the reader looks after reading the sections.
-
-   THE PHONE NUMBER. This page exists to collect form submissions. A number in
-   the header offers a way around the form at the exact moment someone is
-   deciding to fill it — and a call that comes from a header tap arrives
-   without a branch or a district, so it is a worse lead as well as a lost one.
-   It is still on the page four times, where it belongs: under the form, in
-   the final CTA, in the footer, and on the mobile bar for a caller who wants
-   to call.
-
-   Below 900px the bar is hidden entirely. The nav does not fit there, and the
-   sticky bottom bar already carries Call, WhatsApp and Apply — a floating
-   capsule holding a single button, above a bar holding the same button, is
-   furniture. Hiding it returns about 60px of a phone screen. */
 .hdr{
   position:fixed;inset:0 0 auto;z-index:50;
   display:none;justify-content:center;
   padding:0 var(--gutter);pointer-events:none;
   transition:padding-top .38s var(--ease);
 }
-/* Detached from the top edge only once it has become the capsule. */
+
 .hdr.is-solid{padding-top:var(--hdr-gap)}
 
-/* At rest this is an ordinary header bar and nothing else: full measure, no
-   fill, no border, no shadow, no blur. It sits over the dark top of the hero
-   panel, so it reads as the hero's own top row rather than as a floating
-   object — which is the point. A capsule at 0% scroll has nothing to float
-   above and reads as an ornament; a capsule that appears the moment the page
-   moves reads as the page responding.
-
-   Three columns: brand, sections, actions. The two outer columns collapse to
-   zero width on the way into the capsule, so the same element serves both
-   states and the change is one continuous motion rather than a swap. */
 .hdr__in{
   pointer-events:auto;
   display:grid;grid-template-columns:max-content 1fr auto;align-items:center;
@@ -339,45 +184,7 @@ p:last-child{margin-bottom:0}
              border-radius .38s var(--ease),background-color .34s var(--ease),
              box-shadow .34s var(--ease),border-color .34s var(--ease);
 }
-/* The capsule, on the .is-solid class main.js toggles from an
-   IntersectionObserver — no scroll handler was added for this.
 
-   Two borders, because a light pill over a light ground can never be told
-   apart by its fill: over the white sections the fill and the background are
-   within a few values of each other no matter what tint is used. What defines
-   it there is the edge — a hairline of ink outside so the shape reads, and a
-   highlight inside so it reads as a raised pane rather than a drawn outline. */
-/* THE CAPSULE'S MATERIAL.
-
-   Two wrong answers were tried before this one, and both failed for the same
-   reason — they treated the fill as the thing that makes a floating object
-   visible.
-
-   The first was one light fill everywhere. At .86 the blur had nothing to work
-   on and it read as a solid white lozenge; dropped far enough to actually see
-   through, the nav ink fell under 4.5:1 against the grey it composites to over
-   the navy sections. Measured at 4.74 over the credit-card panel.
-
-   The second was matching: light glass on the light sections, dark glass on
-   the dark ones. Every contrast passed and the capsule disappeared, because a
-   translucent surface that takes the tone of what is behind it is camouflage.
-   That is the opposite of what floating chrome is for.
-
-   This one inverts. The capsule is always the opposite of its ground — dark
-   over the white sections, light over the navy ones — so separation is at its
-   maximum everywhere on the page rather than at its minimum. It is still one
-   material: the same blur, the same saturation lift, the same two-tone edge, a
-   hairline outside and a specular highlight inside. Only the tone flips, and
-   because each tone only has to hold contrast against one kind of ground, both
-   can be genuinely transparent instead of the compromise a single fill forces.
-
-   Inverting also fixes the reason the edge treatment existed. A matched pill
-   needs its two borders because nothing else tells it apart from the ground;
-   an inverted one is already unmistakable, and the borders now do what borders
-   are for — they finish the shape rather than carry it. */
-
-/* Over the light sections. Navy, because navy is the page's own ground and a
-   dark object on white is the most separated thing this page can put there. */
 .hdr.is-solid .hdr__in{
   width:var(--pill-w);column-gap:0;
   height:var(--header-h-sm);padding:0 .4rem 0 1.5rem;
@@ -394,12 +201,6 @@ p:last-child{margin-bottom:0}
 .hdr.is-solid .hdr__nav a[aria-current]{color:#fff}
 .hdr.is-solid .hdr__nav a[aria-current]::after{background:var(--red-hi)}
 
-/* Over the hero, the campus band, the credit-card panel, the placements
-   section, the closing call to action and the footer. Frosted white, which
-   over a saturated navy is the one place on this page the blur has real work
-   to do and shows it. The ink goes to full --fg here, not the tuned header
-   ink: at .70 the fill composites to about 175 grey over those grounds, where
-   #414D69 measures 3.66 and #0A1330 measures 7.7. */
 .hdr.is-solid.on-dark .hdr__in{
   background:rgba(252,253,255,.70);
   backdrop-filter:blur(24px) saturate(195%);-webkit-backdrop-filter:blur(24px) saturate(195%);
@@ -413,38 +214,22 @@ p:last-child{margin-bottom:0}
 .hdr.is-solid.on-dark .hdr__nav a[aria-current]{color:var(--ink-900)}
 .hdr.is-solid.on-dark .hdr__nav a[aria-current]::after{background:var(--red-fill)}
 
-/* ---- brand, left column: present in the bar, gone in the capsule ---- */
 .hdr__brand{
   display:flex;align-items:center;overflow:hidden;
   max-width:16rem;opacity:1;
   transition:max-width .38s var(--ease),opacity .24s var(--ease)}
-/* logo-mark.webp, not logo.webp. The full lockup is a crest, the wordmark, a
-   rule, and then "NAAC / Accredited pvt. University" again — four things in a
-   3.5:1 box, so whatever height it is given, the name itself renders small.
-   Worse, 40% of that canvas was empty: the ink occupied rows 19 to 92 of 121,
-   so a 66px logo was drawing about 40px of artwork.
 
-   The header mark is the crest and the name, trimmed to the ink. At 60px it
-   draws 60px of artwork in 199px of width — larger type than the old lockup
-   managed at 66px, in 30px less width. The accreditation is not lost: it is a
-   line of its own under the headline now, which is where it can be read. */
 .hdr__brand img{height:60px;width:auto;display:block}
 .hdr.is-solid .hdr__brand{max-width:0;opacity:0}
 
-/* ---- actions, right column ---- */
 .hdr__end{display:flex;align-items:center;gap:1.1rem;
   transition:gap .38s var(--ease)}
 .hdr.is-solid .hdr__end{gap:0}
 
-/* The admissions status, opposite the mark. One line, no box: the bar already
-   has a filled button at its right end, and a second bordered object beside it
-   was the thing that read as amateur — two chips of different heights, neither
-   sitting on the other's baseline. Type and a live dot carry it instead, which
-   also means every item in the bar is a single line on one optical centre. */
 .hdr__status{
   display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;overflow:hidden;
   margin:0;max-width:20rem;opacity:1;
-  font-size:.8125rem;font-weight:600;letter-spacing:.005em;color:var(--sub-ink);
+  font-size:var(--fs-meta);font-weight:600;letter-spacing:.005em;color:var(--sub-ink);
   transition:max-width .38s var(--ease),opacity .24s var(--ease)}
 .hdr__dot{
   width:7px;height:7px;flex:none;border-radius:50%;background:var(--gold);
@@ -454,17 +239,13 @@ p:last-child{margin-bottom:0}
 }
 .hdr.is-solid .hdr__status{max-width:0;opacity:0}
 
-/* ---- sections ---- */
 .hdr__nav{display:flex;justify-self:center;gap:1.9rem;transition:gap .38s var(--ease)}
 .hdr.is-solid .hdr__nav{gap:1.35rem}
 .hdr__nav a{position:relative;display:inline-flex;align-items:center;height:100%;min-height:2.75rem;
   text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--body-ink);
   transition:color .16s var(--ease)}
 .hdr__nav a:hover{color:#fff}
-/* The section you are in. A dot rather than an underline: the capsule is short
-   and an underline under one of five links reads as a broken border. */
-/* The capsule's own inks live with the capsule's material, above. These are
-   the resting bar, over the hero. */
+
 .hdr__nav a[aria-current]{color:#fff;font-weight:700}
 .hdr__nav a[aria-current]::after{
   content:"";position:absolute;left:50%;bottom:.55rem;
@@ -472,11 +253,6 @@ p:last-child{margin-bottom:0}
   background:var(--red-hi);
 }
 
-/* Outlined at rest, filled once the bar is a capsule. Above the fold the form
-   is on screen and its "Request a call back" is already red — two red buttons
-   in one view split the instruction, and the one that matters is the one
-   attached to the fields. Once the reader has scrolled the form is gone and
-   this is the only action in view, so it takes the colour back. */
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;
   background:transparent;color:#fff;text-decoration:none;
   font-weight:700;font-size:var(--fs-meta);white-space:nowrap;
@@ -491,12 +267,6 @@ p:last-child{margin-bottom:0}
   box-shadow:0 4px 14px rgba(224,27,36,.30)}
 .hdr.is-solid .hdr__cta:hover{background:var(--red-ink)}
 
-/* ---- and it gives the colour back whenever the page has a red button of its
-   own on screen. Two reds in one view split the instruction rather than
-   doubling it, and the one that should win is always the button attached to
-   what the reader is reading. main.js sets .red-taken from an
-   IntersectionObserver over every .btn-primary. Outlined in whichever ink the
-   capsule's current material calls for. ---- */
 .red-taken .hdr.is-solid .hdr__cta{
   background:transparent;color:#fff;
   border-color:rgba(255,255,255,.36);
@@ -509,20 +279,10 @@ p:last-child{margin-bottom:0}
 .red-taken .hdr.is-solid.on-dark .hdr__cta:hover{
   background:rgba(10,19,48,.07);border-color:rgba(10,19,48,.45)}
 .hdr__cta:active{transform:translateY(1px)}
-/* Below 1180px the bar runs out of room, and the way it ran out was the worst
-   of the options: the brand sits in an auto track, auto tracks shrink under
-   pressure, and .hdr__brand clips rather than scales — so at 900px the logo
-   was silently cut from 153px of artwork to 95px. A clipped mark is worse
-   than no credential, so the credential gives way first and the track is
-   pinned to max-content so this cannot happen quietly again.
 
-   1080-1180: the credential drops its second line and the mark drops eight
-   pixels. Below 1080 the credential goes entirely, leaving mark, sections and
-   button — an ordinary header, and still balanced. It is on the page four
-   more times below the fold. */
 @media(max-width:1179px){
   .hdr__brand img{height:52px}
-  .hdr__status{font-size:.78rem}
+  .hdr__status{font-size:var(--fs-label)}
   .hdr__nav{gap:1.5rem}
 }
 @media(max-width:1079px){
@@ -531,51 +291,25 @@ p:last-child{margin-bottom:0}
 }
 @media(min-width:900px){.hdr{display:flex}}
 
-/* ---------- 6. HERO ----------
-   The critical block in <head> carries the backdrop, headline, proof row and
-   money panel so the hero paints without this file. What follows is the rest
-   of it: the branch list, the lead form and the spec rail. */
-/* The hero is a panel, not a band: inset by the gutter, rounded, with the
-   photograph clipped inside it. The page ground shows around it. */
 .hero{position:relative;background:var(--paper);padding:0;color:var(--fg-ink)}
-/* Full-bleed, not an inset card.
 
-   As a floating panel it produced three gaps at once on a wide screen: the
-   header's background runs edge to edge while the panel capped at --wrap, so
-   their left and right edges did not line up; a white band sat between the two;
-   and the panel's inner padding put its copy 16px off the header's logo. Three
-   different misalignments reading as one unfinished box.
-
-   Edge to edge, the gradient meets the header with no seam, and the grid
-   inside it uses the same --wrap and --gutter as .hdr__in, so the headline
-   starts on the same vertical as the logo above it. */
 .hero__panel{
   position:relative;overflow:hidden;isolation:isolate;width:100%;
-  /* Reset explicitly. The critical block in <head> once set these, and a rule
-     that merely omits a property leaves the earlier value standing. */
+
   max-width:none;margin-inline:0;border-radius:0;
   padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;
-  /* Above 900px the pill floats over this panel, so the content starts below
-     where the pill ends rather than where the panel does. */
+
   background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),
     radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),
     radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),
     linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%);
 }
-/* After the base rule, not before it: the shorthand above sets padding-top,
-   so a media query declared earlier is silently reset by it — which is what
-   put the pill 16px on top of the form. */
+
 @media(min-width:900px){
-  /* Cleared for the resting bar, which is the header at 0% scroll. The bar is
-     transparent and sits over the top of the panel, so this is the only
-     reservation the hero needs. */
+
   .hero__panel{padding-top:calc(var(--header-h) + 1.9rem)}
 }
-/* A fine dot grid over the gradient. Without the photograph the panel was a
-   flat field of colour, and flat colour at this size reads as unfinished
-   rather than as calm. The grid is 1px dots at 22px, at 6% white — invisible
-   as a pattern, but it gives the surface something to catch the light on.
-   Masked away from the bottom so it never competes with the copy. */
+
 .hero__panel::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
@@ -585,95 +319,33 @@ p:last-child{margin-bottom:0}
 }
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem;width:100%;max-width:var(--wrap);margin-inline:auto}
 
-/* Mobile order. display:contents dissolves the copy wrapper so the form can
-   be ordered without a second copy of the markup in the page.
-
-   Two things had to be got right together. The form used to sit under five
-   branch rows, roughly 1,400px down on a 390px screen. And once the children
-   became grid items, each one's own margin-bottom stacked on top of the grid
-   gap, so every gap in the hero was being paid for twice — which is what made
-   it long even after the reorder. Margins are zeroed here and the gap alone
-   does the spacing.
-
-   Order is by what earns the next scroll: the promise, who is making it, what
-   it costs, then the form. The proof chips and the branch list are
-   reassurance rather than argument, so they follow the form rather than
-   delaying it. */
 @media(max-width:899px){
   .hero__copy{display:contents}
   .hero__grid{gap:.95rem}
   .hero__grid>*{margin-bottom:0}
-  /* Specificity, not order: the base .hero__status rule that hides this is
-     declared further down the sheet, so a bare class here would lose to it —
-     the same trap that hid the hero mark and left an 82px void. */
+
   .hero .hero__status{order:1;display:flex}
   .hero h1{order:2;margin-bottom:0}
   .hero__cred{order:3;margin-bottom:0}
   .hero__sub{order:4;margin-bottom:0}
   .hero__money{order:5;margin-bottom:0;max-width:none}
   .lead{order:6}
-  
+
 }
-/* Top-aligned. Centring was tried and was worse: it split the height
-   difference evenly, and the half that landed above pushed the headline a
-   third of the way down the screen. A reader expects a headline at the top.
-   The difference is closed by making the form shorter instead — see the chip
-   grid below. */
+
 @media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}
   .hero__copy{display:flex;flex-direction:column;justify-content:space-between}
   .hero__copy > .hero__rec{padding-top:.5rem}}
 
-/* The "Admissions open" chip that used to open this column is gone. It was
-   11px of type inside a red-tinted border under a 74px headline, which read as
-   an afterthought rather than as a cue, and its red argued with the form's
-   button four inches to the right. The same sentence now sits in the header
-   with a live dot, where it is true for the whole page instead of just the
-   first screen. */
-
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-/* One highlighted phrase, in the money colour, because the phrase that is
-   highlighted IS the offer: the degree without leaving the state. */
-/* Display settings. These had drifted out of step with the critical block in
-   <head>, which carried 800/1.03/-.038em while this file still carried the
-   pre-rebuild 750/1.08/-.015em — and being later in the cascade, this file was
-   winning, so the headline had been rendering at the weaker settings since the
-   type pass. Both files now say the same thing. */
-/* The logo, in the hero, because the pill no longer carries it and this is
-   where a landing page introduces itself. White knockout on the dark panel. */
-/* The hero's own copy of the logo, for phones only. From 900px up the resting
-   header bar carries the mark in the top-left, so this one would be a second
-   logo about forty pixels below the first. Hidden by default rather than
-   hidden in a min-width block, because the declaration order would otherwise
-   put this rule last and it would silently win — which is exactly what it did
-   on the first attempt, leaving an 82px void at the top of the hero. */
+
 .hero__brand{display:none}
 @media(max-width:899px){
   .hero__brand{display:inline-block;margin-bottom:.9rem}
   .hero__brand img{height:46px;width:auto;opacity:1}
 }
 .hero h1{font-weight:800;font-size:var(--fs-h1);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
-/* GRADIENT DISPLAY TYPE, and the rule for it.
 
-   It is worth having, and it is worth being rare. Three things constrain it.
-
-   A gradient makes every glyph a different colour, so contrast stops being a
-   number the DOM can report and has to be sampled from the render. An accent
-   that appears on all nine section titles is not an accent — it is the heading
-   style, and the page loses the ability to point at anything. And a gradient
-   run across a whole multi-line heading lands wherever the line breaks put it:
-   applied to the placements title as a block, it turned "Infosys," gold and
-   left "up to 12 LPA" white, which highlights a layout accident rather than
-   the offer.
-
-   So the rule is the one the hero already followed: the gradient marks the
-   PHRASE that carries the offer, never the heading. Only on the dark grounds,
-   where both stops are bright and the range between them costs nothing —
-   worst case is solid gold on the navy panel, sampled at 8.6:1. The six
-   headings on white keep solid ink, because a gradient over dark ink on white
-   is mud, not a highlight.
-
-   Three phrases on this page: "without leaving Bihar", "up to 12 LPA", and
-   "exactly where you stand". */
 .hero h1 em,.section--ink .sec-title em,.cta__title em{
   font-style:normal;
   background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);
@@ -681,43 +353,21 @@ p:last-child{margin-bottom:0}
   padding-right:.06em;margin-right:-.06em;
   -webkit-box-decoration-break:clone;box-decoration-break:clone;
 }
-/* The credential. It was a bold clause opening the sentence below, which is
-   where a claim goes to be skimmed past — and at body weight and body size it
-   read as copy, not as a fact the university has earned. Given its own line,
-   its own size and a seal, it is the second thing read after the headline.
-   No box: the seal and the size do the work, and the column has too many
-   rectangles already. */
-/* Phones only. Above 900px the header carries this and the hero must not
-   repeat it; below 900px the header is hidden entirely, so without this the
-   admissions cue is absent on the device most of this traffic arrives on. */
+
 .hero__status{
   display:none;align-items:center;gap:.5rem;margin:0 0 .85rem;
-  font-size:.8125rem;font-weight:600;letter-spacing:.005em;color:var(--sub-ink);
+  font-size:var(--fs-meta);font-weight:600;letter-spacing:.005em;color:var(--sub-ink);
 }
 .hero__cred{
   display:flex;align-items:center;gap:.6rem;
   margin:0 0 .85rem;max-width:48ch;
-  font-size:clamp(1.02rem,1.62vw,1.25rem);font-weight:700;
+  font-size:var(--fs-h3);font-weight:700;
   line-height:1.28;letter-spacing:-.014em;color:#fff;
 }
 .hero__cred-ico{width:var(--ico-lg);height:var(--ico-lg);flex:none;color:var(--gold)}
 .hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
 
-/* ---------- HERO FIGURES ----------
-   These were four bordered, filled, inset-highlighted cards. Counted with the
-   chip above them, the money panel below and six logo plates under that, the
-   copy column held twelve rectangles against a form that is itself one large
-   rectangle — a dashboard, not an argument.
-
-   A figure does not need a container to be a figure. Two hairlines crossing
-   separate the four, the numbers carry themselves at 1.5rem, and the column
-   loses four borders, four fills and four shadows at once.
-
-   NOTE the child combinator on the label. `.hero__feats span` also matched the
-   <span> wrapping the figure inside <b>, so "12 LPA" rendered its numeral at
-   label size and its unit at full size. Same fault was found in .figs earlier;
-   scoping to the direct child prevents it. */
 .hero__stats{
   list-style:none;display:grid;grid-template-columns:1fr 1fr;
   margin:0 0 1.35rem;padding:0;max-width:40ch;
@@ -735,26 +385,16 @@ p:last-child{margin-bottom:0}
 .hero__stats li > b span{font-size:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit}
 .hero__stats li > span{
   display:block;margin-top:.15rem;
-  font-size:.75rem;font-weight:600;letter-spacing:.015em;
+  font-size:var(--fs-label);font-weight:600;letter-spacing:.015em;
   color:var(--muted-ink);line-height:1.3;
 }
 @media(max-width:899px){
   .hero__stats{order:7;margin-bottom:1.1rem}
   .hero__stats li{padding:.7rem .8rem .7rem 0}
   .hero__stats li:nth-child(2n){padding-left:1rem}
-  .hero__stats li > b{font-size:1.28rem}
+  .hero__stats li > b{font-size:var(--fs-h3)}
 }
 
-/* The Student Credit Card, above the fold. This is the single fact that
-   decides whether a family weighing Rs 90,000 a year reads any further, and
-   on the page this replaces it sat at 55% scroll depth. Brass, because it is
-   money the reader saves — the only place on the page amber fills anything. */
-/* The page's only added backdrop-filter, and only above 900px: one surface,
-   alone over the hero gradient, already translucent — the blur finishes an
-   effect that was half there. Opacity raised and blur kept small, which reads
-   the same as a bigger blur and costs less. A phone gets the flat version; the
-   header and sticky bar already hold that budget there.
-   (The rgba here also corrects a drift — it was still the violet-era gold.) */
 .hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(245,184,65,.42);background:linear-gradient(180deg,rgba(245,184,65,.14),rgba(245,184,65,.05));box-shadow:inset 0 1px 0 rgba(255,255,255,.16);border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
 @media(min-width:900px){
   .hero__money{background:linear-gradient(180deg,rgba(245,184,65,.20),rgba(245,184,65,.08));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
@@ -763,23 +403,13 @@ p:last-child{margin-bottom:0}
   .hero__money{background:linear-gradient(180deg,rgba(245,184,65,.22),rgba(245,184,65,.10))}
 }
 .hero__money svg{flex:0 0 auto;width:var(--ico-lg);height:var(--ico-lg);color:var(--gold);margin-top:.15rem}
-.hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#EFE2C8}
-.hero__money strong{display:block;font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:.15rem}
+.hero__money p{margin:0;font-size:var(--fs-meta);line-height:1.5;color:#EFE2C8}
+.hero__money strong{display:block;font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h4);font-weight:800;color:#fff;line-height:1.2;margin-bottom:.15rem}
 
-/* Branch list. "Which branch" is the first question a student has, so it is
-   answered before the form asks them to choose one. Real markup, so it is
-   indexable and survives the photograph failing to load. */
-
-/* Recruiter marks in the hero's left column. See the note in index.html: the
-   columns are not the same height and no alignment value closes a 460px gap. */
 .hero__rec{margin-top:.35rem}
-.hero__rec-lbl{margin:0 0 .7rem;font-size:.74rem;font-weight:600;letter-spacing:.03em;
+.hero__rec-lbl{margin:0 0 .7rem;font-size:var(--fs-label);font-weight:600;letter-spacing:.03em;
   text-transform:uppercase;color:var(--muted-ink)}
-/* One plate, not six. The logos are opaque artwork on white, so each needed a
-   white ground to be legible on the gradient — but six separate grounds read
-   as six more boxes in a column that had too many. A single strip gives every
-   logo the ground it needs and costs one rectangle instead of six, and it is
-   also the conventional way this row is set. */
+
 .hero__rec-row{
   list-style:none;display:flex;flex-wrap:wrap;align-items:center;
   gap:.35rem 1.25rem;margin:0;padding:.6rem 1.1rem;
@@ -794,28 +424,16 @@ p:last-child{margin-bottom:0}
   .hero__rec-row img{width:70px;height:21px}
 }
 
-/* Spec rail. Four facts on hairlines, pinned under the hero. */
-
-/* ---------- 7. FORMS ----------
-   Rebuilt against the reference pages. The three things that dated the old
-   form: hairline-bordered fields on a flat fill, a native <select> for the
-   one question that decides the lead, and a square-ish submit.
-
-   Fields are now soft-filled with no visible border until focus, which is
-   the current convention and reads lighter. The branch question is a radio
-   group of chips: a dropdown hides its own options and costs two taps, chips
-   show all five branches and cost one — and on a phone that is the difference
-   between a considered answer and "Not sure yet". */
 .lead{
   background:var(--paper);color:var(--fg);
   border-radius:var(--radius-lg);padding:clamp(1.25rem,2.6vw,1.65rem);
   box-shadow:var(--shadow-lift);
   border:1px solid rgba(255,255,255,.6);
 }
-.lead__title{font-size:1.45rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
+.lead__title{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
 .lead__lede{color:var(--muted);font-size:var(--fs-meta);margin-bottom:1rem}
-.lead__submit{width:100%;margin-top:.4rem;font-size:1rem;padding-block:1rem}
-.lead__foot{margin:.85rem 0 0;font-size:.85rem;color:var(--muted);text-align:center}
+.lead__submit{width:100%;margin-top:.4rem;font-size:var(--fs-body);padding-block:1rem}
+.lead__foot{margin:.85rem 0 0;font-size:var(--fs-meta);color:var(--muted);text-align:center}
 .lead__foot a{display:inline-block;padding:.6rem .2rem;min-height:2.75rem;color:var(--accent-ink);font-weight:700}
 
 .f__field{margin-bottom:.8rem}
@@ -826,14 +444,13 @@ p:last-child{margin-bottom:0}
 .f__opt{font-weight:400;color:var(--muted)}
 
 .f__input,.f__select{
-  width:100%;font-family:inherit;font-size:1rem;font-weight:600;color:var(--fg);
+  width:100%;font-family:inherit;font-size:var(--fs-body);font-weight:600;color:var(--fg);
   background:var(--paper-2);border:1.5px solid transparent;border-radius:var(--radius-field);
   padding:.85rem .9rem;min-height:3rem;
   transition:background-color .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease);
 }
 .f__input::placeholder{color:#9AA0B4}
-/* 16px on the control itself, or iOS zooms the page on focus and the visitor
-   loses the form. */
+
 .f__input:focus,.f__select:focus{
   outline:none;background:var(--paper);
   border-color:var(--accent);box-shadow:0 0 0 4px rgba(36,84,198,.18);
@@ -842,25 +459,19 @@ p:last-child{margin-bottom:0}
 .f__select{appearance:none;-webkit-appearance:none;padding-right:2.5rem;cursor:pointer}
 .f__selectwrap svg{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);width:var(--ico-sm);height:var(--ico-sm);pointer-events:none;color:var(--muted)}
 
-/* Mobile field with a fixed country code. The prefix is decorative — the
-   input still holds ten digits and the validator still strips a stray 0 or 91
-   if someone types one anyway. */
 .f__tel{display:flex;align-items:stretch;background:var(--paper-2);border:1.5px solid transparent;
   border-radius:var(--radius-field);overflow:hidden;transition:border-color .16s var(--ease),box-shadow .16s var(--ease),background-color .16s var(--ease)}
 .f__tel:focus-within{background:var(--paper);border-color:var(--accent);box-shadow:0 0 0 4px rgba(36,84,198,.18)}
-.f__tel-cc{display:flex;align-items:center;padding:0 .5rem 0 .9rem;font-size:1rem;font-weight:700;
+.f__tel-cc{display:flex;align-items:center;padding:0 .5rem 0 .9rem;font-size:var(--fs-body);font-weight:700;
   color:var(--muted);border-right:1px solid var(--hair)}
 .f__tel .f__input{border:0;border-radius:0;background:transparent;padding-left:.7rem}
 .f__tel .f__input:focus{box-shadow:none;background:transparent}
 
-/* Branch chips. Real radios, visually hidden but focusable, so the group is
-   arrow-key navigable and announced correctly. */
 .chips{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 @media(min-width:1180px){.chips{grid-template-columns:repeat(3,1fr)}}
 .chips.is-bad .chip{border-color:rgba(196,18,32,.5)}
-/* The catch-all spans the row: it is a different kind of answer from the five
-   branches above it, and it should not read as a sixth branch. */
-.chip--wide{grid-column:1/-1;font-size:.85rem}
+
+.chip--wide{grid-column:1/-1;font-size:var(--fs-meta)}
 .chip{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;
   min-height:2.85rem;padding:.5rem .55rem;border-radius:var(--radius-field);cursor:pointer;
   background:var(--paper-2);border:1.5px solid transparent;
@@ -874,86 +485,58 @@ p:last-child{margin-bottom:0}
 
 .f__check{display:flex;gap:.65rem;align-items:flex-start;font-size:var(--fs-meta);color:var(--muted);margin:.7rem 0 .2rem;padding:.4rem 0;min-height:2.75rem;cursor:pointer;line-height:1.45}
 .f__check input{flex:0 0 auto;width:1.2rem;height:1.2rem;margin:.05rem 0 0;accent-color:var(--accent)}
-.f__err{margin:.35rem 0 0;font-size:.78rem;color:var(--red-ink);font-weight:700}
+.f__err{margin:.35rem 0 0;font-size:var(--fs-label);color:var(--red-ink);font-weight:700}
 .f__input[aria-invalid="true"],.f__select[aria-invalid="true"]{border-color:var(--red-ink);background:var(--red-wash)}
-.f__status{margin:.85rem 0 0;font-size:.86rem;padding:.8rem .9rem;border-radius:var(--radius-field);background:var(--paper-2)}
+.f__status{margin:.85rem 0 0;font-size:var(--fs-meta);padding:.8rem .9rem;border-radius:var(--radius-field);background:var(--paper-2)}
 .f__status.is-ok{background:#E9F7EE;color:#125A2A}
 .f__status.is-bad{background:var(--red-wash);color:var(--red-ink)}
 .lead.is-sent .f__field,.lead.is-sent .f__row,.lead.is-sent .f__check,.lead.is-sent .lead__submit,.lead.is-sent .lead__broch{display:none}
 
-/* Brochure link under the form. A second, lower-commitment action for someone
-   not ready to hand over a phone number. */
 .lead__broch{display:flex;align-items:center;justify-content:center;gap:.45rem;
   margin-top:.6rem;padding:.85rem .5rem .35rem;border-top:1px solid var(--hair);
-  min-height:2.75rem;font-size:.85rem;font-weight:700;color:var(--muted);text-decoration:none}
+  min-height:2.75rem;font-size:var(--fs-meta);font-weight:700;color:var(--muted);text-decoration:none}
 .lead__broch:hover{color:var(--accent-ink)}
 .lead__broch svg{width:var(--ico-sm);height:var(--ico-sm)}
 
-/* ---------- 8. TRUST STRIP ----------
-   Four credential cards on the page ground, each with a mark. It used to be a
-   second full-bleed dark band directly under an inset dark panel, which
-   stepped dark-to-dark with a hard seam across the middle. */
-/* ---------- 8b. CAMPUS BAND ----------
-   Full bleed on purpose: it is the only element on the page that is not inside
-   the --wrap grid, which is what makes it read as a break in the rhythm rather
-   than as another card. Fixed aspect so it cannot shift layout. */
 .band{position:relative;isolation:isolate;background:var(--ink-900)}
-.band picture{display:block;width:100%;height:100%}
+.band picture{display:block;width:100%}
 .band img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;aspect-ratio:3/2;display:block}
 @media(min-width:700px){.band img{aspect-ratio:21/8}}
-/* The figure bar, attached to the bottom of the photograph with no gap so the
-   two read as one composed block rather than as a picture and then a strip.
-   The caption that used to float over the picture is gone: the bar says where
-   this is, and a caption saying it again over the brightest part of the image
-   was the least readable place on the page to say anything.
 
-   125+ leads at display size because it is the figure that is actually rare
-   here, and because the photograph directly above it is the evidence. The
-   other two follow at standard figure size, on a hairline. */
-.band__bar{background:var(--ink-900);padding:clamp(1.4rem,3vw,2rem) 0}
-.band__in{
-  display:grid;grid-template-columns:1fr;gap:1.25rem;
-  padding-inline:var(--gutter);
+.band__figs{
+  background:var(--ink-900);z-index:1;
+  list-style:none;margin:0;
+  display:grid;grid-template-columns:1fr 1fr;
+  column-gap:clamp(1rem,3vw,2.5rem);row-gap:1.1rem;
+  padding:1.35rem var(--gutter);
+  padding-inline:max(var(--gutter), calc((100% - var(--wrap)) / 2));
+  background-image:linear-gradient(180deg,
+    transparent 0%,
+    rgba(4,9,26,.30) 34%,
+    rgba(4,9,26,.72) 58%,
+    rgba(4,9,26,.94) 76%,
+    rgba(4,9,26,.97) 100%);
 }
-.band__lead{margin:0;display:flex;align-items:baseline;gap:.75rem}
-.band__lead b{
-  font-size:clamp(2.6rem,6vw,3.6rem);font-weight:800;letter-spacing:-.04em;
-  line-height:.95;color:transparent;
+.band__figs li{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.band__figs b{
+  font-size:var(--fs-fig-lg);font-weight:800;letter-spacing:-.038em;
+  line-height:1;color:#fff;
+}
+.band__figs b.is-lead{
+  color:transparent;
   background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);
   -webkit-background-clip:text;background-clip:text;
 }
-.band__lead > span{
-  display:flex;flex-direction:column;
-  font-size:var(--fs-lead);font-weight:700;color:#fff;
-  letter-spacing:-.014em;line-height:1.2;
+.band__figs span{
+  font-size:var(--fs-meta);font-weight:600;color:var(--body-ink);line-height:1.3;
 }
-.band__lead i{
-  font-style:normal;margin-top:.2rem;
-  font-size:.8125rem;font-weight:500;color:var(--muted-ink);letter-spacing:0;
+@media(min-width:760px){
+  .band__figs{
+    position:absolute;left:0;right:0;bottom:0;background-color:transparent;
+    grid-template-columns:repeat(4,1fr);padding-top:8rem;padding-bottom:1.9rem;
+  }
+  .band__figs span{font-size:var(--fs-meta)}
 }
-.band__figs{
-  list-style:none;margin:0;padding:0;
-  display:grid;grid-template-columns:1fr 1fr;
-  border-top:1px solid var(--hair-ink);
-}
-.band__figs li{padding:.95rem 1rem .2rem 0}
-.band__figs li + li{padding-left:1.4rem;border-left:1px solid var(--hair-ink)}
-.band__figs b{display:block;font-size:var(--fs-fig);font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1.1}
-.band__figs span{display:block;margin-top:.15rem;font-size:.78rem;font-weight:600;color:var(--muted-ink);line-height:1.3}
-@media(min-width:820px){
-  .band__in{grid-template-columns:auto 1fr;align-items:center;gap:clamp(2rem,5vw,4.5rem)}
-  .band__figs{border-top:0;grid-template-columns:auto auto;justify-content:end}
-  .band__figs li{padding:.2rem 0 .2rem 2.4rem}
-  .band__figs li + li{padding-left:2.4rem;margin-left:2.4rem;border-left:1px solid var(--hair-ink)}
-}
-
-/* ---------- 9. WHY ----------
-   Two columns of cards. This stayed editorial for a long time on the argument
-   that a four-card "why us" grid is what every other college site in India
-   already is — which was true of the OLD card, a rounded box with a stock
-   icon and three adjectives. These carry a specific claim each and a mark
-   that names it, and the section is the page's actual argument, so it should
-   look like something rather than like a column of paragraphs. */
 .why{display:grid;gap:.85rem}
 .why__item{
   background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
@@ -965,13 +548,9 @@ p:last-child{margin-bottom:0}
 .why__ico{grid-row:1/3;width:var(--ico-xl);height:var(--ico-xl);padding:6px;border-radius:var(--radius-sm);
   background:var(--accent-wash);color:var(--accent);margin-top:.1rem}
 .why__item h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.025em;margin-bottom:.4rem;align-self:center}
-.why__item p{color:var(--muted);max-width:62ch;margin:0;font-size:1rem}
+.why__item p{color:var(--muted);max-width:62ch;margin:0;font-size:var(--fs-body)}
 @media(min-width:860px){.why{grid-template-columns:1fr 1fr;gap:1rem}}
 
-/* ---------- 10. ACCORDION (programmes and FAQ) ----------
-   Rows are cards rather than lines on a rule. A stack of hairline rows reads
-   as a table of contents; cards read as things you can open, which is what
-   they are. */
 .acc{display:grid;gap:.65rem;border-top:0}
 .acc__row{
   border:1px solid var(--hair);border-radius:var(--radius);background:var(--paper);
@@ -991,17 +570,14 @@ p:last-child{margin-bottom:0}
 .acc__trigger:hover{color:var(--accent-ink)}
 .acc__name{flex:1 1 auto}
 .acc__meta{flex:0 0 auto;font-size:var(--fs-meta);font-weight:400;color:var(--muted);white-space:nowrap}
-.acc__meta b{font-size:1.02rem;font-weight:800;color:var(--fg);letter-spacing:-.02em}
-/* Soft scarcity, and deliberately soft: no number, no percentage, no counter.
-   The CSE panel already states that this branch carries the largest intake and
-   still closes earliest, so the tag repeats the page rather than inventing
-   anything. Amber, not red — red is reserved for things you press. */
+.acc__meta b{font-size:var(--fs-lead);font-weight:800;color:var(--fg);letter-spacing:-.02em}
+
 .acc__tag{display:inline-block;margin-left:.5rem;vertical-align:.08em;
-  font-family:var(--font-body);font-size:.68rem;font-weight:700;letter-spacing:.04em;
+  font-family:var(--font-body);font-size:var(--fs-label);font-weight:700;letter-spacing:.04em;
   text-transform:uppercase;color:var(--gold-deep);
   background:rgba(245,184,65,.16);border:1px solid rgba(138,93,6,.28);
   border-radius:var(--radius-pill);padding:.16rem .5rem;white-space:nowrap}
-/* The plus is drawn: two rules that cannot arrive late or at the wrong weight. */
+
 .acc__icon{position:relative;flex:0 0 auto;width:26px;height:26px;border-radius:50%;
   background:var(--paper-2);transition:background-color .16s var(--ease)}
 .acc__trigger:hover .acc__icon{background:var(--accent-wash)}
@@ -1015,7 +591,7 @@ p:last-child{margin-bottom:0}
 .acc__panel{overflow:hidden}
 .acc__panel[hidden]{display:none}
 .acc__body{padding:0 1.25rem 1.35rem;max-width:72ch}
-.acc__body p{color:var(--muted);font-size:1rem}
+.acc__body p{color:var(--muted);font-size:var(--fs-body)}
 .acc__body p b{color:var(--fg);font-weight:700}
 .acc--faq .acc__trigger{font-size:var(--fs-body);font-weight:700}
 @media(max-width:559px){
@@ -1027,11 +603,9 @@ p:last-child{margin-bottom:0}
   .acc__body{padding:0 1.1rem 1.2rem}
 }
 
-/* Spec list. Term left, value left — right-aligning the value came out ragged
-   on the long ones. Wrapped as a card outside the accordion, plain inside it. */
 .spec{margin:0 0 1.1rem;display:grid;gap:0}
-.spec dt{font-size:.76rem;font-weight:600;color:var(--muted);padding-top:.7rem;letter-spacing:.01em}
-.spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair);font-size:1rem}
+.spec dt{font-size:var(--fs-label);font-weight:600;color:var(--muted);padding-top:.7rem;letter-spacing:.01em}
+.spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair);font-size:var(--fs-body)}
 .spec dd:last-child{border-bottom:0}
 @media(min-width:640px){
   .spec{grid-template-columns:minmax(9rem,15rem) 1fr;column-gap:1.5rem}
@@ -1040,16 +614,10 @@ p:last-child{margin-bottom:0}
   .spec dt:last-of-type{border-bottom:0}
   .spec--wide{grid-template-columns:minmax(11rem,18rem) 1fr}
 }
-/* Outside an accordion panel the spec list is a standalone block, so it gets
-   the same card the tables get. Inside one it must not, or the panel reads as
-   a card inside a card. */
+
 .two .spec{background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
   box-shadow:var(--shadow-card);padding:.35rem 1.15rem;margin-bottom:0}
 
-/* ---------- 11. NUDGE (mid-page CTA) ----------
-   Three of these down the page, each after a section that raises a question
-   the admission cell can answer. The old build had one form at the top and
-   one at 93% depth, with nothing in between. */
 .nudge{
   display:flex;flex-direction:column;gap:1.1rem;align-items:flex-start;
   margin-top:clamp(1.75rem,3.5vw,2.5rem);padding:clamp(1.35rem,3vw,2rem);
@@ -1060,21 +628,17 @@ p:last-child{margin-bottom:0}
 
 .section--tint .nudge{background:radial-gradient(90% 120% at 5% 0%, rgba(41,98,214,.48) 0%, transparent 62%),
              linear-gradient(150deg,#0F2C70 0%,var(--ink-900) 72%)}
-.nudge p{margin:0;font-size:1rem;max-width:56ch;font-weight:600;color:var(--body-ink)}
+.nudge p{margin:0;font-size:var(--fs-body);max-width:56ch;font-weight:600;color:var(--body-ink)}
 .nudge .btn{flex:0 0 auto}
 @media(min-width:760px){.nudge{flex-direction:row;align-items:center;justify-content:space-between;gap:2rem}}
 
-/* ---------- 12. TABLES ----------
-   Wrapped as cards. Bare hairline tables on a white ground are what made
-   every money section on this page read like a printed prospectus. The data
-   has not changed; the container has. */
 .tablewrap{
   overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:.85rem;
   background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
   box-shadow:var(--shadow-card);
 }
 .section--tint .tablewrap{background:var(--paper)}
-.tbl{width:100%;border-collapse:collapse;font-size:1rem;min-width:30rem}
+.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-body);min-width:30rem}
 .tbl caption{text-align:left}
 .tbl th,.tbl td{text-align:left;padding:.9rem 1.1rem;border-bottom:1px solid var(--hair);vertical-align:middle}
 .tbl tbody tr:last-child th,.tbl tbody tr:last-child td{border-bottom:0}
@@ -1087,46 +651,26 @@ p:last-child{margin-bottom:0}
 .tbl tbody tr:hover{background:var(--paper-2)}
 .tbl td.num,.tbl th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:-.022em;font-size:var(--fs-lead)}
 .tbl thead th.num{font-weight:700;letter-spacing:.045em;font-size:var(--fs-label)}
-.tbl--total td.num{font-size:1.08rem}
+.tbl--total td.num{font-size:var(--fs-lead)}
 .tbl__note{font-size:var(--fs-meta);color:var(--muted);max-width:70ch;margin-bottom:clamp(2rem,4vw,3rem)}
 .tbl__note--lead{margin-bottom:.5rem;color:var(--fg)}
 
-/* Two places where blocks were touching at 0px against a 16px median gap for
-   the page: the programmes accordion ran straight into the note beneath it,
-   and the featured student cards ran straight into the record toggle.
-   Adjacent-sibling selectors so nothing else moves. */
 .acc + .tbl__note{margin-top:1.5rem}
 .students + .plist{margin-top:1.35rem}
 .fees__h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.025em;margin-bottom:.8rem;padding-top:.5rem}
-.fees__p{color:var(--muted);font-size:1rem;max-width:66ch}
+.fees__p{color:var(--muted);font-size:var(--fs-body);max-width:66ch}
 
-/* Five columns need room on a wide screen; below 720px .tbl--stack takes over.
-   These rules were lost once already, when the tables section was rewritten as
-   cards — and the loss was invisible on desktop, so the "85% and above, you
-   pay ₹0" column silently went back off-screen on every phone. */
 .tbl--schol{min-width:44rem}
-.tbl--schol thead th span{display:block;font-weight:400;font-size:.68rem;color:var(--muted);letter-spacing:0;text-transform:none}
+.tbl--schol thead th span{display:block;font-weight:400;font-size:var(--fs-label);color:var(--muted);letter-spacing:0;text-transform:none}
 .tbl--schol td.free{color:var(--ok);font-weight:800}
 @media(min-width:1100px){.tablewrap:has(.tbl--schol){max-width:none}}
 
-/* Columns that can be dropped on a phone rather than scrolled off it.
-
-   And the actual root cause of every "the fee column is missing" bug on this
-   page: .tbl carries min-width:30rem so wide tables scroll inside their card
-   on a desktop. On a 390px phone that is 480px of forced overflow, so EVERY
-   table scrolled and the rightmost column — always the money — sat off-screen.
-   Dropping the min-width lets the two-column tables simply fit; the ones that
-   still cannot fit are stacked by .tbl--stack below. */
 @media(max-width:719px){
   .col-hide-sm{display:none}
   .tbl{min-width:0}
   .tbl th,.tbl td{padding:.8rem .9rem}
 }
 
-/* Stacked tables. A three-column money table on a 390px screen pushes its
-   money column off the right edge, and horizontal scroll inside a card is
-   almost never discovered — so the figure the whole section exists to show
-   was invisible to 85% of the traffic. Stacked, every value is on screen. */
 @media(max-width:719px){
   .tablewrap:has(.tbl--stack){overflow:visible;max-width:none}
   .tbl--stack{min-width:0;display:block}
@@ -1135,20 +679,14 @@ p:last-child{margin-bottom:0}
   .tbl--stack tr{border-bottom:1px solid var(--hair);padding:.9rem 1.1rem}
   .tbl--stack tr:last-child{border-bottom:0}
   .tbl--stack tr:hover{background:transparent}
-  .tbl--stack th[scope="row"]{display:block;border:0;padding:0 0 .5rem;font-size:.98rem;font-weight:700}
+  .tbl--stack th[scope="row"]{display:block;border:0;padding:0 0 .5rem;font-size:var(--fs-body);font-weight:700}
   .tbl--stack td{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
     border:0;padding:.3rem 0;text-align:right;white-space:normal}
-  .tbl--stack td::before{content:attr(data-l);font-size:.8rem;font-weight:600;color:var(--muted);text-align:left}
-  .tbl--stack td.em,.tbl--stack td.free{margin-top:.35rem;padding-top:.5rem;border-top:1px solid var(--hair);font-size:1.15rem}
+  .tbl--stack td::before{content:attr(data-l);font-size:var(--fs-label);font-weight:600;color:var(--muted);text-align:left}
+  .tbl--stack td.em,.tbl--stack td.free{margin-top:.35rem;padding-top:.5rem;border-top:1px solid var(--hair);font-size:var(--fs-h4)}
   .tbl--stack td.free::before{color:var(--ok);font-weight:700}
 }
 
-/* ---------- 12b. FEES LAYOUT ----------
-   On a 1440 screen the fee tables cap at 64rem and leave the right third of
-   the section empty. That column now carries a sticky counsellor card: this
-   is the one place on the page where a reader is doing arithmetic about
-   money, which is exactly where they want someone to check it for them.
-   Single column under 1100px, where there is no spare width to fill. */
 .fees__grid{display:block}
 .fees__main{min-width:0}
 .feecard{display:none}
@@ -1156,61 +694,37 @@ p:last-child{margin-bottom:0}
 @media(min-width:1100px){
   .fees__grid{display:grid;grid-template-columns:minmax(0,1fr) 19rem;gap:clamp(2rem,4vw,3.5rem);align-items:start}
   .tablewrap{max-width:none}
-  /* Sticky, and it should be: it is a persistent call to action beside a
-     section a reader spends real time in, which is exactly the job the
-     reference pages give their form. It travels with the reader rather than
-     scrolling away at the first table.
 
-     It is not a caption for whatever happens to be level with it — the copy
-     is deliberately about the whole section ("your figure, worked out"), so
-     it holds true beside the tuition table, the credit card and the bands
-     alike. */
-  /* Light, and it used to be dark. Two reasons, and they are the same reason.
-
-     It sticks, and so does the capsule, so for the whole of this section the
-     reader has two objects riding the scroll — and while it was a navy slab
-     with a shadow it read as a second piece of chrome competing with the
-     first, rather than as part of the column it belongs to. It also sat
-     directly beside the navy credit-card panel, which put two dark slabs and
-     two red buttons side by side in a section that is otherwise white.
-
-     Dark on this page marks moments: arrival, proof, and the closing ask, plus
-     the credit card, which is the one fact that decides whether a family reads
-     on. A tool the reader uses is not a moment. This one is a card now. */
   .feecard{
     display:block;position:sticky;top:calc(var(--hdr-total) + 1.25rem);
     background:var(--paper);color:var(--fg);
     border:1px solid var(--hair);
     border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-lift);
   }
-  .feecard__k{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;font-weight:800;color:var(--fg);margin-bottom:.5rem}
-  .feecard__p{font-size:.86rem;color:var(--muted);margin-bottom:1rem}
+  .feecard__k{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h4);font-weight:800;color:var(--fg);margin-bottom:.5rem}
+  .feecard__p{font-size:var(--fs-meta);color:var(--muted);margin-bottom:1rem}
   .feecard__l{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:0;border-top:1px solid var(--hair)}
-  .feecard__l li{position:relative;padding:.55rem 0 .55rem 1.4rem;border-bottom:1px solid var(--hair);font-size:.82rem;color:var(--fg)}
+  .feecard__l li{position:relative;padding:.55rem 0 .55rem 1.4rem;border-bottom:1px solid var(--hair);font-size:var(--fs-meta);color:var(--fg)}
   .feecard__l li::before{content:"";position:absolute;left:0;top:1rem;width:6px;height:6px;border-radius:50%;background:var(--ok)}
   .feecard__btn{width:100%}
-  .feecard__tel{display:block;text-align:center;margin-top:.5rem;padding:.7rem 0;min-height:2.75rem;font-size:.85rem;color:var(--muted);text-decoration:none}
+  .feecard__tel{display:block;text-align:center;margin-top:.5rem;padding:.7rem 0;min-height:2.75rem;font-size:var(--fs-meta);color:var(--muted);text-decoration:none}
   .feecard__tel:hover{color:var(--gold)}
 }
 
-/* ---------- 13. CREDIT-CARD PANEL ----------
-   One of the three places on the page that earns a card. */
 .panel{
   background:var(--ink-800);color:var(--fg-ink);border-radius:var(--radius-lg);
   padding:clamp(1.25rem,3.5vw,2.25rem);margin-bottom:clamp(2rem,4vw,3rem);
   display:grid;gap:clamp(1.25rem,3vw,2.5rem);
 }
 @media(min-width:900px){.panel{grid-template-columns:1fr 1fr}}
-.panel__copy p{color:var(--body-ink);font-size:1rem}
+.panel__copy p{color:var(--body-ink);font-size:var(--fs-body)}
 .panel__copy a{color:var(--gold);text-decoration-thickness:1px;text-underline-offset:3px}
 .panel__note{border-left:2px solid var(--gold);padding-left:1rem;color:var(--muted-ink)!important;font-style:normal}
 .panel__spec{margin:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
-.panel__spec dt{font-size:.76rem;color:var(--muted-ink);padding-top:.7rem}
-.panel__spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair-ink);font-size:.9rem;color:#DCE4EE}
+.panel__spec dt{font-size:var(--fs-label);color:var(--muted-ink);padding-top:.7rem}
+.panel__spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair-ink);font-size:var(--fs-meta);color:#DCE4EE}
 .panel__spec dd.num{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-fig);font-weight:800}
-/* The two rows that say "this costs you nothing" and "you risk nothing". A
-   tick marks them as the good news they are; the rest of the list is neutral
-   fact and is left neutral. Drawn, not iconised — it cannot arrive late. */
+
 .panel__spec dd.ok{position:relative;padding-left:1.6rem;color:#fff}
 .panel__spec dd.ok::before{
   content:"";position:absolute;left:0;top:.62em;
@@ -1223,26 +737,15 @@ p:last-child{margin-bottom:0}
   .panel__spec dd{padding-block:.75rem}
 }
 
-/* ---------- 14. PLACEMENTS ---------- */
-/* Hairlines, like the hero's four and the trust row's four, because these are
-   bare facts and a bare fact does not need a container. It used to be a filled,
-   bordered, inset-highlighted panel — and set to four columns while holding
-   three items, so the fourth cell sat there as an empty lit box at the end of
-   the row. */
 .figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;
   display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--hair-ink)}
 .figs li{padding:1.15rem 1.2rem 1.15rem 0;border-bottom:1px solid var(--hair-ink);
   display:flex;flex-direction:column;gap:.25rem}
 .figs li:nth-child(2n){padding-left:1.4rem;border-left:1px solid var(--hair-ink)}
-/* The gradient here was clipped to the text but painted behind an opaque
-   white fill, so it never showed — a background-clip:text that needed
-   color:transparent to do anything. Removed rather than completed: on a dark
-   band these numerals are already the loudest thing in the section, and a
-   gradient that has to be looked for is not worth the extra paint. */
-.figs b{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:800;letter-spacing:-.035em;color:#fff;line-height:1.05}
-/* Direct children only. The unscoped selector was also catching the spans
-   INSIDE <b>, so "3-12 LPA" set its two numerals at caption size. */
-.figs>li>span{font-size:.78rem;color:var(--muted-ink);max-width:22ch}
+
+.figs b{font-size:var(--fs-fig-lg);font-weight:800;letter-spacing:-.035em;color:#fff;line-height:1.05}
+
+.figs>li>span{font-size:var(--fs-label);color:var(--muted-ink);max-width:22ch}
 @media(min-width:820px){
   .figs{grid-template-columns:repeat(3,1fr)}
   .figs li{padding:1.35rem 1.6rem 1.35rem 0;border-bottom:0}
@@ -1250,13 +753,8 @@ p:last-child{margin-bottom:0}
   .figs li + li{padding-left:1.8rem;border-left:1px solid var(--hair-ink)}
 }
 
-/* Video facades. A surface, not hairlines — the rule this page follows is that
-   a bare fact sits on a hairline and a surface is for something with an object
-   in it, and these hold a photograph. */
-/* .students carries no bottom margin, so without this the heading sat flush
-   against the panel above it. Matches the section's other sub-block gap. */
 .voices{margin:clamp(2rem,4vw,2.75rem) 0}
-.voices__k{font-size:1.0625rem;font-weight:700;letter-spacing:-.014em;color:#fff;margin:0 0 .9rem}
+.voices__k{font-size:var(--fs-lead);font-weight:700;letter-spacing:-.014em;color:#fff;margin:0 0 .9rem}
 .voices__l{list-style:none;margin:0;padding:0;display:grid;gap:.85rem;grid-template-columns:1fr}
 @media(min-width:700px){.voices__l{grid-template-columns:repeat(3,1fr)}}
 .voice{
@@ -1273,11 +771,7 @@ p:last-child{margin-bottom:0}
   position:absolute;left:50%;top:calc(50% - 1.55rem);transform:translate(-50%,-50%);
   width:3.25rem;height:3.25rem;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  /* Not red. Red on this page means "the action", and three play badges beside
-     the capsule's Apply button put four red masses in one view — the exact
-     thing the one-red-per-screen rule exists to prevent. A play affordance is
-     not the page's action. Dark glass with a white triangle also survives any
-     thumbnail behind it, which a red disc does not. */
+
   background:rgba(8,16,40,.62);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   border:1px solid rgba(255,255,255,.34);
@@ -1286,17 +780,14 @@ p:last-child{margin-bottom:0}
 }
 .voice:hover .voice__play{transform:translate(-50%,-50%) scale(1.06);background:rgba(8,16,40,.78);border-color:rgba(255,255,255,.55)}
 .voice__play svg{width:var(--ico-lg);height:var(--ico-lg);color:#fff;margin-left:2px}
-.voice__n{display:block;padding:.8rem .9rem .85rem;font-size:.78rem;color:var(--muted-ink);line-height:1.35}
+.voice__n{display:block;padding:.8rem .9rem .85rem;font-size:var(--fs-label);color:var(--muted-ink);line-height:1.35}
 .voice__n b{display:block;font-size:var(--fs-meta);font-weight:700;color:#fff;margin-bottom:.1rem}
 .voice iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
-.voices__src{margin:.85rem 0 0;font-size:.78rem;color:var(--muted-ink)}
+.voices__src{margin:.85rem 0 0;font-size:var(--fs-label);color:var(--muted-ink)}
 
-/* The training evidence, on the dark ground. Hairlines and no container, the
-   same rule the rest of the page follows: these are bare facts. Two columns so
-   four items read as a set rather than as a list to be worked through. */
 .train{margin:0 0 clamp(2rem,4vw,2.75rem)}
 .train__k{
-  font-size:1.0625rem;font-weight:700;letter-spacing:-.014em;color:#fff;
+  font-size:var(--fs-lead);font-weight:700;letter-spacing:-.014em;color:#fff;
   margin:0 0 .9rem;
 }
 .train__l{
@@ -1309,7 +800,7 @@ p:last-child{margin-bottom:0}
 }
 .train__l b{font-size:var(--fs-meta);font-weight:700;color:#fff}
 .train__l span{font-size:var(--fs-meta);color:var(--muted-ink);line-height:1.45}
-.train__src{margin:.85rem 0 0;font-size:.78rem;color:var(--muted-ink)}
+.train__src{margin:.85rem 0 0;font-size:var(--fs-label);color:var(--muted-ink)}
 @media(min-width:760px){
   .train__l{grid-template-columns:1fr 1fr}
   .train__l li:nth-child(2n){padding-left:1.6rem;border-left:1px solid var(--hair-ink)}
@@ -1318,25 +809,14 @@ p:last-child{margin-bottom:0}
 .students{display:grid;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lift)}
 @media(min-width:720px){.students{grid-template-columns:repeat(3,1fr)}}
 .stu{background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);padding:1.35rem;display:flex;flex-direction:column}
-/* Portraits are the university's own published ones, matched to the names on
-   its placement list. A face is what makes a package read as a person. */
+
 .stu__face{width:56px;height:56px;border-radius:50%;object-fit:cover;
   border:2px solid rgba(242,180,65,.5);margin-bottom:.85rem;background:var(--ink-800)}
-.stu__pkg{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.85rem;font-weight:800;color:var(--gold);margin:0 0 .5rem;line-height:1}
-.stu__name{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.1rem;color:#fff;margin-bottom:.15rem}
-.stu__branch{font-size:.8rem;color:var(--muted-ink);margin:0 0 .35rem}
-.stu__co{font-size:.9rem;color:#DCE4EE;margin:0}
+.stu__pkg{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-fig);font-weight:800;color:var(--gold);margin:0 0 .5rem;line-height:1}
+.stu__name{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-lead);color:#fff;margin-bottom:.15rem}
+.stu__branch{font-size:var(--fs-label);color:var(--muted-ink);margin:0 0 .35rem}
+.stu__co{font-size:var(--fs-meta);color:#DCE4EE;margin:0}
 
-/* ---------- 14b. THE FULL PLACEMENT RECORD ----------
-   Sixteen rows, so rows — not the large cards the three featured students get.
-   Closed by default: it costs nothing in height until asked for, and its
-   portraits are lazy and inside it, so they are not fetched on first load.
-
-   This is the largest group of cards on a gradient ground, which is exactly
-   why they use the faux-glass recipe rather than backdrop-filter. Sixteen
-   blurred surfaces in one view against a two-to-three ceiling would be the
-   most expensive thing on the page, to say something a lit edge says for
-   free. */
 .plist{margin:0 0 clamp(2.25rem,4.5vw,3.25rem)}
 .plist__sum{
   display:flex;align-items:center;gap:.75rem;cursor:pointer;list-style:none;
@@ -1352,7 +832,7 @@ p:last-child{margin-bottom:0}
 .plist__shut{display:none}
 .plist[open] .plist__open{display:none}
 .plist[open] .plist__shut{display:inline}
-/* Drawn, not iconised — it cannot arrive late or at the wrong weight. */
+
 .plist__chev{
   margin-left:auto;flex:0 0 auto;width:9px;height:9px;
   border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);
@@ -1375,7 +855,7 @@ p:last-child{margin-bottom:0}
 }
 .plist__who{min-width:0}
 .plist__name{margin:0;font-size:var(--fs-body);font-weight:700;color:#fff;line-height:1.25}
-.plist__branch{margin:0;font-size:.75rem;color:var(--muted-ink);line-height:1.35}
+.plist__branch{margin:0;font-size:var(--fs-label);color:var(--muted-ink);line-height:1.35}
 .plist__co{margin:0;font-size:var(--fs-meta);color:var(--body-ink);line-height:1.35}
 .plist__pkg{
   margin:0;flex:0 0 auto;white-space:nowrap;
@@ -1383,30 +863,22 @@ p:last-child{margin-bottom:0}
   font-variant-numeric:tabular-nums;
 }
 @media(max-width:400px){
-  /* At 320px a three-column row cannot hold a name, an employer and a figure.
-     The package moves under the name rather than squeezing all three. */
+
   .plist__card{grid-template-columns:auto minmax(0,1fr)}
   .plist__pkg{grid-column:2;margin-top:.15rem}
 }
 
-/* Recruiter strip. One marquee, greyscale, paused on hover and stopped
-   entirely under prefers-reduced-motion. */
 .wall__label{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h3);margin-bottom:1rem;color:#fff}
 .wall{overflow:hidden;position:relative;border-block:1px solid var(--hair-ink);padding-block:1.25rem;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .wall__track{display:flex;width:max-content;animation:marquee 46s linear infinite}
 .wall:hover .wall__track,.wall:focus-within .wall__track{animation-play-state:paused}
 .wall__set{display:flex;align-items:center;gap:clamp(2rem,5vw,3.5rem);padding-right:clamp(2rem,5vw,3.5rem)}
-/* Full colour, on a light plate. Greyscale logos read as decoration; a
-   parent scanning for a name they recognise needs them to read as real. */
-.wall__set img{width:124px;height:34px;object-fit:contain;background:#fff;border-radius:var(--radius-sm);padding:.6rem .5rem;box-sizing:content-box}
-.wall__word{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:var(--radius-sm);padding:.4rem .8rem}
-@keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
-.wall__note{font-size:.82rem;max-width:66ch;margin-top:1rem}
 
-/* ---------- 15. GALLERY ----------
-   A scroll-snapping strip rather than a bespoke carousel: it is native, it
-   drags on touch, it keyboard-scrolls, and it costs no JavaScript to work.
-   The arrows are an enhancement on top of behaviour that already exists. */
+.wall__set img{width:124px;height:34px;object-fit:contain;background:#fff;border-radius:var(--radius-sm);padding:.6rem .5rem;box-sizing:content-box}
+.wall__word{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-lead);color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:var(--radius-sm);padding:.4rem .8rem}
+@keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.wall__note{font-size:var(--fs-meta);max-width:66ch;margin-top:1rem}
+
 .gal{position:relative}
 .gal__strip{
   list-style:none;margin:0;padding:0 0 .75rem;
@@ -1427,12 +899,6 @@ p:last-child{margin-bottom:0}
 .gal__btn svg{width:var(--ico-md);height:var(--ico-md)}
 .gal__btn[disabled]{opacity:.35;cursor:default}
 
-/* Eight facilities, on hairlines. They were eight white pills with hairline
-   borders and card shadows on a white ground — fog, and the eighth wrapped
-   alone onto a second row with seven above it. A grid puts them on a rhythm,
-   and drops eight more containers from a page that is deliberately shedding
-   them. Same rule as everywhere else here: a bare fact sits on a hairline, and
-   a surface is for something with an object in it. */
 .fac{list-style:none;margin:clamp(1.5rem,3vw,2rem) 0 0;padding:0;
   display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--hair)}
 .fac li{display:flex;align-items:center;gap:.6rem;
@@ -1447,8 +913,6 @@ p:last-child{margin-bottom:0}
   .fac li:nth-last-child(-n+4){border-bottom:0}
 }
 
-/* Two claims that need a sentence each rather than a chip, so they sit as a
-   pair of lines under the facility grid instead of inside it. */
 .life{display:grid;gap:1.1rem;margin-top:clamp(1.5rem,3vw,2rem)}
 .life p{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:.7rem;align-items:start}
 .life .ico{grid-row:1/2;width:var(--ico-md);height:var(--ico-md);color:var(--accent);margin-top:.15rem}
@@ -1456,10 +920,6 @@ p:last-child{margin-bottom:0}
 .life b{display:block;font-size:var(--fs-body);font-weight:700;color:var(--fg);margin-bottom:.15rem;letter-spacing:-.012em}
 @media(min-width:760px){.life{grid-template-columns:1fr 1fr;gap:1.6rem}}
 
-/* ---------- 16. STEPS ----------
-   Numbered, because this genuinely is a sequence. Cards rather than a bare
-   rule, and each carries a mark so the four steps can be told apart at a
-   glance rather than only read in order. */
 .steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:.85rem}
 .steps li{
   counter-increment:s;position:relative;
@@ -1470,11 +930,11 @@ p:last-child{margin-bottom:0}
   content:counter(s);position:absolute;left:1.25rem;top:1.3rem;
   width:2.1rem;height:2.1rem;display:grid;place-items:center;border-radius:50%;
   background:var(--accent);color:#fff;
-  font-size:.92rem;font-weight:800;letter-spacing:-.02em;
+  font-size:var(--fs-meta);font-weight:800;letter-spacing:-.02em;
 }
 .steps__ico{position:absolute;right:1.25rem;top:1.3rem;width:var(--ico-lg);height:var(--ico-lg);color:var(--accent);opacity:.35}
 .steps h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.025em;margin-bottom:.35rem;padding-right:2rem}
-.steps p{color:var(--muted);font-size:1rem;max-width:60ch;margin:0}
+.steps p{color:var(--muted);font-size:var(--fs-body);max-width:60ch;margin:0}
 @media(min-width:900px){
   .steps{grid-template-columns:repeat(4,1fr);gap:1rem}
   .steps li{padding:3.6rem 1.25rem 1.35rem}
@@ -1483,36 +943,30 @@ p:last-child{margin-bottom:0}
   .steps h3{padding-right:0}
 }
 
-/* ---------- 17. TWO-COLUMN ---------- */
 .two{display:grid;gap:clamp(2rem,4vw,3.5rem)}
 @media(min-width:860px){.two{grid-template-columns:1fr 1fr}
-  /* The map earns more width than a list of distances. */
-  .two--map{grid-template-columns:1fr 1.15fr;align-items:start}}
-.addr{font-style:normal;color:var(--muted);font-size:.92rem;margin-top:1rem}
 
-/* Map, behind a click. An iframe on first paint costs about 900KB and three
-   third-party connections for a section most visitors never reach. */
+  .two--map{grid-template-columns:1fr 1.15fr;align-items:start}}
+.addr{font-style:normal;color:var(--muted);font-size:var(--fs-meta);margin-top:1rem}
+
 .map{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--paper-3);min-height:16rem;box-shadow:var(--shadow-card)}
 .map__btn{display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer;position:relative}
 .map__btn img{width:100%;height:100%;min-height:16rem;object-fit:cover;transition:transform .4s var(--ease)}
   .map__btn:hover img{transform:scale(1.03)}
-/* A pill on the image rather than a scrim across it. The old treatment
-   desaturated the photograph to 35% and dimmed it to 70%, which is what made
-   the campus look like an old print. */
+
 .map__lbl{
   position:absolute;left:50%;bottom:1.1rem;transform:translateX(-50%);
   display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;
   padding:.7rem 1.2rem;border-radius:var(--radius-pill);
   background:rgba(255,255,255,.96);backdrop-filter:blur(8px);
   box-shadow:0 6px 22px rgba(10,19,48,.28);
-  color:var(--fg);font-size:.88rem;font-weight:700;
+  color:var(--fg);font-size:var(--fs-meta);font-weight:700;
 }
 .map__btn:hover .map__lbl{background:#fff}
 .map__lbl svg{color:var(--red-fill)}
 
 .map iframe{display:block;width:100%;height:100%;min-height:20rem;border:0}
 
-/* ---------- 18. FINAL CTA ---------- */
 .cta{
   color:var(--fg-ink);padding:var(--space-section) 0 clamp(2.5rem,5vw,3.5rem);
   background:
@@ -1522,43 +976,30 @@ p:last-child{margin-bottom:0}
 }
 .cta__grid{display:grid;gap:clamp(2rem,4vw,3.5rem)}
 @media(min-width:900px){.cta__grid{grid-template-columns:1fr .9fr;align-items:center}}
-.cta__flag{display:inline-flex;align-items:center;font-size:.76rem;font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.36rem .75rem;border-radius:var(--radius-pill);margin:0 0 1rem}
+.cta__flag{display:inline-flex;align-items:center;font-size:var(--fs-label);font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.36rem .75rem;border-radius:var(--radius-pill);margin:0 0 1rem}
 .cta__flag b{color:#fff;font-weight:700;margin-left:.3rem}
 .cta__title{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.032em;margin-bottom:.85rem;max-width:17ch}
-.cta__lede{color:var(--body-ink);max-width:52ch;font-size:1.05rem}
+.cta__lede{color:var(--body-ink);max-width:52ch;font-size:var(--fs-lead)}
 .cta__pts{list-style:none;margin:1.4rem 0;padding:0;display:grid;gap:0}
 .cta__pts li{position:relative;padding:.7rem .9rem .7rem 1.9rem;margin-bottom:.4rem;border:1px solid var(--glass-line);border-radius:var(--radius-sm);background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);font-size:var(--fs-meta);color:var(--body-ink)}
 .cta__pts li::before{content:"";position:absolute;left:.85rem;top:1.25rem;width:6px;height:6px;border-radius:50%;background:var(--gold)}
-/* A direct route to the portal for anyone who has already decided. The form
-   stays the primary action; this is the escape hatch that stops a high-intent
-   visitor bouncing because the only option was to wait for a call. */
-.cta__apply{margin:0 0 .5rem;font-size:.9rem;color:var(--muted-ink)}
+
+.cta__apply{margin:0 0 .5rem;font-size:var(--fs-meta);color:var(--muted-ink)}
 .cta__apply a{display:inline-flex;align-items:center;gap:.35rem;padding:.55rem 0;min-height:2.75rem;
   color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:4px;
   text-decoration-color:rgba(245,184,65,.7);text-decoration-thickness:2px}
 .cta__apply a:hover{color:var(--gold)}
 .cta__apply svg{width:var(--ico-sm);height:var(--ico-sm)}
-.cta__alt{font-size:.9rem;color:var(--muted-ink);margin:0}
+.cta__alt{font-size:var(--fs-meta);color:var(--muted-ink);margin:0}
 .cta__alt a{display:inline-block;padding:.55rem 0;min-height:2.75rem;color:var(--gold);font-weight:700;text-underline-offset:3px}
 .lead--full{box-shadow:0 1px 2px rgba(0,0,0,.3),0 20px 56px rgba(0,0,0,.4)}
 
-/* ---------- 19. FOOTER ----------
-   Four columns. The previous one put a logo, an address and three text links
-   across a full-width dark band and left the rest empty, which reads as the
-   page having run out rather than having finished. It also gave a visitor who
-   reached the bottom nothing to do; these columns are the page's own sections,
-   so the footer now works as navigation back into it. */
 .ftr{background:var(--ink-900);color:var(--muted-ink);border-top:1px solid var(--hair-ink);padding-top:clamp(2.25rem,4vw,3rem)}
 .ftr__in{display:grid;gap:2.25rem;padding-bottom:2.5rem}
 @media(min-width:680px){.ftr__in{grid-template-columns:1fr 1fr}.ftr__brand{grid-column:1/-1}}
 @media(min-width:1000px){.ftr__brand{grid-column:auto}}
 @media(min-width:1000px){.ftr__in{grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:2.5rem}}
-/* Sized against its column, the way the header mark is sized against the bar.
-   At 48px it rendered 164px wide in a ~348px column — 47%, which left it
-   floating rather than anchoring the brand block. 60px puts it at 208px, or
-   60% of the column, which is where the header mark also sits relative to its
-   own container. Source is 420x121, so 208px wide is still inside native
-   resolution and stays sharp. */
+
 .ftr__logo{height:60px;width:auto;margin-bottom:1.15rem;opacity:.95}
 .ftr__blurb{font-size:var(--fs-meta);line-height:1.6;max-width:34ch;margin-bottom:1.1rem}
 .ftr__social{display:flex;gap:.6rem;margin:0}
@@ -1569,7 +1010,7 @@ p:last-child{margin-bottom:0}
 .ftr__social svg{width:var(--ico-sm);height:var(--ico-sm)}
 
 .ftr__col{display:flex;flex-direction:column}
-.ftr__h{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+.ftr__h{font-size:var(--fs-label);font-weight:700;letter-spacing:.05em;text-transform:uppercase;
   color:#fff;margin-bottom:.9rem}
 .ftr__col a{display:inline-flex;align-items:center;min-height:2.4rem;
   font-size:var(--fs-meta);color:var(--muted-ink);text-decoration:none;
@@ -1578,18 +1019,15 @@ p:last-child{margin-bottom:0}
 .ftr__addr{font-style:normal;font-size:var(--fs-meta);line-height:1.6;margin:.6rem 0 1rem;color:var(--muted-ink)}
 .ftr__wa{display:inline-flex!important;align-items:center;gap:.5rem;align-self:flex-start;
   padding:.6rem 1.05rem;border-radius:var(--radius-pill);
-  background:#1FA855;color:#fff!important;font-weight:700;font-size:.85rem;min-height:2.75rem}
+  background:#1FA855;color:#fff!important;font-weight:700;font-size:var(--fs-meta);min-height:2.75rem}
 .ftr__wa:hover{background:#1B9049;color:#fff!important}
 .ftr__wa svg{width:var(--ico-sm);height:var(--ico-sm)}
 
 .ftr__legal{border-top:1px solid var(--hair-ink);padding-block:1.3rem;
   display:flex;flex-wrap:wrap;gap:.4rem 2rem;justify-content:space-between}
-.ftr__legal p{margin:0;font-size:.78rem}
+.ftr__legal p{margin:0;font-size:var(--fs-label)}
 .ftr__note{color:rgba(163,180,212,.75);max-width:56ch}
 
-/* ---------- 20. MOBILE STICKY BAR ----------
-   Under 900px only. Three equal columns, 44px+ targets, and body carries a
-   matching padding-bottom so it never covers the footer. */
 .bar{display:none}
 @media(max-width:899px){
   .bar{
@@ -1602,24 +1040,18 @@ p:last-child{margin-bottom:0}
   .bar__a{
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;
     min-height:3.75rem;text-decoration:none;color:var(--fg-ink);
-    font-size:.72rem;font-weight:600;border-left:1px solid var(--hair-ink);
+    font-size:var(--fs-label);font-weight:600;border-left:1px solid var(--hair-ink);
   }
   .bar__a:first-child{border-left:0}
   .bar__a svg{width:var(--ico-md);height:var(--ico-md)}
-  .bar__a--cta{background:var(--red-fill);color:#fff;font-size:.85rem;border-left:0;
+  .bar__a--cta{background:var(--red-fill);color:#fff;font-size:var(--fs-meta);border-left:0;
     transition:background-color .22s var(--ease),box-shadow .22s var(--ease)}
-  /* Same rule as the capsule. Once the form's own submit is on screen, a
-     second Apply at the foot of the phone competes with the button the reader
-     is already looking at. It stays the emphasised cell, in glass rather than
-     in red. */
+
   .red-taken .bar__a--cta{
     background:rgba(255,255,255,.11);color:var(--fg-ink);
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.20)}
 }
 
-/* ---------- 21. MOTION AND PRINT ----------
-   One orchestrated moment on load — the hero copy rises once. Everything
-   else on the page is user-triggered. */
 @media(prefers-reduced-motion:no-preference){
   .hero__copy>*{animation:rise .62s var(--ease) both}
   .hero__copy>*:nth-child(1){animation-delay:.04s}
@@ -1648,17 +1080,13 @@ p:last-child{margin-bottom:0}
   .section{border-top:1px solid #ccc;padding-block:1.5rem}
 }
 
-
-/* ---------- 22. FLOATING WHATSAPP ----------
-   Desktop only. Under 900px the sticky bar already carries WhatsApp and two
-   of them on one screen is one too many. */
 .wafab{display:none}
 @media(min-width:900px){
   .wafab{
     display:inline-flex;align-items:center;gap:.5rem;
     position:fixed;right:0;top:58%;z-index:55;
     background:#1FA855;color:#fff;text-decoration:none;
-    font-size:.82rem;font-weight:700;letter-spacing:.01em;
+    font-size:var(--fs-meta);font-weight:700;letter-spacing:.01em;
     padding:.7rem .95rem;border-radius:var(--radius-sm) 0 0 var(--radius-sm);
     box-shadow:0 6px 24px rgba(8,14,32,.28);
     transition:padding-right .18s var(--ease);

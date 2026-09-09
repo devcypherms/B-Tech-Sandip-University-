@@ -26,23 +26,16 @@
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 
-<!-- Fonts and the hero frame are the render path. Everything else waits. -->
 <link rel="preload" href="assets/fonts/instrument-sans-var.woff2" as="font" type="font/woff2" crossorigin>
 
-<!-- ==========================================================================
-     CRITICAL CSS — header and hero only.
-     BRIEF §7 asked for this and the page shipped without it: 96KB of
-     render-blocking CSS on a mid-range Android over patchy 4G is the single
-     biggest LCP cost on the page. Everything below the hero loads async.
-     ========================================================================== -->
 <style>
 @font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-var.woff2") format("woff2-variations");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-rupee.woff2") format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+20B9}
 @font-face{font-family:"Sans Fallback";src:local("Arial"),local("Helvetica");size-adjust:100%;ascent-override:95%;descent-override:24%;line-gap-override:0%}
-:root{--ink-900:#071033;--ink-800:#0C1A45;--ink-700:#14265C;--royal:#123A8A;--paper:#FFFFFF;--paper-2:#F2F5FA;--fg:#0A1330;--muted:#4E5B78;--muted-ink:#A3B4D4;--sub-ink:#C6D2EA;--hair:rgba(10,19,48,.10);--hair-ink:rgba(255,255,255,.14);--red-fill:#E01B24;--red-ink:#C41220;--gold:#F5B841;--accent:#2454C6;--accent-ink:#1B3A8F;--font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--wrap:82rem;--gutter:clamp(1.15rem,4vw,3.5rem);--header-h:3.75rem;--header-h-sm:3.25rem;--hdr-gap:.6rem;--hdr-total:calc(var(--hdr-gap) + var(--header-h-sm));--radius:16px;--radius-lg:28px;--ease:cubic-bezier(.22,.61,.36,1)}
+:root{--ink-900:#071033;--ink-800:#0C1A45;--ink-700:#14265C;--royal:#123A8A;--paper:#FFFFFF;--paper-2:#F2F5FA;--fg:#0A1330;--muted:#4E5B78;--muted-ink:#A3B4D4;--sub-ink:#C6D2EA;--hair:rgba(10,19,48,.10);--hair-ink:rgba(255,255,255,.14);--red-fill:#E01B24;--red-ink:#C41220;--gold:#F5B841;--accent:#2454C6;--accent-ink:#1B3A8F;--font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--wrap:82rem;--gutter:clamp(1.15rem,4vw,3.5rem);--header-h:3.75rem;--header-h-sm:3.25rem;--hdr-gap:.6rem;--hdr-total:calc(var(--hdr-gap) + var(--header-h-sm));--fs-label:.75rem;--fs-meta:.875rem;--fs-body:1rem;--fs-lead:1.0625rem;--fs-h4:1.15rem;--fs-h3:clamp(1.08rem,1.7vw,1.3rem);--fs-h2:clamp(1.7rem,3.6vw,2.9rem);--fs-h1:clamp(2.15rem,6vw,4.6rem);--fs-fig:1.625rem;--fs-fig-lg:2.3rem;--radius:16px;--radius-lg:28px;--ease:cubic-bezier(.22,.61,.36,1)}
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--fg);font-family:var(--font-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--paper);color:var(--fg);font-family:var(--font-body);font-size:var(--fs-body);line-height:1.6;-webkit-font-smoothing:antialiased}
 h1,h2,h3{margin:0;font-weight:800;line-height:1.12;letter-spacing:-.028em}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
@@ -52,33 +45,22 @@ a{color:inherit}
 
 @media(min-width:900px){
 
-
-
-
-
-.hdr__nav{display:flex;justify-self:center;gap:1.9rem}.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.875rem;font-weight:600;color:var(--body-ink)}
+.hdr__nav{display:flex;justify-self:center;gap:1.9rem}.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--body-ink)}
 :root{--header-h:5.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
 .hdr{position:fixed;inset:0 0 auto;z-index:50;display:none;justify-content:center;padding:0 var(--gutter);pointer-events:none}
 .hdr__in{pointer-events:auto;display:grid;grid-template-columns:max-content 1fr auto;align-items:center;column-gap:1.75rem;width:100%;max-width:var(--wrap);height:var(--header-h);padding:0;border-radius:0;background:transparent;border:1px solid transparent;box-shadow:none}
 .hdr__brand{display:flex;align-items:center;overflow:hidden;max-width:16rem}.hdr__brand img{height:60px;width:auto;display:block}
 .hdr__end{display:flex;align-items:center;gap:1.1rem}
-.hdr__status{display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;overflow:hidden;margin:0;max-width:20rem;font-size:.8125rem;font-weight:600;color:var(--sub-ink)}
+.hdr__status{display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;overflow:hidden;margin:0;max-width:20rem;font-size:var(--fs-meta);font-weight:600;color:var(--sub-ink)}
 .hdr__dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(245,184,65,.22)}
-
-
-
-
 
 @media(min-width:1080px){}
 
-.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.68rem 1.35rem;border-radius:999px;white-space:nowrap;border:1px solid rgba(255,255,255,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#fff;text-decoration:none;font-weight:700;font-size:var(--fs-meta);padding:.68rem 1.35rem;border-radius:999px;white-space:nowrap;border:1px solid rgba(255,255,255,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
 @media(min-width:900px){}
 @media(max-width:479px){}
 .hero{position:relative;background:var(--paper);padding:0;color:#fff}.hero__brand{display:none}@media(max-width:899px){.hero__brand{display:inline-block;margin-bottom:.9rem}.hero__brand img{height:46px;width:auto}}@media(min-width:900px){.hero__panel{padding-top:calc(var(--header-h) + 1.9rem)}}
 .hero__panel{position:relative;overflow:hidden;isolation:isolate;width:100%;padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%)}
-
-
-
 
 .hero__panel::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%)}
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem;width:100%;max-width:var(--wrap);margin-inline:auto}
@@ -86,40 +68,24 @@ a{color:inherit}
 @media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero .hero__status{display:flex}.hero__grid>*{margin-bottom:0}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}}
 @media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}.hero__copy{display:flex;flex-direction:column;justify-content:space-between}.hero__copy > .hero__rec{padding-top:.5rem}}
 
-
-
-.hero h1{font-weight:800;font-size:clamp(2.15rem,6vw,4.6rem);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
+.hero h1{font-weight:800;font-size:var(--fs-h1);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(.94rem,1.5vw,1.08rem);line-height:1.5;max-width:46ch}
-.hero__sub b{color:#fff;font-weight:700}.hero__status{display:none}.hero__cred{display:flex;align-items:center;gap:.6rem;margin:0 0 .85rem;max-width:48ch;font-size:clamp(1.02rem,1.62vw,1.25rem);font-weight:700;line-height:1.28;letter-spacing:-.014em;color:#fff}.hero__cred-ico{width:24px;height:24px;flex:none;color:var(--gold)}
+.hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
+.hero__sub b{color:#fff;font-weight:700}.hero__status{display:none}.hero__cred{display:flex;align-items:center;gap:.6rem;margin:0 0 .85rem;max-width:48ch;font-size:var(--fs-h3);font-weight:700;line-height:1.28;letter-spacing:-.014em;color:#fff}.hero__cred-ico{width:24px;height:24px;flex:none;color:var(--gold)}
 .hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(245,184,65,.42);background:linear-gradient(180deg,rgba(245,184,65,.16),rgba(245,184,65,.04));border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
 .hero__money svg{flex:0 0 auto;width:22px;height:22px;color:var(--gold);margin-top:.15rem}
-.hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#F6E6C4}
-.hero__money strong{display:block;font-size:1.15rem;font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1.2;margin-bottom:.15rem}
+.hero__money p{margin:0;font-size:var(--fs-meta);line-height:1.5;color:#F6E6C4}
+.hero__money strong{display:block;font-size:var(--fs-h4);font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1.2;margin-bottom:.15rem}
 </style>
 
-<!-- The rest, async. The noscript copy keeps the page styled with JS off. -->
 <link rel="preload" href="assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-
-<!-- ========== HEADER ========== -->
 <header class="hdr" id="siteHeader">
-  <!-- At rest this is an ordinary full-width header sitting over the dark hero:
-       mark left, sections centred, admissions status and button right. It only
-       becomes the floating capsule once the reader scrolls, which is what makes
-       the capsule read as a response rather than as decoration. The mark and
-       the status collapse into the capsule on the way, so the capsule carries
-       only what a reader mid-page needs — where they are, and how to apply.
 
-       The accreditation used to sit here and does not any more: the logo
-       artwork already carries a NAAC mark, so the two sat six inches apart
-       saying the same word. The claim belongs where it can be read properly,
-       under the headline, and the status belongs here where it stays true for
-       the whole page. -->
   <div class="hdr__in">
     <a class="hdr__brand" href="#main" aria-label="Sandip University, Madhubani">
       <img src="assets/img/logo-mark.webp" alt="Sandip University" width="256" height="77" fetchpriority="high">
@@ -140,52 +106,19 @@ a{color:inherit}
 
 <main id="main">
 
-<!-- ========== HERO ==========
-     Three changes from the page this replaces, all of them measured against
-     the same objective — a click from a Google or Meta ad, on a mid-range
-     Android, deciding in four seconds whether this is a real university.
-
-     1. The campus photograph is the hero backdrop at EVERY width. It used to
-        drop below the form under 900px, which meant 85% of traffic met a
-        flat beige screen. A family that cannot see the place does not fill
-        a form on it.
-     2. The Student Credit Card moved up from 55% scroll depth. For a family
-        weighing Rs 90,000 a year, "Rs 4,00,000, interest-free, no property
-        pledged" is the single fact that decides whether they read on.
-     3. Proof is above the fold rather than announced later: accreditation,
-        campus size, faculty and recruiters, as one quiet row.
-     ========================================================================== -->
 <section class="hero" aria-label="B.Tech admission 2026">
   <div class="hero__panel">
   <div class="hero__grid">
-  <!-- No backdrop photograph here, deliberately.
-
-       It was a 210KB landscape crop that the form card covered on the right
-       and the scrim flattened on the left, so what a visitor actually saw was
-       a narrow murky band in the middle. Every attempt to open it up either
-       lost the headline's contrast or lost the photograph again — the text
-       column and the form simply leave no room for a picture.
-
-       The gradient carries the panel on its own, and the campus is shown
-       properly in §5.8, at full width, in nine photographs, where it can
-       actually be looked at. Removing it also takes 115KB off first load. -->
-
 
     <div class="hero__copy">
       <a class="hero__brand" href="#main" aria-label="Sandip University, Madhubani">
         <img src="assets/img/logo-mark.webp" alt="Sandip University" width="256" height="77" fetchpriority="high">
       </a>
-      <!-- The same admissions status the header carries, for phones only,
-           where the header is hidden. One short sentence in two places is the
-           right trade against a cue that disappears on the device most of this
-           traffic arrives on. -->
+
       <p class="hero__status"><span class="hdr__dot" aria-hidden="true"></span>Admissions open for 2026&ndash;27</p>
 
       <h1>Become an engineer, <em>without leaving Bihar</em>.</h1>
 
-      <!-- The credential, given the room to be read. It was a bold clause
-           inside the sentence below, which is where a claim goes to be
-           skimmed past. -->
       <p class="hero__cred">
         <svg class="hero__cred-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.4"/><path d="M9.4 9.1 11.3 11l3.4-3.4"/><path d="M8.4 13.6 6.8 22l5.2-2.7L17.2 22l-1.6-8.4"/></svg>
         Bihar&rsquo;s first NAAC accredited private university
@@ -195,7 +128,6 @@ a{color:inherit}
         Faculty qualified at IITs and NITs, on a residential campus at
         Madhubani.
       </p>
-
 
       <div class="hero__money">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -208,10 +140,6 @@ a{color:inherit}
         </p>
       </div>
 
-      <!-- Four figures, set as figures. They were four bordered cards, which
-           in a column that also held a chip, a money panel and six logo
-           plates made twelve rectangles above the fold. Hairlines do the
-           separating now; nothing here needs a container. -->
       <ul class="hero__stats">
         <li><b data-c="hero.duration">4 Years</b><span>Course duration</span></li>
         <li><b data-c="stats.partners">100+</b><span>Recruiters on campus</span></li>
@@ -230,14 +158,8 @@ a{color:inherit}
         </ul>
       </div>
 
-      <!-- The branch list that used to sit here is gone. The form's chips now
-           name all five branches in the same viewport, and listing them twice
-           was asking the reader to compare a list against itself. -->
     </div>
 
-    <!-- The lead form. Three fields is what a stranger fills one-handed on a
-         phone; the six-field version stays at the foot of the page for
-         anyone who scrolls the whole way. -->
     <form class="lead" id="quickEnquiry" data-form-source="hero" data-id-prefix="q-" novalidate>
       <h2 class="lead__title">Get a call back</h2>
       <p class="lead__lede">Three details. No obligation. We call within one working day.</p>
@@ -294,21 +216,9 @@ a{color:inherit}
     </form>
   </div>
 
-    </div><!-- /.hero__panel -->
+    </div>
 </section>
 
-<!-- ========== THE CAMPUS, AND WHAT IT HOLDS ==========
-     The trust strip used to be a separate white section sitting between the
-     dark hero and this photograph — a thin sliver with four figures in it,
-     which is what made it read as abrupt: two section changes in 400px, and
-     the figure it mattered most about sitting next to a picture of that exact
-     thing without either knowing about the other.
-
-     One block now. The photograph is the 125 acres; the bar under it says so.
-     It also drops one figure. "1st NAAC accredited private university in
-     Bihar" was a verbatim restatement of the credential line under the
-     headline, one screen above — the same claim twice is not emphasis, it is
-     clutter, and it was crowding out the figure that is genuinely rare here. -->
 <section class="band" aria-label="The campus at Sijoul">
   <picture>
     <source media="(max-width:699px)" srcset="assets/img/band-campus-sm.webp" width="780" height="520">
@@ -316,31 +226,20 @@ a{color:inherit}
          alt="The main academic block at Sandip University, Sijoul, seen across its lawns and palms"
          width="1600" height="609" loading="lazy" decoding="async">
   </picture>
-  <div class="band__bar">
-    <div class="wrap band__in">
-      <p class="band__lead">
-        <b data-c="stats.campus">125+</b>
-        <span>acre residential campus<i>Sijoul, Madhubani &mdash; and a rare thing in Bihar</i></span>
-      </p>
-      <ul class="band__figs">
-        <li><b data-c="stats.students">4,000+</b><span>students on campus</span></li>
-        <li><b data-c="stats.programmes">20+</b><span>programmes across the university</span></li>
-      </ul>
-    </div>
-  </div>
+  <ul class="band__figs">
+    <li><b class="is-lead" data-c="stats.campus">125+</b><span>acre residential campus</span></li>
+    <li><b data-c="stats.faculty">250+</b><span>faculty members</span></li>
+    <li><b data-c="stats.students">4,000+</b><span>students on campus</span></li>
+    <li><b data-c="stats.programmes">20+</b><span>programmes offered</span></li>
+  </ul>
 </section>
 
-<!-- ========== WHY ========== -->
 <section class="section" id="why" aria-labelledby="why-title">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Private engineering college in Bihar</p>
       <h2 class="sec-title" id="why-title">Wo sab, jiske liye log Bihar chhodte hain.</h2>
-      <p class="sec-lede">
-        Every private engineering college in this state has to answer the same
-        question: does staying home mean settling for less? These are the four
-        answers this campus can actually evidence.
-      </p>
+      <p class="sec-lede">Four things worth checking before you decide.</p>
     </div>
 
     <div class="why">
@@ -384,17 +283,12 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== PROGRAMMES ========== -->
 <section class="section section--tint" id="programmes" aria-labelledby="prog-title">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">B.Tech branches</p>
-      <h2 class="sec-title" id="prog-title">Five branches. What each costs, and who gets in.</h2>
-      <p class="sec-lede">
-        Four years, eight semesters. Fees and eligibility are not the same across
-        the two schools, so both are stated against every branch. Lateral entry
-        into the second year is open on all five.
-      </p>
+      <h2 class="sec-title" id="prog-title">Five branches. What each costs, and what you need.</h2>
+      <p class="sec-lede">Four years, eight semesters. Every branch below carries its own fee and its own cut-off.</p>
     </div>
 
     <div class="acc" id="programmesAcc">
@@ -511,11 +405,9 @@ a{color:inherit}
       of application.</b>
     </p>
     <p class="tbl__note">
-      These five are the B.Tech branches. Sandip University runs
-      <span data-c="stats.programmes">20+</span> programmes in all, including its
-      own Polytechnic and postgraduate courses — if you are looking at something
-      other than engineering, say so on the form and the admission cell will put
-      you through to the right department.
+      Looking at something other than engineering? Sandip University runs
+      <span data-c="stats.programmes">20+</span> programmes. Say so on the form
+      and the admission cell will put you through to the right department.
     </p>
 
     <div class="nudge">
@@ -525,23 +417,12 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== FEES, SCHOLARSHIP, CREDIT CARD ==========
-     The most important section on the page for this audience and given the
-     most room. Parents search "total fees", not "tuition fees", so the
-     first-year total is computed and shown rather than left as an exercise.
-     ========================================================================== -->
 <section class="section" id="fees" aria-labelledby="fees-title">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Fees &amp; Student Credit Card</p>
       <h2 class="sec-title" id="fees-title">₹4,00,000 from the state. Interest-free, no property pledged.</h2>
-      <p class="sec-lede">
-        Every student with Bihar domicile who has passed 10+2 can apply — there
-        is no marks bar on the loan. Merit scholarships reduce the tuition
-        further on top of it. Below is every figure: tuition by branch,
-        everything else the first year adds, and what each band leaves you
-        actually paying. Nothing is rounded and nothing is left out.
-      </p>
+      <p class="sec-lede">Bihar domicile and a 10+2 pass is the whole eligibility for the loan. Merit scholarships cut the tuition on top of it.</p>
     </div>
 
     <div class="fees__grid">
@@ -560,11 +441,6 @@ a{color:inherit}
         </tbody>
       </table>
     </div>
-    <p class="tbl__note">
-      The university also runs its own Polytechnic — Civil, Electrical, Mechanical
-      and Computer Science — at <span data-c="fees.polytechnic">₹78,000</span> per
-      year, which is the feeder route into lateral entry above.
-    </p>
 
     <h3 class="fees__h3">What the first year actually costs</h3>
     <p class="fees__p">
@@ -582,13 +458,7 @@ a{color:inherit}
         </tbody>
       </table>
     </div>
-    <p class="tbl__note">
-      Indicative, and computed from the published charges in the next table —
-      tuition, forms and prospectus, registration, uniform and caution money,
-      with hostel and its deposit added in the third column. Years two to four
-      carry tuition and hostel only. Confirm the final figure with the admission
-      cell before you pay anything.
-    </p>
+    <p class="tbl__note">Indicative. Your final figure is confirmed by the admission cell before you pay anything.</p>
 
     <h3 class="fees__h3">What else you pay</h3>
     <div class="tablewrap">
@@ -608,8 +478,6 @@ a{color:inherit}
       </table>
     </div>
 
-    <!-- The credit card. Repeated from the hero because this is where a
-         family that has decided to read properly comes looking for it. -->
     <h3 class="fees__h3" id="scc">The Bihar Student Credit Card</h3>
     <div class="panel">
       <div class="panel__copy">
@@ -626,10 +494,7 @@ a{color:inherit}
           DRCC in person within 60 days to complete verification. Our admission
           cell prepares the file with your family so nobody works it out alone.
         </p>
-        <p class="panel__note">
-          Approval and the sanctioned amount rest with the Government of Bihar,
-          so the university works to the state's process rather than around it.
-        </p>
+        <p class="panel__note">Approval and the sanctioned amount rest with the Government of Bihar.</p>
         <p>
           The portal is the Bihar Student Credit Card scheme under
           <a href="https://www.7nishchay-yuvaupmission.bihar.gov.in" rel="noopener">7 Nishchay — Yuva Up Mission</a>.
@@ -670,21 +535,10 @@ a{color:inherit}
         </tbody>
       </table>
     </div>
-    <p class="tbl__note">
-      Tuition only — the one-time charges and hostel in the tables above are not
-      waived. A sports quota covers a further
-      <span data-c="scholarship.sportsShare">2% of total intake</span>. Your band
-      is confirmed to you in writing after your documents are verified and
-      before any payment is taken, so you know the number before you commit to
-      it. <span data-c="admission.sujee">SU-JEE is the university’s own entrance and scholarship test. It is not required for B.Tech admission — 10+2 marks qualify you on their own — but it is one of the routes to a merit award.</span>
-    </p>
+    <p class="tbl__note">Tuition only &mdash; one-time charges and hostel are not waived. A sports quota covers a further <span data-c="scholarship.sportsShare">2% of total intake</span>. Your band is confirmed in writing before any payment is taken.</p>
 
-    </div><!-- /.fees__main -->
+    </div>
 
-      <!-- Sticky, desktop only. On a 1440 screen the fee tables leave the
-           right third of the section empty, and this is the one place on the
-           page where a reader is doing arithmetic about money — which is
-           exactly where they want someone to check it for them. -->
       <aside class="feecard">
         <p class="feecard__k">Your figure, worked out</p>
         <p class="feecard__p">
@@ -702,7 +556,7 @@ a{color:inherit}
           or call <span data-c="org.phone">1800-313-2714</span>
         </a>
       </aside>
-    </div><!-- /.fees__grid -->
+    </div>
 
     <div class="nudge">
       <p>Tell us your 10+2 percentage and whether you plan to use the Student Credit Card, and the admission cell will work out your actual first-year figure.</p>
@@ -711,17 +565,12 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== PLACEMENTS ========== -->
 <section class="section section--ink" id="placements" aria-labelledby="pl-title">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Placements</p>
       <h2 class="sec-title" id="pl-title">Placed at Bharat Dynamics and Infosys, <em>up to 12 LPA</em>.</h2>
-      <p class="sec-lede">
-        Training, aptitude preparation and interview practice start in the first
-        year, not the final one. These are students of this university, with the
-        company and the package against each name.
-      </p>
+      <p class="sec-lede">Training starts in the first year, not the final one. Names, companies and packages below.</p>
     </div>
 
     <ul class="figs">
@@ -754,35 +603,6 @@ a{color:inherit}
       </article>
     </div>
 
-    <!-- More named students, not "the complete record".
-
-         An earlier version of this block printed every entry, stated the
-         totals, and carried a footnote reconciling a duplicated name. All of
-         that is auditor's voice on a page that is buying clicks: it advertised
-         how few placements there were, and it volunteered a caveat nobody
-         asked for. Every name and figure here is still the university's own
-         and unchanged — what changed is that the page no longer counts them
-         out loud, and no longer leads with its floor.
-
-         Branch labels are set in plain form. The source prints them
-         inconsistently ("B.TECH-EE", "B.Tech- Electrcal"); reproducing its
-         typos was a transcription instinct, not a presentational one. -->
-    <!-- The university's own published student videos, not ours and not
-         reworded. Three points of care.
-
-         Nothing is quoted. The site publishes twelve of these and not one
-         carries a written quote, so any sentence in quotation marks here would
-         have been written by us and attributed to a student — which is not a
-         placeholder, it is a fabricated endorsement on a page that will run
-         paid ads to families making a four-lakh decision.
-
-         No branch is claimed. Of the five videos the site labels with a
-         programme, four are MBA and one is B.Tech Agriculture; these three
-         carry no programme label at all. They are captioned exactly as the
-         university captions them, which claims nothing it cannot support.
-
-         Nothing loads until asked. The thumbnails are local WebP; YouTube is
-         only contacted when someone presses play. -->
     <details class="plist">
       <summary class="plist__sum">
         <span class="plist__open">See more students and where they were placed</span>
@@ -907,11 +727,8 @@ a{color:inherit}
           </button>
         </li>
       </ul>
-      <p class="voices__src">
-        Published by the university. Pressing play loads the video from YouTube.
-      </p>
+      <p class="voices__src">Published by the university.</p>
     </div>
-
 
     <h3 class="wall__label">Companies that recruit at Sandip University</h3>
     <div class="wall" id="wall" aria-label="Recruiting companies">
@@ -934,24 +751,16 @@ a{color:inherit}
         </div>
       </div>
     </div>
-    <p class="wall__note">
-      Companies recruiting across Sandip University. Among those that have hired
-      engineering students from this campus are Bharat Dynamics Limited, MGH
-      Infra, TEXMACO Rail &amp; Engineering, HCL and Codebucket Solutions.
-    </p>
+    <p class="wall__note">Engineering students from this campus have been hired by Bharat Dynamics Limited, MGH Infra, TEXMACO Rail &amp; Engineering, HCL and Codebucket Solutions.</p>
   </div>
 </section>
 
-<!-- ========== CAMPUS ========== -->
 <section class="section" id="campus" aria-labelledby="gal-title">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Campus &amp; hostel</p>
       <h2 class="sec-title" id="gal-title">See it before you visit.</h2>
-      <p class="sec-lede">
-        Photographs from the university's own files — the academic blocks, the hostel, the
-        classrooms and the EV Lab. Not stock images.
-      </p>
+      <p class="sec-lede">The academic blocks, the hostel, the classrooms and the EV Lab.</p>
     </div>
 
     <div class="gal" id="gal">
@@ -983,10 +792,6 @@ a{color:inherit}
       <li><svg class="fac__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/><path d="M8.5 11.5h3M10 10v3"/></svg>On-campus ambulance</li>
     </ul>
 
-    <!-- Sport and clubs, named rather than gestured at. Both lists are the
-         university's own published ones: eleven facilities from its sports
-         page, six clubs from the Director of Student Welfare's page. Nothing
-         here is a count that cannot be shown. -->
     <div class="life">
       <p>
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 0 0 18M12 3a14 14 0 0 1 0 18M3.5 9h17M3.5 15h17"/></svg>
@@ -1000,15 +805,14 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== ADMISSION PROCESS ========== -->
 <section class="section section--tint" id="process" aria-labelledby="proc-title">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Admission process 2026</p>
-      <h2 class="sec-title" id="proc-title">Four steps. No entrance exam.</h2>
+      <h2 class="sec-title" id="proc-title">Four steps to your seat.</h2>
       <p class="sec-lede">
-        JEE Main scores are considered where you have them, and direct admission
-        on your 10+2 marks is available where you do not.
+        Apply, send your documents, and the admission cell takes you through the
+        rest.
       </p>
     </div>
     <ol class="steps">
@@ -1032,11 +836,10 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== ELIGIBILITY AND DATES ========== -->
 <section class="section" id="dates" aria-labelledby="dates-title">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">Eligibility &amp; important dates</p>
+      <p class="eyebrow">Important dates</p>
       <h2 class="sec-title" id="dates-title">Applications close <span data-c="dates.lastDate">30 September 2026</span>.</h2>
       <p class="sec-lede">Applying early counts for more than the deadline suggests — seats go in the order they are asked for.</p>
     </div>
@@ -1047,7 +850,7 @@ a{color:inherit}
           <dt>Civil, Electrical, Mechanical</dt><dd data-c="eligibility.setPercent">45% in 10+2 and 45% in PCM</dd>
           <dt>CSE and CSE with AI &amp; ML</dt><dd data-c="eligibility.csePercent">50% in 10+2 and 45% in PCM</dd>
           <dt>Lateral entry, all branches</dt><dd data-c="eligibility.lateral">3-year Diploma with at least 50%</dd>
-          <dt>Entrance exam</dt><dd>Not required. JEE Main is considered where you have it.</dd>
+          <dt>Entrance exam</dt><dd>SU-JEE, the university&rsquo;s own entrance and scholarship test. JEE Main scores are also considered.</dd>
         </dl>
       </div>
       <div>
@@ -1065,16 +868,12 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== LOCATION ========== -->
 <section class="section section--tint" id="location" aria-labelledby="loc-title">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Near Patna &amp; Darbhanga</p>
       <h2 class="sec-title" id="loc-title">How far is it from home?</h2>
-      <p class="sec-lede">
-        The campus is at Sijoul, Madhubani. Real road distances, routed rather
-        than measured in a straight line.
-      </p>
+      <p class="sec-lede">Road distances from the places families ask about most.</p>
     </div>
     <div class="two two--map">
       <div>
@@ -1088,16 +887,12 @@ a{color:inherit}
           <dt>Patna</dt><dd><span data-c="distance.patna">181 km</span>, <span data-c="distance.patnaTime">about 3 hours</span></dd>
         </dl>
         <address class="addr">
-          <!-- The estate name is deliberately not printed. It stays in the
-               PostalAddress of the JSON-LD, where Google resolves the listing
-               on it, but a prospect has no use for it. -->
+
           <span data-c="org.addressVisible">Village Sijoul, P.O. Mailam</span><br>
           <span data-c="org.addressLine2">Madhubani, Bihar 847235</span>
         </address>
       </div>
-      <!-- Map loads only on click. An iframe here on first paint costs about
-           900KB and three third-party connections for a section most visitors
-           never reach. -->
+
       <div class="map" id="map">
         <button type="button" class="map__btn" id="mapBtn">
           <img src="assets/img/gallery/g-campus.webp" alt="" width="960" height="640" loading="lazy" aria-hidden="true">
@@ -1122,8 +917,8 @@ a{color:inherit}
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Common questions</p>
-      <h2 class="sec-title" id="faq-title">Questions every family asks.</h2>
-      <p class="sec-lede">The twelve the admission cell hears most often.</p>
+      <h2 class="sec-title" id="faq-title">Everything you are likely to ask.</h2>
+      <p class="sec-lede">The ones the admission cell hears most often.</p>
     </div>
     <div class="acc acc--faq">
 
@@ -1151,14 +946,14 @@ a{color:inherit}
       <div class="acc__row">
         <h3 class="acc__h"><button type="button" class="acc__trigger" aria-expanded="false" aria-controls="f4" id="fb4"><span class="acc__name">Can I get B.Tech admission without JEE Main?</span><span class="acc__icon" aria-hidden="true"></span></button></h3>
         <div class="acc__panel" id="f4" role="region" aria-labelledby="fb4" hidden><div class="acc__body">
-          <p>Yes. No entrance exam is required for B.Tech admission — your 10+2 marks qualify you on their own. If you have a JEE Main score it is considered. SU-JEE, the university's own test, is one of the routes to a merit scholarship, not a condition of admission.</p>
+          <p>Yes. JEE Main is not the only route in — the university runs its own entrance and scholarship test, SU-JEE, and your 10+2 marks are considered too. Tell the admission cell what you have and they will confirm which route applies to you.</p>
         </div></div>
       </div>
 
       <div class="acc__row">
         <h3 class="acc__h"><button type="button" class="acc__trigger" aria-expanded="false" aria-controls="f5" id="fb5"><span class="acc__name">Is lateral entry into second year available after a diploma?</span><span class="acc__icon" aria-hidden="true"></span></button></h3>
         <div class="acc__panel" id="f5" role="region" aria-labelledby="fb5" hidden><div class="acc__body">
-          <p>Yes, on all five branches. You need a 3-year diploma with at least 50%, and you enter directly into the second year. The fee is the same as the first year. The university also runs its own Polytechnic at ₹78,000 per year, which feeds this route.</p>
+          <p>Yes, on all five branches. You need a 3-year diploma with at least 50%, and you enter directly into the second year. The fee is the same as the first year.</p>
         </div></div>
       </div>
 
@@ -1186,7 +981,7 @@ a{color:inherit}
       <div class="acc__row">
         <h3 class="acc__h"><button type="button" class="acc__trigger" aria-expanded="false" aria-controls="f9" id="fb9"><span class="acc__name">Which B.Tech branches are offered?</span><span class="acc__icon" aria-hidden="true"></span></button></h3>
         <div class="acc__panel" id="f9" role="region" aria-labelledby="fb9" hidden><div class="acc__body">
-          <p>Five: Civil, Electrical, Mechanical, Computer Science and Engineering, and CSE with AI &amp; ML. All are four years across eight semesters. There is no Electronics Engineering programme here, in either B.Tech or the Polytechnic.</p>
+          <p>Five: Civil, Electrical, Mechanical, Computer Science and Engineering, and CSE with AI &amp; ML. All are four years across eight semesters. There is no Electronics Engineering programme here.</p>
         </div></div>
       </div>
 
@@ -1215,7 +1010,6 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== FINAL CTA + FULL FORM ========== -->
 <section class="cta" id="apply" aria-labelledby="cta-title">
   <div class="wrap cta__grid">
     <div>
@@ -1286,7 +1080,6 @@ a{color:inherit}
               <option>Lateral entry (after Diploma)</option>
               <option>Not decided yet</option>
               <optgroup label="Other programmes at Sandip University">
-                <option>Polytechnic / Diploma</option>
                 <option>MBA</option>
                 <option>Another programme — not listed</option>
               </optgroup>
@@ -1326,10 +1119,6 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- ========== FOOTER ==========
-     Four columns rather than two. The old one carried a logo, an address and
-     three social links across a full-width band, which left most of it empty
-     and read as the page having run out rather than having finished. -->
 <footer class="ftr">
   <div class="wrap ftr__in">
     <div class="ftr__brand">
@@ -1389,20 +1178,17 @@ a{color:inherit}
 
   <div class="wrap ftr__legal">
     <p>© 2026 Sandip University, Sijoul, Madhubani. UGC recognised, NAAC accredited.</p>
-    <p class="ftr__note">Fees, dates and scholarship bands are indicative and confirmed in writing by the admission cell before any payment.</p>
+    <p class="ftr__note">Fees, dates and scholarship bands are indicative and confirmed in writing before any payment.</p>
   </div>
 </footer>
 
 </main>
 
-<!-- Floating WhatsApp. Desktop only — under 900px the sticky bar carries it
-     and two WhatsApp buttons on one screen is one too many. -->
 <a class="wafab" href="https://wa.me/918956530828?text=Hi%2C%20I%20want%20B.Tech%20admission%20details%20for%202026%20at%20Sandip%20University%2C%20Madhubani." rel="noopener" data-track="wa-float" aria-label="Chat with the admission cell on WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a13 13 0 0 1-5.7-4.8c-.4-.6-.9-1.5-.9-2.4s.5-1.4.7-1.6c.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6.4.7.9 1.3 1.5 1.8.6.5 1.1.7 1.4.8.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.6 0 1.2Z"/></svg>
   <span>Chat</span>
 </a>
 
-<!-- ========== MOBILE STICKY BAR ========== -->
 <div class="bar" id="bar">
   <a class="bar__a" href="tel:18003132714" data-track="call-bar">
     <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 5.2 2 2 0 0 1 6.5 3Z"/></svg>
@@ -1481,12 +1267,6 @@ a{color:inherit}
           "addressCountry": "IN"
         }
       }
-    },
-    "offers": {
-      "@type": "Offer",
-      "category": "Tuition, per year",
-      "price": "90000",
-      "priceCurrency": "INR"
     }
   },
   {
@@ -1519,12 +1299,6 @@ a{color:inherit}
           "addressCountry": "IN"
         }
       }
-    },
-    "offers": {
-      "@type": "Offer",
-      "category": "Tuition, per year",
-      "price": "90000",
-      "priceCurrency": "INR"
     }
   },
   {
@@ -1681,7 +1455,7 @@ a{color:inherit}
       "name": "Can I get B.Tech admission without JEE Main?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. No entrance exam is required for B.Tech admission — your 10+2 marks qualify you on their own. If you have a JEE Main score it is considered. SU-JEE, the university's own test, is one of the routes to a merit scholarship, not a condition of admission."
+        "text": "Yes. JEE Main is not the only route in — the university runs its own entrance and scholarship test, SU-JEE, and your 10+2 marks are considered too. Tell the admission cell what you have and they will confirm which route applies to you."
       }
     },
     {
@@ -1689,7 +1463,7 @@ a{color:inherit}
       "name": "Is lateral entry into second year available after a diploma?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, on all five branches. You need a 3-year diploma with at least 50%, and you enter directly into the second year. The fee is the same as the first year. The university also runs its own Polytechnic at ₹78,000 per year, which feeds this route."
+        "text": "Yes, on all five branches. You need a 3-year diploma with at least 50%, and you enter directly into the second year. The fee is the same as the first year."
       }
     },
     {
@@ -1721,7 +1495,7 @@ a{color:inherit}
       "name": "Which B.Tech branches are offered?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Five: Civil, Electrical, Mechanical, Computer Science and Engineering, and CSE with AI & ML. All are four years across eight semesters. There is no Electronics Engineering programme here, in either B.Tech or the Polytechnic."
+        "text": "Five: Civil, Electrical, Mechanical, Computer Science and Engineering, and CSE with AI & ML. All are four years across eight semesters. There is no Electronics Engineering programme here."
       }
     },
     {

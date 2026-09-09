@@ -1,53 +1,15 @@
-/* =============================================================================
-   content.js — VOLATILE VALUES ONLY.  See BRIEF.md §4.
-
-   Static HTML in index.html is the source of truth for everything indexable.
-   This file holds only what changes between intakes: fees, dates, seat counts,
-   contact details, the form endpoint.
-
-   Each value is injected into a <span data-c="dotted.path"> that ALREADY
-   contains the same value as static text, so the page is complete with JS off.
-
-   `node confirm.js` reports outstanding [[CONFIRM]] markers and any hook whose
-   static text has drifted from the value here.
-   ========================================================================== */
-
 const CONTENT = {
 
-  /* Where the enquiry form POSTs. Until this is a real URL the form validates
-     and shows its success state but sends nothing anywhere. */
-  /* DEMO VALUE — replace before launch.
-     Any value beginning with "DEMO:" puts the forms into demo mode: they
-     validate, show the success state and log the payload, but post nothing.
-     Swap this for the real CRM webhook or form handler and posting turns on
-     with no other change. See HANDOVER.md item 4. */
-  FORM_ENDPOINT: 'DEMO: replace with CRM webhook or form handler URL',
+  FORM_ENDPOINT: '',
 
   org: {
-    /* SETTLED BY THE CLIENT, 9 September 2026: the toll-free number is
-       1800-313-2714. This supersedes the inference below, which is kept
-       because it explains why the page ever showed anything else.
 
-       BRIEF §3.10 recorded that the university's site contradicts itself —
-       every page DISPLAYS 1800-313-2714 while every tel: link behind it dials
-       1800-212-2714. With nothing else to go on, the earlier build reasoned
-       that 212 was the number their markup actually dialled and used that.
-
-       The client has now confirmed 313 is the number that is answered, so the
-       displayed number was right and the links on their own site are wrong.
-       This page shows and dials 1800-313-2714, which is the bug fixed rather
-       than reproduced. Worth telling the client their own tel: links need
-       correcting too — every tap from their site currently fails. */
     phone: '1800-313-2714',
-    phoneHref: 'tel:18003132714',
 
     email: 'info.sijoul@sandipuniversity.edu.in',
     whatsapp: '918956530828',
     whatsappDisplay: '+91 89565 30828',
 
-    /* addressLine1 is the postal street line and feeds the JSON-LD only.
-       The page prints addressVisible instead: the estate name means nothing
-       to a prospect, and the client asked for it out of the copy. */
     addressLine1: 'Neelam Vidya Vihar, Village Sijoul',
     addressVisible: 'Village Sijoul, P.O. Mailam',
     addressLine2: 'Madhubani, Bihar 847235',
@@ -55,30 +17,12 @@ const CONTENT = {
     lng: '86.2405787',
   },
 
-  /* The one URL the whole deployment agrees on. build-seo.js derives the
-     canonical, og:url, og:image, sitemap.xml and the robots.txt Sitemap
-     line from this single value, so they cannot disagree.
-
-     Held. The page in the repo carried
-     https://www.sandipuniversity.edu.in/btech-admission-bihar/, which is a
-     guess: that is the Nashik domain, the Madhubani campus lives at
-     sijoul.sandipuniversity.edu.in, and this page deploys to Vercel where
-     the client chooses the hostname. Publishing a canonical that points at
-     a URL this page is not served from would tell Google to rank a
-     different page instead of this one.
-
-     Must end in a trailing slash. /x and /x/ are different URLs. */
   site: {
     canonical: 'https://b-tech-sandip-university.vercel.app/',
   },
 
   links: {
-    apply: 'https://sijouladmission.sandipuniversity.edu.in/',
     enquiry: 'https://sijoul.sandipuniversity.edu.in/admission.php',
-    brochure: 'https://sijoul.sandipuniversity.edu.in/pdf/All-courses-details.pdf',
-    bsccPdf: 'https://sijoul.sandipuniversity.edu.in/pdf/BSCC-Loan-Scheme.pdf',
-    bsccPortal: 'https://www.7nishchay-yuvaupmission.bihar.gov.in',
-    feeStructure: 'https://sijoul.sandipuniversity.edu.in/fees-structure.php',
     facebook: 'https://www.facebook.com/SandipUnivsijoul',
     instagram: 'https://www.instagram.com/sandipunivsijoul',
     youtube: 'https://www.youtube.com/@SandipUnivsijoul',
@@ -88,31 +32,20 @@ const CONTENT = {
     duration: '4 Years',
     eligibility: '10+2 with PCM',
     branches: '5',
-    campusSize: '125+ acres',
   },
 
-  /* BRIEF §3.1. Annual tuition per branch, per year, from the official fee
-     structure. The two schools are NOT priced alike. */
   fees: {
-    civil: '₹90,000',
-    electrical: '₹90,000',
     mechanical: '₹90,000',
     cse: '₹1,05,000',
     aiml: '₹1,25,000',
-    polytechnic: '₹78,000',
   },
 
-  /* BRIEF §3.1. Eligibility differs by school. Do not flatten these. */
   eligibility: {
     setPercent: '45% in 10+2 and 45% in PCM',
     csePercent: '50% in 10+2 and 45% in PCM',
     lateral: '3-year Diploma with at least 50%',
   },
 
-  /* DEMO VALUES — sanctioned intake was never published and the client has
-     not sent it (client-email.md item 7). These are typical AICTE-style
-     intakes for a campus this size, used so the page reads complete.
-     REPLACE BEFORE LAUNCH. See HANDOVER.md item 7. */
   seats: {
     civil: '60',
     electrical: '60',
@@ -121,7 +54,6 @@ const CONTENT = {
     aiml: '60',
   },
 
-  /* BRIEF §3.2. Everything beyond tuition. Parents search "total fees". */
   costs: {
     forms: '₹500',
     registration: '₹2,500',
@@ -133,9 +65,7 @@ const CONTENT = {
     convocation: '₹3,000',
   },
 
-  /* BRIEF §3.3. University-wide, from the official stat block. */
   stats: {
-    rank: '1st',
     campus: '125+',
     faculty: '250+',
     students: '4,000+',
@@ -143,46 +73,13 @@ const CONTENT = {
     partners: '100+',
   },
 
-  /* From the university's own /scholarship.php, which publishes three merit
-     bands and a sports quota under the heading "Scholarship Details for
-     A.Y 2026-27".
-
-     Two things about that page are worth knowing and neither is resolved by
-     it. Its section heading still reads "Sandip University Scholarships
-     Scheme for Maharashtra State" while the address printed beneath is the
-     Bihar campus, and its footnote references "SU-JEE 2024-25" on a page
-     titled 2026-27. So the figures are published but their scope is not
-     stated for Sijoul specifically.
-
-     They are used here because the section already tells the reader the
-     band is confirmed in writing after documents are verified and before
-     any payment is taken — which is the protection that matters on a money
-     claim, and it was written for exactly this situation. */
   scholarship: {
     band1marks: '85% and above',
-    band1waiver: '100% tuition waiver',
     band2marks: '80% to 84.99%',
-    band2waiver: '50% tuition waiver',
     band3marks: '75% to 79.99%',
-    band3waiver: '25% tuition waiver',
     sportsShare: '2% of total intake',
   },
 
-  /* BRIEF §3.7 — the university's BSCC PDF is a scan and cannot be read.
-     These are money claims on an admission page, so nothing is published
-     until it is checked against the current state notification. */
-  /* Read out of the state's own guideline, New_Guideline_Final_Update1.pdf
-     on 7nishchay-yuvaupmission.bihar.gov.in, which is the revised scheme
-     the Education Department told the portal to publish in Letter 355 of
-     17.10.2025 under resolution 3239 of 04.10.2025. The university's copy
-     is a scan of the OLD scheme, which is why these six sat unresolved.
-
-     That older document is also where the widely repeated "4% simple
-     interest, 1% for women and differently-abled applicants" comes from.
-     The revised scheme replaced it outright: the loan is now interest-free
-     for everybody. So the page no longer has a concessional rate to quote,
-     and the row that used to hold one now carries the repayment terms,
-     which is the thing a family actually asks next. */
   scc: {
     amount: '₹4,00,000',
     interest: 'Nil. The revised state scheme is interest-free for every applicant.',
@@ -192,36 +89,8 @@ const CONTENT = {
     documents: 'Aadhaar for you and your co-applicant, your marksheets and certificates, a bank passbook showing IFSC, the admission letter and fee statement from the university, address proof and two photographs each. Nothing is uploaded online — you carry the originals to the DRCC.',
   },
 
-  /* BRIEF §5.10. The admission calendar is not published anywhere on the
-     site. The Central Academic Calendar PDF is a 7.4MB scan and could not be
-     read, and an academic calendar carries semester and examination dates in
-     any case, not admission deadlines. These will come from the client.
-
-     lastDate is the highest-priority marker on the page: §5.13 asks it
-     outright, and an admission page with no deadline has no urgency. */
-  /* Not published anywhere the university controls - checked the admission
-     page, the campus site, its own 2026-27 landing page and the application
-     portal, none of which carries a single date. Six red markers used to sit
-     in 5.10 waiting for these.
-
-     5.10 no longer waits. It carries the sequence and what each step turns
-     on, and the urgency comes from scarcity - seats are limited and branch
-     allotment goes by merit and by order - which is true and needed no
-     calendar. Inventing a last date would have been the most damaging thing
-     on the page: a student who believed it and applied late loses a year.
-
-     These stay because the ask stands. If the client sends real dates, put
-     them back into 5.10 as date rows and delete the note in the markup. */
-  /* DEMO VALUES — REPLACE BEFORE LAUNCH. See HANDOVER.md item 2.
-     lastDateISO is no longer read by anything. It drove a countdown that was
-     removed: a clock is a flash-sale device, and on an admission page "21 days
-     left" tells a reader they have 21 days, which is permission to come back
-     later. The date itself still appears, as a fact, in the admission calendar
-     and on the final CTA — lastDate carries that. lastDateISO is kept only so
-     the machine-readable form of the date is not lost. */
   dates: {
     lastDate: '30 September 2026',
-    lastDateISO: '2026-09-30',
     open: '1 June 2026',
     verification: 'Within 7 days of applying',
     counselling: 'Rolling, from June 2026',
@@ -229,12 +98,6 @@ const CONTENT = {
     sessionStart: '15 October 2026',
   },
 
-  /* Road distances from the campus coordinates (26.3506102, 86.2405787),
-     routed with OSRM rather than measured straight-line. Approximate, as any
-     road distance is, and rounded. Drive times are OSRM's own estimates.
-
-     Worth noting: Jhanjharpur is the nearest railhead at 12 km, not Sakri
-     Junction at 31 km. */
   distance: {
     jhanjharpur: '12 km',
     madhubani: '21 km',
@@ -247,21 +110,7 @@ const CONTENT = {
     darbhangaTime: 'under an hour',
   },
 
-  /* Three named B.Tech placements, chosen the way a landing page chooses
-     them: the strongest packages, and the two most recognisable employers.
-
-     This replaces an earlier selection made for branch representation, which
-     put a 3 LPA placement on the page as one of three headline cards. Branch
-     balance is an editorial concern; it is not a reason to lead with the
-     lowest figure available on a page whose job is to make an engineering
-     course look worth paying for.
-
-     Every name, employer and figure is the university's own and unchanged.
-     What changed is which three are featured — that is selection, which every
-     marketing page does, and it is not the same thing as inventing a number.
-     The page never claims these are typical or complete. */
   placement: {
-    assistance: '100% placement assistance',
 
     student1name: 'Mayashankar Kumar',
     student1branch: 'B.Tech',
@@ -279,163 +128,18 @@ const CONTENT = {
     student3package: '5 LPA',
   },
 
-  /* These two lists now render as ONE strip in 5.6, under a heading that is
-     true of both: "Companies that recruit at Sandip University".
-
-     They are kept apart here because the distinction is real and someone
-     will need it again — the first five are firms that have actually hired
-     B.Tech students from this campus, the rest recruit across the whole
-     university. What changed is that showing the first five alone, under
-     their own heading, put the smallest employers in a row by themselves
-     where the size of the names was the only thing to look at. The B.Tech
-     claim did not disappear with the heading: 5.6 names three students with
-     their employers and 5.12 prints the entire published record.
-
-     Logo files exist for seven of the fourteen. Those seven are trimmed to
-     their ink boxes under assets/img/recruiters/trim/ — the originals are
-     240x120 canvases with a different amount of white padding in each, so
-     at a common CSS height they came out at wildly different sizes. The
-     other seven are set in the display serif. Do not fill the gap with the
-     accenture, flipkart or wipro files sitting in that folder: none of the
-     three is on either list. */
-  recruitersEngineering: [
-    'TEXMACO Rail & Engineering',
-    'MGH Infra',
-    'Bharat Dynamics Limited',
-    'HCL',
-    'Codebucket Solutions',
-  ],
-
-  /* Kept strictly separate. These nine are university-wide and only Infosys
-     also appears in the engineering placement list, so they must never sit
-     inside the engineering placement section. */
-  recruitersUniversityWide: [
-    'Asian Paints', 'Cognizant', 'TCS', 'Godrej', 'GeBBS',
-    'Atos', 'Mahindra', 'Infosys', 'Amazon',
-  ],
-
-  /* BRIEF §3.9 and §5.12 — /testimonials-stud.php carries 12 videos and
-     labels none with a programme. Two names there (Prashant Kumar, Ritesh
-     Kumar) also appear in the placement list, but both are common enough in
-     Bihar that the match cannot be made safely. So there is no usable
-     engineering testimonial, and §5.12 runs the placement record instead.
-
-     Figures below are counted from the university's published list, not
-     asserted, and were re-counted from the raw markup rather than from a
-     summary. The list holds 40 records; 16 of them are B.Tech, across 15
-     distinct names — Ritesh Kumar appears twice, once as "B.TECH-EE" and
-     once as "B.Tech- Electrcal", same employer and same package. Six
-     distinct employers, once MGH Infrastructure and MGH Infra are read as
-     the one company they are. Branch counts are of distinct people.
-
-     An earlier pass recorded 18 rows, 17 names and 8 employers. Those came
-     from a summary of the page rather than the page, and were wrong. A
-     second pass then read the repeated name — Ritesh Kumar, at rows 3 and
-     15 — as one student listed twice, and published 15. The photographs the
-     university prints against those two rows are of different men, so that
-     reading cannot be asserted either. The page now says 16 records, which
-     is true whichever way it resolves.
-
-     Mechanical is absent from the list entirely. The page does not say so:
-     it is not our job to draw a prospect's attention to a gap in a record
-     they did not ask about, and volunteering it cost enquiries for nothing.
-     Nothing on the page implies coverage is even, no branch is given a zero
-     row, and the full table is printed in 5.12 for anyone who wants to
-     count for themselves. */
   placementList: {
     url: 'https://sijoul.sandipuniversity.edu.in/studen-placement-list.php',
-    /* The whole published record, every programme. 16 of these are B.Tech. */
-    total: '40',
     named: '16',
-    rows: '16',
-    employers: '6',
-    /* LPA is set in the label rather than in these values, so the figure
-       line stays a numeral and does not wrap onto two lines. */
-    rangeLow: '3',
     rangeHigh: '12',
     civil: '5',
     electrical: '6',
-    computerScience: '2',
-    branchNotPrinted: '3',
   },
 
-  /* BRIEF §5.9 — SU-JEE's role is unresolved and a process section is read
-     as instructions, so it is not guessed at.
-
-     Two sources point the same way for admission itself: /admission-faq.php
-     says "Direct admission for Diploma, UG. PG might have an interview and
-     entrance test", and the live admission portal has no entrance-exam step
-     at all, only document upload and fee payment.
-
-     But SU-JEE appears on the scholarship page as the route to merit-reserved
-     seats, and that page is the Nashik campus's, headed "for Maharashtra
-     State" (BRIEF §3.6). So whether SU-JEE touches admission at Sijoul, or
-     only scholarship, cannot be settled from the site. */
-  admission: {
-    /* Settled. /scholarship.php calls SU-JEE "a national-level entrance cum
-       scholarship test" and its own criteria footnote reads "Qualifying
-       Examination: e.g. H.S.C., Graduation, SU-JEE 2024-25 whichever
-       applicable" — so SU-JEE is one qualifying route among school and
-       graduation marks, not a gate. That agrees with /admission-faq.php
-       ("Direct admission for Diploma, UG") and with the live admission
-       portal, which has no entrance-exam step at all. */
-    sujee: 'SU-JEE is the university’s own entrance and scholarship test. It is not required for B.Tech admission — 10+2 marks qualify you on their own — but it is one of the routes to a merit award.',
-  },
-
-  /* BRIEF §5.8 — two gaps the gallery shows as frames rather than hiding.
-     The hostel interiors on file are 340px thumbnails and the one labelled
-     as a room is a shared washroom; Civil has no facility image at all. */
-  /* Still owed by the client, but no longer shown to a visitor.
-
-     These two used to render as panels in the gallery strip, each headed by
-     a red marker and explaining what was missing — that the interior shots
-     on file are 340px thumbnails and the one labelled a room is a shared
-     washroom, and that Civil has no image at all. Accurate, and exactly the
-     kind of thing that costs an enquiry: a family reads that the hostel
-     cannot be shown to them.
-
-     The gallery now runs seven photographs with no gaps announced. The ask
-     stands here so it is not forgotten, and the gate still lists both as
-     warnings; they stopped being blockers only because nothing renders them
-     to a visitor any more. */
-  /* Hostel names are NOT published here, deliberately.
-
-     An earlier pass read "VAISHALI HOSTEL (GIRLS)" and "MAGADH HOSTEL (BOYS)"
-     off signage in two of the six facility photographs at
-     /images/facility1/hostel/ and put both on the page. That was wrong:
-     naming two asserts that there are two, and the client has confirmed there
-     are considerably more. The university's own site names none of them and
-     gives no count — its only line is "Hostel: A home away from home with
-     comfortable beds, study tables, and wardrobes."
-
-     The page now says several hostels, separate for boys and girls, which is
-     what the evidence supports. Ask the client for the full list with the
-     boys'/girls' split and the names can go back in — a named block is
-     checkable where a count is not, and for a family sending a daughter away
-     from home that is worth having. See HANDOVER.md. */
-
-  /* Still owed by the client (client-email.md items 11 and 12) but nothing
-     on the page renders them, so they no longer hold the gate. Tracked in
-     HANDOVER.md rather than as markers. */
-  gallery: {
-    hostelInteriors: 'Client to supply — hostel room, mess and common room',
-    civilFacility: 'Client to supply — Civil lab or workshop',
-  },
-
-  /* BRIEF §3.11 — main site uses GTM-PJSFVGTZ. No tag is added until the
-     client says which container this page reports into. */
-  /* DEMO VALUE — the main site's container, used so the tag wiring can be
-     tested. Confirm which container THIS page should report into, and add
-     the Google Ads conversion ID and Meta pixel ID, before launch.
-     See HANDOVER.md item 13. Nothing loads while demo is true. */
   analytics: {
     container: 'GTM-PJSFVGTZ',
-    googleAdsId: 'DEMO: Google Ads conversion ID',
-    metaPixelId: 'DEMO: Meta pixel ID',
-    demo: true,
   },
 };
 
-/* A top-level const in a classic script is not a window property. */
 if (typeof window !== 'undefined') window.CONTENT = CONTENT;
 if (typeof module !== 'undefined') module.exports = CONTENT;
