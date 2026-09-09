@@ -167,9 +167,12 @@
   --space-section:clamp(3.5rem,7.5vw,6rem);
   --gutter:clamp(1.15rem,4vw,3.5rem);
   --wrap:82rem;
+  --radius-sm:10px;    /* chips, icon tiles, logo plates, list items */
   --radius:16px;
+  --radius-field:12px; /* inputs, selects, the choice tiles */
   --radius-lg:28px;
   --radius-pill:999px;
+  --pill-w:35rem;      /* the capsule's measure once it has collapsed */
   --shadow-card:0 1px 2px rgba(10,19,48,.05),0 14px 34px rgba(10,19,48,.09);
   --shadow-lift:0 2px 6px rgba(10,19,48,.10),0 28px 70px rgba(10,19,48,.22);
   --header-h:3.75rem;
@@ -268,9 +271,18 @@ p:last-child{margin-bottom:0}
 
    What came out, and why:
 
-   THE LOGO. A pill does not need one. The visitor arrived from an ad and knows
-   whose page this is; the logo is brand furniture, and on a landing page it
-   belongs in the hero, where the page introduces itself. It is there now.
+   THE LOGO. It sits in the left column of the resting bar, opposite the
+   accreditation, and collapses out on the way into the capsule. That is the
+   one place it can be both prominent and free: in the bar it holds the
+   conventional top-left position at 52px, and by the time the reader is
+   mid-page it has gone, so the capsule still carries only what a reader
+   scrolling needs. Below 900px the bar is hidden, so the hero keeps its own
+   copy of the logo and the mark is never absent and never doubled.
+
+   THE ACCREDITATION. It answers the void the capsule left on the right. A
+   credential is the one thing that earns a permanent place beside the button
+   on a page selling admission — it is the reason to believe, standing where
+   the reader looks after reading the sections.
 
    THE PHONE NUMBER. This page exists to collect form submissions. A number in
    the header offers a way around the form at the exact moment someone is
@@ -280,63 +292,116 @@ p:last-child{margin-bottom:0}
    the final CTA, in the footer, and on the mobile bar for a caller who wants
    to call.
 
-   What is left is what a pill is for: the five section links and the one
-   action. It shrinks to that content and centres, rather than stretching to
-   --wrap, so the page shows through on both sides of it.
-
-   Below 900px the pill is hidden entirely. The nav does not fit there, and the
+   Below 900px the bar is hidden entirely. The nav does not fit there, and the
    sticky bottom bar already carries Call, WhatsApp and Apply — a floating
    capsule holding a single button, above a bar holding the same button, is
    furniture. Hiding it returns about 60px of a phone screen. */
 .hdr{
-  position:fixed;inset:var(--hdr-gap) 0 auto;z-index:50;
+  position:fixed;inset:0 0 auto;z-index:50;
   display:none;justify-content:center;
-  padding-inline:var(--gutter);pointer-events:none;
+  padding:0 var(--gutter);pointer-events:none;
+  transition:padding-top .38s var(--ease);
 }
+/* Detached from the top edge only once it has become the capsule. */
+.hdr.is-solid{padding-top:var(--hdr-gap)}
+
+/* At rest this is an ordinary header bar and nothing else: full measure, no
+   fill, no border, no shadow, no blur. It sits over the dark top of the hero
+   panel, so it reads as the hero's own top row rather than as a floating
+   object — which is the point. A capsule at 0% scroll has nothing to float
+   above and reads as an ornament; a capsule that appears the moment the page
+   moves reads as the page responding.
+
+   Three columns: brand, sections, actions. The two outer columns collapse to
+   zero width on the way into the capsule, so the same element serves both
+   states and the change is one continuous motion rather than a swap. */
 .hdr__in{
   pointer-events:auto;
-  display:inline-flex;align-items:center;gap:1.9rem;
-  height:var(--header-h);padding:0 .5rem 0 2.1rem;
-  transition:height .3s var(--ease),padding .3s var(--ease),gap .3s var(--ease),background-color .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);
-  border-radius:var(--radius-pill);
-  background:rgba(247,250,255,.80);
-  backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
-  /* Two borders, because a light pill over a light ground can never be told
-     apart by its fill — over the white sections the fill and the background
-     are within a few values of each other no matter what tint is used. What
-     defines it there is the edge: a hairline of ink on the outside so the
-     shape reads, and a highlight on the inside so it reads as a raised pane
-     rather than a drawn outline. */
-  border:1px solid rgba(10,19,48,.09);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
-             0 2px 6px rgba(10,19,48,.07),
-             0 14px 38px rgba(10,19,48,.16);
-  transition:height .28s var(--ease),background-color .28s var(--ease),box-shadow .28s var(--ease);
+  display:grid;grid-template-columns:max-content 1fr auto;align-items:center;
+  column-gap:1.75rem;
+  width:100%;max-width:var(--wrap);
+  height:var(--header-h);padding:0;
+  border-radius:0;
+  background:transparent;
+  border:1px solid transparent;
+  box-shadow:none;
+  transition:width .42s var(--ease),column-gap .38s var(--ease),
+             height .34s var(--ease),padding .38s var(--ease),
+             border-radius .38s var(--ease),background-color .34s var(--ease),
+             box-shadow .34s var(--ease),border-color .34s var(--ease);
 }
-/* Shrunk state, on the .is-solid class main.js already toggles from an
-   IntersectionObserver — no scroll handler was added for this. */
+/* The capsule, on the .is-solid class main.js toggles from an
+   IntersectionObserver — no scroll handler was added for this.
+
+   Two borders, because a light pill over a light ground can never be told
+   apart by its fill: over the white sections the fill and the background are
+   within a few values of each other no matter what tint is used. What defines
+   it there is the edge — a hairline of ink outside so the shape reads, and a
+   highlight inside so it reads as a raised pane rather than a drawn outline. */
 .hdr.is-solid .hdr__in{
-  height:var(--header-h-sm);padding:0 .4rem 0 1.4rem;gap:1.25rem;
+  width:var(--pill-w);column-gap:0;
+  height:var(--header-h-sm);padding:0 .4rem 0 1.5rem;
+  border-radius:var(--radius-pill);
   background:rgba(250,252,255,.86);
+  backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
   border-color:rgba(10,19,48,.13);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.95),
              0 2px 8px rgba(10,19,48,.10),
              0 18px 46px rgba(10,19,48,.22);
 }
-.hdr__nav{display:flex;gap:1.9rem;transition:gap .3s var(--ease)}
+
+/* ---- brand, left column: present in the bar, gone in the capsule ---- */
+.hdr__brand{
+  display:flex;align-items:center;overflow:hidden;
+  max-width:16rem;opacity:1;
+  transition:max-width .38s var(--ease),opacity .24s var(--ease)}
+.hdr__brand img{height:52px;width:auto;display:block}
+.hdr.is-solid .hdr__brand{max-width:0;opacity:0}
+
+/* ---- actions, right column ---- */
+.hdr__end{display:flex;align-items:center;gap:1.1rem;
+  transition:gap .38s var(--ease)}
+.hdr.is-solid .hdr__end{gap:0}
+
+/* The credential, opposite the logo. Faux glass — a translucent fill, a
+   hairline and an inset highlight — so it carries the same material as the
+   capsule at no compositing cost, which keeps the page inside its budget of
+   two or three real backdrop-filter surfaces per view. */
+.hdr__accr{
+  display:inline-flex;align-items:center;gap:.55rem;white-space:nowrap;overflow:hidden;
+  max-width:20rem;opacity:1;
+  padding:.34rem .9rem .34rem .68rem;border-radius:var(--radius-pill);
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.17);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.11);
+  transition:max-width .38s var(--ease),opacity .24s var(--ease),
+             padding .38s var(--ease),border-width .38s var(--ease)}
+.hdr__accr .ico{width:var(--ico-md);height:var(--ico-md);color:var(--gold);flex:none}
+.hdr__accr span{display:flex;flex-direction:column;line-height:1.16}
+.hdr__accr b{font-size:.8125rem;font-weight:700;color:#fff;letter-spacing:-.004em}
+.hdr__accr i{font-style:normal;font-size:.6875rem;font-weight:500;color:var(--muted-ink)}
+.hdr.is-solid .hdr__accr{max-width:0;opacity:0;padding-left:0;padding-right:0;border-width:0}
+
+/* ---- sections ---- */
+.hdr__nav{display:flex;justify-self:center;gap:1.9rem;transition:gap .38s var(--ease)}
 .hdr.is-solid .hdr__nav{gap:1.35rem}
 .hdr__nav a{position:relative;display:inline-flex;align-items:center;height:100%;min-height:2.75rem;
-  text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--hdr-ink);
+  text-decoration:none;font-size:var(--fs-meta);font-weight:600;color:var(--body-ink);
   transition:color .16s var(--ease)}
-.hdr__nav a:hover{color:var(--fg)}
-/* The section you are in. A dot rather than an underline: the pill is short
+.hdr__nav a:hover{color:#fff}
+.hdr.is-solid .hdr__nav a{color:var(--hdr-ink)}
+.hdr.is-solid .hdr__nav a:hover{color:var(--fg)}
+/* The section you are in. A dot rather than an underline: the capsule is short
    and an underline under one of five links reads as a broken border. */
-.hdr__nav a[aria-current]{color:var(--fg);font-weight:700}
+.hdr__nav a[aria-current]{color:#fff;font-weight:700}
+.hdr.is-solid .hdr__nav a[aria-current]{color:var(--fg)}
 .hdr__nav a[aria-current]::after{
   content:"";position:absolute;left:50%;bottom:.55rem;
   width:5px;height:5px;margin-left:-2.5px;border-radius:50%;
-  background:var(--red-fill);
+  background:var(--red-hi);
 }
+.hdr.is-solid .hdr__nav a[aria-current]::after{background:var(--red-fill)}
+
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;
   background:var(--red-fill);color:#fff;text-decoration:none;
   font-weight:700;font-size:var(--fs-meta);white-space:nowrap;
@@ -345,6 +410,28 @@ p:last-child{margin-bottom:0}
   transition:background-color .18s var(--ease),transform .18s var(--ease)}
 .hdr__cta:hover{background:var(--red-ink)}
 .hdr__cta:active{transform:translateY(1px)}
+/* Below 1180px the bar runs out of room, and the way it ran out was the worst
+   of the options: the brand sits in an auto track, auto tracks shrink under
+   pressure, and .hdr__brand clips rather than scales — so at 900px the logo
+   was silently cut from 153px of artwork to 95px. A clipped mark is worse
+   than no credential, so the credential gives way first and the track is
+   pinned to max-content so this cannot happen quietly again.
+
+   1080-1180: the credential drops its second line and the mark drops eight
+   pixels. Below 1080 the credential goes entirely, leaving mark, sections and
+   button — an ordinary header, and still balanced. It is on the page four
+   more times below the fold. */
+@media(max-width:1179px){
+  .hdr__brand img{height:44px}
+  .hdr__accr{padding:.4rem .8rem .4rem .62rem}
+  .hdr__accr i{display:none}
+  .hdr__accr b{font-size:.78rem}
+  .hdr__nav{gap:1.5rem}
+}
+@media(max-width:1079px){
+  .hdr__brand img{height:48px}
+  .hdr__accr{display:none}
+}
 @media(min-width:900px){.hdr{display:flex}}
 
 /* ---------- 6. HERO ----------
@@ -382,7 +469,10 @@ p:last-child{margin-bottom:0}
    so a media query declared earlier is silently reset by it — which is what
    put the pill 16px on top of the form. */
 @media(min-width:900px){
-  .hero__panel{padding-top:calc(var(--hdr-gap) + var(--header-h) + 2.4rem)}
+  /* Cleared for the resting bar, which is the header at 0% scroll. The bar is
+     transparent and sits over the top of the panel, so this is the only
+     reservation the hero needs. */
+  .hero__panel{padding-top:calc(var(--header-h) + 1.9rem)}
 }
 /* A fine dot grid over the gradient. Without the photograph the panel was a
    flat field of colour, and flat colour at this size reads as unfinished
@@ -450,9 +540,17 @@ p:last-child{margin-bottom:0}
    type pass. Both files now say the same thing. */
 /* The logo, in the hero, because the pill no longer carries it and this is
    where a landing page introduces itself. White knockout on the dark panel. */
-.hero__brand{display:inline-block;margin-bottom:1.1rem}
-.hero__brand img{height:64px;width:auto;opacity:1}
-@media(max-width:899px){.hero__brand{margin-bottom:.9rem}.hero__brand img{height:50px}}
+/* The hero's own copy of the logo, for phones only. From 900px up the resting
+   header bar carries the mark in the top-left, so this one would be a second
+   logo about forty pixels below the first. Hidden by default rather than
+   hidden in a min-width block, because the declaration order would otherwise
+   put this rule last and it would silently win — which is exactly what it did
+   on the first attempt, leaving an 82px void at the top of the hero. */
+.hero__brand{display:none}
+@media(max-width:899px){
+  .hero__brand{display:inline-block;margin-bottom:.9rem}
+  .hero__brand img{height:50px;width:auto;opacity:1}
+}
 .hero h1{font-weight:800;font-size:var(--fs-h1);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
@@ -531,7 +629,7 @@ p:last-child{margin-bottom:0}
   text-transform:uppercase;color:var(--muted-ink)}
 .hero__rec-row{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0;padding:0}
 .hero__rec-row img{width:92px;height:26px;object-fit:contain;background:#fff;
-  border-radius:8px;padding:.5rem .4rem;box-sizing:content-box}
+  border-radius:var(--radius-sm);padding:.5rem .4rem;box-sizing:content-box}
 @media(max-width:899px){
   .hero__rec{order:8;margin-top:.1rem}
   .hero__rec-row img{width:78px;height:22px;padding:.45rem .35rem}
@@ -570,7 +668,7 @@ p:last-child{margin-bottom:0}
 
 .f__input,.f__select{
   width:100%;font-family:inherit;font-size:1rem;font-weight:600;color:var(--fg);
-  background:var(--paper-2);border:1.5px solid transparent;border-radius:12px;
+  background:var(--paper-2);border:1.5px solid transparent;border-radius:var(--radius-field);
   padding:.85rem .9rem;min-height:3rem;
   transition:background-color .16s var(--ease),border-color .16s var(--ease),box-shadow .16s var(--ease);
 }
@@ -589,7 +687,7 @@ p:last-child{margin-bottom:0}
    input still holds ten digits and the validator still strips a stray 0 or 91
    if someone types one anyway. */
 .f__tel{display:flex;align-items:stretch;background:var(--paper-2);border:1.5px solid transparent;
-  border-radius:12px;overflow:hidden;transition:border-color .16s var(--ease),box-shadow .16s var(--ease),background-color .16s var(--ease)}
+  border-radius:var(--radius-field);overflow:hidden;transition:border-color .16s var(--ease),box-shadow .16s var(--ease),background-color .16s var(--ease)}
 .f__tel:focus-within{background:var(--paper);border-color:var(--accent);box-shadow:0 0 0 4px rgba(36,84,198,.18)}
 .f__tel-cc{display:flex;align-items:center;padding:0 .5rem 0 .9rem;font-size:1rem;font-weight:700;
   color:var(--muted);border-right:1px solid var(--hair)}
@@ -605,7 +703,7 @@ p:last-child{margin-bottom:0}
    branches above it, and it should not read as a sixth branch. */
 .chip--wide{grid-column:1/-1;font-size:.85rem}
 .chip{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;
-  min-height:2.85rem;padding:.5rem .55rem;border-radius:12px;cursor:pointer;
+  min-height:2.85rem;padding:.5rem .55rem;border-radius:var(--radius-field);cursor:pointer;
   background:var(--paper-2);border:1.5px solid transparent;
   font-size:var(--fs-meta);font-weight:600;color:var(--muted);line-height:1.25;
   transition:border-color .15s var(--ease),background-color .15s var(--ease),color .15s var(--ease);
@@ -619,7 +717,7 @@ p:last-child{margin-bottom:0}
 .f__check input{flex:0 0 auto;width:1.2rem;height:1.2rem;margin:.05rem 0 0;accent-color:var(--accent)}
 .f__err{margin:.35rem 0 0;font-size:.78rem;color:var(--red-ink);font-weight:700}
 .f__input[aria-invalid="true"],.f__select[aria-invalid="true"]{border-color:var(--red-ink);background:var(--red-wash)}
-.f__status{margin:.85rem 0 0;font-size:.86rem;padding:.8rem .9rem;border-radius:12px;background:var(--paper-2)}
+.f__status{margin:.85rem 0 0;font-size:.86rem;padding:.8rem .9rem;border-radius:var(--radius-field);background:var(--paper-2)}
 .f__status.is-ok{background:#E9F7EE;color:#125A2A}
 .f__status.is-bad{background:var(--red-wash);color:var(--red-ink)}
 .lead.is-sent .f__field,.lead.is-sent .f__row,.lead.is-sent .f__check,.lead.is-sent .lead__submit,.lead.is-sent .lead__broch{display:none}
@@ -685,7 +783,7 @@ p:last-child{margin-bottom:0}
   transition:border-color .16s var(--ease),transform .16s var(--ease);
 }
 .why__item:hover{border-color:var(--hair-2);transform:translateY(-2px)}
-.why__ico{grid-row:1/3;width:var(--ico-xl);height:var(--ico-xl);padding:6px;border-radius:10px;
+.why__ico{grid-row:1/3;width:var(--ico-xl);height:var(--ico-xl);padding:6px;border-radius:var(--radius-sm);
   background:var(--accent-wash);color:var(--accent);margin-top:.1rem}
 .why__item h3{font-size:var(--fs-h3);font-weight:800;letter-spacing:-.025em;margin-bottom:.4rem;align-self:center}
 .why__item p{color:var(--muted);max-width:62ch;margin:0;font-size:1rem}
@@ -1030,8 +1128,8 @@ p:last-child{margin-bottom:0}
 .wall__set{display:flex;align-items:center;gap:clamp(2rem,5vw,3.5rem);padding-right:clamp(2rem,5vw,3.5rem)}
 /* Full colour, on a light plate. Greyscale logos read as decoration; a
    parent scanning for a name they recognise needs them to read as real. */
-.wall__set img{width:124px;height:34px;object-fit:contain;background:#fff;border-radius:9px;padding:.6rem .5rem;box-sizing:content-box}
-.wall__word{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:8px;padding:.4rem .8rem}
+.wall__set img{width:124px;height:34px;object-fit:contain;background:#fff;border-radius:var(--radius-sm);padding:.6rem .5rem;box-sizing:content-box}
+.wall__word{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:var(--radius-sm);padding:.4rem .8rem}
 @keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 .wall__note{font-size:.82rem;max-width:66ch;margin-top:1rem}
 
@@ -1132,12 +1230,12 @@ p:last-child{margin-bottom:0}
 }
 .cta__grid{display:grid;gap:clamp(2rem,4vw,3.5rem)}
 @media(min-width:900px){.cta__grid{grid-template-columns:1fr .9fr;align-items:center}}
-.cta__flag{display:inline-flex;align-items:center;font-size:.76rem;font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.36rem .75rem;border-radius:100px;margin:0 0 1rem}
+.cta__flag{display:inline-flex;align-items:center;font-size:.76rem;font-weight:600;background:rgba(214,43,51,.18);border:1px solid rgba(255,107,99,.42);color:#FFD9D6;padding:.36rem .75rem;border-radius:var(--radius-pill);margin:0 0 1rem}
 .cta__flag b{color:#fff;font-weight:700;margin-left:.3rem}
 .cta__title{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.032em;margin-bottom:.85rem;max-width:17ch}
 .cta__lede{color:var(--body-ink);max-width:52ch;font-size:1.05rem}
 .cta__pts{list-style:none;margin:1.4rem 0;padding:0;display:grid;gap:0}
-.cta__pts li{position:relative;padding:.7rem .9rem .7rem 1.9rem;margin-bottom:.4rem;border:1px solid var(--glass-line);border-radius:10px;background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);font-size:var(--fs-meta);color:var(--body-ink)}
+.cta__pts li{position:relative;padding:.7rem .9rem .7rem 1.9rem;margin-bottom:.4rem;border:1px solid var(--glass-line);border-radius:var(--radius-sm);background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);font-size:var(--fs-meta);color:var(--body-ink)}
 .cta__pts li::before{content:"";position:absolute;left:.85rem;top:1.25rem;width:6px;height:6px;border-radius:50%;background:var(--gold)}
 /* A direct route to the portal for anyone who has already decided. The form
    stays the primary action; this is the escape hatch that stops a high-intent
@@ -1261,7 +1359,7 @@ p:last-child{margin-bottom:0}
     position:fixed;right:0;top:58%;z-index:55;
     background:#1FA855;color:#fff;text-decoration:none;
     font-size:.82rem;font-weight:700;letter-spacing:.01em;
-    padding:.7rem .95rem;border-radius:10px 0 0 10px;
+    padding:.7rem .95rem;border-radius:var(--radius-sm) 0 0 var(--radius-sm);
     box-shadow:0 6px 24px rgba(8,14,32,.28);
     transition:padding-right .18s var(--ease);
   }

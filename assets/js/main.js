@@ -32,14 +32,24 @@
   });
 
   /* ---------- 2. HEADER ----------
-     Transparent over the hero, solid once the hero is behind it. Driven by an
-     IntersectionObserver rather than a scroll handler so it costs nothing on
-     a mid-range phone. */
+     A plain full-width bar at rest, the floating capsule once the page has
+     moved. The sentinel sits 96px into the hero and the root is inset by the
+     bar's height, so the change lands at about 24px of scroll.
+
+     That number is not taste. The resting bar has no fill, so hero copy
+     sliding underneath it would show straight through — and the first line of
+     copy sits 102px down against a 72px bar, so it reaches the bar at 30px of
+     scroll. Firing at 24 means the fill arrives before anything can pass
+     behind it, and it is also early enough that the capsule reads as the
+     answer to scrolling rather than as something that happens later.
+
+     Driven by an IntersectionObserver rather than a scroll handler so it costs
+     nothing on a mid-range phone. */
   var hdr = $('#siteHeader');
   var hero = $('.hero');
   if (hdr && hero && 'IntersectionObserver' in window) {
     var sentinel = document.createElement('div');
-    sentinel.style.cssText = 'position:absolute;top:80px;height:1px;width:1px;pointer-events:none';
+    sentinel.style.cssText = 'position:absolute;top:96px;height:1px;width:1px;pointer-events:none';
     hero.appendChild(sentinel);
     new IntersectionObserver(function (entries) {
       hdr.classList.toggle('is-solid', !entries[0].isIntersecting);
@@ -52,11 +62,11 @@
      cannot: it tells the reader which section they are actually in, and it
      turns the pill from decoration into a position indicator.
 
-     Same mechanism as the header state above — an IntersectionObserver, not a
-     scroll handler, so it costs nothing on a mid-range phone. */
+     Unlike the header state above, this cannot be an IntersectionObserver —
+     the reason is in the note below. */
   (function () {
     var links = $$('.hdr__nav a');
-    if (!links.length || !('IntersectionObserver' in window)) return;
+    if (!links.length) return;
 
     var byId = {};
     links.forEach(function (a) {
@@ -65,25 +75,68 @@
     });
     var targets = Object.keys(byId)
       .map(function (id) { return document.getElementById(id); })
-      .filter(Boolean);
+      .filter(Boolean)
+      /* Document order, so "the last one passed" means the last one down the
+         page rather than the last one written in the nav. */
+      .sort(function (a, b) {
+        return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+      });
     if (!targets.length) return;
 
+    /* Three things were wrong before.
+
+       One: the observer reports changes, not state, and this reacted only to
+       entries that were intersecting — so the last section entered stayed
+       marked forever. Land at the top with a section briefly in the band while
+       images were still settling and "Branches" stayed lit at 0% scroll, with
+       the reader nowhere near it.
+
+       Two: five of the page's sections are in the nav and several are not. A
+       rule that marks only the section it is inside goes blank for long
+       stretches — through scholarships, process and dates — which reads as
+       broken rather than as accurate. The rule is "the last nav section you
+       have passed", measured against a line at 40% of the viewport. Above the
+       first one nothing is marked, which is the correct state over the hero
+       and the one the page opens in.
+
+       Three, and this is why the observer had to go: IntersectionObserver
+       signals crossings, not position. Every link on this page jumps — the nav
+       itself, the buttons, the skip link — and a jump from the FAQ back to the
+       top changes no section from intersecting to not intersecting, because
+       none of them were intersecting a 1%-tall band at either end. Nothing
+       fired, and the mark stayed on FAQ over the hero. Position is what is
+       being asked for here, so position is what is read.
+
+       The cost is a scroll listener, which is what the header state was
+       deliberately built to avoid. It is paid down: passive, coalesced to one
+       animation frame, and doing nothing but reading five rects and comparing
+       one node reference. It does not write unless the answer changed, so it
+       never touches layout in a scroll frame. */
     var current = null;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var a = byId[e.target.id];
-        if (!a || a === current) return;
-        if (current) current.removeAttribute('aria-current');
-        a.setAttribute('aria-current', 'true');
-        current = a;
-      });
-    }, {
-      /* Fire when a section crosses the upper third, so the mark changes as a
-         section takes over the screen rather than the moment it peeks in. */
-      rootMargin: '-30% 0px -60% 0px'
-    });
-    targets.forEach(function (el) { io.observe(el); });
+    var queued = false;
+
+    function paint() {
+      queued = false;
+      var line = window.innerHeight * 0.4;
+      var mark = null;
+      for (var i = 0; i < targets.length; i++) {
+        if (targets[i].getBoundingClientRect().top <= line) mark = byId[targets[i].id];
+      }
+      if (mark === current) return;
+      if (current) current.removeAttribute('aria-current');
+      if (mark) mark.setAttribute('aria-current', 'true');
+      current = mark;
+    }
+
+    function schedule() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(paint);
+    }
+
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule, { passive: true });
+    paint();
   }());
 
   /* ---------- 3. ACCORDIONS ----------

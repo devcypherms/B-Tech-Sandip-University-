@@ -48,7 +48,7 @@ img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
 .skip{position:absolute;left:-9999px}
-.skip:focus{left:.5rem;top:.5rem;z-index:99;background:var(--paper);color:var(--fg);padding:.6rem 1rem;border-radius:8px}
+.skip:focus{left:.5rem;top:.5rem;z-index:99;background:var(--paper);color:var(--fg);padding:.6rem 1rem;border-radius:10px}
 
 @media(min-width:900px){
 
@@ -56,10 +56,15 @@ a{color:inherit}
 
 
 
-.hdr__nav{display:flex;gap:1.55rem}.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.875rem;font-weight:600;color:#414D69}
+.hdr__nav{display:flex;justify-self:center;gap:1.9rem}.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.875rem;font-weight:600;color:var(--body-ink)}
 :root{--header-h:4.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
-.hdr{position:fixed;inset:var(--hdr-gap) 0 auto;z-index:50;display:none;justify-content:center;padding-inline:var(--gutter);pointer-events:none}
-.hdr__in{pointer-events:auto;display:inline-flex;align-items:center;gap:1.9rem;height:var(--header-h);padding:0 .5rem 0 2.1rem;border-radius:999px;background:rgba(247,250,255,.80);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(10,19,48,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 2px 6px rgba(10,19,48,.07),0 14px 38px rgba(10,19,48,.16)}
+.hdr{position:fixed;inset:0 0 auto;z-index:50;display:none;justify-content:center;padding:0 var(--gutter);pointer-events:none}
+.hdr__in{pointer-events:auto;display:grid;grid-template-columns:max-content 1fr auto;align-items:center;column-gap:1.75rem;width:100%;max-width:var(--wrap);height:var(--header-h);padding:0;border-radius:0;background:transparent;border:1px solid transparent;box-shadow:none}
+.hdr__brand{display:flex;align-items:center;overflow:hidden;max-width:16rem}.hdr__brand img{height:52px;width:auto;display:block}
+.hdr__end{display:flex;align-items:center;gap:1.1rem}
+.hdr__accr{display:inline-flex;align-items:center;gap:.55rem;white-space:nowrap;overflow:hidden;max-width:20rem;padding:.34rem .9rem .34rem .68rem;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.17);box-shadow:inset 0 1px 0 rgba(255,255,255,.11)}
+.hdr__accr .ico{width:20px;height:20px;color:var(--gold);flex:none}.hdr__accr span{display:flex;flex-direction:column;line-height:1.16}
+.hdr__accr b{font-size:.8125rem;font-weight:700;color:#fff;letter-spacing:-.004em}.hdr__accr i{font-style:normal;font-size:.6875rem;font-weight:500;color:var(--muted-ink)}
 
 
 
@@ -70,7 +75,7 @@ a{color:inherit}
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
 @media(min-width:900px){}
 @media(max-width:479px){}
-.hero{position:relative;background:var(--paper);padding:0;color:#fff}@media(min-width:900px){.hero__panel{padding-top:calc(var(--hdr-gap) + var(--header-h) + 2.4rem)}}
+.hero{position:relative;background:var(--paper);padding:0;color:#fff}.hero__brand{display:none}@media(max-width:899px){.hero__brand{display:inline-block;margin-bottom:.9rem}.hero__brand img{height:50px;width:auto}}@media(min-width:900px){.hero__panel{padding-top:calc(var(--header-h) + 1.9rem)}}
 .hero__panel{position:relative;overflow:hidden;isolation:isolate;width:100%;padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%)}
 
 
@@ -104,7 +109,16 @@ a{color:inherit}
 
 <!-- ========== HEADER ========== -->
 <header class="hdr" id="siteHeader">
+  <!-- At rest this is an ordinary full-width header sitting over the dark hero:
+       logo left, sections centred, credential and button right. It only becomes
+       the floating capsule once the reader scrolls, which is what makes the
+       capsule read as a response rather than as decoration. The logo and the
+       accreditation collapse into the capsule on the way, so the pill carries
+       only what a reader mid-page needs — where they are, and how to apply. -->
   <div class="hdr__in">
+    <a class="hdr__brand" href="#main" aria-label="Sandip University, Madhubani">
+      <img src="assets/img/logo.webp" alt="Sandip University" width="420" height="121" fetchpriority="high">
+    </a>
     <nav class="hdr__nav" aria-label="Sections">
       <a href="#programmes">Branches</a>
       <a href="#fees">Fees</a>
@@ -112,7 +126,13 @@ a{color:inherit}
       <a href="#campus">Campus</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="hdr__cta" href="#apply" data-track="cta-header">Apply for B.Tech</a>
+    <div class="hdr__end">
+      <p class="hdr__accr">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6L17 22l-1.6-8.6"/></svg>
+        <span><b>NAAC Accredited</b><i>Bihar&rsquo;s first private university</i></span>
+      </p>
+      <a class="hdr__cta" href="#apply" data-track="cta-header">Apply for B.Tech</a>
+    </div>
   </div>
 </header>
 
