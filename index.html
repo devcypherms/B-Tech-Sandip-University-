@@ -58,17 +58,17 @@ a{color:inherit}
 .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}.ann ~ .hdr{top:var(--ann-h)}
 .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
 :root{--header-h:4.25rem}}
-.hdr{position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);display:flex;align-items:center;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;color:var(--fg)}
+.hdr{position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);display:flex;align-items:center;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;color:var(--fg)}
 .hdr__in{display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
 .hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
-.hdr__logo img{height:30px;width:auto}
+.hdr__logo img{height:36px;width:auto}
 .hdr__spacer{flex:1 1 auto}
 .hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
 .hdr__nav a{text-decoration:none;font-size:.875rem;font-weight:500;color:var(--muted)}
 @media(min-width:1080px){.hdr__nav{display:flex}}
 .hdr__tel{display:none;text-decoration:none;font-size:.9rem;font-weight:700;white-space:nowrap;color:var(--fg);padding-left:.9rem;border-left:1px solid var(--hair)}
 .hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:650;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
-@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:34px}}
+@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}}
 @media(max-width:479px){}
 .hero{position:relative;background:var(--paper);padding:var(--header-h) 0 0;color:#fff}
 .hero__panel{position:relative;overflow:hidden;isolation:isolate;width:100%;padding:clamp(1.75rem,4vw,3.5rem) var(--gutter) 0;background:radial-gradient(78% 62% at 4% -6%, rgba(64,132,255,.62) 0%, transparent 62%),radial-gradient(62% 55% at 96% 8%, rgba(120,70,220,.34) 0%, transparent 58%),radial-gradient(70% 60% at 88% 104%, rgba(245,184,65,.26) 0%, transparent 56%),linear-gradient(152deg,#10307E 0%,#0B1E56 44%,#071033 78%,#050C26 100%)}
@@ -334,7 +334,7 @@ a{color:inherit}
         </p>
       </article>
       <article class="why__item">
-        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>A residential campus of <span data-c="hero.campusSize">125+ acres</span></h3>
+        <svg class="why__ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9.5 21v-5h5v5"/><path d="M2 21h20"/></svg><h3>Named hostels on a <span data-c="hero.campusSize">125+ acres</span> campus</h3>
         <p>
           Separate hostels — <span data-c="hostel.girls">Vaishali Hostel</span>
           for girls and <span data-c="hostel.boys">Magadh Hostel</span> for boys
@@ -436,7 +436,7 @@ a{color:inherit}
       <div class="acc__row">
         <h3 class="acc__h">
           <button type="button" class="acc__trigger" aria-expanded="false" aria-controls="p-cse" id="b-cse">
-            <span class="acc__name">B.Tech Computer Science and Engineering</span>
+            <span class="acc__name">B.Tech Computer Science and Engineering <span class="acc__tag">Fills first</span></span>
             <span class="acc__meta"><b data-c="fees.cse">₹1,05,000</b> per year</span>
             <span class="acc__icon" aria-hidden="true"></span>
           </button>
@@ -478,7 +478,8 @@ a{color:inherit}
     </div>
 
     <p class="tbl__note">
-      These five are the B.Tech branches. Sandip University runs
+      <b>Seats per branch are limited, and allotment goes by merit and by order
+      of application.</b> These five are the B.Tech branches. Sandip University runs
       <span data-c="stats.programmes">20+</span> programmes in all, including its
       own Polytechnic and postgraduate courses — if you are looking at something
       other than engineering, say so on the form and the admission cell will put
@@ -732,6 +733,191 @@ a{color:inherit}
       <span data-c="placementList.branchNotPrinted">3</span> where the branch is
       not printed.
     </p>
+
+    <!-- The whole published record, not a sample. Three cards read as "these
+         are the only three we have"; sixteen read as a record — and this is
+         the section that answers the one question that decides an engineering
+         admission. Closed by default, so it costs nothing in height and the
+         portraits (lazy) are not fetched until someone asks for them.
+
+         Names, branches and employers are quoted exactly as the university
+         prints them, typos included ("B.Tech- Electrcal"), because this is
+         its record and not our transcription of it. Ordered by package. -->
+    <details class="plist">
+      <summary class="plist__sum">
+        <span class="plist__open">See all <span data-c="placementList.rows">16</span> placements — names, companies and packages</span>
+        <span class="plist__shut">Hide the full record</span>
+        <span class="plist__chev" aria-hidden="true"></span>
+      </summary>
+      <ul class="plist__grid">
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s21.webp" alt="Mayashankar Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Mayashankar Kumar</p>
+            <p class="plist__branch">B.Tech</p>
+            <p class="plist__co">Bharat Dynamics Limited</p>
+          </div>
+          <p class="plist__pkg">12 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s3.webp" alt="Ritesh Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Ritesh Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">MGH Infrastructure</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s9.webp" alt="Vidyanand Prakash"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Vidyanand Prakash</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s10.webp" alt="Niraj Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Niraj Kumar</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s11.webp" alt="Shivam Krishanam"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Shivam Krishanam</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s12.webp" alt="Prashant Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Prashant Kumar</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s13.webp" alt="Shankar Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Shankar Kumar</p>
+            <p class="plist__branch">B.Tech Civil</p>
+            <p class="plist__co">MGH Infra</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s14.webp" alt="Jitendra Kumar Mandal"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Jitendra Kumar Mandal</p>
+            <p class="plist__branch">B.Tech-Computer Science</p>
+            <p class="plist__co">MGH Infra</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s15.webp" alt="Ritesh Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Ritesh Kumar</p>
+            <p class="plist__branch">B.Tech- Electrcal</p>
+            <p class="plist__co">MGH Infra</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s23.webp" alt="Krishna Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Krishna Kumar</p>
+            <p class="plist__branch">B.Tech</p>
+            <p class="plist__co">Icertis, Pune</p>
+          </div>
+          <p class="plist__pkg">7 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s22.webp" alt="Abhay Kumar Tibrewal"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Abhay Kumar Tibrewal</p>
+            <p class="plist__branch">B.Tech</p>
+            <p class="plist__co">Infosys</p>
+          </div>
+          <p class="plist__pkg">5 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s24.webp" alt="Guru Sharan Kumar Ram"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Guru Sharan Kumar Ram</p>
+            <p class="plist__branch">B.Tech - CSE</p>
+            <p class="plist__co">Codebucket Solutions</p>
+          </div>
+          <p class="plist__pkg">4.5 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s1.webp" alt="Vikas Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Vikas Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </div>
+          <p class="plist__pkg">3 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s2.webp" alt="Suraj Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Suraj Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </div>
+          <p class="plist__pkg">3 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s4.webp" alt="Nitesh Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Nitesh Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </div>
+          <p class="plist__pkg">3 LPA</p>
+        </li>
+        <li class="plist__card">
+          <img class="plist__photo" src="assets/img/students/s5.webp" alt="Bittu Kumar"
+               width="224" height="224" loading="lazy" decoding="async">
+          <div class="plist__who">
+            <p class="plist__name">Bittu Kumar</p>
+            <p class="plist__branch">B.TECH-EE</p>
+            <p class="plist__co">Texmaco Rail &amp; Engineering</p>
+          </div>
+          <p class="plist__pkg">3 LPA</p>
+        </li>
+      </ul>
+      <p class="plist__src">
+        Source: the university's published student placement list. Two entries
+        carry the name Ritesh Kumar against different branches and employers;
+        both are printed here rather than merged, because the photographs the
+        university prints against them are of different people.
+      </p>
+    </details>
 
     <h3 class="wall__label">Companies that recruit at Sandip University</h3>
     <div class="wall" id="wall" aria-label="Recruiting companies">
@@ -1032,7 +1218,6 @@ a{color:inherit}
         <li>Your eligibility checked against your 10+2 marks</li>
         <li>Your scholarship band, in writing, before any payment</li>
         <li>Student Credit Card file prepared with your family</li>
-        <li>Hostel availability for your intake</li>
       </ul>
       <div class="cdown cdown--cta" id="cdownCta" hidden aria-live="off">
         <span class="cdown__lbl">Applications close in</span>
@@ -1380,7 +1565,7 @@ a{color:inherit}
   {
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "B.Tech Computer Science and Engineering",
+    "name": "B.Tech Computer Science and Engineering Fills first",
     "description": "Data structures and algorithms, operating systems, databases, computer networks, software engineering, web and mobile development, with cloud and cyber-security electives in the later semesters.",
     "url": "https://b-tech-sandip-university.vercel.app/",
     "provider": {

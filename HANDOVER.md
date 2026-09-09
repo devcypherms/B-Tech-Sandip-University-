@@ -59,6 +59,16 @@ change is needed. Set `analytics.demo` to `false` at the same time.
 
 ---
 
+## Client to confirm before launch — claims that are ours, not the university's
+
+- **"Fills first" on the Computer Science row**, and the line *"Seats per
+  branch are limited, and allotment goes by merit and by order of
+  application."* Both are approved soft scarcity: unquantified by design, with
+  no seat counter, percentage or "N applied today" anywhere on the page. But
+  the fill-order claim originates with us, not with the university. Confirm it
+  or remove it — a scarcity claim on an admission page is the kind of thing a
+  competitor checks.
+
 ## Taken from the official site on 9 September 2026
 
 Data rather than imagery, since the imagery could not be used:

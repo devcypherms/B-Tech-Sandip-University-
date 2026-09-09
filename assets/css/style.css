@@ -105,6 +105,22 @@
   --accent-wash:#E8EFFC;  /* icon tiles; accent-ink on it is 8.9:1 */
   --accent-lite:#8FB8FF;  /* 9.3:1 on ink-900 — light-on-dark marks */
 
+  /* Glass. Two mechanisms, deliberately, because real blur has a budget.
+     backdrop-filter is capped at about two to three surfaces in one view
+     before mid-range devices drop frames, and this page already spends that
+     on a phone: the fixed header and the sticky bar are both blurred and both
+     permanently on screen. Mobile is 85% of the traffic and the weakest
+     hardware, so it gets no new blur at all.
+
+     Everything else uses these three, which produce the same read at zero
+     compositing cost. The inset top highlight is what sells it — a lit edge
+     is how a real pane of glass catches light, and a translucent fill without
+     one just looks faded. Only ever used over the three gradient grounds;
+     on flat white there is nothing behind to suggest. */
+  --glass-fill:rgba(255,255,255,.07);
+  --glass-line:rgba(255,255,255,.10);
+  --glass-edge:rgba(255,255,255,.18);
+
   --font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
   --font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
 
@@ -267,14 +283,14 @@ p:last-child{margin-bottom:0}
 .hdr{
   position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);
   display:flex;align-items:center;
-  background:rgba(251,250,247,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   color:var(--fg);border-bottom:1px solid transparent;
   transition:border-color .25s var(--ease),background-color .25s var(--ease);
 }
-.hdr.is-solid{background:rgba(251,250,247,.97);border-bottom-color:var(--hair)}
+.hdr.is-solid{background:rgba(255,255,255,.96);border-bottom-color:var(--hair)}
 .hdr__in{display:flex;align-items:center;gap:.9rem;width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
 .hdr__logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;flex:0 0 auto}
-.hdr__logo img{height:30px;width:auto}
+.hdr__logo img{height:36px;width:auto}
 .hdr__spacer{flex:1 1 auto}
 .hdr__nav{display:none;gap:1.5rem;margin-right:.6rem}
 .hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.9rem;font-weight:550;color:var(--muted);transition:color .16s var(--ease)}
@@ -285,7 +301,7 @@ p:last-child{margin-bottom:0}
 .hdr__cta:hover{background:var(--red-ink)}
 .hdr__cta:active{transform:translateY(1px)}
 @media(min-width:1080px){.hdr__nav{display:flex}}
-@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:34px}}
+@media(min-width:900px){.hdr__tel{display:inline-block}.hdr__logo img{height:44px}}
 @media(max-width:479px){}
 
 /* ---------- 6. HERO ----------
@@ -374,19 +390,33 @@ p:last-child{margin-bottom:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 /* One highlighted phrase, in the money colour, because the phrase that is
    highlighted IS the offer: the degree without leaving the state. */
-.hero h1{font-family:var(--font-display);font-weight:750;font-size:var(--fs-h1);line-height:1.08;letter-spacing:-.015em;margin:0 0 .8rem;max-width:15ch}
+/* Display settings. These had drifted out of step with the critical block in
+   <head>, which carried 800/1.03/-.038em while this file still carried the
+   pre-rebuild 750/1.08/-.015em — and being later in the cascade, this file was
+   winning, so the headline had been rendering at the weaker settings since the
+   type pass. Both files now say the same thing. */
+.hero h1{font-weight:800;font-size:var(--fs-h1);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
-  color:#E4ECFB;border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-pill);
-  padding:.34rem .8rem .34rem .6rem;background:rgba(255,255,255,.07);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
 /* The Student Credit Card, above the fold. This is the single fact that
    decides whether a family weighing Rs 90,000 a year reads any further, and
    on the page this replaces it sat at 55% scroll depth. Brass, because it is
    money the reader saves — the only place on the page amber fills anything. */
-.hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(242,180,65,.42);background:linear-gradient(180deg,rgba(242,180,65,.13),rgba(242,180,65,.04));border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
+/* The page's only added backdrop-filter, and only above 900px: one surface,
+   alone over the hero gradient, already translucent — the blur finishes an
+   effect that was half there. Opacity raised and blur kept small, which reads
+   the same as a bigger blur and costs less. A phone gets the flat version; the
+   header and sticky bar already hold that budget there.
+   (The rgba here also corrects a drift — it was still the violet-era gold.) */
+.hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(245,184,65,.42);background:linear-gradient(180deg,rgba(245,184,65,.14),rgba(245,184,65,.05));box-shadow:inset 0 1px 0 rgba(255,255,255,.16);border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
+@media(min-width:900px){
+  .hero__money{background:linear-gradient(180deg,rgba(245,184,65,.20),rgba(245,184,65,.08));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .hero__money{background:linear-gradient(180deg,rgba(245,184,65,.22),rgba(245,184,65,.10))}
+}
 .hero__money svg{flex:0 0 auto;width:var(--ico-lg);height:var(--ico-lg);color:var(--gold);margin-top:.15rem}
 .hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#EFE2C8}
 .hero__money strong{display:block;font-family:var(--font-display);letter-spacing:-.028em;font-size:1.15rem;font-weight:750;color:#fff;line-height:1.2;margin-bottom:.15rem}
@@ -401,11 +431,11 @@ p:last-child{margin-bottom:0}
 .hero__rec-lbl{margin:0 0 .7rem;font-size:.74rem;font-weight:600;letter-spacing:.03em;
   text-transform:uppercase;color:var(--muted-ink)}
 .hero__rec-row{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0;padding:0}
-.hero__rec-row img{height:24px;width:auto;object-fit:contain;background:#fff;
-  border-radius:7px;padding:.4rem .6rem;box-sizing:content-box}
+.hero__rec-row img{height:28px;width:auto;object-fit:contain;background:#fff;
+  border-radius:8px;padding:.45rem .65rem;box-sizing:content-box}
 @media(max-width:899px){
   .hero__rec{order:8;margin-top:.1rem}
-  .hero__rec-row img{height:20px;padding:.35rem .5rem}
+  .hero__rec-row img{height:24px;padding:.4rem .55rem}
 }
 
 /* Spec rail. Four facts on hairlines, pinned under the hero. */
@@ -610,6 +640,15 @@ p:last-child{margin-bottom:0}
 .acc__name{flex:1 1 auto}
 .acc__meta{flex:0 0 auto;font-size:var(--fs-meta);font-weight:400;color:var(--muted);white-space:nowrap}
 .acc__meta b{font-size:1.02rem;font-weight:750;color:var(--fg);letter-spacing:-.02em}
+/* Soft scarcity, and deliberately soft: no number, no percentage, no counter.
+   The CSE panel already states that this branch carries the largest intake and
+   still closes earliest, so the tag repeats the page rather than inventing
+   anything. Amber, not red — red is reserved for things you press. */
+.acc__tag{display:inline-block;margin-left:.5rem;vertical-align:.08em;
+  font-family:var(--font-body);font-size:.68rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--gold-deep);
+  background:rgba(245,184,65,.16);border:1px solid rgba(138,93,6,.28);
+  border-radius:var(--radius-pill);padding:.16rem .5rem;white-space:nowrap}
 /* The plus is drawn: two rules that cannot arrive late or at the wrong weight. */
 .acc__icon{position:relative;flex:0 0 auto;width:26px;height:26px;border-radius:50%;
   background:var(--paper-2);transition:background-color .16s var(--ease)}
@@ -804,7 +843,7 @@ p:last-child{margin-bottom:0}
 
 /* ---------- 14. PLACEMENTS ---------- */
 .figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden}
-.figs li{background:var(--ink-800);padding:1.15rem 1.15rem;display:flex;flex-direction:column;gap:.25rem}
+.figs li{background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);padding:1.15rem;display:flex;flex-direction:column;gap:.25rem}
 .figs b{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:800;letter-spacing:-.035em;color:#fff;line-height:1;background:linear-gradient(92deg,#fff 0%,var(--accent-lite) 130%);-webkit-background-clip:text;background-clip:text}
 /* Direct children only. The unscoped selector was also catching the spans
    INSIDE <b>, so "3-12 LPA" set its two numerals at caption size. */
@@ -813,7 +852,7 @@ p:last-child{margin-bottom:0}
 
 .students{display:grid;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lift)}
 @media(min-width:720px){.students{grid-template-columns:repeat(3,1fr)}}
-.stu{background:var(--ink-700);padding:1.35rem;display:flex;flex-direction:column}
+.stu{background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);padding:1.35rem;display:flex;flex-direction:column}
 /* Portraits are the university's own published ones, matched to the names on
    its placement list. A face is what makes a package read as a person. */
 .stu__face{width:56px;height:56px;border-radius:50%;object-fit:cover;
@@ -824,6 +863,69 @@ p:last-child{margin-bottom:0}
 .stu__co{font-size:.9rem;color:#DCE4EE;margin:0}
 .students__note{font-size:.84rem;max-width:70ch;margin:1rem 0 clamp(2.25rem,4.5vw,3.25rem)}
 
+/* ---------- 14b. THE FULL PLACEMENT RECORD ----------
+   Sixteen rows, so rows — not the large cards the three featured students get.
+   Closed by default: it costs nothing in height until asked for, and its
+   portraits are lazy and inside it, so they are not fetched on first load.
+
+   This is the largest group of cards on a gradient ground, which is exactly
+   why they use the faux-glass recipe rather than backdrop-filter. Sixteen
+   blurred surfaces in one view against a two-to-three ceiling would be the
+   most expensive thing on the page, to say something a lit edge says for
+   free. */
+.plist{margin:0 0 clamp(2.25rem,4.5vw,3.25rem)}
+.plist__sum{
+  display:flex;align-items:center;gap:.75rem;cursor:pointer;list-style:none;
+  min-height:3rem;padding:.85rem 1.15rem;border-radius:var(--radius);
+  background:var(--glass-fill);border:1px solid var(--glass-line);
+  box-shadow:inset 0 1px 0 var(--glass-edge);
+  font-size:var(--fs-meta);font-weight:650;color:var(--fg-ink);
+  transition:background-color .16s var(--ease),border-color .16s var(--ease);
+}
+.plist__sum::-webkit-details-marker{display:none}
+.plist__sum:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22)}
+.plist__sum:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.plist__shut{display:none}
+.plist[open] .plist__open{display:none}
+.plist[open] .plist__shut{display:inline}
+/* Drawn, not iconised — it cannot arrive late or at the wrong weight. */
+.plist__chev{
+  margin-left:auto;flex:0 0 auto;width:9px;height:9px;
+  border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);
+  transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform .22s var(--ease);
+}
+.plist[open] .plist__chev{transform:rotate(-135deg) translate(-2px,-2px)}
+
+.plist__grid{list-style:none;display:grid;gap:.6rem;margin:.75rem 0 0;padding:0}
+@media(min-width:760px){.plist__grid{grid-template-columns:1fr 1fr}}
+.plist__card{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:.85rem;padding:.8rem .95rem;border-radius:var(--radius);
+  background:var(--glass-fill);border:1px solid var(--glass-line);
+  box-shadow:inset 0 1px 0 var(--glass-edge);
+}
+.plist__photo{
+  width:44px;height:44px;border-radius:50%;object-fit:cover;
+  border:2px solid rgba(245,184,65,.45);background:var(--ink-800);
+}
+.plist__who{min-width:0}
+.plist__name{margin:0;font-size:var(--fs-body);font-weight:700;color:#fff;line-height:1.25}
+.plist__branch{margin:0;font-size:.75rem;color:var(--muted-ink);line-height:1.35}
+.plist__co{margin:0;font-size:var(--fs-meta);color:var(--body-ink);line-height:1.35}
+.plist__pkg{
+  margin:0;flex:0 0 auto;white-space:nowrap;
+  font-size:var(--fs-lead);font-weight:800;letter-spacing:-.02em;color:var(--gold);
+  font-variant-numeric:tabular-nums;
+}
+.plist__src{font-size:.78rem;color:var(--muted-ink);max-width:72ch;margin:1rem 0 0}
+@media(max-width:400px){
+  /* At 320px a three-column row cannot hold a name, an employer and a figure.
+     The package moves under the name rather than squeezing all three. */
+  .plist__card{grid-template-columns:auto minmax(0,1fr)}
+  .plist__pkg{grid-column:2;margin-top:.15rem}
+}
+
 /* Recruiter strip. One marquee, greyscale, paused on hover and stopped
    entirely under prefers-reduced-motion. */
 .wall__label{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-h3);margin-bottom:1rem;color:#fff}
@@ -833,7 +935,7 @@ p:last-child{margin-bottom:0}
 .wall__set{display:flex;align-items:center;gap:clamp(2rem,5vw,3.5rem);padding-right:clamp(2rem,5vw,3.5rem)}
 /* Full colour, on a light plate. Greyscale logos read as decoration; a
    parent scanning for a name they recognise needs them to read as real. */
-.wall__set img{height:30px;width:auto;object-fit:contain;background:#fff;border-radius:8px;padding:.5rem .75rem;box-sizing:content-box}
+.wall__set img{height:36px;width:auto;object-fit:contain;background:#fff;border-radius:9px;padding:.55rem .85rem;box-sizing:content-box}
 .wall__word{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;color:var(--fg-ink);white-space:nowrap;background:rgba(247,245,240,.07);border:1px solid var(--hair-ink);border-radius:8px;padding:.4rem .8rem}
 @keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 .wall__note{font-size:.82rem;max-width:66ch;margin-top:1rem}
@@ -939,9 +1041,9 @@ p:last-child{margin-bottom:0}
 .cta__flag b{color:#fff;font-weight:700;margin-left:.3rem}
 .cta__title{font-size:var(--fs-h2);font-weight:800;letter-spacing:-.032em;margin-bottom:.85rem;max-width:17ch}
 .cta__lede{color:var(--body-ink);max-width:52ch;font-size:1.05rem}
-.cta__pts{list-style:none;margin:1.5rem 0;padding:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
-.cta__pts li{position:relative;padding:.65rem 0 .65rem 1.6rem;border-bottom:1px solid var(--hair-ink);font-size:.92rem;color:#DCE4EE}
-.cta__pts li::before{content:"";position:absolute;left:0;top:1.15rem;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.cta__pts{list-style:none;margin:1.4rem 0;padding:0;display:grid;gap:0}
+.cta__pts li{position:relative;padding:.7rem .9rem .7rem 1.9rem;margin-bottom:.4rem;border:1px solid var(--glass-line);border-radius:10px;background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);font-size:var(--fs-meta);color:var(--body-ink)}
+.cta__pts li::before{content:"";position:absolute;left:.85rem;top:1.25rem;width:6px;height:6px;border-radius:50%;background:var(--gold)}
 /* A direct route to the portal for anyone who has already decided. The form
    stays the primary action; this is the escape hatch that stops a high-intent
    visitor bouncing because the only option was to wait for a call. */
@@ -966,7 +1068,7 @@ p:last-child{margin-bottom:0}
 @media(min-width:680px){.ftr__in{grid-template-columns:1fr 1fr}.ftr__brand{grid-column:1/-1}}
 @media(min-width:1000px){.ftr__brand{grid-column:auto}}
 @media(min-width:1000px){.ftr__in{grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:2.5rem}}
-.ftr__logo{height:38px;width:auto;margin-bottom:1rem;opacity:.95}
+.ftr__logo{height:48px;width:auto;margin-bottom:1.1rem;opacity:.95}
 .ftr__blurb{font-size:var(--fs-meta);line-height:1.6;max-width:34ch;margin-bottom:1.1rem}
 .ftr__social{display:flex;gap:.6rem;margin:0}
 .ftr__social a{display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:50%;
@@ -1002,7 +1104,7 @@ p:last-child{margin-bottom:0}
   .bar{
     display:grid;grid-template-columns:1fr 1fr 1.15fr;
     position:fixed;inset:auto 0 0;z-index:60;
-    background:rgba(11,18,32,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(7,16,51,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     border-top:1px solid var(--hair-ink);
     padding-bottom:env(safe-area-inset-bottom);
   }
