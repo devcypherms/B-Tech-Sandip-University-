@@ -725,16 +725,12 @@ p:last-child{margin-bottom:0}
 .panel__spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair-ink);font-size:var(--fs-meta);color:#DCE4EE}
 .panel__spec dd.num{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-fig);font-weight:800}
 
-.panel__spec dd.ok{position:relative;padding-left:1.6rem;color:#fff}
-.panel__spec dd.ok::before{
-  content:"";position:absolute;left:0;top:.62em;
-  width:9px;height:5px;border-left:2px solid var(--ok-lite);
-  border-bottom:2px solid var(--ok-lite);transform:rotate(-45deg);
+.panel__spec dd.ok{
+  display:grid;grid-template-columns:auto 1fr;column-gap:.6rem;align-items:start;
+  color:#fff;
 }
-@media(min-width:560px){
-  .panel__spec{grid-template-columns:minmax(6.5rem,8rem) 1fr;column-gap:1.25rem}
-  .panel__spec dt{padding-block:.75rem;border-bottom:1px solid var(--hair-ink)}
-  .panel__spec dd{padding-block:.75rem}
+.ok__ico{
+  width:1em;height:1.5em;flex:none;color:var(--ok-lite);
 }
 
 .figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;
