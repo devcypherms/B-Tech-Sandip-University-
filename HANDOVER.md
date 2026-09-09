@@ -180,3 +180,16 @@ launch, since they are read off photographs rather than stated in prose.
   rate, and a page that invents one is the kind of thing a university gets
   caught doing. The countdown is real: it reads `lastDateISO`, and if that date
   is missing or already past, every countdown hides itself rather than resetting.
+
+## Client asks
+
+- **"Neelam Vidya Vihar" is out of the marketing copy, still in the address.**
+  Asked for on 10 Sep 2026. It has been removed from the campus band caption
+  and the location lede, where it read as a name a prospect has no use for.
+  It is still in the two postal address blocks and in the PostalAddress
+  streetAddress of the JSON-LD, because that is the university's actual street
+  address and dropping the estate name from structured data is a local-SEO
+  decision rather than a copy one — Google resolves the listing on it. Say the
+  word and it comes out of `content.js` (`org.addressLine1`), which takes it
+  out of both address blocks and all six JSON-LD blocks at once.
+

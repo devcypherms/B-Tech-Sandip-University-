@@ -162,7 +162,13 @@
   --fs-label:.75rem;   /* 12px — eyebrows, table heads, form labels */
   --fs-meta:.875rem;   /* 14px — captions, chips, notes */
   --fs-body:1rem;      /* 16px — body copy, the floor */
-  --fs-lead:1.0625rem; /* 17px — section ledes, hero subline */
+  --fs-lead:1.0625rem;
+  /* Figures. Two steps and no more: the standard figure, and the one display
+     figure the placements section opens with. Before this the page set the
+     same role at 24px in the hero, 26px in the trust row and 24px again in
+     the credit-card panel — a near-miss, which is what reads as careless. */
+  --fs-fig:1.625rem;
+  --fs-fig-lg:2.3rem; /* 17px — section ledes, hero subline */
 
   --space-section:clamp(3.5rem,7.5vw,6rem);
   --gutter:clamp(1.15rem,4vw,3.5rem);
@@ -412,7 +418,17 @@ p:last-child{margin-bottom:0}
   display:flex;align-items:center;overflow:hidden;
   max-width:16rem;opacity:1;
   transition:max-width .38s var(--ease),opacity .24s var(--ease)}
-.hdr__brand img{height:66px;width:auto;display:block}
+/* logo-mark.webp, not logo.webp. The full lockup is a crest, the wordmark, a
+   rule, and then "NAAC / Accredited pvt. University" again — four things in a
+   3.5:1 box, so whatever height it is given, the name itself renders small.
+   Worse, 40% of that canvas was empty: the ink occupied rows 19 to 92 of 121,
+   so a 66px logo was drawing about 40px of artwork.
+
+   The header mark is the crest and the name, trimmed to the ink. At 60px it
+   draws 60px of artwork in 199px of width — larger type than the old lockup
+   managed at 66px, in 30px less width. The accreditation is not lost: it is a
+   line of its own under the headline now, which is where it can be read. */
+.hdr__brand img{height:60px;width:auto;display:block}
 .hdr.is-solid .hdr__brand{max-width:0;opacity:0}
 
 /* ---- actions, right column ---- */
@@ -505,12 +521,12 @@ p:last-child{margin-bottom:0}
    button — an ordinary header, and still balanced. It is on the page four
    more times below the fold. */
 @media(max-width:1179px){
-  .hdr__brand img{height:56px}
+  .hdr__brand img{height:52px}
   .hdr__status{font-size:.78rem}
   .hdr__nav{gap:1.5rem}
 }
 @media(max-width:1079px){
-  .hdr__brand img{height:58px}
+  .hdr__brand img{height:54px}
   .hdr__status{display:none}
 }
 @media(min-width:900px){.hdr{display:flex}}
@@ -633,7 +649,7 @@ p:last-child{margin-bottom:0}
 .hero__brand{display:none}
 @media(max-width:899px){
   .hero__brand{display:inline-block;margin-bottom:.9rem}
-  .hero__brand img{height:50px;width:auto;opacity:1}
+  .hero__brand img{height:46px;width:auto;opacity:1}
 }
 .hero h1{font-weight:800;font-size:var(--fs-h1);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
@@ -656,7 +672,7 @@ p:last-child{margin-bottom:0}
   font-size:clamp(1.02rem,1.62vw,1.25rem);font-weight:700;
   line-height:1.28;letter-spacing:-.014em;color:#fff;
 }
-.hero__cred-ico{width:26px;height:26px;flex:none;color:var(--gold)}
+.hero__cred-ico{width:var(--ico-lg);height:var(--ico-lg);flex:none;color:var(--gold)}
 .hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
 
@@ -685,7 +701,7 @@ p:last-child{margin-bottom:0}
 }
 .hero__stats li:nth-child(2n){padding-left:1.35rem;border-left:1px solid var(--hair-ink)}
 .hero__stats li > b{
-  display:block;font-size:1.5rem;font-weight:800;letter-spacing:-.03em;
+  display:block;font-size:var(--fs-fig);font-weight:800;letter-spacing:-.03em;
   color:#fff;line-height:1.1;
 }
 .hero__stats li > b span{font-size:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit}
@@ -849,18 +865,44 @@ p:last-child{margin-bottom:0}
    Four credential cards on the page ground, each with a mark. It used to be a
    second full-bleed dark band directly under an inset dark panel, which
    stepped dark-to-dark with a hard seam across the middle. */
-.trust{background:var(--paper);padding-block:clamp(1.75rem,3.5vw,2.5rem)}
-.trust__in{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
-.trust__in p{
-  margin:0;padding:1.1rem .9rem;text-align:center;
-  background:var(--paper);border:1px solid var(--hair);border-radius:var(--radius);
-  box-shadow:var(--shadow-card);
-  font-size:.78rem;color:var(--muted);line-height:1.35;
-  display:flex;flex-direction:column;align-items:center;gap:.15rem;
+/* Four figures, on hairlines, exactly as the hero sets its four. They were
+   white cards with hairline borders and card shadows on a white ground, which
+   is fog: the container was doing no work except adding four more rectangles
+   to a page that had just had eight taken out of it. And they sat directly
+   under a hero that had already set its figures a different way, so the page
+   said two things about how a figure looks within one screen of itself.
+
+   The label also had to grow. It was .78rem of --muted, which is a footnote
+   size for a line that is the university's whole case. */
+.trust{background:var(--paper);padding-block:clamp(1.9rem,4vw,3rem)}
+.trust__in{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--hair);
 }
-.trust .ico{width:var(--ico-lg);height:var(--ico-lg);color:var(--accent);margin-bottom:.35rem}
-.trust__in b{display:block;font-size:1.35rem;color:var(--fg);font-weight:800;letter-spacing:-.03em;line-height:1.15}
-@media(min-width:760px){.trust__in{grid-template-columns:repeat(4,1fr);gap:1rem}.trust__in p{padding:1.4rem 1.1rem}}
+.trust__in p{
+  margin:0;padding:1.15rem 1.1rem 1.15rem 0;
+  border-bottom:1px solid var(--hair);
+  /* Top aligned, not centred: one of the four labels runs to two lines, and
+     centring made that cell's figure sit lower than the other three. Figures
+     in a row have to share a line or the row reads as broken. */
+  display:grid;grid-template-columns:auto 1fr;column-gap:.7rem;align-items:start;
+  font-size:.8125rem;font-weight:600;color:var(--muted);line-height:1.3;
+}
+.trust__in p:nth-child(2n){padding-left:1.35rem;border-left:1px solid var(--hair)}
+.trust .ico{
+  grid-row:1/3;width:var(--ico-lg);height:var(--ico-lg);
+  color:var(--accent);opacity:.85;margin-top:.2rem;
+}
+.trust__in b{
+  grid-column:2;display:block;font-size:var(--fs-fig);color:var(--fg);
+  font-weight:800;letter-spacing:-.03em;line-height:1.1;
+}
+@media(min-width:760px){
+  .trust__in{grid-template-columns:repeat(4,1fr)}
+  .trust__in p{padding:1.35rem 1.4rem 1.35rem 0;border-bottom:0}
+  .trust__in p + p{padding-left:1.6rem;border-left:1px solid var(--hair)}
+  .trust__in b{font-size:var(--fs-fig)}
+}
 
 /* ---------- 8b. CAMPUS BAND ----------
    Full bleed on purpose: it is the only element on the page that is not inside
@@ -870,17 +912,25 @@ p:last-child{margin-bottom:0}
 .band picture{display:block;width:100%;height:100%}
 .band img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;aspect-ratio:3/2;display:block}
 @media(min-width:700px){.band img{aspect-ratio:21/8}}
+/* Bottom left, on the page's own left edge rather than floating in the middle
+   of the picture, and set as a caption: the subject in white, the place under
+   it. Centred small type over the brightest part of a photograph is the one
+   place a caption cannot be read, which is where this was. */
 .band__cap{
   position:absolute;left:0;right:0;bottom:0;margin:0;
-  display:flex;align-items:center;gap:.5rem;
-  padding:2.5rem var(--gutter) 1.1rem;
-  font-size:var(--fs-meta);font-weight:600;color:#fff;
-  background:linear-gradient(180deg,transparent,rgba(7,16,51,.82));
+  display:flex;align-items:flex-end;gap:.6rem;
+  padding:5rem var(--gutter) 1.35rem;
+  color:#fff;
+  background:linear-gradient(180deg,transparent 0%,rgba(5,11,32,.10) 42%,rgba(5,11,32,.72) 100%);
 }
-.band__cap svg{width:var(--ico-sm);height:var(--ico-sm);color:var(--gold);flex:0 0 auto}
-.band__cap b{font-weight:800;color:var(--gold)}
+.band__cap svg{width:var(--ico-md);height:var(--ico-md);color:var(--gold);flex:0 0 auto;margin-bottom:.1rem}
+.band__cap span{display:flex;flex-direction:column;line-height:1.25;
+  font-size:.8125rem;font-weight:500;color:var(--muted-ink)}
+.band__cap b{font-size:1.0625rem;font-weight:700;letter-spacing:-.012em;color:#fff}
 @media(min-width:700px){
-  .band__cap{justify-content:center;padding-bottom:1.4rem;font-size:1rem}
+  .band__cap{padding:6rem var(--gutter) 1.75rem}
+  .band__cap b{font-size:1.25rem}
+  .band__cap span{font-size:.875rem}
 }
 
 /* ---------- 9. WHY ----------
@@ -1143,7 +1193,7 @@ p:last-child{margin-bottom:0}
 .panel__spec{margin:0;display:grid;gap:0;border-top:1px solid var(--hair-ink)}
 .panel__spec dt{font-size:.76rem;color:var(--muted-ink);padding-top:.7rem}
 .panel__spec dd{margin:0;padding-bottom:.7rem;border-bottom:1px solid var(--hair-ink);font-size:.9rem;color:#DCE4EE}
-.panel__spec dd.num{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.5rem;font-weight:800}
+.panel__spec dd.num{font-family:var(--font-display);letter-spacing:-.028em;font-size:var(--fs-fig);font-weight:800}
 /* The two rows that say "this costs you nothing" and "you risk nothing". A
    tick marks them as the good news they are; the rest of the list is neutral
    fact and is left neutral. Drawn, not iconised — it cannot arrive late. */
@@ -1160,8 +1210,16 @@ p:last-child{margin-bottom:0}
 }
 
 /* ---------- 14. PLACEMENTS ---------- */
-.figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden}
-.figs li{background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);padding:1.15rem;display:flex;flex-direction:column;gap:.25rem}
+/* Hairlines, like the hero's four and the trust row's four, because these are
+   bare facts and a bare fact does not need a container. It used to be a filled,
+   bordered, inset-highlighted panel — and set to four columns while holding
+   three items, so the fourth cell sat there as an empty lit box at the end of
+   the row. */
+.figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;
+  display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--hair-ink)}
+.figs li{padding:1.15rem 1.2rem 1.15rem 0;border-bottom:1px solid var(--hair-ink);
+  display:flex;flex-direction:column;gap:.25rem}
+.figs li:nth-child(2n){padding-left:1.4rem;border-left:1px solid var(--hair-ink)}
 /* The gradient here was clipped to the text but painted behind an opaque
    white fill, so it never showed — a background-clip:text that needed
    color:transparent to do anything. Removed rather than completed: on a dark
@@ -1171,7 +1229,12 @@ p:last-child{margin-bottom:0}
 /* Direct children only. The unscoped selector was also catching the spans
    INSIDE <b>, so "3-12 LPA" set its two numerals at caption size. */
 .figs>li>span{font-size:.78rem;color:var(--muted-ink);max-width:22ch}
-@media(min-width:820px){.figs{grid-template-columns:repeat(4,1fr)}.figs li{padding-inline:1.5rem}}
+@media(min-width:820px){
+  .figs{grid-template-columns:repeat(3,1fr)}
+  .figs li{padding:1.35rem 1.6rem 1.35rem 0;border-bottom:0}
+  .figs li:nth-child(2n){padding-left:0;border-left:0}
+  .figs li + li{padding-left:1.8rem;border-left:1px solid var(--hair-ink)}
+}
 
 .students{display:grid;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lift)}
 @media(min-width:720px){.students{grid-template-columns:repeat(3,1fr)}}
@@ -1285,12 +1348,25 @@ p:last-child{margin-bottom:0}
 .gal__btn svg{width:var(--ico-md);height:var(--ico-md)}
 .gal__btn[disabled]{opacity:.35;cursor:default}
 
-.fac{list-style:none;margin:clamp(1.5rem,3vw,2rem) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.45rem}
-.fac li{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--fs-meta);font-weight:600;
-  color:var(--fg);border:1px solid var(--hair);border-radius:var(--radius-pill);
-  padding:.5rem 1rem .5rem .8rem;background:var(--paper);box-shadow:var(--shadow-card)}
-.fac__ico{width:var(--ico-sm);height:var(--ico-sm);color:var(--accent);flex:0 0 auto}
-.section--tint .fac li{background:var(--paper)}
+/* Eight facilities, on hairlines. They were eight white pills with hairline
+   borders and card shadows on a white ground — fog, and the eighth wrapped
+   alone onto a second row with seven above it. A grid puts them on a rhythm,
+   and drops eight more containers from a page that is deliberately shedding
+   them. Same rule as everywhere else here: a bare fact sits on a hairline, and
+   a surface is for something with an object in it. */
+.fac{list-style:none;margin:clamp(1.5rem,3vw,2rem) 0 0;padding:0;
+  display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--hair)}
+.fac li{display:flex;align-items:center;gap:.6rem;
+  font-size:var(--fs-meta);font-weight:600;color:var(--fg);
+  padding:.85rem 1rem .85rem 0;border-bottom:1px solid var(--hair)}
+.fac li:nth-child(2n){padding-left:1.2rem;border-left:1px solid var(--hair)}
+.fac__ico{width:var(--ico-md);height:var(--ico-md);color:var(--accent);flex:0 0 auto}
+@media(min-width:760px){
+  .fac{grid-template-columns:repeat(4,1fr)}
+  .fac li:nth-child(2n){padding-left:0;border-left:0}
+  .fac li:not(:nth-child(4n+1)){padding-left:1.3rem;border-left:1px solid var(--hair)}
+  .fac li:nth-last-child(-n+4){border-bottom:0}
+}
 
 /* ---------- 16. STEPS ----------
    Numbered, because this genuinely is a sequence. Cards rather than a bare
