@@ -258,30 +258,35 @@ p:last-child{margin-bottom:0}
    of numbers to keep in step. */
 .ann{display:none}
 @media(min-width:900px){
-  :root{--ann-h:2.4rem}
+  :root{--ann-h:2.6rem}
+  /* One statement, centred, not two fragments at opposite ends of the room.
+     margin-left:auto was pushing the countdown to the far edge, which at 1440
+     left 633px of empty bar between it and the message — the bar read as two
+     unrelated things rather than one line.
+
+     Text was 12.48px, the smallest on the page and below the 14px caption
+     step; it is on the scale now. And the ground carries the same gradient
+     idea as every other dark surface here, so it stops reading as a plain
+     slab bolted above a light header. */
   .ann{
     display:block;position:fixed;inset:0 0 auto;z-index:51;height:var(--ann-h);
-    background:var(--ink-900);color:var(--fg-ink);
+    color:var(--fg-ink);
+    background:linear-gradient(90deg,var(--ink-900) 0%,#0E2154 50%,var(--ink-900) 100%);
+    border-bottom:1px solid rgba(255,255,255,.07);
   }
   .ann__in{
-    display:flex;align-items:center;gap:.9rem;height:100%;
+    display:flex;align-items:center;justify-content:center;gap:.8rem;height:100%;
     max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);
-    font-size:.78rem;
+    font-size:var(--fs-meta);
   }
-  .ann__dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto}
-  .ann__in>span:first-of-type{color:var(--sub-ink)}
-  .ann__cd{margin-left:auto;color:var(--muted-ink);white-space:nowrap}
+  .ann__dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto;
+    box-shadow:0 0 0 3px rgba(245,184,65,.18)}
+  .ann__in>span:nth-of-type(2){color:var(--sub-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ann__cd{color:var(--muted-ink);white-space:nowrap;
+    padding-left:.9rem;border-left:1px solid rgba(255,255,255,.14)}
   .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}
   .ann__cd[hidden]{display:none!important}
-  .ann__cd b{color:var(--gold);font-weight:700;font-variant-numeric:tabular-nums}
-  .ann__in a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(242,180,65,.6);padding-bottom:1px}
-  .ann__in a:hover{color:var(--gold)}
-  /* Sibling selectors, not bare .hdr/.hero. These offsets have to beat the
-     `inset: 0 0 auto` shorthand in section 5 and the padding in section 6,
-     both of which come LATER in this file — a bare `.hdr{top:...}` here is
-     silently reset by it and the strip lands on top of the header, which is
-     exactly what it did. Raising specificity makes the rule independent of
-     source order. */
+  .ann__cd b{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums}
   .ann ~ .hdr{top:var(--ann-h)}
   .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
   html:has(.ann){scroll-padding-top:calc(var(--ann-h) + var(--header-h) + 1rem)}

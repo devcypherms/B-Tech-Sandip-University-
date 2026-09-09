@@ -50,9 +50,9 @@ a{color:inherit}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:.5rem;top:.5rem;z-index:99;background:var(--paper);color:var(--fg);padding:.6rem 1rem;border-radius:8px}
 .ann{display:none}
-@media(min-width:900px){:root{--ann-h:2.4rem}
-.ann{display:block;position:fixed;inset:0 0 auto;z-index:51;height:var(--ann-h);background:var(--ink-900);color:#fff}
-.ann__in{display:flex;align-items:center;gap:.85rem;height:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);font-size:.78rem}
+@media(min-width:900px){:root{--ann-h:2.6rem}
+.ann{display:block;position:fixed;inset:0 0 auto;z-index:51;height:var(--ann-h);color:#fff;background:linear-gradient(90deg,var(--ink-900) 0%,#0E2154 50%,var(--ink-900) 100%);border-bottom:1px solid rgba(255,255,255,.07)}
+.ann__in{display:flex;align-items:center;justify-content:center;gap:.8rem;height:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);font-size:.875rem}
 .ann__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
 .ann__cd[hidden]{display:none!important}
 .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}.ann ~ .hdr{top:var(--ann-h)}
