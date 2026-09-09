@@ -80,7 +80,7 @@ a{color:inherit}
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem;width:100%;max-width:var(--wrap);margin-inline:auto}
 
 @media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero__grid>*{margin-bottom:0}.hero__flag{order:1}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}}
-@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}.hero__copy{display:flex;flex-direction:column}.hero__copy > .hero__rec{margin-top:auto;padding-top:1.25rem}}
+@media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}.hero__copy{display:flex;flex-direction:column;justify-content:space-between}.hero__copy > .hero__rec{padding-top:.5rem}}
 .hero__flag{display:inline-block;font-size:.72rem;font-weight:650;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:999px;margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
 .hero__flag b{color:#fff;font-weight:700}
 .hero__flag-ico{width:16px;height:16px;color:var(--gold);vertical-align:-2px;margin-right:.3rem}
@@ -175,7 +175,7 @@ a{color:inherit}
         Admissions open for 2026–27
       </p>
 
-      <h1>Your engineering degree, <em>without leaving Bihar</em>.</h1>
+      <h1>Become an engineer, <em>without leaving Bihar</em>.</h1>
 
       <p class="hero__sub">
         <b>Bihar's first NAAC accredited private university</b> — faculty
@@ -203,6 +203,12 @@ a{color:inherit}
             <span class="cdown__u"><b data-cd="m">--</b><i>min</i></span>
           </span>
         </div>
+      <ul class="hero__feats">
+        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 2"/></svg><span>Duration</span><b data-c="hero.duration">4 Years</b></li>
+        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9.5 11h1M13.5 11h1M9.5 15h1M13.5 15h1"/></svg><span>Recruiters</span><b data-c="stats.partners">100+</b></li>
+        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 9.5 10.5l4 4L21 7"/><path d="M15 7h6v6"/></svg><span>Highest package</span><b><span data-c="placementList.rangeHigh">12</span> LPA</b></li>
+        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6L17 22l-1.6-8.6"/></svg><span>Scholarship</span><b>Up to 100%</b></li>
+      </ul>
       <div class="hero__rec">
         <p class="hero__rec-lbl">Our students have been placed at</p>
         <ul class="hero__rec-row">
@@ -279,15 +285,7 @@ a{color:inherit}
     </form>
   </div>
 
-  <!-- Spec rail, inside the panel. Answers "how long, what marks, which
-       branches, what does it cost" before the reader has to ask. -->
-    <ul class="hero__rail">
-      <li><span>Duration</span><b data-c="hero.duration">4 Years</b></li>
-      <li><span>Eligibility</span><b data-c="hero.eligibility">10+2 with PCM</b></li>
-      <li><span>Highest package</span><b><span data-c="placementList.rangeHigh">12</span> LPA</b></li>
-      <li><span>Scholarship</span><b>Up to 100%</b></li>
-    </ul>
-  </div><!-- /.hero__panel -->
+    </div><!-- /.hero__panel -->
 </section>
 
 <!-- ========== TRUST STRIP ========== -->

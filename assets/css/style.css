@@ -378,8 +378,8 @@ p:last-child{margin-bottom:0}
    The difference is closed by making the form shorter instead — see the chip
    grid below. */
 @media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}
-  .hero__copy{display:flex;flex-direction:column}
-  .hero__copy > .hero__rec{margin-top:auto;padding-top:1.25rem}}
+  .hero__copy{display:flex;flex-direction:column;justify-content:space-between}
+  .hero__copy > .hero__rec{padding-top:.5rem}}
 
 /* One sentence, set as one line of text. inline-flex made the bold date its
    own flex item, so it broke away from the sentence and sat on its own line
@@ -401,6 +401,47 @@ p:last-child{margin-bottom:0}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
+
+/* ---------- HERO FEATURE CARDS ----------
+   These were a full-width rail of table-like cells under the grid. Moved into
+   the copy column they do two jobs at once: they fill the 234px the column was
+   short against the form — which is a content problem no alignment value can
+   solve — and as cards they read as features rather than as a spec row.
+
+   NOTE the child combinator on the label. The old rule was `.hero__rail span`,
+   which also matched the <span> wrapping the figure inside <b>, so "12 LPA"
+   rendered its numeral at label size and the unit at full size. Same fault was
+   found and fixed in .figs earlier; scoping to the direct child prevents it. */
+.hero__feats{
+  list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.6rem;
+  margin:0;padding:0;
+}
+.hero__feats li{
+  display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;
+  column-gap:.65rem;align-items:center;
+  padding:.85rem .95rem;border-radius:var(--radius);
+  background:var(--glass-fill);border:1px solid var(--glass-line);
+  box-shadow:inset 0 1px 0 var(--glass-edge);
+}
+.hero__feat-ico{
+  grid-row:1/3;width:var(--ico-lg);height:var(--ico-lg);
+  color:var(--gold);opacity:.9;
+}
+.hero__feats li > span{
+  grid-column:2;font-size:.72rem;font-weight:550;letter-spacing:.02em;
+  color:var(--muted-ink);line-height:1.3;
+}
+.hero__feats li > b{
+  grid-column:2;font-size:1.3rem;font-weight:800;letter-spacing:-.028em;
+  color:#fff;line-height:1.15;
+}
+/* The figure's own wrapper must not inherit the label size. */
+.hero__feats li > b span{font-size:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit}
+@media(max-width:899px){
+  .hero__feats{order:6;gap:.5rem}
+  .hero__feats li{padding:.75rem .8rem}
+  .hero__feats li > b{font-size:1.15rem}
+}
 
 /* The Student Credit Card, above the fold. This is the single fact that
    decides whether a family weighing Rs 90,000 a year reads any further, and
@@ -441,20 +482,6 @@ p:last-child{margin-bottom:0}
 }
 
 /* Spec rail. Four facts on hairlines, pinned under the hero. */
-/* Inside the panel, so it carries no ground of its own and is separated by
-   rules rather than by a painted gap. */
-.hero__rail{position:relative;z-index:2;width:100%;max-width:var(--wrap);margin-inline:auto;list-style:none;display:grid;grid-template-columns:1fr 1fr;margin:1.35rem 0 0;padding:0;border-top:1px solid var(--hair-ink)}
-.hero__rail li{padding:.85rem 0 1rem;display:flex;flex-direction:column;gap:.15rem;border-bottom:1px solid var(--hair-ink)}
-.hero__rail li:nth-child(odd){padding-right:1rem;border-right:1px solid var(--hair-ink)}
-.hero__rail li:nth-child(even){padding-left:1rem}
-.hero__rail span{font-size:.72rem;color:var(--muted-ink);letter-spacing:.01em}
-.hero__rail b{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.35rem;font-weight:750;color:var(--gold)}
-@media(min-width:760px){
-  .hero__rail{grid-template-columns:repeat(4,1fr)}
-  .hero__rail li,.hero__rail li:nth-child(odd),.hero__rail li:nth-child(even){padding:1rem 1.25rem 1.1rem;border-bottom:0;border-right:1px solid var(--hair-ink)}
-  .hero__rail li:first-child{padding-left:0}
-  .hero__rail li:last-child{border-right:0}
-}
 
 /* ---------- 7. FORMS ----------
    Rebuilt against the reference pages. The three things that dated the old
