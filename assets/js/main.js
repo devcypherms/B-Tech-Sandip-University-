@@ -139,6 +139,49 @@
     paint();
   }());
 
+  /* ---------- 2c. WHAT IS BEHIND THE CAPSULE ----------
+     A single light capsule cannot be glass over this page, because the page is
+     not one colour. Over the white sections a translucent white fill shows the
+     backdrop and reads as glass; carry the same fill over the dark placements
+     section and it reads as a hole punched in the panel — and dropping its
+     opacity far enough to actually see through it takes the nav ink below 4.5:1
+     against the grey it composites to. Measured, not assumed.
+
+     So the capsule takes its material from what it is over. Light glass on the
+     light sections, dark glass on the dark ones, and because each only has to
+     hold contrast against one kind of ground, both can be far more transparent
+     than one compromise fill could ever be.
+
+     Four rects on a frame that already reads five for the section marker. */
+  (function () {
+    if (!hdr) return;
+    /* Every dark ground on the page, not just the dark sections: the campus
+       band and the credit-card panel are dark objects sitting inside light
+       sections, and leaving them out left the capsule wearing its light fill
+       over the panel — a bright lozenge punched into a navy slab, with the nav
+       ink measured at 4.74 against what it composited to. */
+    var dark = $$('.hero, .section--ink, .cta, .ftr, .band, .panel');
+    if (!dark.length) return;
+
+    var pending = false;
+    function test() {
+      pending = false;
+      /* The capsule's own middle, not the top of the viewport — what matters
+         is the colour directly behind it. */
+      var y = hdr.getBoundingClientRect().top + hdr.offsetHeight / 2;
+      var over = false;
+      for (var i = 0; i < dark.length; i++) {
+        var r = dark[i].getBoundingClientRect();
+        if (r.top <= y && r.bottom >= y) { over = true; break; }
+      }
+      hdr.classList.toggle('on-dark', over);
+    }
+    function ask() { if (!pending) { pending = true; requestAnimationFrame(test); } }
+    addEventListener('scroll', ask, { passive: true });
+    addEventListener('resize', ask, { passive: true });
+    test();
+  }());
+
   /* ---------- 3. ACCORDIONS ----------
      Real buttons with aria-expanded, panels toggled by the hidden attribute.
      The height animation runs from the panel's own scrollHeight and is

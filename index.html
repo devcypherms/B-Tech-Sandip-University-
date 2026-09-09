@@ -39,7 +39,7 @@
 @font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-var.woff2") format("woff2-variations");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-rupee.woff2") format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+20B9}
 @font-face{font-family:"Sans Fallback";src:local("Arial"),local("Helvetica");size-adjust:100%;ascent-override:95%;descent-override:24%;line-gap-override:0%}
-:root{--ink-900:#071033;--ink-800:#0C1A45;--ink-700:#14265C;--royal:#123A8A;--paper:#FFFFFF;--paper-2:#F2F5FA;--fg:#0A1330;--muted:#4E5B78;--muted-ink:#A3B4D4;--sub-ink:#C6D2EA;--hair:rgba(10,19,48,.10);--hair-ink:rgba(255,255,255,.14);--red-fill:#E01B24;--red-ink:#C41220;--gold:#F5B841;--accent:#2454C6;--accent-ink:#1B3A8F;--font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--wrap:82rem;--gutter:clamp(1.15rem,4vw,3.5rem);--header-h:3.75rem;--header-h-sm:3.25rem;--hdr-gap:.6rem;--hdr-total:calc(var(--hdr-gap) + var(--header-h));--radius:16px;--radius-lg:28px;--ease:cubic-bezier(.22,.61,.36,1)}
+:root{--ink-900:#071033;--ink-800:#0C1A45;--ink-700:#14265C;--royal:#123A8A;--paper:#FFFFFF;--paper-2:#F2F5FA;--fg:#0A1330;--muted:#4E5B78;--muted-ink:#A3B4D4;--sub-ink:#C6D2EA;--hair:rgba(10,19,48,.10);--hair-ink:rgba(255,255,255,.14);--red-fill:#E01B24;--red-ink:#C41220;--gold:#F5B841;--accent:#2454C6;--accent-ink:#1B3A8F;--font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;--wrap:82rem;--gutter:clamp(1.15rem,4vw,3.5rem);--header-h:3.75rem;--header-h-sm:3.25rem;--hdr-gap:.6rem;--hdr-total:calc(var(--hdr-gap) + var(--header-h-sm));--radius:16px;--radius-lg:28px;--ease:cubic-bezier(.22,.61,.36,1)}
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--fg);font-family:var(--font-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -57,14 +57,13 @@ a{color:inherit}
 
 
 .hdr__nav{display:flex;justify-self:center;gap:1.9rem}.hdr__nav a{display:inline-flex;align-items:center;min-height:2.75rem;text-decoration:none;font-size:.875rem;font-weight:600;color:var(--body-ink)}
-:root{--header-h:4.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
+:root{--header-h:5.5rem;--header-h-sm:3.5rem;--hdr-gap:.75rem}}
 .hdr{position:fixed;inset:0 0 auto;z-index:50;display:none;justify-content:center;padding:0 var(--gutter);pointer-events:none}
 .hdr__in{pointer-events:auto;display:grid;grid-template-columns:max-content 1fr auto;align-items:center;column-gap:1.75rem;width:100%;max-width:var(--wrap);height:var(--header-h);padding:0;border-radius:0;background:transparent;border:1px solid transparent;box-shadow:none}
-.hdr__brand{display:flex;align-items:center;overflow:hidden;max-width:16rem}.hdr__brand img{height:52px;width:auto;display:block}
+.hdr__brand{display:flex;align-items:center;overflow:hidden;max-width:16rem}.hdr__brand img{height:66px;width:auto;display:block}
 .hdr__end{display:flex;align-items:center;gap:1.1rem}
-.hdr__accr{display:inline-flex;align-items:center;gap:.55rem;white-space:nowrap;overflow:hidden;max-width:20rem;padding:.34rem .9rem .34rem .68rem;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.17);box-shadow:inset 0 1px 0 rgba(255,255,255,.11)}
-.hdr__accr .ico{width:20px;height:20px;color:var(--gold);flex:none}.hdr__accr span{display:flex;flex-direction:column;line-height:1.16}
-.hdr__accr b{font-size:.8125rem;font-weight:700;color:#fff;letter-spacing:-.004em}.hdr__accr i{font-style:normal;font-size:.6875rem;font-weight:500;color:var(--muted-ink)}
+.hdr__status{display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;overflow:hidden;margin:0;max-width:20rem;font-size:.8125rem;font-weight:600;color:var(--sub-ink)}
+.hdr__dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(245,184,65,.22)}
 
 
 
@@ -72,7 +71,7 @@ a{color:inherit}
 
 @media(min-width:1080px){}
 
-.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:var(--red-fill);color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.62rem 1.25rem;border-radius:999px;white-space:nowrap}
+.hdr__cta{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#fff;text-decoration:none;font-weight:700;font-size:.875rem;padding:.68rem 1.35rem;border-radius:999px;white-space:nowrap;border:1px solid rgba(255,255,255,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
 @media(min-width:900px){}
 @media(max-width:479px){}
 .hero{position:relative;background:var(--paper);padding:0;color:#fff}.hero__brand{display:none}@media(max-width:899px){.hero__brand{display:inline-block;margin-bottom:.9rem}.hero__brand img{height:50px;width:auto}}@media(min-width:900px){.hero__panel{padding-top:calc(var(--header-h) + 1.9rem)}}
@@ -84,15 +83,15 @@ a{color:inherit}
 .hero__panel::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.35) 55%,transparent 88%)}
 .hero__grid{position:relative;z-index:2;display:grid;gap:1.4rem;width:100%;max-width:var(--wrap);margin-inline:auto}
 
-@media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero__grid>*{margin-bottom:0}.hero__flag{order:1}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}}
+@media(max-width:899px){.hero__copy{display:contents}.hero__grid{gap:.95rem}.hero .hero__status{display:flex}.hero__grid>*{margin-bottom:0}.hero h1{order:2}.hero__sub{order:3}.hero__money{order:4;max-width:none}}
 @media(min-width:900px){.hero__grid{grid-template-columns:1.08fr .92fr;gap:3rem;align-items:stretch;padding-block:0 1.5rem}.hero__copy{display:flex;flex-direction:column;justify-content:space-between}.hero__copy > .hero__rec{padding-top:.5rem}}
-.hero__flag{display:inline-block;font-size:.72rem;font-weight:700;background:rgba(224,27,36,.20);border:1px solid rgba(255,107,99,.45);color:#FFD9D6;padding:.34rem .8rem;border-radius:999px;margin:0 0 1rem;line-height:1.45;max-width:100%;width:fit-content}
-.hero__flag b{color:#fff;font-weight:700}
-.hero__flag-ico{width:16px;height:16px;color:var(--gold);vertical-align:-2px;margin-right:.3rem}
+
+
+
 .hero h1{font-weight:800;font-size:clamp(2.15rem,6vw,4.6rem);line-height:1.03;letter-spacing:-.038em;margin:0 0 .85rem;max-width:16ch}
 .hero h1 em{font-style:normal;background:linear-gradient(92deg,var(--gold) 0%,#FFD27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em;margin-right:-.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hero__sub{margin:0 0 1rem;color:var(--sub-ink);font-size:clamp(.94rem,1.5vw,1.08rem);line-height:1.5;max-width:46ch}
-.hero__sub b{color:#fff;font-weight:700}
+.hero__sub b{color:#fff;font-weight:700}.hero__status{display:none}.hero__cred{display:flex;align-items:center;gap:.6rem;margin:0 0 .85rem;max-width:48ch;font-size:clamp(1.02rem,1.62vw,1.25rem);font-weight:700;line-height:1.28;letter-spacing:-.014em;color:#fff}.hero__cred-ico{width:26px;height:26px;flex:none;color:var(--gold)}
 .hero__money{display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(245,184,65,.42);background:linear-gradient(180deg,rgba(245,184,65,.16),rgba(245,184,65,.04));border-radius:var(--radius);padding:.85rem .95rem;margin:0 0 1.25rem;max-width:44ch}
 .hero__money svg{flex:0 0 auto;width:22px;height:22px;color:var(--gold);margin-top:.15rem}
 .hero__money p{margin:0;font-size:.86rem;line-height:1.5;color:#F6E6C4}
@@ -110,11 +109,17 @@ a{color:inherit}
 <!-- ========== HEADER ========== -->
 <header class="hdr" id="siteHeader">
   <!-- At rest this is an ordinary full-width header sitting over the dark hero:
-       logo left, sections centred, credential and button right. It only becomes
-       the floating capsule once the reader scrolls, which is what makes the
-       capsule read as a response rather than as decoration. The logo and the
-       accreditation collapse into the capsule on the way, so the pill carries
-       only what a reader mid-page needs — where they are, and how to apply. -->
+       mark left, sections centred, admissions status and button right. It only
+       becomes the floating capsule once the reader scrolls, which is what makes
+       the capsule read as a response rather than as decoration. The mark and
+       the status collapse into the capsule on the way, so the capsule carries
+       only what a reader mid-page needs — where they are, and how to apply.
+
+       The accreditation used to sit here and does not any more: the logo
+       artwork already carries a NAAC mark, so the two sat six inches apart
+       saying the same word. The claim belongs where it can be read properly,
+       under the headline, and the status belongs here where it stays true for
+       the whole page. -->
   <div class="hdr__in">
     <a class="hdr__brand" href="#main" aria-label="Sandip University, Madhubani">
       <img src="assets/img/logo.webp" alt="Sandip University" width="420" height="121" fetchpriority="high">
@@ -127,10 +132,7 @@ a{color:inherit}
       <a href="#faq">FAQ</a>
     </nav>
     <div class="hdr__end">
-      <p class="hdr__accr">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6L17 22l-1.6-8.6"/></svg>
-        <span><b>NAAC Accredited</b><i>Bihar&rsquo;s first private university</i></span>
-      </p>
+      <p class="hdr__status"><span class="hdr__dot" aria-hidden="true"></span>Admissions open for 2026&ndash;27</p>
       <a class="hdr__cta" href="#apply" data-track="cta-header">Apply for B.Tech</a>
     </div>
   </div>
@@ -173,17 +175,25 @@ a{color:inherit}
       <a class="hero__brand" href="#main" aria-label="Sandip University, Madhubani">
         <img src="assets/img/logo.webp" alt="Sandip University" width="420" height="121" fetchpriority="high">
       </a>
-      <p class="hero__flag">
-        <svg class="hero__flag-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 4 2 9l10 5 10-5Z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>
-        Admissions open for 2026–27
-      </p>
+      <!-- The same admissions status the header carries, for phones only,
+           where the header is hidden. One short sentence in two places is the
+           right trade against a cue that disappears on the device most of this
+           traffic arrives on. -->
+      <p class="hero__status"><span class="hdr__dot" aria-hidden="true"></span>Admissions open for 2026&ndash;27</p>
 
       <h1>Become an engineer, <em>without leaving Bihar</em>.</h1>
 
+      <!-- The credential, given the room to be read. It was a bold clause
+           inside the sentence below, which is where a claim goes to be
+           skimmed past. -->
+      <p class="hero__cred">
+        <svg class="hero__cred-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.4"/><path d="M9.4 9.1 11.3 11l3.4-3.4"/><path d="M8.4 13.6 6.8 22l5.2-2.7L17.2 22l-1.6-8.4"/></svg>
+        Bihar&rsquo;s first NAAC accredited private university
+      </p>
+
       <p class="hero__sub">
-        <b>Bihar's first NAAC accredited private university</b> — faculty
-        qualified at IITs and NITs, on a 125-acre residential campus at
-        Madhubani.
+        Faculty qualified at IITs and NITs, on a 125-acre residential campus
+        at Madhubani.
       </p>
 
 
@@ -198,11 +208,15 @@ a{color:inherit}
         </p>
       </div>
 
-      <ul class="hero__feats">
-        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 2"/></svg><span>Duration</span><b data-c="hero.duration">4 Years</b></li>
-        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9.5 11h1M13.5 11h1M9.5 15h1M13.5 15h1"/></svg><span>Recruiters</span><b data-c="stats.partners">100+</b></li>
-        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 9.5 10.5l4 4L21 7"/><path d="M15 7h6v6"/></svg><span>Highest package</span><b><span data-c="placementList.rangeHigh">12</span> LPA</b></li>
-        <li><svg class="hero__feat-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6L17 22l-1.6-8.6"/></svg><span>Scholarship</span><b>Up to 100%</b></li>
+      <!-- Four figures, set as figures. They were four bordered cards, which
+           in a column that also held a chip, a money panel and six logo
+           plates made twelve rectangles above the fold. Hairlines do the
+           separating now; nothing here needs a container. -->
+      <ul class="hero__stats">
+        <li><b data-c="hero.duration">4 Years</b><span>Course duration</span></li>
+        <li><b data-c="stats.partners">100+</b><span>Recruiters on campus</span></li>
+        <li><b><span data-c="placementList.rangeHigh">12</span> LPA</b><span>Highest package</span></li>
+        <li><b>Up to 100%</b><span>Merit scholarship</span></li>
       </ul>
       <div class="hero__rec">
         <p class="hero__rec-lbl">Our students have been placed at</p>
