@@ -287,6 +287,10 @@ p:last-child{margin-bottom:0}
   .ann ~ main .hero__flag,.ann ~ main .cdown--hero{display:none}
   .ann__cd[hidden]{display:none!important}
   .ann__cd b{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums}
+  /* The unit belongs to the digit, not to the sentence. Same hue, stepped
+     down in weight and opacity, so "21d" reads as one value while "Closes in"
+     stays part of the line. */
+  .ann__cd i{font-style:normal;font-weight:600;color:var(--gold);opacity:.7;margin-right:.2rem}
   .ann ~ .hdr{top:var(--ann-h)}
   .ann ~ main .hero{padding-top:calc(var(--ann-h) + var(--header-h))}
   html:has(.ann){scroll-padding-top:calc(var(--ann-h) + var(--header-h) + 1rem)}
@@ -602,7 +606,7 @@ p:last-child{margin-bottom:0}
 .cdown__u{display:flex;flex-direction:column;align-items:center;min-width:2.6rem;
   background:#fff;border-radius:7px;padding:.22rem .4rem}
 .cdown__u b{font-family:var(--font-display);letter-spacing:-.028em;font-size:1.05rem;font-weight:800;line-height:1.1;color:var(--fg);font-variant-numeric:tabular-nums}
-.cdown__u i{font-style:normal;font-size:.62rem;color:var(--muted)}
+.cdown__u i{font-style:normal;font-size:var(--fs-label);line-height:1.25;color:var(--muted)}
 /* In the hero the countdown sits on the dark panel, not inside the white
    form card, so it takes the same treatment as the CTA's. */
 .cdown--hero{background:rgba(224,27,36,.16);border-color:rgba(255,107,99,.34);margin:.35rem 0 0;max-width:26rem}
@@ -929,7 +933,12 @@ p:last-child{margin-bottom:0}
 /* ---------- 14. PLACEMENTS ---------- */
 .figs{list-style:none;margin:0 0 clamp(2rem,4vw,2.75rem);padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair-ink);border:1px solid var(--hair-ink);border-radius:var(--radius);overflow:hidden}
 .figs li{background:var(--glass-fill);box-shadow:inset 0 1px 0 var(--glass-edge);padding:1.15rem;display:flex;flex-direction:column;gap:.25rem}
-.figs b{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:800;letter-spacing:-.035em;color:#fff;line-height:1;background:linear-gradient(92deg,#fff 0%,var(--accent-lite) 130%);-webkit-background-clip:text;background-clip:text}
+/* The gradient here was clipped to the text but painted behind an opaque
+   white fill, so it never showed — a background-clip:text that needed
+   color:transparent to do anything. Removed rather than completed: on a dark
+   band these numerals are already the loudest thing in the section, and a
+   gradient that has to be looked for is not worth the extra paint. */
+.figs b{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:800;letter-spacing:-.035em;color:#fff;line-height:1.05}
 /* Direct children only. The unscoped selector was also catching the spans
    INSIDE <b>, so "3-12 LPA" set its two numerals at caption size. */
 .figs>li>span{font-size:.78rem;color:var(--muted-ink);max-width:22ch}
