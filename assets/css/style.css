@@ -79,7 +79,7 @@
   --radius-field:12px;
   --radius-lg:28px;
   --radius-pill:999px;
-  --pill-w:35rem;
+  --pill-w:39rem;
   --shadow-card:0 1px 2px rgba(10,19,48,.05),0 14px 34px rgba(10,19,48,.09);
   --shadow-lift:0 2px 6px rgba(10,19,48,.10),0 28px 70px rgba(10,19,48,.22);
   --header-h:3.75rem;
@@ -186,8 +186,8 @@ p:last-child{margin-bottom:0}
 }
 
 .hdr.is-solid .hdr__in{
-  width:var(--pill-w);column-gap:0;
-  height:var(--header-h-sm);padding:0 .4rem 0 1.5rem;
+  width:var(--pill-w);column-gap:1rem;
+  height:var(--header-h-sm);padding:0 .4rem 0 .5rem;
   border-radius:var(--radius-pill);
   background:rgba(9,20,54,.74);
   backdrop-filter:blur(24px) saturate(175%);-webkit-backdrop-filter:blur(24px) saturate(175%);
@@ -219,8 +219,22 @@ p:last-child{margin-bottom:0}
   max-width:16rem;opacity:1;
   transition:max-width .38s var(--ease),opacity .24s var(--ease)}
 
-.hdr__brand img{height:60px;width:auto;display:block}
-.hdr.is-solid .hdr__brand{max-width:0;opacity:0}
+.hdr__brand img{display:block}
+.hdr__lockup,.hdr__crest{max-width:none}
+.hdr__lockup{height:60px;width:auto}
+.hdr__crest{display:none;width:42px;height:42px}
+/* The lockup does not collapse away any more — it shrinks to its mark. The
+   wordmark goes and the crest stays, so the capsule carries the university
+   through the whole page instead of only the first screen. 42px because that
+   is where this crest survives a 1x screen: its mane is about twenty-eight
+   thin radiating strokes, and below about 38px they merge into a grey ring
+   and the face disappears. A circle tolerates it in a 56px capsule where a
+   42px rectangle would not — the corners are empty. */
+.hdr.is-solid .hdr__lockup{display:none}
+.hdr.is-solid .hdr__crest{display:block}
+/* One asset, both materials: the artwork is a white knockout, so the frosted
+   capsule inverts it rather than shipping a second file. */
+.hdr.is-solid.on-dark .hdr__crest{filter:invert(1)}
 
 .hdr__end{display:flex;align-items:center;gap:1.1rem;
   transition:gap .38s var(--ease)}
@@ -281,12 +295,12 @@ p:last-child{margin-bottom:0}
 .hdr__cta:active{transform:translateY(1px)}
 
 @media(max-width:1179px){
-  .hdr__brand img{height:52px}
+  .hdr__lockup{height:52px}
   .hdr__status{font-size:var(--fs-label)}
   .hdr__nav{gap:1.5rem}
 }
 @media(max-width:1079px){
-  .hdr__brand img{height:54px}
+  .hdr__lockup{height:54px}
   .hdr__status{display:none}
 }
 @media(min-width:900px){.hdr{display:flex}}
