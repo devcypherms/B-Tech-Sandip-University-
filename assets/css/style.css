@@ -219,10 +219,8 @@ p:last-child{margin-bottom:0}
   max-width:16rem;opacity:1;
   transition:max-width .38s var(--ease),opacity .24s var(--ease)}
 
-.hdr__brand img{display:block}
-.hdr__lockup,.hdr__crest{max-width:none}
-.hdr__lockup{height:60px;width:auto}
-.hdr__crest{display:none;width:42px;height:42px}
+.hdr__lockup{display:block;height:60px;width:auto;max-width:none}
+.hdr__crest{display:none;width:42px;height:42px;max-width:none}
 /* The lockup does not collapse away any more — it shrinks to its mark. The
    wordmark goes and the crest stays, so the capsule carries the university
    through the whole page instead of only the first screen. 42px because that
