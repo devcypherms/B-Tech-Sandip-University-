@@ -7,8 +7,6 @@ const CONTENT = {
     phone: '1800-313-2714',
 
     email: 'info.sijoul@sandipuniversity.edu.in',
-    whatsapp: '918956530828',
-    whatsappDisplay: '+91 89565 30828',
 
     addressLine1: 'Neelam Vidya Vihar, Village Sijoul',
     addressVisible: 'Village Sijoul, P.O. Mailam',

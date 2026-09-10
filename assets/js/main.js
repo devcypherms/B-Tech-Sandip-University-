@@ -30,13 +30,16 @@
   }
 
   (function () {
-    var links = $$('.hdr__nav a');
+    var links = $$('.hdr__nav a, .bar__scroll a');
     if (!links.length) return;
+
+    var strip = $('#barScroll');
 
     var byId = {};
     links.forEach(function (a) {
       var id = (a.getAttribute('href') || '').slice(1);
-      if (id) byId[id] = a;
+      if (!id) return;
+      (byId[id] = byId[id] || []).push(a);
     });
     var targets = Object.keys(byId)
       .map(function (id) { return document.getElementById(id); })
@@ -50,19 +53,36 @@
     var current = null;
     var queued = false;
 
+    function reveal(a) {
+      if (!strip || !a || a.parentNode !== strip) return;
+      var want = a.offsetLeft - (strip.clientWidth - a.offsetWidth) / 2;
+      var max = strip.scrollWidth - strip.clientWidth;
+      want = Math.max(0, Math.min(want, max));
+      if (Math.abs(want - strip.scrollLeft) < 2) return;
+      var smooth = !window.matchMedia
+        || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (smooth && strip.scrollTo) strip.scrollTo({ left: want, behavior: 'smooth' });
+      else strip.scrollLeft = want;
+    }
+
     function paint() {
       queued = false;
       var line = window.innerHeight * 0.4;
-      var mark = null;
+      var id = null;
       for (var i = 0; i < targets.length; i++) {
-        if (targets[i].getBoundingClientRect().top <= line) mark = byId[targets[i].id];
+        if (targets[i].getBoundingClientRect().top <= line) id = targets[i].id;
       }
 
-      if (targets[targets.length - 1].getBoundingClientRect().bottom < line) mark = null;
-      if (mark === current) return;
-      if (current) current.removeAttribute('aria-current');
-      if (mark) mark.setAttribute('aria-current', 'true');
-      current = mark;
+      if (targets[targets.length - 1].getBoundingClientRect().bottom < line) id = null;
+      if (id === current) return;
+      if (current && byId[current]) {
+        byId[current].forEach(function (a) { a.removeAttribute('aria-current'); });
+      }
+      if (id && byId[id]) {
+        byId[id].forEach(function (a) { a.setAttribute('aria-current', 'true'); });
+        byId[id].forEach(reveal);
+      }
+      current = id;
     }
 
     function schedule() {
@@ -240,11 +260,6 @@
   $$('[data-track]').forEach(function (el) {
     el.addEventListener('click', function () { track('click', el.getAttribute('data-track')); });
   });
-
-  var tel = String((C.org && C.org.phone) || '').replace(/\D/g, '');
-  if (tel) {
-    $$('a[href^="tel:"]').forEach(function (a) { a.href = 'tel:' + tel; });
-  }
 
   var ENDPOINT = C.FORM_ENDPOINT || '';
 
