@@ -321,16 +321,27 @@
     var bar = $('#bar');
     var heroForm = $('#quickEnquiry');
     if (!bar || !heroForm) return;
-    if (!('IntersectionObserver' in window)) { bar.classList.add('is-past-form'); return; }
-    new IntersectionObserver(function (entries) {
-      var e = entries[0];
-      /* Not "is the form off screen" — on a 320x568 phone the form starts
-         below the fold, so that was true at the top of the page too and the
-         capsule appeared over the hero, which is the one place it must not.
-         The rect's sign says which side of it the reader is on. */
+    /* Not an IntersectionObserver, for the reason the section marker is not
+       one either: it reports crossings, not position. On a 320x568 phone the
+       hero form starts below the fold, so it is "not intersecting" at the top
+       of the page and "not intersecting" again once the reader is past it —
+       and a jump between those two, which every anchor link on this page
+       makes, changes nothing for the observer to report. The capsule stayed
+       hidden at the foot of the page.
+
+       What is being asked is where the reader is relative to the form, so
+       that is what gets read: one rect, on a frame that is already doing the
+       section marker's five. */
+    var queued = false;
+    function test() {
+      queued = false;
       bar.classList.toggle('is-past-form',
-        !e.isIntersecting && e.boundingClientRect.bottom < 0);
-    }).observe(heroForm);
+        heroForm.getBoundingClientRect().bottom < 0);
+    }
+    function ask() { if (!queued) { queued = true; requestAnimationFrame(test); } }
+    addEventListener('scroll', ask, { passive: true });
+    addEventListener('resize', ask, { passive: true });
+    test();
   }());
 
   (function () {
