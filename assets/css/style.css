@@ -114,7 +114,7 @@ p:last-child{margin-bottom:0}
 .section--ink :focus-visible,.hero__panel :focus-visible,.cta :focus-visible{outline-color:var(--gold)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .skip{position:absolute;left:-9999px}
-.skip:focus{left:.5rem;top:.5rem;z-index:99;background:var(--paper);color:var(--fg);padding:.6rem 1rem;border-radius:6px}
+.skip:focus{left:.5rem;top:.5rem;z-index:99;display:inline-flex;align-items:center;min-height:2.75rem;background:var(--paper);color:var(--fg);padding:0 1rem;border-radius:6px;font-weight:700}
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;font-weight:700;letter-spacing:-.02em}
 .em{color:var(--gold-deep);font-weight:600}
@@ -1004,6 +1004,53 @@ p:last-child{margin-bottom:0}
 .cta__alt a{display:inline-block;padding:.55rem 0;min-height:2.75rem;color:var(--gold);font-weight:700;text-underline-offset:3px}
 .lead--full{box-shadow:0 1px 2px rgba(0,0,0,.3),0 20px 56px rgba(0,0,0,.4)}
 
+.modal{position:fixed;inset:0;z-index:200;display:flex}
+.modal[hidden]{display:none!important}
+.modal__scrim{
+  position:absolute;inset:0;
+  background:rgba(4,9,26,.62);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+}
+.modal__panel{
+  position:relative;margin:auto;width:100%;max-width:30rem;
+  max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);
+  overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+.modal .lead{border-radius:var(--radius-lg);border:0}
+.modal__x{
+  position:absolute;top:.7rem;right:.7rem;z-index:2;
+  width:2.25rem;height:2.25rem;display:flex;align-items:center;justify-content:center;
+  border:0;border-radius:50%;cursor:pointer;
+  background:var(--paper-2);color:var(--muted);
+  transition:background-color .16s var(--ease),color .16s var(--ease);
+}
+.modal__x:hover{background:var(--paper-3);color:var(--fg)}
+.modal__x svg{width:var(--ico-md);height:var(--ico-md)}
+.modal .lead__title{padding-right:2.5rem}
+
+@media(max-width:639px){
+  .modal{align-items:flex-end}
+  .modal__panel{
+    margin:0;max-width:none;
+    max-height:calc(100vh - 1.5rem);max-height:calc(100dvh - 1.5rem);
+  }
+  .modal .lead{
+    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+    padding-bottom:calc(1.25rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media(prefers-reduced-motion:no-preference){
+  .modal__scrim{animation:scrimIn .2s var(--ease) both}
+  .modal__panel{animation:panelIn .28s var(--ease) both}
+  @keyframes scrimIn{from{opacity:0}to{opacity:1}}
+  @keyframes panelIn{from{opacity:0;transform:translate3d(0,14px,0) scale(.985)}to{opacity:1;transform:none}}
+  @media(max-width:639px){
+    @keyframes panelIn{from{transform:translate3d(0,100%,0)}to{transform:none}}
+  }
+}
+
 .ftr{background:var(--ink-900);color:var(--muted-ink);border-top:1px solid var(--hair-ink);padding-top:clamp(2.25rem,4vw,3rem)}
 .ftr__in{display:grid;gap:2.25rem;padding-bottom:2.5rem}
 @media(min-width:680px){.ftr__in{grid-template-columns:1fr 1fr}.ftr__brand{grid-column:1/-1}}
@@ -1013,7 +1060,7 @@ p:last-child{margin-bottom:0}
 .ftr__logo{height:60px;width:auto;margin-bottom:1.15rem;opacity:.95}
 .ftr__blurb{font-size:var(--fs-meta);line-height:1.6;max-width:34ch;margin-bottom:1.1rem}
 .ftr__social{display:flex;gap:.6rem;margin:0}
-.ftr__social a{display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:50%;
+.ftr__social a{display:grid;place-items:center;width:2.75rem;height:2.75rem;border-radius:50%;
   border:1px solid var(--hair-ink);color:var(--muted-ink);
   transition:background-color .16s var(--ease),color .16s var(--ease),border-color .16s var(--ease)}
 .ftr__social a:hover{background:var(--gold);border-color:var(--gold);color:var(--ink-900)}
@@ -1023,7 +1070,7 @@ p:last-child{margin-bottom:0}
 .ftr__h{font-size:var(--fs-label);font-weight:700;letter-spacing:.05em;text-transform:uppercase;
   color:#fff;margin-bottom:.9rem}
 .ftr__tel{margin:0;color:var(--body-ink);font-size:var(--fs-meta)}
-.ftr__col a{display:inline-flex;align-items:center;min-height:2.4rem;
+.ftr__col a{display:inline-flex;align-items:center;min-height:2.75rem;
   font-size:var(--fs-meta);color:var(--muted-ink);text-decoration:none;
   transition:color .16s var(--ease)}
 .ftr__col a:hover{color:var(--gold)}
@@ -1036,6 +1083,8 @@ p:last-child{margin-bottom:0}
 @media(max-width:899px){
   .bar{
     display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;
+    opacity:0;visibility:hidden;transform:translate3d(0,140%,0);
+    transition:opacity .26s var(--ease),transform .3s var(--ease),visibility .3s;
     position:fixed;z-index:60;
     left:var(--gutter);right:var(--gutter);
     bottom:calc(.7rem + env(safe-area-inset-bottom));
@@ -1048,8 +1097,16 @@ p:last-child{margin-bottom:0}
                0 2px 8px rgba(0,0,0,.20),
                0 16px 40px rgba(0,0,0,.34);
   }
+  /* Nothing above the hero form: the form itself is on screen there, so a
+     capsule carrying Apply would be redundant, would cover 67px of an 844px
+     screen at the moment the reader starts filling it in, and would show the
+     ghost Apply the one-red rule gives it -- a control doing no work. It
+     arrives once the form has been scrolled past, which is also what the
+     desktop capsule does. */
+  .bar.is-past-form{opacity:1;visibility:visible;transform:none}
   .bar__nav{display:contents}
-  .bar__crest{display:flex;align-items:center;flex:none}
+  .bar__crest{display:flex;align-items:center;justify-content:center;flex:none;
+    min-width:2.75rem;min-height:2.75rem;margin-left:-.4rem}
   .bar__crest img{width:32px;height:32px;display:block}
   .bar__scroll{
     position:relative;
@@ -1084,7 +1141,7 @@ p:last-child{margin-bottom:0}
   }
   .bar__a{display:flex;align-items:center;justify-content:center;text-decoration:none}
   .bar__a--cta{
-    flex:none;min-height:2.6rem;padding:0 1.15rem;border-radius:var(--radius-pill);
+    flex:none;min-height:2.75rem;padding:0 1.15rem;border-radius:var(--radius-pill);
     background:var(--red-fill);color:#fff;
     font-size:var(--fs-meta);font-weight:700;white-space:nowrap;
     box-shadow:0 4px 14px rgba(224,27,36,.32);

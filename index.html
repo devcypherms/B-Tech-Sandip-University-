@@ -100,7 +100,7 @@ a{color:inherit}
     </nav>
     <div class="hdr__end">
       <p class="hdr__status"><span class="hdr__dot" aria-hidden="true"></span>Admissions open for 2026&ndash;27</p>
-      <a class="hdr__cta" href="#apply" data-track="cta-header">Apply now</a>
+      <a class="hdr__cta" href="#apply" data-modal data-track="cta-header">Apply now</a>
     </div>
   </div>
 </header>
@@ -413,7 +413,7 @@ a{color:inherit}
 
     <div class="nudge">
       <p>Not sure which branch your marks open up? Tell us your 10+2 percentage and we will tell you where you stand — one call, no obligation.</p>
-      <a class="btn btn-primary" href="#apply" data-track="cta-programmes">Check my eligibility</a>
+      <a class="btn btn-primary" href="#apply" data-modal data-track="cta-programmes">Check my eligibility</a>
     </div>
   </div>
 </section>
@@ -552,13 +552,13 @@ a{color:inherit}
           <li>Before any payment is taken</li>
           <li>Credit Card file prepared with you</li>
         </ul>
-        <a class="btn btn-primary feecard__btn" href="#apply" data-track="cta-feecard">Talk to a counsellor</a>
+        <a class="btn btn-primary feecard__btn" href="#apply" data-modal data-track="cta-feecard">Talk to a counsellor</a>
       </aside>
     </div>
 
     <div class="nudge">
       <p>Tell us your 10+2 percentage and whether you plan to use the Student Credit Card, and the admission cell will work out your actual first-year figure.</p>
-      <a class="btn btn-primary" href="#apply" data-track="cta-fees">Get my first-year figure</a>
+      <a class="btn btn-primary" href="#apply" data-modal data-track="cta-fees">Get my first-year figure</a>
     </div>
   </div>
 </section>
@@ -1192,8 +1192,68 @@ a{color:inherit}
       <a href="#faq">FAQ</a>
     </nav>
   </div>
-  <a class="bar__a bar__a--cta" href="#apply" data-track="cta-bar"><span>Apply now</span></a>
+  <a class="bar__a bar__a--cta" href="#apply" data-modal data-track="cta-bar"><span>Apply now</span></a>
 </div>
+
+<div class="modal" id="applyModal" hidden>
+  <div class="modal__scrim" data-modal-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <button class="modal__x" type="button" data-modal-close aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>
+    </button>
+    <form class="lead" id="modalEnquiry" data-form-source="modal" data-id-prefix="m-" novalidate>
+      <h2 class="lead__title" id="m-title">Get a call back</h2>
+      <p class="lead__lede">Three details. No obligation. We call within one working day.</p>
+
+      <div class="f__field">
+        <label class="f__label" for="m-name">Your name</label>
+        <input class="f__input" id="m-name" name="name" type="text" autocomplete="name"
+               required aria-describedby="m-e-name">
+        <p class="f__err" id="m-e-name" hidden></p>
+      </div>
+
+      <div class="f__field">
+        <label class="f__label" for="m-mobile">Mobile number</label>
+        <div class="f__tel">
+          <span class="f__tel-cc" aria-hidden="true">+91</span>
+          <input class="f__input" id="m-mobile" name="mobile" type="tel" inputmode="numeric"
+                 autocomplete="tel-national" maxlength="10" placeholder="10-digit number"
+                 required aria-describedby="m-e-mobile">
+        </div>
+        <p class="f__err" id="m-e-mobile" hidden></p>
+      </div>
+
+      <fieldset class="f__field f__set">
+        <legend class="f__label">Branch you want</legend>
+        <div class="chips" role="radiogroup" aria-describedby="m-e-branch">
+          <label class="chip"><input type="radio" name="branch" value="B.Tech Civil Engineering" required><span>Civil</span></label>
+          <label class="chip"><input type="radio" name="branch" value="B.Tech Electrical Engineering"><span>Electrical</span></label>
+          <label class="chip"><input type="radio" name="branch" value="B.Tech Mechanical Engineering"><span>Mechanical</span></label>
+          <label class="chip"><input type="radio" name="branch" value="B.Tech Computer Science and Engineering"><span>Computer Science</span></label>
+          <label class="chip"><input type="radio" name="branch" value="B.Tech CSE with AI &amp; ML"><span>CSE — AI &amp; ML</span></label>
+          <label class="chip"><input type="radio" name="branch" value="Not decided yet"><span>Not sure yet</span></label>
+          <label class="chip chip--wide"><input type="radio" name="branch" value="Another programme at Sandip University"><span>Another programme at Sandip University</span></label>
+        </div>
+        <p class="f__err" id="m-e-branch" hidden></p>
+      </fieldset>
+
+      <label class="f__check">
+        <input type="checkbox" id="m-consent" name="consent" required aria-describedby="m-e-consent">
+        <span>You may call or message me about B.Tech admission.</span>
+      </label>
+      <p class="f__err" id="m-e-consent" hidden></p>
+
+      <button class="btn btn-primary lead__submit" type="submit" id="m-submit">Request a call back</button>
+      <p class="f__status" id="m-status" role="alert" hidden></p>
+
+      <p class="lead__foot">
+        Or call <b data-c="org.phone">1800-313-2714</b> &mdash; admission cell,
+        9 am to 6 pm.
+      </p>
+    </form>
+  </div>
+</div>
+
 
 <!-- CollegeOrUniversity. GENERATED by build-seo.js — do not hand-edit. -->
 <script type="application/ld+json">

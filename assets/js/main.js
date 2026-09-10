@@ -317,6 +317,106 @@
     return msg;
   }
 
+  (function () {
+    var bar = $('#bar');
+    var heroForm = $('#quickEnquiry');
+    if (!bar || !heroForm) return;
+    if (!('IntersectionObserver' in window)) { bar.classList.add('is-past-form'); return; }
+    new IntersectionObserver(function (entries) {
+      /* The hero form starts on screen and can only leave upward on this page,
+         so "no longer intersecting" is "the reader is below it". */
+      bar.classList.toggle('is-past-form', !entries[0].isIntersecting);
+    }).observe(heroForm);
+  }());
+
+  (function () {
+    var modal = $('#applyModal');
+    if (!modal) return;
+    var panel = $('.modal__panel', modal);
+    var opener = null, lockedY = 0, pushed = false;
+
+    /* The modal uses a history entry so the Android back gesture dismisses it
+       rather than leaving the page. That puts us in a fight with the browser's
+       own scroll restoration, which fires on popstate and overwrote the
+       position we had just restored — the reader was dropped at the top of a
+       twenty-thousand-pixel page every time they closed the form. We own the
+       scroll position here, so we take it over. */
+    try {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    } catch (e) { /* not fatal */ }
+
+    function tabbable() {
+      return $$('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])', panel)
+        .filter(function (el) {
+          return el.offsetWidth || el.offsetHeight || el.getClientRects().length;
+        });
+    }
+
+    function lock() {
+      lockedY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var b = document.body.style;
+      b.position = 'fixed';
+      b.top = -lockedY + 'px';
+      b.left = '0';
+      b.right = '0';
+    }
+
+    function unlock() {
+      var b = document.body.style;
+      b.position = ''; b.top = ''; b.left = ''; b.right = '';
+      /* The document collapses to viewport height while the body is fixed, so
+         it has to be laid out again before it can be scrolled back — without
+         this read the restore is clamped to 0 and the reader is thrown to the
+         top of a twenty-thousand-pixel page. */
+      void document.body.offsetHeight;
+      var prev = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, lockedY);
+      document.documentElement.style.scrollBehavior = prev;
+    }
+
+    function open(trigger) {
+      if (!modal.hidden) return;
+      opener = trigger || null;
+      lock();
+      modal.hidden = false;
+      var first = $('.f__input', panel) || panel;
+      if (first.focus) first.focus({ preventScroll: true });
+      try { history.pushState({ suModal: 1 }, ''); pushed = true; }
+      catch (e) { pushed = false; }
+    }
+
+    function close(fromPop) {
+      if (modal.hidden) return;
+      modal.hidden = true;
+      unlock();
+      if (opener && opener.focus) opener.focus({ preventScroll: true });
+      opener = null;
+      if (pushed && !fromPop) { pushed = false; try { history.back(); } catch (e) {} }
+      else { pushed = false; }
+    }
+
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('[data-modal]') : null;
+      if (t) { e.preventDefault(); open(t); return; }
+      if (e.target.closest && e.target.closest('[data-modal-close]')) { e.preventDefault(); close(); }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key !== 'Tab') return;
+      var items = tabbable();
+      if (!items.length) return;
+      var firstEl = items[0], lastEl = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === firstEl) { e.preventDefault(); lastEl.focus(); }
+      else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); firstEl.focus(); }
+      else if (!panel.contains(document.activeElement)) { e.preventDefault(); firstEl.focus(); }
+    });
+
+    addEventListener('popstate', function () { if (!modal.hidden) close(true); });
+  }());
+
   $$('form.lead').forEach(function (form) {
     var prefix = form.getAttribute('data-id-prefix') || '';
     var source = form.getAttribute('data-form-source') || 'unknown';
