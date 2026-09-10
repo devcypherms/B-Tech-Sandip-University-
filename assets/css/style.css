@@ -53,9 +53,9 @@
   --font-display:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
   --font-body:"Instrument Sans","Sans Fallback",system-ui,sans-serif;
 
-  --fs-h1:clamp(2.15rem,6vw,4.6rem);
-  --fs-h2:clamp(1.7rem,3.6vw,2.9rem);
-  --fs-h3:clamp(1.08rem,1.7vw,1.3rem);
+  --fs-h1:clamp(2.15rem,1.6rem + 3.4vw,4.6rem);
+  --fs-h2:clamp(1.9rem,1.675rem + 1.33vw,2.9rem);
+  --fs-h3:clamp(1.3rem,1.24rem + .46vw,1.65rem);
 
   --ico-sm:16px;
   --ico-md:20px;
@@ -66,7 +66,7 @@
   --fs-meta:.875rem;
   --fs-body:1rem;
   --fs-lead:1.0625rem;
-  --fs-h4:1.15rem;
+  --fs-h4:1.25rem;
 
   --fs-fig:1.625rem;
   --fs-fig-lg:2.3rem;
@@ -373,12 +373,15 @@ p:last-child{margin-bottom:0}
   font-size:var(--fs-meta);font-weight:600;letter-spacing:.005em;color:var(--sub-ink);
 }
 .hero__cred{
-  display:flex;align-items:center;gap:.6rem;
+  display:flex;align-items:flex-start;gap:.6rem;
   margin:0 0 .85rem;max-width:48ch;
   font-size:var(--fs-h3);font-weight:700;
   line-height:1.28;letter-spacing:-.014em;color:#fff;
 }
-.hero__cred-ico{width:var(--ico-lg);height:var(--ico-lg);flex:none;color:var(--gold)}
+/* One line-height tall so the seal centres on the first line of the claim
+   rather than in the middle of a block that wraps to two or three lines on a
+   phone. */
+.hero__cred-ico{width:var(--ico-lg);height:1.28em;flex:none;color:var(--gold)}
 .hero__sub{margin:0 0 1.15rem;color:var(--sub-ink);font-size:var(--fs-lead);line-height:1.5;max-width:46ch}
 .hero__sub b{color:#fff;font-weight:600}
 
@@ -434,8 +437,15 @@ p:last-child{margin-bottom:0}
 .hero__rec-row img{width:84px;height:24px;object-fit:contain;display:block}
 @media(max-width:899px){
   .hero__rec{order:9;margin-top:.1rem}
-  .hero__rec-row{gap:.3rem .9rem;padding:.55rem .85rem}
-  .hero__rec-row img{width:70px;height:21px}
+  .hero__rec-row{
+    flex-wrap:nowrap;gap:1.1rem;padding:.6rem .9rem;
+    overflow-x:auto;overscroll-behavior-x:contain;
+    scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 1.6rem),transparent 100%);
+    mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 1.6rem),transparent 100%);
+  }
+  .hero__rec-row::-webkit-scrollbar{display:none}
+  .hero__rec-row img{width:74px;height:22px;flex:none}
 }
 
 .lead{

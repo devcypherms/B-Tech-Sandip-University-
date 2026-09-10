@@ -323,9 +323,13 @@
     if (!bar || !heroForm) return;
     if (!('IntersectionObserver' in window)) { bar.classList.add('is-past-form'); return; }
     new IntersectionObserver(function (entries) {
-      /* The hero form starts on screen and can only leave upward on this page,
-         so "no longer intersecting" is "the reader is below it". */
-      bar.classList.toggle('is-past-form', !entries[0].isIntersecting);
+      var e = entries[0];
+      /* Not "is the form off screen" — on a 320x568 phone the form starts
+         below the fold, so that was true at the top of the page too and the
+         capsule appeared over the hero, which is the one place it must not.
+         The rect's sign says which side of it the reader is on. */
+      bar.classList.toggle('is-past-form',
+        !e.isIntersecting && e.boundingClientRect.bottom < 0);
     }).observe(heroForm);
   }());
 
