@@ -53,9 +53,8 @@
     var current = null;
     var queued = false;
 
-    function reveal(a) {
-      if (!strip || !a || a.parentNode !== strip) return;
-      var want = a.offsetLeft - (strip.clientWidth - a.offsetWidth) / 2;
+    function slide(want) {
+      if (!strip) return;
       var max = strip.scrollWidth - strip.clientWidth;
       want = Math.max(0, Math.min(want, max));
       if (Math.abs(want - strip.scrollLeft) < 2) return;
@@ -63,6 +62,11 @@
         || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (smooth && strip.scrollTo) strip.scrollTo({ left: want, behavior: 'smooth' });
       else strip.scrollLeft = want;
+    }
+
+    function reveal(a) {
+      if (!strip || !a || a.parentNode !== strip) return;
+      slide(a.offsetLeft - (strip.clientWidth - a.offsetWidth) / 2);
     }
 
     function paint() {
@@ -81,6 +85,8 @@
       if (id && byId[id]) {
         byId[id].forEach(function (a) { a.setAttribute('aria-current', 'true'); });
         byId[id].forEach(reveal);
+      } else {
+        slide(0);
       }
       current = id;
     }
