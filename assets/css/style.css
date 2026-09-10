@@ -762,6 +762,10 @@ p:last-child{margin-bottom:0}
 .figs li{padding:1.15rem 1.2rem 1.15rem 0;border-bottom:1px solid var(--hair-ink);
   display:flex;flex-direction:column;gap:.25rem}
 .figs li:nth-child(2n){padding-left:1.4rem;border-left:1px solid var(--hair-ink)}
+/* Three items in two columns left the third alone with an empty cell beside
+   it — the same void the desktop row had at four columns. The last one
+   spans the row instead. */
+.figs li:last-child:nth-child(odd){grid-column:1/-1}
 
 .figs b{font-size:var(--fs-fig-lg);font-weight:800;letter-spacing:-.035em;color:#fff;line-height:1.05}
 
